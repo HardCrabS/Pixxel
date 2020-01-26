@@ -19,7 +19,6 @@ public class ColorBonus : MonoBehaviour, IConcreteBonus
         if (isGameField)
         {
             grid = FindObjectOfType<GridA>();
-            tagToDestroyByBonus = tags.Blue;                                     
         }
     }
 
@@ -38,8 +37,7 @@ public class ColorBonus : MonoBehaviour, IConcreteBonus
     }
     public string GetBoostTitle()
     {
-        string info = boostInfo;
-        return info;
+        return boostInfo;
     }
     public int GetBoostLevel()
     {

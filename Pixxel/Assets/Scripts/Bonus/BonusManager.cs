@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public interface IConcreteBonus
 {
@@ -20,7 +20,10 @@ public interface IConcreteBonus
 public class BonusManager : MonoBehaviour
 {
     [SerializeField] bool isBoostScreen;
+    [SerializeField] GameObject[] panels = new GameObject[3];
+    [SerializeField] Sprite[] boostFrames = new Sprite[4];
     public ButtonData[] bonusArray = new ButtonData[3];
+
     void Awake()
     {
         bonusArray = SaveSystem.LoadConcreteBonuses();
@@ -37,6 +40,23 @@ public class BonusManager : MonoBehaviour
                     {
                         int level = bonusesInfo.GetLevel(bonusArray[i].Type);
                         children[i].SetMyBonus(bonusArray[i], level);
+
+                        if (level < 4)
+                        {
+                            panels[i].GetComponent<Image>().sprite = boostFrames[0];
+                        }
+                        else if(level < 7)
+                        {
+                            panels[i].GetComponent<Image>().sprite = boostFrames[1];
+                        }
+                        else if(level < 10)
+                        {
+                            panels[i].GetComponent<Image>().sprite = boostFrames[2];
+                        }
+                        else
+                        {
+                            panels[i].GetComponent<Image>().sprite = boostFrames[3];
+                        }
                     }
                 }
             }

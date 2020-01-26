@@ -215,6 +215,14 @@ public class GridA : MonoBehaviour
         StartCoroutine(MoveBoxesDown());
     }
 
+    public void FlameThrower(int j, int i)
+    {
+        if (allBoxes[j, i] != null)
+        {
+            Destroy(allBoxes[j, i]);
+        }
+    }
+
     void AddPointsForMatchedBlock()
     {
         TrinketManager trink = FindObjectOfType<TrinketManager>();
@@ -240,7 +248,6 @@ public class GridA : MonoBehaviour
                 trink.DestroyBoxAmount();
             }
         }
-
     }
     void AddXPandScorePoints()
     {
@@ -269,7 +276,7 @@ public class GridA : MonoBehaviour
         StartCoroutine(MoveBoxesDown());
     }
 
-    private IEnumerator MoveBoxesDown()
+    public IEnumerator MoveBoxesDown()
     {
         int nullCount = 0;
         for (int x = 0; x < width; x++)

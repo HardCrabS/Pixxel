@@ -46,7 +46,7 @@ public class BonusButton : MonoBehaviour {
         GameObject.Find("Boost Title Text").GetComponent<Text>().text = myBonus.GetBoostTitle();
         GameObject.Find("Boost Level Text").GetComponent<Text>().text = "lv " + level;
         GameObject.Find("Boost Description Text").GetComponent<Text>().text = myBonus.GetBoostDescription();
-        GameObject.Find("Cost Text").GetComponent<Text>().text = "Cost: " + myBonus.GetBoostLevelUpCost().ToString();
+        GameObject.Find("Cost Text").GetComponent<Text>().text = "Cost: " + myBonus.GetBoostLevelUpCost();
         FindObjectOfType<LevelUp>().concreteBonus = myBonus;
 
         EquipButton equipButton = FindObjectOfType<EquipButton>();
@@ -79,7 +79,7 @@ public class BonusButton : MonoBehaviour {
 
             ButtonData[] allButtons = SaveSystem.LoadConcreteBonuses();
             string name = bonusToEquip.GetSpriteFromImage().name;
-      
+            print(name);
             allButtons[buttonIndex] = new ButtonData(bonusToEquip.GetType(), name);
             SaveSystem.SaveChosenBoosts(allButtons);
         }

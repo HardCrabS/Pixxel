@@ -25,7 +25,7 @@ public class EquipButton : MonoBehaviour
     public static Sprite AssignSpriteToBonus(ButtonData loadedBonus)
     {
         if(loadedBonus == null) { return null; }
-        Sprite[] allSprites = Resources.LoadAll<Sprite>("Sprites/BoostsSpritesheet");
+        Sprite[] allSprites = Resources.LoadAll<Sprite>("Sprites/BoostSprites");
         Sprite sprite = null;
 
         for (int k = 0; k < allSprites.Length; k++)
