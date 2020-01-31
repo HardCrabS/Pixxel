@@ -22,11 +22,6 @@ public class FlameThrower : MonoBehaviour, IConcreteBonus
     private bool boostActivated = false;
     private int linesToDestroy = 1;
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         if (boostActivated)

@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelSlider : MonoBehaviour {
+public class LevelSlider : MonoBehaviour
+{
     [SerializeField] int addDropCoinChance = 3;
     Slider levelSlider;
     private int currentLevel = 1;
-	void Start () {
+    void Start()
+    {
         levelSlider = GetComponent<Slider>();
-	}
+    }
 
     public void AddXPtoLevel(float amount)
     {
         levelSlider.value += amount;
-        if(levelSlider.value >= levelSlider.maxValue)
+        if (levelSlider.value >= levelSlider.maxValue)
         {
             currentLevel++;
             levelSlider.GetComponentInChildren<Text>().text = "Level " + currentLevel;
@@ -39,7 +41,8 @@ public class LevelSlider : MonoBehaviour {
         if (levelData != null)
         {
             currentLevel = levelData.currentLevel;
-            levelSlider.value = levelData.levelSliderValue;
+            if (levelSlider != null)
+                levelSlider.value = levelData.levelSliderValue;
         }
     }
 }

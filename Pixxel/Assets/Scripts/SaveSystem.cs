@@ -102,6 +102,23 @@ public static class SaveSystem
         File.WriteAllText(path, json);
     }
 
+    public static SerializedLevel[] LoadAllWorldsInfo()
+    {
+        string path = Path.Combine(Application.persistentDataPath, "localLevel.data");
+
+        if (File.Exists(path))
+        {
+            LevelData data = JsonUtility.FromJson<LevelData>(File.ReadAllText(path));
+            return data.levels;
+        }
+        else
+        {
+            Debug.LogError("File does not exist in " + path);
+            LevelData levelData = new LevelData();
+            return levelData.levels;
+        }
+    }
+
     public static SerializedLevel LoadLocalLevelData(int levelIndex)
     {
         string path = Path.Combine(Application.persistentDataPath, "localLevel.data");

@@ -38,9 +38,13 @@ public class GridA : MonoBehaviour
     Vector2Int[] directions = new Vector2Int[]
     {
         Vector2Int.up,
+        Vector2Int.one,
         Vector2Int.right,
+        new Vector2Int(1, -1),
         Vector2Int.down,
-        Vector2Int.left
+        new Vector2Int(-1, -1),
+        Vector2Int.left,
+        new Vector2Int(-1, 1)
     };
     BackgroundActivity b;
     void Start()
@@ -128,8 +132,8 @@ public class GridA : MonoBehaviour
     {
         if (allBoxes[column, row].GetComponent<Box>() && allBoxes[column, row].GetComponent<Box>().isMatched)
         {
-            if (allBoxes[column, row].GetComponent<Box>().mainMatch == allBoxes[column, row].GetComponent<Box>())
-                b.SpawnBackgroundActivity();
+            //if (allBoxes[column, row].GetComponent<Box>().mainMatch == allBoxes[column, row].GetComponent<Box>())
+            //    b.SpawnBackgroundActivity();
             CheckBomb();
             AddPointsForMatchedBlock();
             Destroy(allBoxes[column, row]);

@@ -40,7 +40,7 @@ public class BonusButton : MonoBehaviour {
     public void GetBoostInfo()
     {
         level = SaveSystem.LoadAllBonuses().GetLevel(gameObject.GetComponent<IConcreteBonus>().GetType());
-        print(level);
+
         IConcreteBonus myBonus = GetComponent<IConcreteBonus>();
         GameObject.Find("Boost Image").GetComponent<Image>().sprite = GetComponent<Image>().sprite;
         GameObject.Find("Boost Title Text").GetComponent<Text>().text = myBonus.GetBoostTitle();

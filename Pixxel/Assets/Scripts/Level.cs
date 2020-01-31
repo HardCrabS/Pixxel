@@ -8,11 +8,6 @@ public class Level : MonoBehaviour {
     Score score;
     private int bestScore;
 
-    void Awake()
-    {
-   
-    }
-	
 	void Start () {
         levelSlider = FindObjectOfType<LevelSlider>();
         score = FindObjectOfType<Score>();
@@ -22,7 +17,7 @@ public class Level : MonoBehaviour {
     public void SaveProgress()
     {
         SaveSystem.SaveGlobalData(levelSlider);
-        SerializedLevel level = new SerializedLevel(worldNumber-1, bestScore);
+        SerializedLevel level = new SerializedLevel(worldNumber-1, bestScore, true);
         SaveSystem.SaveLocalLevelData(level);
     }
 

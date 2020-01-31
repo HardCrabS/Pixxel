@@ -145,7 +145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -208, y: -113}
+  m_AnchoredPosition: {x: -205, y: -115}
   m_SizeDelta: {x: 1478.4, y: 560.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &39471576
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9245283, g: 0.13519046, b: 0.5720439, a: 1}
+  m_Color: {r: 0.20721966, g: 0, b: 0.764151, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -168,9 +168,9 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: c29b6567d916acc40ac01165e99c3c43, type: 3}
+    m_Font: {fileID: 12800000, guid: 935038521c704594094113f5ca782c04, type: 3}
     m_FontSize: 300
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 300
@@ -180,7 +180,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Keep stability!
+  m_Text: Pixxel
 --- !u!222 &39471577
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -281,7 +281,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1327840e14dd6be4e979e32f44ad7ea8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 811fb22eb51338a418ee94b0c7f4f1a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -299,8 +299,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 127629029}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.362, y: -4.21, z: 0}
-  m_LocalScale: {x: 0.91, y: 0.91, z: 0.91}
+  m_LocalPosition: {x: -2.28, y: -4.25, z: 0}
+  m_LocalScale: {x: 1.2002391, y: 1.2002391, z: 1.2002391}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -517,7 +517,7 @@ GameObject:
   - component: {fileID: 567122567}
   - component: {fileID: 567122570}
   m_Layer: 5
-  m_Name: Start Button
+  m_Name: Play Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -931,7 +931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.990005, b: 1, a: 0.392}
+  m_Color: {r: 0.21708715, g: 0, b: 0.5943396, a: 0.392}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1273,7 +1273,7 @@ GameObject:
   - component: {fileID: 1896829253}
   - component: {fileID: 1896829252}
   m_Layer: 5
-  m_Name: Start Text
+  m_Name: Play Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1329,7 +1329,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Start!
+  m_Text: Play!
 --- !u!222 &1896829253
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1513,6 +1513,11 @@ Prefab:
     - target: {fileID: 4630822245944384, guid: 655c39f5198f12e4a82ecd52c95d855c, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20320250642059422, guid: 655c39f5198f12e4a82ecd52c95d855c,
+        type: 2}
+      propertyPath: orthographic size
+      value: 8.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 655c39f5198f12e4a82ecd52c95d855c, type: 2}

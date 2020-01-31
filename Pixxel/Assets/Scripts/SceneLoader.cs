@@ -10,15 +10,14 @@ public class SceneLoader : MonoBehaviour {
         SceneManager.LoadScene(currScene + 1);
     }
 
+    public void LoadConcreteWorld(string w_number)
+    {
+        SceneManager.LoadScene(w_number);
+    }
+
     public void Quit()
     {
         Application.Quit();
-    }
-
-    public void ReloadLevel()
-    {
-        int currScene = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currScene);
     }
 
     public void MainMenu()
