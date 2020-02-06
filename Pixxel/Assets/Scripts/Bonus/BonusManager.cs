@@ -15,6 +15,7 @@ public interface IConcreteBonus
     void SetBoostLevel(int lvl);
     void LevelUpBoost();
     int GetBoostLevelUpCost();
+    int GetSpiteIndex();
 }
 
 public class BonusManager : MonoBehaviour
@@ -22,24 +23,24 @@ public class BonusManager : MonoBehaviour
     [SerializeField] bool isBoostScreen;
     [SerializeField] GameObject[] panels = new GameObject[3];
     [SerializeField] Sprite[] boostFrames = new Sprite[4];
-    public ButtonData[] bonusArray = new ButtonData[3];
+    public ButtonData[] equipedBonuses = new ButtonData[3];
 
     void Awake()
     {
-        bonusArray = SaveSystem.LoadConcreteBonuses();
+        equipedBonuses = SaveSystem.LoadEquipedBonuses();
         Bonus bonusesInfo = SaveSystem.LoadAllBonuses();
         BonusButton[] children = GetComponentsInChildren<BonusButton>();
 
-        if (bonusesInfo != null && bonusArray != null)
+        if (bonusesInfo != null && equipedBonuses != null)
         {
             if (!isBoostScreen)
             {
-                for (int i = 0; i < bonusArray.Length && i < children.Length; i++)
+                for (int i = 0; i < equipedBonuses.Length && i < children.Length; i++)
                 {
-                    if (bonusArray[i] != null)
+                    if (equipedBonuses[i] != null)
                     {
-                        int level = bonusesInfo.GetLevel(bonusArray[i].Type);
-                        children[i].SetMyBonus(bonusArray[i], level);
+                        int level = bonusesInfo.GetLevel(equipedBonuses[i].Type);
+                        children[i].SetMyBonus(equipedBonuses[i], level);
 
                         if (level < 4)
                         {
@@ -66,7 +67,7 @@ public class BonusManager : MonoBehaviour
                 {
                     int level = bonusesInfo.GetLevel(children[i].gameObject.GetComponent<IConcreteBonus>().GetType());
                     print("type is " + children[i].GetType() + "; level is " + level);
-                    children[i].SetMyBonus(bonusArray[i], level);
+                    children[i].SetMyBonus(null, level);
                 }
             }
         }

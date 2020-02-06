@@ -12,7 +12,7 @@ public class EquipButton : MonoBehaviour
 
     private void Start()
     {
-        ButtonData[] loadedBonuses = SaveSystem.LoadConcreteBonuses();
+        ButtonData[] loadedBonuses = SaveSystem.LoadEquipedBonuses();
         for (int i = 0; i < equipeButtons.Length; i++)
         {
             if (loadedBonuses[i] != null)
@@ -48,18 +48,18 @@ public class EquipButton : MonoBehaviour
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class ButtonData
 {
-    private System.Type type;
+    private Type type;
     private string name;
 
-    public ButtonData(System.Type type, string name)
+    public ButtonData(Type type, string name)
     {
         this.type = type;
         this.name = name;
     }
-    public System.Type Type
+    public Type Type
     {
         get { return type; }
     }

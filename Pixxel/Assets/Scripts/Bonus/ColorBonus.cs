@@ -12,6 +12,7 @@ public class ColorBonus : MonoBehaviour, IConcreteBonus
     private string boostInfo = "Color Destroyer";
     private string description = "Destroys all blocks with concrete color.";
     private int boostLevel = 1;
+    private int spriteIndex = 0;
     GridA grid;
 
     void Start()
@@ -59,23 +60,35 @@ public class ColorBonus : MonoBehaviour, IConcreteBonus
     {
         boostLevel++;
     }
+    public int GetSpiteIndex()
+    {
+        return spriteIndex;
+    }
     public void SetBoostLevel(int lvl)
     {
         boostLevel = lvl;
         switch (boostLevel)
         {
             case 1:
-                timeForBonusReload = 10;
-                break;
+                {
+                    timeForBonusReload = 10;
+                    break;
+                }
             case 2:
-                timeForBonusReload = 5;
-                break;
+                {
+                    timeForBonusReload = 5;
+                    break;
+                }
             case 3:
-                timeForBonusReload = 3;
-                break;
+                {
+                    timeForBonusReload = 3;
+                    break;
+                }
             default:
-                timeForBonusReload = 3;
-                break;
+                {
+                    timeForBonusReload = 3;
+                    break;
+                }
         }
     }
 }

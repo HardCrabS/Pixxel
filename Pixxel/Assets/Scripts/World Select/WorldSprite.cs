@@ -45,7 +45,7 @@ public class WorldSprite : MonoBehaviour           //DO NOT CHANGE CHILDREN OBJE
         anim = GetComponent<Animation>();
         clip = anim.clip;
         anim[clip.name].speed = 1;
-        anim[clip.name].time = 0;
+        anim[clip.name].time = 0.001f;
         if (clip == null)
         {
             Debug.LogError("No clip in the animation component found.");
@@ -70,27 +70,31 @@ public class WorldSprite : MonoBehaviour           //DO NOT CHANGE CHILDREN OBJE
         curve = new AnimationCurve(keys1);
         clip.SetCurve("", typeof(Transform), "m_AnchoredPosition.y", curve);
         
-        anim[clip.name].time = 0.001f;
         anim.Play(clip.name);
+        print("CREATE ANIMATION");
     }
 
-    void ChangeButtonFunc()
+    void ButtonFuncClosePanel()
     {
         GetComponent<Button>().onClick.AddListener(CloseBuyPanel);
+    }
+
+    void ButtonFuncCreateAnim()
+    {
+        GetComponent<Button>().onClick.AddListener(CreateAnimation);
     }
 
     void CloseBuyPanel()
     {
         anim[clip.name].speed = -1;
-        anim[clip.name].time = anim[clip.name].length - 0.001f;
+        anim[clip.name].time = anim[clip.name].length;
 
         anim.Play(clip.name);
-
-        GetComponent<Button>().onClick.AddListener(CreateAnimation);
         GetComponentInParent<ScrollRect>().enabled = true;
+        print("CLOSE PANEL");
     }
 
-    void CallAllButtonsActive()
+    void BlockinPanelOFF()
     {
         worldManager.DeactivatePanel();
     }

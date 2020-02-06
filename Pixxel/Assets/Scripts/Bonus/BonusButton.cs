@@ -4,7 +4,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BonusButton : MonoBehaviour {
+public class BonusButton : MonoBehaviour
+{
+    [SerializeField] Sprite[] boostSprites;
     [SerializeField] int buttonIndex;
     [SerializeField] bool isGameButton;
     int level = 1;
@@ -12,7 +14,8 @@ public class BonusButton : MonoBehaviour {
     ButtonData bonus;
     IConcreteBonus concreteBonus;
 
-    void Start () {
+    void Start()
+    {
         if (isGameButton)
         {
             GetComponent<Image>().sprite = EquipButton.AssignSpriteToBonus(bonus);
@@ -21,12 +24,19 @@ public class BonusButton : MonoBehaviour {
             {
                 concreteBonus = gameObject.AddComponent(bonus.Type) as IConcreteBonus;
                 concreteBonus.SetBoostLevel(level);
-                print("bonus level is " + level);
 
                 foreach (AnimationState state in buttonReloadAnim)
                 {
                     state.speed = 1 / concreteBonus.TimeToReload();
                 }
+            }
+        }
+        else
+        {
+            if (boostSprites.Length > 0)
+            {
+                GetComponent<IConcreteBonus>().SetBoostLevel(level);
+                GetComponent<Image>().sprite = boostSprites[GetComponent<IConcreteBonus>().GetSpiteIndex()];
             }
         }
     }
@@ -77,9 +87,8 @@ public class BonusButton : MonoBehaviour {
             GetComponent<Image>().sprite = equipButton.bonusSprite;
             equipButton.Equip();
 
-            ButtonData[] allButtons = SaveSystem.LoadConcreteBonuses();
+            ButtonData[] allButtons = SaveSystem.LoadEquipedBonuses();
             string name = bonusToEquip.GetSpriteFromImage().name;
-            print(name);
             allButtons[buttonIndex] = new ButtonData(bonusToEquip.GetType(), name);
             SaveSystem.SaveChosenBoosts(allButtons);
         }

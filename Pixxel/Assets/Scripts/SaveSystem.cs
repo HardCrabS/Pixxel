@@ -64,7 +64,7 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static ButtonData[] LoadConcreteBonuses()
+    public static ButtonData[] LoadEquipedBonuses()
     {
         string path = Path.Combine(Application.persistentDataPath, "buttons.data");
 

@@ -13,7 +13,7 @@ public class GridA : MonoBehaviour
 {
     public GameState currState = GameState.move;
     [Header("Prefabs")]
-    [SerializeField] GameObject[] boxPrefabs;
+    public GameObject[] boxPrefabs;
 
     [Header("Add for match")]
     [SerializeField] int pointsToAddperBox = 10;
@@ -143,7 +143,7 @@ public class GridA : MonoBehaviour
         }
     }
 
-    public void CheckBomb()
+    void CheckBomb()
     {
         if (matchFinder.currentMatches.Count == 4 || matchFinder.currentMatches.Count == 7)
         {
@@ -364,7 +364,7 @@ public class GridA : MonoBehaviour
         allBoxes[column, row] = holder;
     }
 
-    private bool CheckForMatches()
+    public bool CheckForMatches()
     {
         for (int x = 0; x < width; x++)
         {

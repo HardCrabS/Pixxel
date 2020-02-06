@@ -13,6 +13,7 @@ public class XPBonus : MonoBehaviour, IConcreteBonus
     private string boostInfo = "XP Boost";
     private string description = "XP gained for each block increased by ";
     private int boostLevel = 1;
+    private int spriteIndex = 0;
     bool needToResetXPprocent = false;
     float timer;
     GridA grid;
@@ -78,6 +79,10 @@ public class XPBonus : MonoBehaviour, IConcreteBonus
     public void LevelUpBoost()
     {
         boostLevel++;
+    }
+    public int GetSpiteIndex()
+    {
+        return spriteIndex;
     }
     public void SetBoostLevel(int lvl)
     {

@@ -189,4 +189,16 @@ public class Box : MonoBehaviour
             neighborBox = null;
         }
     }
+    void ChangeBlockSprite(string tag)
+    {
+        for (int i = 0; i < grid.boxPrefabs.Length; i++)
+        {
+            if (grid.boxPrefabs[i].CompareTag(tag))
+            {
+                GetComponent<SpriteRenderer>().sprite = grid.boxPrefabs[i].GetComponent<SpriteRenderer>().sprite;
+                gameObject.tag = tag;
+                break;
+            }
+        }
+    }
 }
