@@ -8,18 +8,35 @@ public enum GameState
     move,
     wait
 }
+public enum TileKind
+{
+    Breakable,
+    Blank,
+    Normal
+}
+
+[System.Serializable]
+public class TileType
+{
+    public int x;
+    public int y;
+    public TileKind tileKind;
+}
 
 public class GridA : MonoBehaviour
 {
     public GameState currState = GameState.move;
     [Header("Prefabs")]
     public GameObject[] boxPrefabs;
+    [SerializeField] GameObject fire;
+    [SerializeField] GameObject smoke;
 
     [Header("Add for match")]
     [SerializeField] int pointsToAddperBox = 10;
     [SerializeField] float pointsXPforLevel = 1;
 
     [Header("Grid Settings")]
+    [SerializeField] TileType[] boardLayout;
     public GameObject[,] allBoxes;
     public int width = 8;
     public int hight = 8;
@@ -29,7 +46,7 @@ public class GridA : MonoBehaviour
     public Box currBox;
 
     private const float aspectRatioMultiplier = 9.0f / 16 * 7.5f;
-    bool[,] blankSpaces;
+    public bool[,] blankSpaces;
     MatchFinder matchFinder;
     Score score;
     LevelSlider levelSlider;
@@ -46,6 +63,9 @@ public class GridA : MonoBehaviour
         Vector2Int.left,
         new Vector2Int(-1, 1)
     };
+    public delegate void MyDelegate(int column, int row);
+    public event MyDelegate onMatchedBlock;
+
     BackgroundActivity b;
     void Start()
     {
@@ -60,8 +80,20 @@ public class GridA : MonoBehaviour
         b = FindObjectOfType<BackgroundActivity>();
     }
 
+    void GenerateBlankSpaces()
+    {
+        for (int i = 0; i < boardLayout.Length; i++)
+        {
+            if(boardLayout[i].tileKind == TileKind.Blank)
+            {
+                blankSpaces[boardLayout[i].x, boardLayout[i].y] = true;
+            }
+        }
+    }
+
     void CreateGrid()
     {
+        GenerateBlankSpaces();
         allBoxes = new GameObject[width, hight];
         for (int x = 0; x < width; x++)
         {
@@ -84,6 +116,11 @@ public class GridA : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetBlankSpace(int x, int y, bool blank)
+    {
+        blankSpaces[x, y] = blank;
     }
 
     bool MatchesAt(int column, int row, GameObject box)
@@ -134,6 +171,11 @@ public class GridA : MonoBehaviour
         {
             //if (allBoxes[column, row].GetComponent<Box>().mainMatch == allBoxes[column, row].GetComponent<Box>())
             //    b.SpawnBackgroundActivity();
+            if (onMatchedBlock != null)
+            {
+                onMatchedBlock(column, row);
+                return;
+            }
             CheckBomb();
             AddPointsForMatchedBlock();
             Destroy(allBoxes[column, row]);
@@ -152,14 +194,13 @@ public class GridA : MonoBehaviour
                 if (currBox.isMatched)
                 {
                     currBox.isMatched = false;
-                    currBox.GetComponent<SpriteRenderer>().color = Color.red;
-                    StartCoroutine(CrossBomb(currBox));
+                    StartCoroutine(FiredUpBlock(currBox));
                 }
                 else if (currBox.neighborBox != null && currBox.neighborBox.GetComponent<Box>().isMatched)
                 {
                     currBox.neighborBox.GetComponent<Box>().isMatched = false;
                     currBox.neighborBox.GetComponent<SpriteRenderer>().color = Color.red;
-                    StartCoroutine(CrossBomb(currBox.neighborBox.GetComponent<Box>()));
+                    StartCoroutine(FiredUpBlock(currBox.neighborBox.GetComponent<Box>()));
                 }
             }
         }
@@ -183,8 +224,11 @@ public class GridA : MonoBehaviour
         }
     }
 
-    private IEnumerator CrossBomb(Box box)
+    public IEnumerator FiredUpBlock(Box box)
     {
+        GameObject smokeClone = Instantiate(smoke, box.gameObject.transform.position, smoke.transform.rotation, box.transform);
+        GameObject fireClone = Instantiate(fire, box.gameObject.transform.position, transform.rotation, box.transform);
+        box.GetComponent<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(2f);
         foreach (Vector2Int dir in directions)
         {
@@ -196,10 +240,12 @@ public class GridA : MonoBehaviour
                 AddXPandScorePoints();
             }
         }
-        if (box.gameObject != null)
+        if (box != null)
         {
             Destroy(box.gameObject);
         }
+        Destroy(fireClone);
+        Destroy(smokeClone);
         allBoxes[box.column, box.row] = null;
         StartCoroutine(MoveBoxesDown());
     }
@@ -247,7 +293,7 @@ public class GridA : MonoBehaviour
         {
             AddXPandScorePoints();
 
-            if (trink.boxesToDestroy >= 0 && matchFinder.currentMatches[0].CompareTag(trink.tagToDestroy.ToString()))
+            if (matchFinder.currentMatches[0] != null && trink.boxesToDestroy >= 0 && matchFinder.currentMatches[0].CompareTag(trink.tagToDestroy.ToString()))
             {
                 trink.DestroyBoxAmount();
             }
@@ -282,22 +328,23 @@ public class GridA : MonoBehaviour
 
     public IEnumerator MoveBoxesDown()
     {
-        int nullCount = 0;
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < hight; y++)
             {
                 if (allBoxes[x, y] == null && !blankSpaces[x, y])
                 {
-                    nullCount++;
-                }
-                else if (nullCount > 0 && allBoxes[x, y])
-                {
-                    allBoxes[x, y].GetComponent<Box>().row -= nullCount;
-                    allBoxes[x, y] = null;
+                    for (int k = y + 1; k < hight; k++)
+                    {
+                        if (allBoxes[x, k] != null)
+                        {
+                            allBoxes[x, k].GetComponent<Box>().row = y;
+                            allBoxes[x, k] = null;
+                            break;
+                        }
+                    }
                 }
             }
-            nullCount = 0;
         }
         yield return new WaitForSeconds(.4f);
         StartCoroutine(FillBoard());

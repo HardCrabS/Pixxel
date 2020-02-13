@@ -6,7 +6,7 @@ using System;
 
 public class EquipButton : MonoBehaviour
 {
-    [SerializeField] Button[] equipeButtons = new Button[3];
+    public Button[] equipeButtons = new Button[3];
     public IConcreteBonus currentBonus;
     public Sprite bonusSprite;
 

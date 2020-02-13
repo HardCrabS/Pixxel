@@ -35,6 +35,12 @@ public class CoinsDisplay : MonoBehaviour {
         currChance += amount;
     }
 
+    public void AddCoinsAmount(int value)
+    {
+        coins += value;
+        UpdateText();
+    }
+
     private void AddCoins()
     {
         coins += coinsToAdd;

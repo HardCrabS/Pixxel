@@ -89,10 +89,10 @@ public class Box : MonoBehaviour
     {
         if (Mathf.Abs(finalMousePos.y - firstMousePos.y) > swipeResist || Mathf.Abs(finalMousePos.x - firstMousePos.x) > swipeResist)
         {
+            grid.currState = GameState.wait;
             finalAngle = Mathf.Atan2(finalMousePos.y - firstMousePos.y, finalMousePos.x - firstMousePos.x) * 180 / Mathf.PI;
             SwipeBox();
 
-            grid.currState = GameState.wait;
             grid.currBox = this;
         }
         else
@@ -101,11 +101,30 @@ public class Box : MonoBehaviour
         }
     }
 
+    void SwipeBoxesActual(Vector2 direction)
+    {
+        neighborBox = grid.allBoxes[column + (int)direction.x, row + (int)direction.y];
+        if (neighborBox != null)
+        {
+            neighborBox.GetComponent<Box>().column += -1 * (int)direction.x;
+            neighborBox.GetComponent<Box>().row += -1 * (int)direction.y;
+            prevColumn = column;
+            prevRow = row;
+            column += (int)direction.x;
+            row += (int)direction.y;
+        }
+        else
+        {
+            grid.currState = GameState.move;
+        }
+        StartCoroutine(ReturnBoxes());
+    }
+
     void SwipeBox()
     {
         if (finalAngle <= 45 && finalAngle >= -45 && column < grid.width - 1) //right swipe
         {
-            neighborBox = grid.allBoxes[column + 1, row];
+            /*neighborBox = grid.allBoxes[column + 1, row];
             if (neighborBox != null)
             {
                 neighborBox.GetComponent<Box>().column -= 1;
@@ -116,55 +135,23 @@ public class Box : MonoBehaviour
             else
             {
                 grid.currState = GameState.move;
-            }
+            }*/
+            SwipeBoxesActual(Vector2.right);
         }
         else if (finalAngle >= -135 && finalAngle <= -45 && row > 0) //down swipe
         {
-            neighborBox = grid.allBoxes[column, row - 1];
-            if (neighborBox != null)
-            {
-                neighborBox.GetComponent<Box>().row += 1;
-                prevColumn = column;
-                prevRow = row;
-                row -= 1;
-            }
-            else
-            {
-                grid.currState = GameState.move;
-            }
+            SwipeBoxesActual(Vector2.down);
         }
         else if ((finalAngle >= 135 || finalAngle <= -135) && column > 0) //left swipe
         {
-            neighborBox = grid.allBoxes[column - 1, row];
-            if (neighborBox != null)
-            {
-                neighborBox.GetComponent<Box>().column += 1;
-                prevColumn = column;
-                prevRow = row;
-                column -= 1;
-            }
-            else
-            {
-                grid.currState = GameState.move;
-            }
+            SwipeBoxesActual(Vector2.left);
         }
         else if (finalAngle <= 135 && finalAngle >= 45 && row < grid.hight - 1) //up swipe
         {
-            neighborBox = grid.allBoxes[column, row + 1];
-            if (neighborBox != null)
-            {
-                neighborBox.GetComponent<Box>().row -= 1;
-                prevColumn = column;
-                prevRow = row;
-                row += 1;
-            }
-            else
-            {
-                grid.currState = GameState.move;
-            }
+            SwipeBoxesActual(Vector2.up);
         }
-
-        StartCoroutine(ReturnBoxes());
+        else
+            grid.currState = GameState.move;
     }
 
     IEnumerator ReturnBoxes()
@@ -189,6 +176,8 @@ public class Box : MonoBehaviour
             neighborBox = null;
         }
     }
+
+    //switcheroo boost
     void ChangeBlockSprite(string tag)
     {
         for (int i = 0; i < grid.boxPrefabs.Length; i++)

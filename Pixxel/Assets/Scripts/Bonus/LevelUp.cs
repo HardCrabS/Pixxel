@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LevelUp : MonoBehaviour {
     [SerializeField] Text levelText;
     public IConcreteBonus concreteBonus;
+    public BonusButton bonusButton;
     CoinsDisplay coinsDisplay;
 
 	void Start () {
@@ -21,12 +22,8 @@ public class LevelUp : MonoBehaviour {
             levelText.text = "lv " + level;
 
             SerializableBoost newBoost = new SerializableBoost(concreteBonus.GetType().Name, level);
-            Bonus b = SaveSystem.LoadAllBonuses();
-            for (int i = 0; i < 2; i++)
-            {
-                print(b.boosts[i].stringType);
-            }
             SaveSystem.SaveBoost(newBoost);
+            bonusButton.UpdateBonusLevelInfo();
         }
     }
 }

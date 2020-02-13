@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Switcheroo : MonoBehaviour, IConcreteBonus
 {
-    [SerializeField] float columnSpeed = 5;
     [SerializeField] float timeForBonusReload = 3f;
     [SerializeField] private int cost = 30;
 
@@ -17,11 +16,6 @@ public class Switcheroo : MonoBehaviour, IConcreteBonus
     private int spriteIndex = 0;
     GridA grid;
     AnimationClip clip;
-
-    void Start()
-    {
-
-    }
 
     public void ExecuteBonus()
     {
@@ -154,53 +148,65 @@ public class Switcheroo : MonoBehaviour, IConcreteBonus
                 }
             case 7:
                 {
-                    string tag;
-                    do
+                    if (grid != null)
                     {
-                        tag = grid.boxPrefabs[Random.Range(0, grid.boxPrefabs.Length)].tag;
-                    } while (tagsToSwitch.Contains(tag));
-                    tagsToSwitch.Add(tag);
+                        string tag;
+                        do
+                        {
+                            tag = grid.boxPrefabs[Random.Range(0, grid.boxPrefabs.Length)].tag;
+                        } while (tagsToSwitch.Contains(tag));
+                        tagsToSwitch.Add(tag);
+                    }
                     timeForBonusReload = 34;
                     spriteIndex = 2;
                     break;
                 }
             case 8:
                 {
-                    string tag;
-                    do
+                    if (grid != null)
                     {
-                        tag = grid.boxPrefabs[Random.Range(0, grid.boxPrefabs.Length)].tag;
-                    } while (tagsToSwitch.Contains(tag));
-                    tagsToSwitch.Add(tag);
+                        string tag;
+                        do
+                        {
+                            tag = grid.boxPrefabs[Random.Range(0, grid.boxPrefabs.Length)].tag;
+                        } while (tagsToSwitch.Contains(tag));
+                        tagsToSwitch.Add(tag);
+                    }
                     timeForBonusReload = 32;
                     spriteIndex = 2;
                     break;
                 }
             case 9:
                 {
-                    string tag;
-                    do
+                    if (grid != null)
                     {
-                        tag = grid.boxPrefabs[Random.Range(0, grid.boxPrefabs.Length)].tag;
-                    } while (tagsToSwitch.Contains(tag));
-                    tagsToSwitch.Add(tag);
+                        string tag;
+                        do
+                        {
+                            tag = grid.boxPrefabs[Random.Range(0, grid.boxPrefabs.Length)].tag;
+                        } while (tagsToSwitch.Contains(tag));
+                        tagsToSwitch.Add(tag);
+                    }
                     timeForBonusReload = 30;
                     spriteIndex = 2;
                     break;
                 }
             case 10:
                 {
-                    string tag;
-                    do
+                    if (grid != null)
                     {
-                        tag = grid.boxPrefabs[Random.Range(0, grid.boxPrefabs.Length)].tag;
-                    } while (tagsToSwitch.Contains(tag));
-                    tagsToSwitch.Add(tag);
-                    do
-                    {
-                        tag = grid.boxPrefabs[Random.Range(0, grid.boxPrefabs.Length)].tag;
-                    } while (tagsToSwitch.Contains(tag));
-                    tagsToSwitch.Add(tag);
+                        string tag;
+                        do
+                        {
+                            tag = grid.boxPrefabs[Random.Range(0, grid.boxPrefabs.Length)].tag;
+                        } while (tagsToSwitch.Contains(tag));
+                        tagsToSwitch.Add(tag);
+                        do
+                        {
+                            tag = grid.boxPrefabs[Random.Range(0, grid.boxPrefabs.Length)].tag;
+                        } while (tagsToSwitch.Contains(tag));
+                        tagsToSwitch.Add(tag);
+                    }
                     timeForBonusReload = 25;
                     spriteIndex = 3;
                     break;

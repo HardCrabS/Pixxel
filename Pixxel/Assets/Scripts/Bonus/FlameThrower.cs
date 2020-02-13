@@ -25,13 +25,13 @@ public class FlameThrower : MonoBehaviour, IConcreteBonus
     private int linesToDestroy = 1;
     private int spriteIndex = 0;
 
-    void Update()
+   /* void Update()
     {
         if (boostActivated)
         {
             CreateLine();
         }
-    }
+    }*/
 
     public void ExecuteBonus()
     {
@@ -42,7 +42,6 @@ public class FlameThrower : MonoBehaviour, IConcreteBonus
         line.widthMultiplier = 0.5f;
 
         line.material = Resources.Load<Material>("Materials/Fire Line");
-        //line.SetColors(Color.yellow, Color.red);
 
         firstPos = new Vector3(10, 0, -5);
         curr = firstPos;
@@ -55,6 +54,17 @@ public class FlameThrower : MonoBehaviour, IConcreteBonus
         leadFirePrefab = Instantiate(leadFirePrefab, new Vector3(firstPos.x, firstPos.y+0.5f, firstPos.z), Quaternion.Euler(0, 0, -90));
         shineParticles = Instantiate(shineParticles, new Vector3(firstPos.x, firstPos.y + 0.5f, firstPos.z), Quaternion.identity);
         boostActivated = true;
+        StartCoroutine(LaunchLine());
+    }
+
+    IEnumerator LaunchLine()
+    {
+        while(boostActivated)
+        {
+            CreateLine();
+
+            yield return null;
+        }
     }
 
     void CreateLine()
