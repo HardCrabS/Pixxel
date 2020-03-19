@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7011314c976c9cb47b6d2add63427af5, type: 3}
+  m_Name: Level 10
+  m_EditorClassIdentifier: 
+  width: 8
+  hight: 8
+  offset: 20
+  boardLayout:
+  - x: 2
+    y: 1
+    tileKind: 2
+  - x: 3
+    y: 1
+    tileKind: 2
+  - x: 3
+    y: 4
+    tileKind: 0
+  - x: 4
+    y: 3
+    tileKind: 0
+  - x: 4
+    y: 1
+    tileKind: 2
+  - x: 5
+    y: 1
+    tileKind: 2
+  - x: 2
+    y: 6
+    tileKind: 2
+  - x: 3
+    y: 6
+    tileKind: 2
+  - x: 4
+    y: 6
+    tileKind: 2
+  - x: 5
+    y: 6
+    tileKind: 2
+  - x: 3
+    y: 3
+    tileKind: 0
+  - x: 4
+    y: 4
+    tileKind: 0
+  boxPrefabs:
+  - {fileID: 114364282728307304, guid: 92c7742e66f011c42a410f9908b8bdf2, type: 2}
+  - {fileID: 114185678559901660, guid: f040d7f7bb64e334ba09b33e327d0874, type: 2}
+  - {fileID: 114064919581208494, guid: 00d8ec74fd7c29042a4f280d200527b2, type: 2}
+  - {fileID: 114887273178571126, guid: b3efd40a9f6e3514c942e3dfdb1db161, type: 2}
+  - {fileID: 114633622950210430, guid: 649bb0cd70cb2e74ab3f66f21c38f336, type: 2}
+  - {fileID: 114289525773081466, guid: 648476c7c885de54caaed5466f1f0f5e, type: 2}
+  endGameRequirements:
+    gameType: 1
+    counterValue: 25
+  levelGoals:
+  - numberNeeded: 2
+    numberCollected: 9
+    goalSprite: {fileID: 21300002, guid: 7593178b92735b042a340936291645fc, type: 3}
+    matchTag: Orange
+  - numberNeeded: 4
+    numberCollected: 9
+    goalSprite: {fileID: 21300008, guid: 7593178b92735b042a340936291645fc, type: 3}
+    matchTag: Green
+  - numberNeeded: 5
+    numberCollected: 21
+    goalSprite: {fileID: 21300006, guid: 7593178b92735b042a340936291645fc, type: 3}
+    matchTag: Yellow
+  - numberNeeded: 7
+    numberCollected: 9
+    goalSprite: {fileID: 21300000, guid: 7593178b92735b042a340936291645fc, type: 3}
+    matchTag: Blue
+  - numberNeeded: 2
+    numberCollected: 4
+    goalSprite: {fileID: 21300000, guid: 1c30bdbe0bcd32a4bb6ed81893fec087, type: 3}
+    matchTag: Breakable
+  - numberNeeded: 2
+    numberCollected: 6
+    goalSprite: {fileID: 21300004, guid: 7593178b92735b042a340936291645fc, type: 3}
+    matchTag: Red
+  loadStoryScene: 1

@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4529295744118898}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Lightning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,9 @@ GameObject:
   - component: {fileID: 4636714233760408}
   - component: {fileID: 212856068567297150}
   - component: {fileID: 95730821784245968}
-  m_Layer: 0
+  - component: {fileID: 114090233476749430}
+  - component: {fileID: 114760899095993172}
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +52,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1171962280131494}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.880387, y: 3.37, z: -9.879124}
+  m_LocalPosition: {x: 5.231839, y: 5.271206, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4636714233760408}
@@ -88,6 +90,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114090233476749430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1447879922677468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 9948177759f7d4f479d294c1810a0a55, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
+--- !u!114 &114760899095993172
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1447879922677468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8db0502b896a8364eb928921efd80ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212856068567297150
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -128,7 +157,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 2.56}
+  m_Size: {x: 1.0666667, y: 4.266667}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -18,16 +18,17 @@ public class Box : MonoBehaviour
     public int targetY;
     float finalAngle;
     float swipeResist = .5f;
-    public bool isColumnBomb = false;
-    public bool isRowBomb = false;
+
+    EndGameManager endGameManager;
     GridA grid;
     MatchFinder matchFinder;
     public GameObject neighborBox;
 
     void Start()
     {
-        grid = FindObjectOfType<GridA>().GetComponent<GridA>();
-        matchFinder = FindObjectOfType<MatchFinder>().GetComponent<MatchFinder>();
+        endGameManager = FindObjectOfType<EndGameManager>();
+        grid = FindObjectOfType<GridA>();
+        matchFinder = FindObjectOfType<MatchFinder>();
     }
 
     void Update()
@@ -38,9 +39,9 @@ public class Box : MonoBehaviour
         }
         targetX = column;
         targetY = row;
-        if (Mathf.Abs(targetX - transform.position.x) > 0.1f)
+        if (Mathf.Abs(targetX - transform.localPosition.x) > 0.1f)
         {
-            transform.position = Vector2.Lerp(transform.position, new Vector2(targetX, transform.position.y), 0.4f);
+            transform.localPosition = Vector2.Lerp(transform.localPosition, new Vector2(targetX, transform.localPosition.y), 0.4f);
             if (grid.allBoxes[column, row] != this.gameObject)
             {
                 grid.allBoxes[column, row] = this.gameObject;
@@ -49,12 +50,12 @@ public class Box : MonoBehaviour
         }
         else
         {
-            transform.position = new Vector2(targetX, transform.position.y);
+            transform.localPosition = new Vector2(targetX, transform.localPosition.y);
             grid.allBoxes[column, row] = this.gameObject;
         }
-        if (Mathf.Abs(targetY - transform.position.y) > 0.1f)
+        if (Mathf.Abs(targetY - transform.localPosition.y) > 0.1f)
         {
-            transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, targetY), 0.4f);
+            transform.localPosition = Vector2.Lerp(transform.localPosition, new Vector2(transform.localPosition.x, targetY), 0.4f);
             if (grid.allBoxes[column, row] != this.gameObject)
             {
                 grid.allBoxes[column, row] = this.gameObject;
@@ -63,7 +64,7 @@ public class Box : MonoBehaviour
         }
         else
         {
-            transform.position = new Vector2(transform.position.x, targetY);
+            transform.localPosition = new Vector2(transform.localPosition.x, targetY);
             grid.allBoxes[column, row] = this.gameObject;
         }
     }
@@ -104,20 +105,29 @@ public class Box : MonoBehaviour
     void SwipeBoxesActual(Vector2 direction)
     {
         neighborBox = grid.allBoxes[column + (int)direction.x, row + (int)direction.y];
-        if (neighborBox != null)
+        prevColumn = column;
+        prevRow = row;
+
+        if (grid.lockedTiles[column, row] == null
+            && grid.lockedTiles[column + (int)direction.x, row + (int)direction.y] == null)
         {
-            neighborBox.GetComponent<Box>().column += -1 * (int)direction.x;
-            neighborBox.GetComponent<Box>().row += -1 * (int)direction.y;
-            prevColumn = column;
-            prevRow = row;
-            column += (int)direction.x;
-            row += (int)direction.y;
+            if (neighborBox != null)
+            {
+                neighborBox.GetComponent<Box>().column += -1 * (int)direction.x;
+                neighborBox.GetComponent<Box>().row += -1 * (int)direction.y;
+                column += (int)direction.x;
+                row += (int)direction.y;
+                StartCoroutine(ReturnBoxes());
+            }
+            else
+            {
+                grid.currState = GameState.move;
+            }
         }
         else
         {
             grid.currState = GameState.move;
         }
-        StartCoroutine(ReturnBoxes());
     }
 
     void SwipeBox()
@@ -171,6 +181,13 @@ public class Box : MonoBehaviour
             }
             else
             {
+                if(endGameManager != null)
+                {
+                    if(endGameManager.requirements.gameType == GameType.Moves)
+                    {
+                        endGameManager.DecreaseCounterValue();
+                    }
+                }
                 grid.DestroyAllMatches();
             }
             neighborBox = null;

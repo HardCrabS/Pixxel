@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212889211669787468}
   - component: {fileID: 61140796599610782}
   - component: {fileID: 114064919581208494}
+  - component: {fileID: 114065207640987508}
   m_Layer: 0
   m_Name: Orange Box 1
   m_TagString: Orange
@@ -90,6 +91,23 @@ MonoBehaviour:
   isColumnBomb: 0
   isRowBomb: 0
   neighborBox: {fileID: 0}
+--- !u!114 &114065207640987508
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1359055737259038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38acc61873645e542998897e3187c659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bias: 25
+  timeStep: 0.5
+  timeToBeat: 0.1
+  restSmoothTime: 22
+  beatScale: {x: 1.2, y: 1.2}
+  restScale: {x: 1, y: 1}
 --- !u!212 &212889211669787468
 SpriteRenderer:
   m_ObjectHideFlags: 1

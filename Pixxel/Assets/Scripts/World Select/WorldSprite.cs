@@ -119,7 +119,7 @@ public class WorldSprite : MonoBehaviour           //DO NOT CHANGE CHILDREN OBJE
         if(coinsDisplay.GetCoins() >= cost)
         {
             coinsDisplay.DecreaseCoins(cost);
-            SerializedLevel level = new SerializedLevel(worldNumber, 0, true);
+            SerializedLevel level = new SerializedLevel(worldNumber, 0, 0, true);
             SaveSystem.SaveLocalLevelData(level);
             CloseBuyPanel();
             transform.GetChild(1).gameObject.SetActive(false);

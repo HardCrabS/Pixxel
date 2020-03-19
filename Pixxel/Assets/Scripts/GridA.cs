@@ -11,6 +11,7 @@ public enum GameState
 public enum TileKind
 {
     Breakable,
+    Locked,
     Blank,
     Normal
 }
@@ -25,9 +26,15 @@ public class TileType
 
 public class GridA : MonoBehaviour
 {
-    public GameState currState = GameState.move;
+    [Header("Scriptable objects")]
+    public WorldTemplate world;
+    public int level;
+
     [Header("Prefabs")]
     public GameObject[] boxPrefabs;
+    [SerializeField] GameObject blockDestroyParticle;
+    [SerializeField] GameObject breakableTilePrefab;
+    [SerializeField] GameObject lockTilePrefab;
     [SerializeField] GameObject fire;
     [SerializeField] GameObject smoke;
 
@@ -41,16 +48,20 @@ public class GridA : MonoBehaviour
     public int width = 8;
     public int hight = 8;
     public int offset;
+    public GameState currState = GameState.move;
 
     [SerializeField] Transform parent;
     public Box currBox;
 
     private const float aspectRatioMultiplier = 9.0f / 16 * 7.5f;
     public bool[,] blankSpaces;
+    private BackgroundTile[,] breakableTiles;
+    public BackgroundTile[,] lockedTiles;
     MatchFinder matchFinder;
     Score score;
     LevelSlider levelSlider;
     CoinsDisplay coinsDisplay;
+    GoalManager goalManager;
     public string tempTagForTrinket;
     Vector2Int[] directions = new Vector2Int[]
     {
@@ -67,11 +78,37 @@ public class GridA : MonoBehaviour
     public event MyDelegate onMatchedBlock;
 
     BackgroundActivity b;
+
+    void Awake()
+    {
+        Level levelTemplate = FindObjectOfType<Level>();
+        levelTemplate.LoadLevel();
+        level = levelTemplate.currentLevelTemplate;
+        if (world != null)
+        {
+            if (world.levels[level] != null)
+            {
+                width = world.levels[level].width;
+                hight = world.levels[level].hight;
+                offset = world.levels[level].offset;
+                boardLayout = world.levels[level].boardLayout;
+            }
+        }
+    }
+
     void Start()
     {
         Camera.main.orthographicSize = aspectRatioMultiplier / Camera.main.aspect;
         blankSpaces = new bool[width, hight];
+        breakableTiles = new BackgroundTile[width, hight];
+        lockedTiles = new BackgroundTile[width, hight];
         currState = GameState.move;
+
+        int startParentX = (8 - width) / 2;
+        int startParentY = (8 - hight) / 2;
+        parent.position = new Vector2(startParentX, startParentY);
+
+        goalManager = FindObjectOfType<GoalManager>();
         coinsDisplay = FindObjectOfType<CoinsDisplay>();
         levelSlider = FindObjectOfType<LevelSlider>();
         matchFinder = FindObjectOfType<MatchFinder>();
@@ -84,9 +121,35 @@ public class GridA : MonoBehaviour
     {
         for (int i = 0; i < boardLayout.Length; i++)
         {
-            if(boardLayout[i].tileKind == TileKind.Blank)
+            if (boardLayout[i].tileKind == TileKind.Blank)
             {
                 blankSpaces[boardLayout[i].x, boardLayout[i].y] = true;
+            }
+        }
+    }
+
+    void GenerateBreakableTiles()
+    {
+        for (int i = 0; i < boardLayout.Length; i++)
+        {
+            if (boardLayout[i].tileKind == TileKind.Breakable)
+            {
+                GameObject breakable = Instantiate(breakableTilePrefab,
+                    parent.position + new Vector3(boardLayout[i].x, boardLayout[i].y), transform.rotation, parent);
+                breakableTiles[boardLayout[i].x, boardLayout[i].y] = breakable.GetComponent<BackgroundTile>();
+            }
+        }
+    }
+
+    void GenerateLockedTiles()
+    {
+        for (int i = 0; i < boardLayout.Length; i++)
+        {
+            if (boardLayout[i].tileKind == TileKind.Locked)
+            {
+                GameObject locked = Instantiate(lockTilePrefab,
+                    parent.position + new Vector3(boardLayout[i].x, boardLayout[i].y), transform.rotation, parent);
+                lockedTiles[boardLayout[i].x, boardLayout[i].y] = locked.GetComponent<BackgroundTile>();
             }
         }
     }
@@ -94,7 +157,10 @@ public class GridA : MonoBehaviour
     void CreateGrid()
     {
         GenerateBlankSpaces();
+        GenerateBreakableTiles();
+        GenerateLockedTiles();
         allBoxes = new GameObject[width, hight];
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < hight; y++)
@@ -107,11 +173,10 @@ public class GridA : MonoBehaviour
                     {
                         randIndex = Random.Range(0, boxPrefabs.Length);
                     }
-                    GameObject go = Instantiate(boxPrefabs[randIndex], tempPos, transform.rotation);
+                    GameObject go = Instantiate(boxPrefabs[randIndex], tempPos, transform.rotation, parent);
                     go.GetComponent<Box>().row = y;
                     go.GetComponent<Box>().column = x;
                     allBoxes[x, y] = go;
-                    go.transform.SetParent(parent);
                     go.name = x + "," + y;
                 }
             }
@@ -176,6 +241,23 @@ public class GridA : MonoBehaviour
                 onMatchedBlock(column, row);
                 return;
             }
+            if (goalManager != null)
+            {
+                goalManager.CompareGoal(allBoxes[column, row].tag);
+                goalManager.UpdateGoals();
+            }
+            if (breakableTiles[column, row] != null)
+            {
+                breakableTiles[column, row].TakeDamage();
+            }
+            if (lockedTiles[column, row] != null)
+            {
+                lockedTiles[column, row].TakeDamage();
+            }
+
+            GameObject particle = Instantiate(blockDestroyParticle,
+                allBoxes[column, row].transform.localPosition + parent.position, transform.rotation);
+            Destroy(particle, 0.5f);
             CheckBomb();
             AddPointsForMatchedBlock();
             Destroy(allBoxes[column, row]);
@@ -235,6 +317,9 @@ public class GridA : MonoBehaviour
             if (box.column + dir.x >= 0 && box.column + dir.x < width
                 && box.row + dir.y >= 0 && box.row + dir.y < hight)
             {
+                GameObject particle = Instantiate(blockDestroyParticle,
+                    box.transform.localPosition + parent.position + new Vector3(dir.x, dir.y), transform.rotation);
+                Destroy(particle, 0.5f);
                 Destroy(allBoxes[box.column + dir.x, box.row + dir.y]);
                 allBoxes[box.column + dir.x, box.row + dir.y] = null;
                 AddXPandScorePoints();
@@ -242,6 +327,9 @@ public class GridA : MonoBehaviour
         }
         if (box != null)
         {
+            GameObject particle = Instantiate(blockDestroyParticle,
+                box.transform.localPosition + parent.position, transform.rotation);
+            Destroy(particle, 0.5f);
             Destroy(box.gameObject);
         }
         Destroy(fireClone);
@@ -258,6 +346,8 @@ public class GridA : MonoBehaviour
             if (go != null && go.CompareTag(boxTag))
             {
                 yield return new WaitForSeconds(.1f);
+                GameObject particle = Instantiate(blockDestroyParticle, go.transform.localPosition, transform.rotation);
+                Destroy(particle, 0.5f);
                 Destroy(go);
                 AddXPandScorePoints();
             }

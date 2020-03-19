@@ -12,6 +12,11 @@ public class SceneLoader : MonoBehaviour {
         SceneManager.LoadScene(currScene + 1);
     }
 
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     public void LoadConcreteWorld(string world_name)
     {
         StartCoroutine(LoadAsynchronously(world_name));
@@ -20,14 +25,17 @@ public class SceneLoader : MonoBehaviour {
     IEnumerator LoadAsynchronously(string sceneName)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
-        loadingPanel.SetActive(true);
-        
-        while(!operation.isDone)
+        if (loadingPanel != null)
         {
-            float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            slider.value = progress;
+            loadingPanel.SetActive(true);
 
-            yield return null;
+            while (!operation.isDone)
+            {
+                float progress = Mathf.Clamp01(operation.progress / 0.9f);
+                slider.value = progress;
+
+                yield return null;
+            }
         }
     }
 

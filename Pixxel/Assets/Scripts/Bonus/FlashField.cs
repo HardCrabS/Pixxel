@@ -43,7 +43,7 @@ public class FlashField : MonoBehaviour, IConcreteBonus
     {
         GameObject go = Instantiate(lightning, pos, transform.rotation);
         StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.1f, 0.2f));
-        Destroy(go, 0.2f);
+        Destroy(go, 0.4f);
         StartCoroutine(grid.FiredUpBlock(box));
     }
 
