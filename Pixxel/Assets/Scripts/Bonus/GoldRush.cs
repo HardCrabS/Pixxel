@@ -57,7 +57,12 @@ public class GoldRush : MonoBehaviour, IConcreteBonus
         startTime = timeToBonusLast;
         grid.onMatchedBlock += ChangeSpriteOnMatch;
 
-        GameObject panel = Instantiate(goldRushPanel, goldRushPanel.transform.position, transform.rotation, GameObject.FindGameObjectWithTag("Main Canvas").transform);
+        GameObject canvas = GameObject.FindGameObjectWithTag("Main Canvas");
+        RectTransform bonusPanelRectTransform = goldRushPanel.GetComponent<RectTransform>();
+
+        Vector2 spawnPos = new Vector2(0, -bonusPanelRectTransform.rect.height/2);
+        GameObject panel = Instantiate(goldRushPanel, spawnPos, transform.rotation, canvas.transform);
+        panel.GetComponent<RectTransform>().anchoredPosition = spawnPos;
         Destroy(panel, timeToBonusLast + 1f);
         timeText = panel.transform.GetChild(0).GetComponent<Text>();
     }

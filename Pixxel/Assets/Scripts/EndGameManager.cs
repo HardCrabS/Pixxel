@@ -21,30 +21,36 @@ public class EndGameManager : MonoBehaviour
     public EndGameRequirements requirements;
     [SerializeField] Text requirementText;
     [SerializeField] Text counterText;
+    [SerializeField] GameObject gameOverPanel;
+    [SerializeField] Text bestScoreText;
+    [SerializeField] Score score;
 
     private int currentCounter;
     private float timerSeconds;
-    GridA grid;
+    LevelSettingsKeeper settingsKeeper;
 
+    public delegate void MyDelegate();
+    public event MyDelegate onMatchedBlock;
 
     void Start()
     {
-        grid = FindObjectOfType<GridA>();
+        settingsKeeper = FindObjectOfType<LevelSettingsKeeper>();
         SetGameType();
         SetRequirements();
     }
 
     void SetGameType()
     {
-        if(grid.world != null)
+        if (settingsKeeper != null)
         {
-            if(grid.world.levels[grid.level] != null)
-            {
-                requirements = grid.world.levels[grid.level].endGameRequirements;
-            }
+            requirements = settingsKeeper.levelTemplate.endGameRequirements;
         }
     }
-
+    public void CallOnMatchDelegate()
+    {
+        if (onMatchedBlock != null)
+            onMatchedBlock();
+    }
     void SetRequirements()
     {
         currentCounter = requirements.counterValue;
@@ -66,8 +72,14 @@ public class EndGameManager : MonoBehaviour
         counterText.text = "" + currentCounter;
         if (currentCounter <= 0)
         {
-            Debug.Log("You lose!");
+            GameOver();
         }
+    }
+
+    public void GameOver()
+    {
+        bestScoreText.text = score.GetCurrentScore() + "";
+        gameOverPanel.SetActive(true);
     }
 
     // Update is called once per frame

@@ -16,56 +16,35 @@ public class GoalManager : MonoBehaviour
     [SerializeField] LevelGoal[] levelGoals;
     [SerializeField] List<GoalPanel> currentGoals = new List<GoalPanel>();
     [SerializeField] GameObject goalPrefab;
-    [SerializeField] GameObject goalParent;
-    [SerializeField] GameObject okButton;
+    [SerializeField] GameObject winPanel;
+
     GridA grid;
+
+    [SerializeField] GameObject goalParent;
+    LevelSettingsKeeper settingsKeeper;
 
     private delegate void LevelWon();
     LevelWon onLevelWon;
-
 
     // Use this for initialization
     void Start()
     {
         grid = FindObjectOfType<GridA>();
-        GetGoals();
+        settingsKeeper = FindObjectOfType<LevelSettingsKeeper>();
+        if (settingsKeeper.levelTemplate.isLeaderboard)
+            Destroy(gameObject);
+        levelGoals = settingsKeeper.levelTemplate.levelGoals;
+
         SetupGoals();
-        onLevelWon = FindObjectOfType<Level>().LevelTemplateComplete;
-    }
 
-    public void OKButton(string worldToLoad)
-    {
-        if (grid.world != null)
-        {
-            if (grid.world.levels[grid.level] != null)
-            {
-                if(grid.world.levels[grid.level].loadStoryScene)
-                {
-                    FindObjectOfType<SceneLoader>().LoadConcreteWorld(worldToLoad);
-                }
-                else
-                {
-                    FindObjectOfType<SceneLoader>().ReloadScene();
-                }
-            }
-        }
-    }
-
-    void GetGoals()
-    {
-        if(grid.world != null)
-        {
-            if(grid.world.levels[grid.level] != null)
-            {
-                levelGoals = grid.world.levels[grid.level].levelGoals;
-            }
-        }
+        //onLevelWon = FindObjectOfType<Level>().LevelTemplateComplete;
     }
 
     void SetupGoals()
     {
         for (int i = 0; i < levelGoals.Length; i++)
         {
+            levelGoals[i].numberCollected = 0;
             GameObject goal = Instantiate(goalPrefab, goalParent.transform.position, Quaternion.identity, goalParent.transform);
             GoalPanel goalPanel = goal.GetComponent<GoalPanel>();
             currentGoals.Add(goalPanel);
@@ -81,32 +60,27 @@ public class GoalManager : MonoBehaviour
         for (int i = 0; i < levelGoals.Length; i++)
         {
             currentGoals[i].SetPanelText(levelGoals[i].numberCollected + "/" + levelGoals[i].numberNeeded);
-            if(levelGoals[i].numberCollected >= levelGoals[i].numberNeeded)
+            if (levelGoals[i].numberCollected >= levelGoals[i].numberNeeded)
             {
                 goalsCompleted++;
                 currentGoals[i].SetPanelText(levelGoals[i].numberNeeded + "/" + levelGoals[i].numberNeeded);
             }
         }
-        if(goalsCompleted >= levelGoals.Length)
+        if (goalsCompleted >= levelGoals.Length)
         {
-            Debug.Log("You win the level!");
-            if(onLevelWon != null)
-            {
-                onLevelWon();
-                onLevelWon -= FindObjectOfType<Level>().LevelTemplateComplete;
-                okButton.SetActive(true);
-                print("onWin delegate called");
-            }
+            winPanel.SetActive(true);
+            if (GameData.gameData != null)
+                GameData.gameData.UnlockTrinket(settingsKeeper.worldIndex, settingsKeeper.trinketIndex);
         }
     }
 
-    public void CompareGoal(string goalToCompare)
+    public void CompareGoal(string goalToCompare, int pointsToAdd = 1)
     {
         for (int i = 0; i < levelGoals.Length; i++)
         {
-            if(levelGoals[i].matchTag == goalToCompare)
+            if (levelGoals[i].matchTag == goalToCompare)
             {
-                levelGoals[i].numberCollected++;
+                levelGoals[i].numberCollected += pointsToAdd;
             }
         }
     }

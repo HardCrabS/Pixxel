@@ -84,19 +84,19 @@ public static class SaveSystem
         }
     }
 
-    public static void SaveLocalLevelData(SerializedLevel level)
+    public static void SaveLocalLevelData(int _worldNumber, int _bestScore, bool _isUnlocked)
     {
         string path = Path.Combine(Application.persistentDataPath, "localLevel.data");
         LevelData levelData;
         if (File.Exists(path))
         {
             levelData = JsonUtility.FromJson<LevelData>(File.ReadAllText(path));
-            levelData.SaveLevelData(level);
+            levelData.SaveLevelData(_worldNumber, _bestScore, _isUnlocked);
         }
         else
         {
             levelData = new LevelData();
-            levelData.SaveLevelData(level);
+            levelData.SaveLevelData(_worldNumber, _bestScore, _isUnlocked);
         }
         string json = JsonUtility.ToJson(levelData);
         File.WriteAllText(path, json);

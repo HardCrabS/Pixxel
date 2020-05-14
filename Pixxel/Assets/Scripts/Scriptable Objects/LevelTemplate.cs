@@ -17,5 +17,13 @@ public class LevelTemplate : ScriptableObject
     [Header("End Game Conditions")]
     public EndGameRequirements endGameRequirements;
     public LevelGoal[] levelGoals;
-    public bool loadStoryScene = true;
+
+    [Header("Trinket Info")]
+    public string trinketName;
+    [TextArea(2,3)] public string requirementsExplained;
+    public Sprite trinketSprite;
+
+    [Header("Leaderboard Info")]
+    public bool isLeaderboard = false;
+    public int bombChance = 20;
 }

@@ -7,7 +7,7 @@ public class ColorBonus : MonoBehaviour, IConcreteBonus
 {
     [SerializeField] bool isGameField = true;
     [SerializeField] float timeForBonusReload = 5f;
-    [SerializeField] tags tagToDestroyByBonus;
+    [SerializeField] BlockTags tagToDestroyByBonus;
     [SerializeField] private int cost = 30;
     private string boostInfo = "Color Destroyer";
     private string description = "Destroys all blocks with concrete color.";

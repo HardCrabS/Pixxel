@@ -8,9 +8,10 @@ public class LevelSlider : MonoBehaviour
     [SerializeField] int addDropCoinChance = 3;
     Slider levelSlider;
     private int currentLevel = 1;
+    int currentSaveBorder = 20;
     void Start()
     {
-        levelSlider = GetComponent<Slider>();
+        UpdateLevelText(currentLevel);
     }
 
     public void AddXPtoLevel(float amount)
@@ -19,11 +20,29 @@ public class LevelSlider : MonoBehaviour
         if (levelSlider.value >= levelSlider.maxValue)
         {
             currentLevel++;
-            levelSlider.GetComponentInChildren<Text>().text = "Level " + currentLevel;
+            UpdateLevelText(currentLevel);
+
+            GameData.gameData.saveData.currentLevel = currentLevel;
+            GameData.gameData.saveData.levelXP = 0;
+            GameData.gameData.Save();
+
             levelSlider.value = 0;
             levelSlider.maxValue += 100;
+            currentSaveBorder = 20;
             FindObjectOfType<CoinsDisplay>().GetComponent<CoinsDisplay>().IncreaseCoinDropChance(addDropCoinChance);
         }
+        if (levelSlider.value > currentSaveBorder)
+        {
+            GameData.gameData.saveData.levelXP = levelSlider.value;
+            GameData.gameData.Save();
+            currentSaveBorder += 20;
+        }
+    }
+
+    void UpdateLevelText(int level)
+    {
+        Text levelText = GetComponentInChildren<Text>();
+        levelText.text = "Level " + level;
     }
 
     public int GetGameLevel()
@@ -38,11 +57,20 @@ public class LevelSlider : MonoBehaviour
 
     public void LoadLevelSlider(LevelData levelData)
     {
-        if (levelData != null)
+        levelSlider = GetComponent<Slider>();
+        if (GameData.gameData != null)
         {
-            currentLevel = levelData.currentLevel;
+            currentLevel = GameData.gameData.saveData.currentLevel;
+            if(currentLevel == 0)
+            {
+                currentLevel = 1;
+                GameData.gameData.saveData.currentLevel = 1;
+                GameData.gameData.Save();
+            }
             if (levelSlider != null)
-                levelSlider.value = levelData.levelSliderValue;
+            {
+                levelSlider.value = GameData.gameData.saveData.levelXP;
+            }
         }
     }
 }

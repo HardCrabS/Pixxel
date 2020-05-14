@@ -19,9 +19,6 @@ public class DialogHandler : MonoBehaviour
     void Start()
     {
         currState = startingState;
-        int currLevelTemplate = SaveSystem.LoadLocalLevelData(worldNumber - 1)._currLevelTemplate;
-        print("currLevelTemplate is " + currLevelTemplate);
-        currState = startStates.startingDialogs[currLevelTemplate];
         storyText.text = currState.StateDialog;
         charakterImage.sprite = currState.CharakterSprite;
         UpdateButtonText();

@@ -9,18 +9,21 @@ public class WorldSprite : MonoBehaviour           //DO NOT CHANGE CHILDREN OBJE
     [SerializeField] Text text;
     [SerializeField] string worldName;
 
+    [SerializeField] WorldInformation worldInformation;
+
     public int worldNumber;
     public bool isUnlocked = false;
     Animation anim;
     AnimationClip clip;
     OffsetHandler offsetHandler;
     WorldManager worldManager;
+    WorldInfoDisplay infoDisplay;
 
     Vector2 firstPos;
 
     void Start()
     {
-        if (!isUnlocked)
+        if (worldInformation == null || worldInformation != null && !GameData.gameData.saveData.worldUnlocked[worldInformation.WorldIndex])
         {
             firstPos = GetComponent<RectTransform>().anchoredPosition;
             GetComponent<Button>().onClick.AddListener(CreateAnimation);
@@ -31,7 +34,8 @@ public class WorldSprite : MonoBehaviour           //DO NOT CHANGE CHILDREN OBJE
         }
         else
         {
-            GetComponent<Button>().onClick.AddListener(LoadMyWorld);
+            infoDisplay = FindObjectOfType<WorldInfoDisplay>();
+            GetComponent<Button>().onClick.AddListener(OpenWorldInfoPanel);
         }
     }
 
@@ -113,22 +117,32 @@ public class WorldSprite : MonoBehaviour           //DO NOT CHANGE CHILDREN OBJE
         }
     }
 
+    IEnumerator DestroyAnimation()
+    {
+        CloseBuyPanel();
+        print(anim[clip.name].length);
+        yield return new WaitForSeconds(anim[clip.name].length+0.1f);
+        Destroy(GetComponent<Animation>());
+    }
+
     public void BuyWorld()
     {
         CoinsDisplay coinsDisplay = FindObjectOfType<CoinsDisplay>();
         if(coinsDisplay.GetCoins() >= cost)
         {
             coinsDisplay.DecreaseCoins(cost);
-            SerializedLevel level = new SerializedLevel(worldNumber, 0, 0, true);
-            SaveSystem.SaveLocalLevelData(level);
-            CloseBuyPanel();
+            GameData.gameData.UnlockWorld(worldNumber);
+            StartCoroutine(DestroyAnimation());
             transform.GetChild(1).gameObject.SetActive(false);
-            GetComponent<Button>().onClick.AddListener(LoadMyWorld);
+
+            GetComponent<Button>().onClick.RemoveAllListeners();
+            GetComponent<Button>().onClick.AddListener(OpenWorldInfoPanel);
+            infoDisplay = FindObjectOfType<WorldInfoDisplay>();
         }
     }
 
-    void LoadMyWorld()
+    void OpenWorldInfoPanel()
     {
-        FindObjectOfType<SceneLoader>().LoadConcreteWorld(worldName);
+        infoDisplay.SetInfoPanel(worldInformation);
     }
 }

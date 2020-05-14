@@ -18,15 +18,16 @@ public class LevelData
     public LevelData()
     {
         levels = new SerializedLevel[10];
-        SerializedLevel level1 = new SerializedLevel(0, 0, 0, true);
-        SerializedLevel level2 = new SerializedLevel(1, 0, 0, true);
+        SerializedLevel level1 = new SerializedLevel(0, 0, true);
+        SerializedLevel level2 = new SerializedLevel(1, 0, true);
         levels[0] = level1;
         levels[1] = level2;
     }
 
-    public void SaveLevelData(SerializedLevel level)
+    public void SaveLevelData(int _worldNumber, int _bestScore, bool _isUnlocked)
     {
-        levels[level._worldNumber] = level;
+        levels[_worldNumber]._bestScore = _bestScore;
+        levels[_worldNumber]._isUnlocked = _isUnlocked;
     }
 }
 
@@ -35,13 +36,11 @@ public class SerializedLevel
 {
     public int _worldNumber;
     public int _bestScore;
-    public int _currLevelTemplate;
     public bool _isUnlocked;
-    public SerializedLevel(int w_number, int bestScore, int currLevelTemplate, bool isUnlocked)
+    public SerializedLevel(int w_number, int bestScore, bool isUnlocked)
     {
         _worldNumber = w_number;
         _bestScore = bestScore;
-        _currLevelTemplate = currLevelTemplate;
         _isUnlocked = isUnlocked;
     }
 }

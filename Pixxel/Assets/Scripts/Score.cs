@@ -8,11 +8,13 @@ public class Score : MonoBehaviour
     [SerializeField] Text bestScoreText;
     Text textScore;
     Level level;
+    GoalManager goalManager;
     int currentScore = 0;
 
     void Start()
     {
         level = FindObjectOfType<Level>();
+        goalManager = FindObjectOfType<GoalManager>();
         textScore = GetComponent<Text>();
         UpdateScore();
     }
@@ -30,6 +32,11 @@ public class Score : MonoBehaviour
     public void AddPoints(int amount)
     {
         currentScore += amount;
+        if (goalManager != null)
+        {
+            goalManager.CompareGoal("Score", amount);
+            goalManager.UpdateGoals();
+        }
         UpdateScore();
     }
 

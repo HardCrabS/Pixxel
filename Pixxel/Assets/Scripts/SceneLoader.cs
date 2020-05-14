@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SceneLoader : MonoBehaviour {
+public class SceneLoader : MonoBehaviour 
+{
     [SerializeField] GameObject loadingPanel;
     [SerializeField] Slider slider;
 	public void LoadNextScene()
@@ -46,9 +47,8 @@ public class SceneLoader : MonoBehaviour {
 
     public void MainMenu()
     {
-        Level level = FindObjectOfType<Level>();
-        if (level != null)
-            level.SaveProgress();
+        if (GameData.gameData != null)
+            GameData.gameData.Save();
         SceneManager.LoadScene("Start");
     }
 

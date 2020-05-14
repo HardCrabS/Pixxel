@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-    [SerializeField] GameObject columnArrow;
-    [SerializeField] GameObject rowArrow;
     Vector3 firstMousePos;
     Vector3 finalMousePos;
     public Box mainMatch;
@@ -181,14 +179,15 @@ public class Box : MonoBehaviour
             }
             else
             {
-                if(endGameManager != null)
+                grid.DestroyAllMatches();
+                if (endGameManager != null)
                 {
                     if(endGameManager.requirements.gameType == GameType.Moves)
                     {
                         endGameManager.DecreaseCounterValue();
+                        endGameManager.CallOnMatchDelegate();
                     }
                 }
-                grid.DestroyAllMatches();
             }
             neighborBox = null;
         }
