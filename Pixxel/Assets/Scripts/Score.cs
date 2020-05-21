@@ -7,25 +7,26 @@ public class Score : MonoBehaviour
 {
     [SerializeField] Text bestScoreText;
     Text textScore;
-    Level level;
     GoalManager goalManager;
     int currentScore = 0;
 
+    int bestScore;
+    int worldIndex;
     void Start()
     {
-        level = FindObjectOfType<Level>();
         goalManager = FindObjectOfType<GoalManager>();
         textScore = GetComponent<Text>();
+        worldIndex = LevelSettingsKeeper.settingsKeeper.worldIndex;
         UpdateScore();
     }
 
     void UpdateScore()
     {
         textScore.text = currentScore.ToString();
-        if (currentScore > level.GetBestScore())
+        if (currentScore > bestScore)
         {
             bestScoreText.text = currentScore.ToString();
-            level.SetBestScore(currentScore);
+            GameData.gameData.saveData.worldsBestScores[worldIndex] = currentScore;
         }
     }
 
@@ -40,9 +41,10 @@ public class Score : MonoBehaviour
         UpdateScore();
     }
 
-    public void LoadBestScore(Level level)
+    public void LoadBestScore()
     {
-        bestScoreText.text = level.GetBestScore().ToString();
+        bestScore = GameData.gameData.saveData.worldsBestScores[worldIndex];
+        bestScoreText.text = bestScore.ToString();
     }
 
     public int GetCurrentScore()

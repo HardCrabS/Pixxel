@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Level : MonoBehaviour 
+public class Level : MonoBehaviour
 {
     [SerializeField] private int worldNumber = 1;
     LevelSlider levelSlider;
     Score score;
     private int bestScore;
 
-	void Start () {
+    void Start()
+    {
 
-    }	
+    }
     /*
     public void SaveProgress()
     {
@@ -30,17 +31,12 @@ public class Level : MonoBehaviour
     {
         levelSlider = FindObjectOfType<LevelSlider>();
         score = FindObjectOfType<Score>();
-        LevelData globalLevelData = SaveSystem.LoadGlobalData();
-        SerializedLevel localLevelData = SaveSystem.LoadLocalLevelData(worldNumber-1);
+
         if (levelSlider != null)
         {
-            levelSlider.LoadLevelSlider(globalLevelData);
+            levelSlider.LoadLevelSlider();
         }
-        if(localLevelData != null)
-        {
-            bestScore = localLevelData._bestScore;
-            score.LoadBestScore(this);
-        }
+        score.LoadBestScore();
     }
 
     public void SetBestScore(int value)

@@ -95,4 +95,9 @@ public class EndGameManager : MonoBehaviour
             }
         }
     }
+
+    public void PostToLeaderboard()
+    {
+        PlayGamesController.PostToLeaderboard(settingsKeeper.worldIndex);
+    }
 }

@@ -30,10 +30,10 @@ public class GoalManager : MonoBehaviour
     void Start()
     {
         grid = FindObjectOfType<GridA>();
-        settingsKeeper = FindObjectOfType<LevelSettingsKeeper>();
-        if (settingsKeeper.levelTemplate.isLeaderboard)
+        //settingsKeeper = FindObjectOfType<LevelSettingsKeeper>();
+        if (LevelSettingsKeeper.settingsKeeper.levelTemplate.isLeaderboard)
             Destroy(gameObject);
-        levelGoals = settingsKeeper.levelTemplate.levelGoals;
+        levelGoals = LevelSettingsKeeper.settingsKeeper.levelTemplate.levelGoals;
 
         SetupGoals();
 
@@ -70,7 +70,7 @@ public class GoalManager : MonoBehaviour
         {
             winPanel.SetActive(true);
             if (GameData.gameData != null)
-                GameData.gameData.UnlockTrinket(settingsKeeper.worldIndex, settingsKeeper.trinketIndex);
+                GameData.gameData.UnlockTrinket(LevelSettingsKeeper.settingsKeeper.worldIndex, LevelSettingsKeeper.settingsKeeper.trinketIndex);
         }
     }
 

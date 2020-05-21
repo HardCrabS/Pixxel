@@ -55,7 +55,7 @@ public class LevelSlider : MonoBehaviour
         return levelSlider.value;
     }
 
-    public void LoadLevelSlider(LevelData levelData)
+    public void LoadLevelSlider()
     {
         levelSlider = GetComponent<Slider>();
         if (GameData.gameData != null)

@@ -17,6 +17,7 @@ public class SaveData
     public int currentLevel;
     public float levelXP;
     public bool[] worldUnlocked;
+    public int[] worldsBestScores;
     public WorldTrinkets[] worldTrinkets;
 }
 
