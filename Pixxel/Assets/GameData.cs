@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 [Serializable]
 public class WorldTrinkets
@@ -16,9 +14,18 @@ public class SaveData
 {
     public int currentLevel;
     public float levelXP;
+    public float maxXPforLevelUp;
     public bool[] worldUnlocked;
     public int[] worldsBestScores;
     public WorldTrinkets[] worldTrinkets;
+
+    public int[] equipedBoostIndexes;
+    public bool[] boostsUnlocked;
+    public int[] boostLevels;
+
+    public bool[] slotsForBoostsUnlocked;
+    public string lastTimeQuestClaimed;
+    public QuestProgress[] dailyQuests;
 }
 
 public class GameData : MonoBehaviour
@@ -39,10 +46,11 @@ public class GameData : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        Load();
     }
     void Start()
     {
-        Load();
+        
     }
 
     public void UnlockWorld(int index)
@@ -61,9 +69,40 @@ public class GameData : MonoBehaviour
             Save();
         }
     }
+    public void UnlockBoost(int bonusIndex)
+    {
+        if(bonusIndex < saveData.boostsUnlocked.Length)
+        {
+            saveData.boostsUnlocked[bonusIndex] = true;
+            Save();
+        }
+    }
+    public void UnlockSlotForBoost(int index)
+    {
+        if (index < saveData.slotsForBoostsUnlocked.Length)
+        {
+            saveData.slotsForBoostsUnlocked[index] = true;
+            Save();
+        }
+    }
+    public void UnlockAllBoosts()   //TODO JUST FOR TEST. REMOVE LATER
+    {
+        for (int i = 0; i < saveData.boostsUnlocked.Length; i++)
+        {
+            saveData.boostsUnlocked[i] = true;
+        }
+        saveData.slotsForBoostsUnlocked[1] = true;
+        saveData.slotsForBoostsUnlocked[2] = true;
+        Save();
+    }
+    public void UpdateLastQuestClaim(DateTime dateTime)
+    {
+        gameData.saveData.lastTimeQuestClaimed = dateTime.ToString();
+        Save();
+    }
     public void Save()
     {
-        string path = Application.persistentDataPath + "/levels.data";
+        string path = Application.persistentDataPath + "/GameData.data";
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         FileStream stream = File.Open(path, FileMode.Create);
 
@@ -76,7 +115,7 @@ public class GameData : MonoBehaviour
 
     public void Load()
     {
-        string path = Application.persistentDataPath + "/levels.data";
+        string path = Application.persistentDataPath + "/GameData.data";
         if (File.Exists(path))
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -84,6 +123,15 @@ public class GameData : MonoBehaviour
 
             saveData = binaryFormatter.Deserialize(stream) as SaveData;
             stream.Close();
+        }
+    }
+
+    public void EraseGameData() //For testing TODO remove
+    {
+        string path = Application.persistentDataPath + "/GameData.data";
+        if (File.Exists(path))
+        {
+            File.Delete(path);
         }
     }
 }

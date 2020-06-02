@@ -29,14 +29,7 @@ public class Level : MonoBehaviour
     */
     public void LoadLevel()
     {
-        levelSlider = FindObjectOfType<LevelSlider>();
-        score = FindObjectOfType<Score>();
 
-        if (levelSlider != null)
-        {
-            levelSlider.LoadLevelSlider();
-        }
-        score.LoadBestScore();
     }
 
     public void SetBestScore(int value)

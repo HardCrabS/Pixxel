@@ -12,6 +12,7 @@ public enum BlockTags
     Green,
     Pink
 }
+
 public enum GameState
 {
     move,

@@ -5,11 +5,7 @@ using UnityEngine.UI;
 
 public class Switcheroo : MonoBehaviour, IConcreteBonus
 {
-    [SerializeField] float timeForBonusReload = 3f;
-    [SerializeField] private int cost = 30;
-
-    private string boostInfo = "Switcheroo";
-    private string description = "Switches all blocks off type to another type.";
+    [SerializeField] string uniqueAbility;
     private int boostLevel = 1;
 
     List<string> tagsToSwitch = new List<string>(); 
@@ -75,29 +71,13 @@ public class Switcheroo : MonoBehaviour, IConcreteBonus
     {
         return GetComponent<SpriteRenderer>().sprite;
     }
-    public float TimeToReload()
-    {
-        return timeForBonusReload;
-    }
-    public string GetBoostTitle()
-    {
-        return boostInfo;
-    }
     public int GetBoostLevel()
     {
         return boostLevel;
     }
-    public string GetBoostDescription()
-    {
-        return description;
-    }
     public Sprite GetSpriteFromImage()
     {
         return GetComponent<Image>().sprite;
-    }
-    public int GetBoostLevelUpCost()
-    {
-        return cost;
     }
     public void LevelUpBoost()
     {
@@ -107,42 +87,98 @@ public class Switcheroo : MonoBehaviour, IConcreteBonus
     {
         return spriteIndex;
     }
+    public string GetUniqueAbility(int level)
+    {
+        int currBlocksToSwitch, nextBlocksToSwitch;
+        switch (level)
+        {
+            case 1:
+                {
+                    currBlocksToSwitch = 1;
+                    nextBlocksToSwitch = 1;
+                    break;
+                }
+            case 2:
+                {
+                    currBlocksToSwitch = 1;
+                    nextBlocksToSwitch = 1;
+                    break;
+                }
+            case 3:
+                {
+                    currBlocksToSwitch = 1;
+                    nextBlocksToSwitch = 2;
+                    break;
+                }
+            case 4:
+                {
+                    currBlocksToSwitch = 2;
+                    nextBlocksToSwitch = 2;
+                    break;
+                }
+            case 5:
+                {
+                    currBlocksToSwitch = 2;
+                    nextBlocksToSwitch = 2;
+                    break;
+                }
+            case 6:
+                {
+                    currBlocksToSwitch = 2;
+                    nextBlocksToSwitch = 3;
+                    break;
+                }
+            case 7:
+                {
+                    currBlocksToSwitch = 3;
+                    nextBlocksToSwitch = 3;
+                    break;
+                }
+            case 8:
+                {
+                    currBlocksToSwitch = 3;
+                    nextBlocksToSwitch = 3;
+                    break;
+                }
+            case 9:
+                {
+                    currBlocksToSwitch = 3;
+                    nextBlocksToSwitch = 4;
+                    break;
+                }
+            case 10:
+                {
+                    currBlocksToSwitch = 4;
+                    nextBlocksToSwitch = -1;
+                    break;
+                }
+            default:
+                {
+                    currBlocksToSwitch = -1;
+                    nextBlocksToSwitch = -1;
+                    break;
+                }
+        }
+        return uniqueAbility + "<color=red>" + currBlocksToSwitch + "</color>" + "|" + uniqueAbility + "<color=red>" + nextBlocksToSwitch + "</color>";
+    }
     public void SetBoostLevel(int lvl)
     {
         grid = FindObjectOfType<GridA>();
         boostLevel = lvl;
         switch (boostLevel)
         {
-            case 1:
-                {
-                    timeForBonusReload = 5;
-                    break;
-                }
-            case 2:
-                {
-                    timeForBonusReload = 50;
-                    break;
-                }
-            case 3:
-                {
-                    timeForBonusReload = 45;
-                    break;
-                }
             case 4:
                 {
-                    timeForBonusReload = 40;
                     spriteIndex = 1;
                     break;
                 }
             case 5:
                 {
-                    timeForBonusReload = 38;
                     spriteIndex = 1;
                     break;
                 }
             case 6:
                 {
-                    timeForBonusReload = 36;
                     spriteIndex = 1;
                     break;
                 }
@@ -157,7 +193,6 @@ public class Switcheroo : MonoBehaviour, IConcreteBonus
                         } while (tagsToSwitch.Contains(tag));
                         tagsToSwitch.Add(tag);
                     }
-                    timeForBonusReload = 34;
                     spriteIndex = 2;
                     break;
                 }
@@ -172,7 +207,6 @@ public class Switcheroo : MonoBehaviour, IConcreteBonus
                         } while (tagsToSwitch.Contains(tag));
                         tagsToSwitch.Add(tag);
                     }
-                    timeForBonusReload = 32;
                     spriteIndex = 2;
                     break;
                 }
@@ -187,7 +221,6 @@ public class Switcheroo : MonoBehaviour, IConcreteBonus
                         } while (tagsToSwitch.Contains(tag));
                         tagsToSwitch.Add(tag);
                     }
-                    timeForBonusReload = 30;
                     spriteIndex = 2;
                     break;
                 }
@@ -207,13 +240,9 @@ public class Switcheroo : MonoBehaviour, IConcreteBonus
                         } while (tagsToSwitch.Contains(tag));
                         tagsToSwitch.Add(tag);
                     }
-                    timeForBonusReload = 25;
                     spriteIndex = 3;
                     break;
                 }
-            default:
-                timeForBonusReload = 60;
-                break;
         }
     }
 }

@@ -16,6 +16,7 @@ public class Box : MonoBehaviour
     public int targetY;
     float finalAngle;
     float swipeResist = .5f;
+    public string blockName;
 
     EndGameManager endGameManager;
     GridA grid;

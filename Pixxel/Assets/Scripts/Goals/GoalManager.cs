@@ -18,26 +18,32 @@ public class GoalManager : MonoBehaviour
     [SerializeField] GameObject goalPrefab;
     [SerializeField] GameObject winPanel;
 
-    GridA grid;
-
     [SerializeField] GameObject goalParent;
-    LevelSettingsKeeper settingsKeeper;
 
     private delegate void LevelWon();
     LevelWon onLevelWon;
 
+    List<QuestProgress> dailyQuests;
+
     // Use this for initialization
     void Start()
     {
-        grid = FindObjectOfType<GridA>();
-        //settingsKeeper = FindObjectOfType<LevelSettingsKeeper>();
-        if (LevelSettingsKeeper.settingsKeeper.levelTemplate.isLeaderboard)
-            Destroy(gameObject);
-        levelGoals = LevelSettingsKeeper.settingsKeeper.levelTemplate.levelGoals;
-
-        SetupGoals();
-
-        //onLevelWon = FindObjectOfType<Level>().LevelTemplateComplete;
+        dailyQuests = new List<QuestProgress>();
+        int worldIndex = LevelSettingsKeeper.settingsKeeper.worldIndex;
+        QuestProgress[] questGoals = GameData.gameData.saveData.dailyQuests;
+        for (int i = 0; i < questGoals.Length; i++)
+        {
+            if(questGoals[i].worldIndex == worldIndex)
+            {
+                dailyQuests.Add(questGoals[i]);
+            }
+        }
+        if (!LevelSettingsKeeper.settingsKeeper.levelTemplate.isLeaderboard)
+        {
+            levelGoals = LevelSettingsKeeper.settingsKeeper.levelTemplate.levelGoals;
+            onLevelWon += DisplayWinPanel;
+            SetupGoals();
+        }
     }
 
     void SetupGoals()
@@ -68,10 +74,19 @@ public class GoalManager : MonoBehaviour
         }
         if (goalsCompleted >= levelGoals.Length)
         {
-            winPanel.SetActive(true);
-            if (GameData.gameData != null)
-                GameData.gameData.UnlockTrinket(LevelSettingsKeeper.settingsKeeper.worldIndex, LevelSettingsKeeper.settingsKeeper.trinketIndex);
+            if (onLevelWon != null)
+            {
+                onLevelWon();
+                onLevelWon -= DisplayWinPanel;
+            }
         }
+    }
+
+    void DisplayWinPanel()
+    {
+        winPanel.SetActive(true);
+        if (GameData.gameData != null)
+            GameData.gameData.UnlockTrinket(LevelSettingsKeeper.settingsKeeper.worldIndex, LevelSettingsKeeper.settingsKeeper.trinketIndex);
     }
 
     public void CompareGoal(string goalToCompare, int pointsToAdd = 1)
@@ -81,6 +96,22 @@ public class GoalManager : MonoBehaviour
             if (levelGoals[i].matchTag == goalToCompare)
             {
                 levelGoals[i].numberCollected += pointsToAdd;
+            }
+        }
+        for (int i = 0; i < dailyQuests.Count; i++)
+        {
+            if (dailyQuests[i].tag == goalToCompare)
+            {
+                var quest = dailyQuests[i];
+                quest.numberCollected += pointsToAdd;
+                dailyQuests[i] = quest;
+                GameData.gameData.saveData.dailyQuests[quest.savedArrayIndex] = quest;
+
+                if (quest.numberCollected >= quest.numberNeeded)
+                {
+                    dailyQuests.RemoveAt(i);
+                }
+                break;
             }
         }
     }

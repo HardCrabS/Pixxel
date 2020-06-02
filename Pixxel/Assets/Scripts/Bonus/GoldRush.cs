@@ -5,11 +5,7 @@ using UnityEngine.UI;
 
 public class GoldRush : MonoBehaviour, IConcreteBonus
 {
-    [SerializeField] float timeForBonusReload = 3f;
-    [SerializeField] private int cost = 30;
-
-    private string boostInfo = "Gold Rush";
-    private string description = "Matched blocks become golden rocks, which give you coins.";
+    [SerializeField] string uniqueAbility;
     private int boostLevel = 1;
 
     private int timeToBonusLast = 5;
@@ -60,7 +56,7 @@ public class GoldRush : MonoBehaviour, IConcreteBonus
         GameObject canvas = GameObject.FindGameObjectWithTag("Main Canvas");
         RectTransform bonusPanelRectTransform = goldRushPanel.GetComponent<RectTransform>();
 
-        Vector2 spawnPos = new Vector2(0, -bonusPanelRectTransform.rect.height/2);
+        Vector2 spawnPos = new Vector2(0, -bonusPanelRectTransform.rect.height / 2);
         GameObject panel = Instantiate(goldRushPanel, spawnPos, transform.rotation, canvas.transform);
         panel.GetComponent<RectTransform>().anchoredPosition = spawnPos;
         Destroy(panel, timeToBonusLast + 1f);
@@ -82,29 +78,13 @@ public class GoldRush : MonoBehaviour, IConcreteBonus
     {
         return GetComponent<SpriteRenderer>().sprite;
     }
-    public float TimeToReload()
-    {
-        return timeForBonusReload;
-    }
-    public string GetBoostTitle()
-    {
-        return boostInfo;
-    }
     public int GetBoostLevel()
     {
         return boostLevel;
     }
-    public string GetBoostDescription()
-    {
-        return description;
-    }
     public Sprite GetSpriteFromImage()
     {
         return GetComponent<Image>().sprite;
-    }
-    public int GetBoostLevelUpCost()
-    {
-        return cost;
     }
     public void LevelUpBoost()
     {
@@ -114,78 +94,127 @@ public class GoldRush : MonoBehaviour, IConcreteBonus
     {
         return spriteIndex;
     }
+    public string GetUniqueAbility(int level)
+    {
+        int currBoostTime, nextBoostTime;
+        switch (level)
+        {
+            case 1:
+                {
+                    currBoostTime = 5;
+                    nextBoostTime = 5;
+                    break;
+                }
+            case 2:
+                {
+                    currBoostTime = 5;
+                    nextBoostTime = 5;
+                    break;
+                }
+            case 3:
+                {
+                    currBoostTime = 5;
+                    nextBoostTime = 7;
+                    break;
+                }
+            case 4:
+                {
+                    currBoostTime = 7;
+                    nextBoostTime = 7;
+                    break;
+                }
+            case 5:
+                {
+                    currBoostTime = 7;
+                    nextBoostTime = 7;
+                    break;
+                }
+            case 6:
+                {
+                    currBoostTime = 7;
+                    nextBoostTime = 10;
+                    break;
+                }
+            case 7:
+                {
+                    currBoostTime = 10;
+                    nextBoostTime = 10;
+                    break;
+                }
+            case 8:
+                {
+                    currBoostTime = 10;
+                    nextBoostTime = 10;
+                    break;
+                }
+            case 9:
+                {
+                    currBoostTime = 10;
+                    nextBoostTime = 12;
+                    break;
+                }
+            case 10:
+                {
+                    currBoostTime = 12;
+                    nextBoostTime = -1;
+                    break;
+                }
+            default:
+                {
+                    currBoostTime = -1;
+                    nextBoostTime = -1;
+                    break;
+                }
+        }
+        return uniqueAbility + "<color=red>" + currBoostTime + "</color>" + "|" + uniqueAbility + "<color=red>" + nextBoostTime + "</color>";
+    }
     public void SetBoostLevel(int lvl)
     {
         boostLevel = lvl;
         switch (boostLevel)
         {
-            case 1:
-                {
-                    timeForBonusReload = 60;
-                    break;
-                }
-            case 2:
-                {
-                    timeForBonusReload = 50;
-                    break;
-                }
-            case 3:
-                {
-                    timeForBonusReload = 45;
-                    break;
-                }
             case 4:
                 {
                     timeToBonusLast = 8;
-                    timeForBonusReload = 40;
                     spriteIndex = 1;
                     break;
                 }
             case 5:
                 {
                     timeToBonusLast = 8;
-                    timeForBonusReload = 38;
                     spriteIndex = 1;
                     break;
                 }
             case 6:
                 {
                     timeToBonusLast = 8;
-                    timeForBonusReload = 36;
                     spriteIndex = 1;
                     break;
                 }
             case 7:
                 {
                     timeToBonusLast = 10;
-                    timeForBonusReload = 34;
                     spriteIndex = 2;
                     break;
                 }
             case 8:
                 {
                     timeToBonusLast = 10;
-                    timeForBonusReload = 32;
                     spriteIndex = 2;
                     break;
                 }
             case 9:
                 {
                     timeToBonusLast = 10;
-                    timeForBonusReload = 30;
                     spriteIndex = 2;
                     break;
                 }
             case 10:
                 {
                     timeToBonusLast = 13;
-                    timeForBonusReload = 25;
                     spriteIndex = 3;
                     break;
                 }
-            default:
-                timeForBonusReload = 5;
-                break;
         }
     }
 }

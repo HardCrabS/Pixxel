@@ -6,25 +6,37 @@ using System;
 
 public class EquipButton : MonoBehaviour
 {
+    [SerializeField] BonusManager bonusManager;
+    [SerializeField] EquipButton worldDisplayEqupped;
     public Button[] equipeButtons = new Button[3];
     public IConcreteBonus currentBonus;
     public Sprite bonusSprite;
 
     private void Start()
     {
-        ButtonData[] loadedBonuses = SaveSystem.LoadEquipedBonuses();
+        Sprite[] boostSprites = bonusManager.GetEquipedBoosts();
         for (int i = 0; i < equipeButtons.Length; i++)
         {
-            if (loadedBonuses[i] != null)
+            if (!GameData.gameData.saveData.slotsForBoostsUnlocked[i])
             {
-                equipeButtons[i].GetComponent<Image>().sprite = AssignSpriteToBonus(loadedBonuses[i]);
+                var colors = equipeButtons[i].colors;
+                colors.disabledColor = Color.gray;
+                equipeButtons[i].colors = colors;
+                equipeButtons[i] = null;
+            }
+            else
+            {
+                if (boostSprites[i] != null)
+                {
+                    equipeButtons[i].GetComponent<Image>().sprite = boostSprites[i];
+                }
             }
         }
     }
 
     public static Sprite AssignSpriteToBonus(ButtonData loadedBonus)
     {
-        if(loadedBonus == null) { return null; }
+        if (loadedBonus == null) { return null; }
         Sprite[] allSprites = Resources.LoadAll<Sprite>("Sprites/BoostSprites");
         Sprite sprite = null;
 
@@ -39,11 +51,27 @@ public class EquipButton : MonoBehaviour
         return sprite;
     }
 
-    public void Equip()
+    public void UpdateEquipedBoosts(Boost boostInfo)
     {
-        foreach (Button button in equipeButtons)
+        int[] equipedBoostsIndex = GameData.gameData.saveData.equipedBoostIndexes;
+        for (int i = 0; i < equipeButtons.Length; i++)
         {
-            button.interactable = !button.IsInteractable();
+            if (boostInfo.Index == equipedBoostsIndex[i])
+            {
+                Sprite boostSprite = BonusManager.GetBoostImage(boostInfo);
+                if (equipeButtons[i] != null)
+                    equipeButtons[i].GetComponent<Image>().sprite = boostSprite;
+                break;
+            }
+        }
+    }
+
+    public void UpdateWorldDisplayBoosts()
+    {
+        for (int i = 0; i < worldDisplayEqupped.equipeButtons.Length; i++)
+        {
+            if (worldDisplayEqupped.equipeButtons[i] != null)
+                worldDisplayEqupped.equipeButtons[i].GetComponent<Image>().sprite = equipeButtons[i].GetComponent<Image>().sprite;
         }
     }
 }

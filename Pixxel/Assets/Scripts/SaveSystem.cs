@@ -5,12 +5,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
-    public static void SaveCoinsAmount(CoinsDisplay coinsDisplay)
+    public static void SaveCoinsAmount(int coins)
     {
         string path = Path.Combine(Application.persistentDataPath, "coins.data");
         FileStream stream = new FileStream(path, FileMode.Create);
         BinaryFormatter formatter = new BinaryFormatter();
-        formatter.Serialize(stream, coinsDisplay.GetCoins());
+        formatter.Serialize(stream, coins);
         stream.Close();
     }
     public static int LoadCoinsAmount()

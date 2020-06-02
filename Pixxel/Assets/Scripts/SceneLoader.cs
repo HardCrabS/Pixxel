@@ -3,11 +3,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SceneLoader : MonoBehaviour 
+public class SceneLoader : MonoBehaviour
 {
     [SerializeField] GameObject loadingPanel;
     [SerializeField] Slider slider;
-	public void LoadNextScene()
+
+    public void CallUnlockAllBoosts()
+    {
+        GameData.gameData.UnlockAllBoosts();  // JUST FOR TEST. REMOVE LATER
+    }
+    public void LoadNextScene()
     {
         int currScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currScene + 1);
@@ -20,7 +25,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadConcreteWorld(string world_name)
     {
-        StartCoroutine(LoadAsynchronously(world_name));
+            StartCoroutine(LoadAsynchronously(world_name));
     }
 
     IEnumerator LoadAsynchronously(string sceneName)
@@ -49,7 +54,7 @@ public class SceneLoader : MonoBehaviour
     {
         if (GameData.gameData != null)
             GameData.gameData.Save();
-        SceneManager.LoadScene("Start");
+            SceneManager.LoadScene("Start");
     }
 
     public void LoadOptionsScene()

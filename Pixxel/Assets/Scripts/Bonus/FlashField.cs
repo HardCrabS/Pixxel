@@ -5,11 +5,7 @@ using UnityEngine.UI;
 
 public class FlashField : MonoBehaviour, IConcreteBonus
 {
-    [SerializeField] float timeForBonusReload = 3f;
-    [SerializeField] private int cost = 30;
-
-    private string boostInfo = "Flash Field";
-    private string description = "Turns a number of blocks on-screen into 'Fired-Up' blocks.";
+    [SerializeField] string uniqueAbility;
     private int boostLevel = 1;
 
     private int spriteIndex = 0;
@@ -51,29 +47,13 @@ public class FlashField : MonoBehaviour, IConcreteBonus
     {
         return GetComponent<SpriteRenderer>().sprite;
     }
-    public float TimeToReload()
-    {
-        return timeForBonusReload;
-    }
-    public string GetBoostTitle()
-    {
-        return boostInfo;
-    }
     public int GetBoostLevel()
     {
         return boostLevel;
     }
-    public string GetBoostDescription()
-    {
-        return description;
-    }
     public Sprite GetSpriteFromImage()
     {
         return GetComponent<Image>().sprite;
-    }
-    public int GetBoostLevelUpCost()
-    {
-        return cost;
     }
     public void LevelUpBoost()
     {
@@ -82,6 +62,80 @@ public class FlashField : MonoBehaviour, IConcreteBonus
     public int GetSpiteIndex()
     {
         return spriteIndex;
+    }
+    public string GetUniqueAbility(int level)
+    {
+        int currBlocksFiredUp, nextBlocksFiredUp;
+        switch (level)
+        {
+            case 1:
+                {
+                    currBlocksFiredUp = 5;
+                    nextBlocksFiredUp = 5;
+                    break;
+                }
+            case 2:
+                {
+                    currBlocksFiredUp = 5;
+                    nextBlocksFiredUp = 5;
+                    break;
+                }
+            case 3:
+                {
+                    currBlocksFiredUp = 5;
+                    nextBlocksFiredUp = 10;
+                    break;
+                }
+            case 4:
+                {
+                    currBlocksFiredUp = 10;
+                    nextBlocksFiredUp = 10;
+                    break;
+                }
+            case 5:
+                {
+                    currBlocksFiredUp = 10;
+                    nextBlocksFiredUp = 10;
+                    break;
+                }
+            case 6:
+                {
+                    currBlocksFiredUp = 10;
+                    nextBlocksFiredUp = 15;
+                    break;
+                }
+            case 7:
+                {
+                    currBlocksFiredUp = 15;
+                    nextBlocksFiredUp = 15;
+                    break;
+                }
+            case 8:
+                {
+                    currBlocksFiredUp = 15;
+                    nextBlocksFiredUp = 15;
+                    break;
+                }
+            case 9:
+                {
+                    currBlocksFiredUp = 15;
+                    nextBlocksFiredUp = 20;
+                    break;
+                }
+            case 10:
+                {
+                    currBlocksFiredUp = 20;
+                    nextBlocksFiredUp = -1;
+                    break;
+                }
+            default:
+                {
+                    currBlocksFiredUp = -1;
+                    nextBlocksFiredUp = -1;
+                    break;
+                }
+        }
+        return uniqueAbility + "<color=red>" + currBlocksFiredUp + "%</color>" + "|" + uniqueAbility + "<color=red>" + nextBlocksFiredUp + "%</color>";
     }
     public void SetBoostLevel(int lvl)
     {
@@ -93,36 +147,32 @@ public class FlashField : MonoBehaviour, IConcreteBonus
                 {
                     if (grid != null)
                     {
-                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.1f);
+                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.05f);
                     }
-                    timeForBonusReload = 60;
                     break;
                 }
             case 2:
                 {
                     if (grid != null)
                     {
-                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.1f);
+                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.05f);
                     }
-                    timeForBonusReload = 50;
                     break;
                 }
             case 3:
                 {
                     if (grid != null)
                     {
-                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.1f);
+                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.05f);
                     }
-                    timeForBonusReload = 45;
                     break;
                 }
             case 4:
                 {
                     if (grid != null)
                     {
-                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.2f);
+                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.1f);
                     }
-                    timeForBonusReload = 40;
                     spriteIndex = 1;
                     break;
                 }
@@ -130,9 +180,8 @@ public class FlashField : MonoBehaviour, IConcreteBonus
                 {
                     if (grid != null)
                     {
-                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.2f);
+                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.1f);
                     }
-                    timeForBonusReload = 38;
                     spriteIndex = 1;
                     break;
                 }
@@ -140,9 +189,8 @@ public class FlashField : MonoBehaviour, IConcreteBonus
                 {
                     if (grid != null)
                     {
-                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.2f);
+                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.1f);
                     }
-                    timeForBonusReload = 36;
                     spriteIndex = 1;
                     break;
                 }
@@ -150,9 +198,8 @@ public class FlashField : MonoBehaviour, IConcreteBonus
                 {
                     if (grid != null)
                     {
-                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.3f);
+                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.15f);
                     }
-                    timeForBonusReload = 34;
                     spriteIndex = 2;
                     break;
                 }
@@ -160,9 +207,8 @@ public class FlashField : MonoBehaviour, IConcreteBonus
                 {
                     if (grid != null)
                     {
-                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.3f);
+                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.15f);
                     }
-                    timeForBonusReload = 32;
                     spriteIndex = 2;
                     break;
                 }
@@ -170,9 +216,8 @@ public class FlashField : MonoBehaviour, IConcreteBonus
                 {
                     if (grid != null)
                     {
-                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.3f);
+                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.15f);
                     }
-                    timeForBonusReload = 30;
                     spriteIndex = 2;
                     break;
                 }
@@ -180,15 +225,11 @@ public class FlashField : MonoBehaviour, IConcreteBonus
                 {
                     if (grid != null)
                     {
-                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.4f);
+                        blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.2f);
                     }
-                    timeForBonusReload = 25;
                     spriteIndex = 3;
                     break;
                 }
-            default:
-                timeForBonusReload = 5;
-                break;
         }
     }
 }

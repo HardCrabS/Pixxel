@@ -6,11 +6,8 @@ using UnityEngine.UI;
 public class FlameThrower : MonoBehaviour, IConcreteBonus
 {
     [SerializeField] float lineSpeed = 5;
-    [SerializeField] float timeForBonusReload = 3f;
-    [SerializeField] private int cost = 30;
+    [SerializeField] string uniqueAbility;
 
-    private string boostInfo = "FlameThrower";
-    private string description = "Throws a fire line destroying blocks.";
     private int boostLevel = 1;
 
     LineRenderer line;
@@ -24,14 +21,6 @@ public class FlameThrower : MonoBehaviour, IConcreteBonus
     private bool boostActivated = false;
     private int linesToDestroy = 1;
     private int spriteIndex = 0;
-
-   /* void Update()
-    {
-        if (boostActivated)
-        {
-            CreateLine();
-        }
-    }*/
 
     public void ExecuteBonus()
     {
@@ -109,29 +98,9 @@ public class FlameThrower : MonoBehaviour, IConcreteBonus
     {
         return GetComponent<SpriteRenderer>().sprite;
     }
-    public float TimeToReload()
-    {
-        return timeForBonusReload;
-    }
-    public string GetBoostTitle()
-    {
-        return boostInfo;
-    }
-    public int GetBoostLevel()
-    {
-        return boostLevel;
-    }
-    public string GetBoostDescription()
-    {
-        return description;
-    }
     public Sprite GetSpriteFromImage()
     {
         return GetComponent<Image>().sprite;
-    }
-    public int GetBoostLevelUpCost()
-    {
-        return cost;
     }
     public void LevelUpBoost()
     {
@@ -141,78 +110,127 @@ public class FlameThrower : MonoBehaviour, IConcreteBonus
     {
         return spriteIndex;
     }
+    public string GetUniqueAbility(int level)
+    {
+        int currLines, nextLines;
+        switch (level)
+        {
+            case 1:
+                {
+                    currLines = 1;
+                    nextLines = 1;
+                    break;
+                }
+            case 2:
+                {
+                    currLines = 1;
+                    nextLines = 1;
+                    break;
+                }
+            case 3:
+                {
+                    currLines = 1;
+                    nextLines = 2;
+                    break;
+                }
+            case 4:
+                {
+                    currLines = 2;
+                    nextLines = 2;
+                    break;
+                }
+            case 5:
+                {
+                    currLines = 2;
+                    nextLines = 2;
+                    break;
+                }
+            case 6:
+                {
+                    currLines = 2;
+                    nextLines = 3;
+                    break;
+                }
+            case 7:
+                {
+                    currLines = 3;
+                    nextLines = 3;
+                    break;
+                }
+            case 8:
+                {
+                    currLines = 3;
+                    nextLines = 3;
+                    break;
+                }
+            case 9:
+                {
+                    currLines = 3;
+                    nextLines = 4;
+                    break;
+                }
+            case 10:
+                {
+                    currLines = 4;
+                    nextLines = -1;
+                    break;
+                }
+            default:
+                {
+                    currLines = -1;
+                    nextLines = -1;
+                    break;
+                }
+        }
+        return uniqueAbility + "<color=red>" + currLines + "</color>" + "|" + uniqueAbility + "<color=red>" + nextLines + "</color>";
+    }
     public void SetBoostLevel(int lvl)
     {
         boostLevel = lvl;
         switch (boostLevel)
         {
-            case 1:
-                {
-                    timeForBonusReload = 60;
-                    break;
-                }
-            case 2:
-                {
-                    timeForBonusReload = 50;
-                    break;
-                }
-            case 3:
-                {
-                    timeForBonusReload = 45;
-                    break;
-                }
             case 4:
                 {
                     linesToDestroy = 2;
-                    timeForBonusReload = 40;
                     spriteIndex = 1;
                     break;
                 }
             case 5:
                 {
                     linesToDestroy = 2;
-                    timeForBonusReload = 38;
                     spriteIndex = 1;
                     break;
                 }
             case 6:
                 {
                     linesToDestroy = 2;
-                    timeForBonusReload = 36;
                     spriteIndex = 1;
                     break;
                 }
             case 7:
                 {
                     linesToDestroy = 3;
-                    timeForBonusReload = 34;
                     spriteIndex = 2;
                     break;
                 }
             case 8:
                 {
                     linesToDestroy = 3;
-                    timeForBonusReload = 32;
                     spriteIndex = 2;
                     break;
                 }
             case 9:
                 {
                     linesToDestroy = 3;
-                    timeForBonusReload = 30;
                     spriteIndex = 2;
                     break;
                 }
             case 10:
                 {
                     linesToDestroy = 4;
-                    timeForBonusReload = 25;
                     spriteIndex = 3;
                     break;
                 }
-            default:
-                timeForBonusReload = 60;
-                break;
         }
     }
 }

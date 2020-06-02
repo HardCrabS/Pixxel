@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1525920233334576}
+  m_IsPrefabAsset: 1
+--- !u!1 &1525920233334576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4508563213287956}
+  - component: {fileID: 114830224445441682}
+  m_Layer: 0
+  m_Name: Rewarder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4508563213287956
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1525920233334576}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 146.08107, y: 222.52162, z: 7.2625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114830224445441682
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1525920233334576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2d33c6090a4724eb7fc9306b5aa4f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bonusRewardForLevel:
+  - {x: 2, y: 1}
+  - {x: 5, y: 2}
+  - {x: 6, y: 3}
+  - {x: 7, y: 4}
+  - {x: 9, y: 5}
+  - {x: 10, y: 6}
+  slotRewardForLevel:
+  - {x: 3, y: 1}
+  - {x: 8, y: 2}
+  boostEarnedText: {fileID: 0}
+  fireworksVFX: {fileID: 1871025109651522, guid: 62996624d08ede5489e2fd232f53e69c,
+    type: 2}
+  sceneLoader: {fileID: 114491699514968516, guid: bd410581d00f82848b2828100b82f224,
+    type: 2}

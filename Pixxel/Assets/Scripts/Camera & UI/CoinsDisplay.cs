@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CoinsDisplay : MonoBehaviour {
+public class CoinsDisplay : MonoBehaviour 
+{
     [SerializeField] int coinsToAdd = 1;
     Text coinsText;
     private int coins;
     private int currChance = 20;
-	void Start () {
+
+    public static CoinsDisplay Instance;
+	void Start () 
+    {
         coins = SaveSystem.LoadCoinsAmount();
         coinsText = GetComponent<Text>();
         coinsText.text = coins.ToString();
@@ -17,7 +21,7 @@ public class CoinsDisplay : MonoBehaviour {
     void UpdateText()
     {
         coinsText.text = coins.ToString();
-        SaveSystem.SaveCoinsAmount(this);
+        SaveSystem.SaveCoinsAmount(coins);
     }
 
     public void RandomizeCoin()

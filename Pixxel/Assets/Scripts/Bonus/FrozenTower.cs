@@ -5,11 +5,7 @@ using UnityEngine.UI;
 
 public class FrozenTower : MonoBehaviour, IConcreteBonus
 {
-    [SerializeField] float timeForBonusReload = 3f;
-    [SerializeField] private int cost = 30;
-
-    private string boostInfo = "Frozen Tower";
-    private string description = "Columns of blocks are frozen then destroyed.";
+    [SerializeField] string uniqueAbility;
     private int boostLevel = 1;
 
     private int columnsToDestroy = 1;
@@ -88,29 +84,13 @@ public class FrozenTower : MonoBehaviour, IConcreteBonus
     {
         return GetComponent<SpriteRenderer>().sprite;
     }
-    public float TimeToReload()
-    {
-        return timeForBonusReload;
-    }
-    public string GetBoostTitle()
-    {
-        return boostInfo;
-    }
     public int GetBoostLevel()
     {
         return boostLevel;
     }
-    public string GetBoostDescription()
-    {
-        return description;
-    }
     public Sprite GetSpriteFromImage()
     {
         return GetComponent<Image>().sprite;
-    }
-    public int GetBoostLevelUpCost()
-    {
-        return cost;
     }
     public void LevelUpBoost()
     {
@@ -120,78 +100,127 @@ public class FrozenTower : MonoBehaviour, IConcreteBonus
     {
         return spriteIndex;
     }
+    public string GetUniqueAbility(int level)
+    {
+        int currColumns, nextColumns;
+        switch (level)
+        {
+            case 1:
+                {
+                    currColumns = 1;
+                    nextColumns = 1;
+                    break;
+                }
+            case 2:
+                {
+                    currColumns = 1;
+                    nextColumns = 1;
+                    break;
+                }
+            case 3:
+                {
+                    currColumns = 1;
+                    nextColumns = 2;
+                    break;
+                }
+            case 4:
+                {
+                    currColumns = 2;
+                    nextColumns = 2;
+                    break;
+                }
+            case 5:
+                {
+                    currColumns = 2;
+                    nextColumns = 2;
+                    break;
+                }
+            case 6:
+                {
+                    currColumns = 2;
+                    nextColumns = 3;
+                    break;
+                }
+            case 7:
+                {
+                    currColumns = 3;
+                    nextColumns = 3;
+                    break;
+                }
+            case 8:
+                {
+                    currColumns = 3;
+                    nextColumns = 3;
+                    break;
+                }
+            case 9:
+                {
+                    currColumns = 3;
+                    nextColumns = 4;
+                    break;
+                }
+            case 10:
+                {
+                    currColumns = 4;
+                    nextColumns = -1;
+                    break;
+                }
+            default:
+                {
+                    currColumns = -1;
+                    nextColumns = -1;
+                    break;
+                }
+        }
+        return uniqueAbility + "<color=red>" + currColumns + "</color>" + "|" + uniqueAbility + "<color=red>" + nextColumns + "</color>";
+    }
     public void SetBoostLevel(int lvl)
     {
         boostLevel = lvl;
         switch (boostLevel)
         {
-            case 1:
-                {
-                    timeForBonusReload = 60;
-                    break;
-                }
-            case 2:
-                {
-                    timeForBonusReload = 50;
-                    break;
-                }
-            case 3:
-                {
-                    timeForBonusReload = 45;
-                    break;
-                }
             case 4:
                 {
                     columnsToDestroy = 2;
-                    timeForBonusReload = 40;
                     spriteIndex = 1;
                     break;
                 }
             case 5:
                 {
                     columnsToDestroy = 2;
-                    timeForBonusReload = 38;
                     spriteIndex = 1;
                     break;
                 }
             case 6:
                 {
                     columnsToDestroy = 2;
-                    timeForBonusReload = 36;
                     spriteIndex = 1;
                     break;
                 }
             case 7:
                 {
                     columnsToDestroy = 3;
-                    timeForBonusReload = 34;
                     spriteIndex = 2;
                     break;
                 }
             case 8:
                 {
                     columnsToDestroy = 3;
-                    timeForBonusReload = 32;
                     spriteIndex = 2;
                     break;
                 }
             case 9:
                 {
                     columnsToDestroy = 3;
-                    timeForBonusReload = 30;
                     spriteIndex = 2;
                     break;
                 }
             case 10:
                 {
                     columnsToDestroy = 4;
-                    timeForBonusReload = 25;
                     spriteIndex = 3;
                     break;
                 }
-            default:
-                timeForBonusReload = 60;
-                break;
         }
     }
 }

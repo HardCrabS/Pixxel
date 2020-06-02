@@ -6,12 +6,9 @@ using UnityEngine.UI;
 public class XPBonus : MonoBehaviour, IConcreteBonus
 {
     [SerializeField] bool isGameField = true;
-    [SerializeField] float timeForBonusReload = 10f;
     [SerializeField] float procentForXP = 2;
     [SerializeField] float timeForBonusLast = 10f;
-    [SerializeField] private int cost = 25;
-    private string boostInfo = "XP Boost";
-    private string description = "XP gained for each block increased by ";
+    [SerializeField] string uniqueAbility;
     private int boostLevel = 1;
     private int spriteIndex = 0;
     bool needToResetXPprocent = false;
@@ -51,30 +48,13 @@ public class XPBonus : MonoBehaviour, IConcreteBonus
         return GetComponent<SpriteRenderer>().sprite;
     }
 
-    public float TimeToReload()
-    {
-        return timeForBonusReload;
-    }
-
-    public string GetBoostTitle()
-    {
-        return boostInfo;
-    }
     public int GetBoostLevel()
     {
         return boostLevel;
     }
-    public string GetBoostDescription()
-    {
-        return description + (procentForXP*100-100) + "%";
-    }
     public Sprite GetSpriteFromImage()
     {
         return GetComponent<Image>().sprite;
-    }
-    public int GetBoostLevelUpCost()
-    {
-        return cost;
     }
     public void LevelUpBoost()
     {
@@ -84,23 +64,16 @@ public class XPBonus : MonoBehaviour, IConcreteBonus
     {
         return spriteIndex;
     }
+    public string GetUniqueAbility(int level)
+    {
+        return uniqueAbility;
+    }
     public void SetBoostLevel(int lvl)
     {
         boostLevel = lvl;
         switch (boostLevel)
         {
-            case 1:
-                timeForBonusReload = 5;
-                break;
-            case 2:
-                timeForBonusReload = 4;
-                break;
-            case 3:
-                timeForBonusReload = 2;
-                break;
-            default:
-                timeForBonusReload = 2;
-                break;
+
         }
     }
 }
