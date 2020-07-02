@@ -35,7 +35,7 @@ public class BonusManager : MonoBehaviour
                 if (GameData.gameData.saveData.slotsForBoostsUnlocked[i] && equipedBoostIndex >= 0)
                 {
                     if (i < allBoostInfos.Length && allBoostInfos[i].Index < boostLevels.Length)
-                        children[i].SetButtonForGame(allBoostInfos[equipedBoostIndex], boostLevels[equipedBoostIndex]);
+                        children[i].SetButtonForGame(allBoostInfos[equipedBoostIndex]);
 
                     int spriteIndex = ChooseBoostSpriteIndex(boostLevels[equipedBoostIndex]);
                     boostPanels[i].sprite = boostFrames[spriteIndex];

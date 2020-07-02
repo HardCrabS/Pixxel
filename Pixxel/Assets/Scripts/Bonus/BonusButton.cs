@@ -10,7 +10,6 @@ public class BonusButton : MonoBehaviour
     [SerializeField] bool isGameButton;
     public Boost boostInfo;
     public int buttonIndex;
-    int level = 1;
     Animation buttonReloadAnim;
 
     IConcreteBonus concreteBonus;
@@ -45,10 +44,9 @@ public class BonusButton : MonoBehaviour
             //GetComponent<IConcreteBonus>().SetBoostLevel(level);
         }
     }
-    public void SetButtonForGame(Boost boost, int level)
+    public void SetButtonForGame(Boost boost)
     {
         boostInfo = boost;
-        this.level = level;
     }
     /*public void UpdateBonusLevelInfo()
     {

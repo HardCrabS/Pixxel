@@ -57,6 +57,7 @@ public class WorldInfoDisplay : MonoBehaviour
             worldBackgroundImage.sprite = worldInfo.BackgroundSprite;
             worldName.text = worldInfo.WorldName;
             LevelSettingsKeeper.settingsKeeper.worldIndex = worldInfo.WorldIndex;
+            LevelSettingsKeeper.settingsKeeper.worldName = worldInfo.WorldName;
             trinketsInfo.SetActive(false);
             leaderboardInfo.SetActive(false);
             SetLoadButton();

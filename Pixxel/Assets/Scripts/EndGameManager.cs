@@ -24,26 +24,25 @@ public class EndGameManager : MonoBehaviour
     [SerializeField] GameObject gameOverPanel;
     [SerializeField] Text bestScoreText;
     [SerializeField] Score score;
+    [SerializeField] Text postToLeaderboardText;
 
     private int currentCounter;
     private float timerSeconds;
-    LevelSettingsKeeper settingsKeeper;
 
     public delegate void MyDelegate();
     public event MyDelegate onMatchedBlock;
 
     void Start()
     {
-        settingsKeeper = FindObjectOfType<LevelSettingsKeeper>();
         SetGameType();
         SetRequirements();
     }
 
     void SetGameType()
     {
-        if (settingsKeeper != null)
+        if (LevelSettingsKeeper.settingsKeeper != null)
         {
-            requirements = settingsKeeper.levelTemplate.endGameRequirements;
+            requirements = LevelSettingsKeeper.settingsKeeper.levelTemplate.endGameRequirements;
         }
     }
     public void CallOnMatchDelegate()
@@ -98,6 +97,12 @@ public class EndGameManager : MonoBehaviour
 
     public void PostToLeaderboard()
     {
-        PlayGamesController.PostToLeaderboard(settingsKeeper.worldIndex);
+        bool success = PlayGamesController.PostToLeaderboard(LevelSettingsKeeper.settingsKeeper.worldIndex);
+        if (success)
+        {
+            postToLeaderboardText.text = "Score uploaded";
+        }
+        else
+            postToLeaderboardText.text = "Failed to upload :(";
     }
 }

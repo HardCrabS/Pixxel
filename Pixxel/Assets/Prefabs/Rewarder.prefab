@@ -51,18 +51,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d33c6090a4724eb7fc9306b5aa4f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonusRewardForLevel:
-  - {x: 2, y: 1}
-  - {x: 5, y: 2}
-  - {x: 6, y: 3}
-  - {x: 7, y: 4}
-  - {x: 9, y: 5}
-  - {x: 10, y: 6}
-  slotRewardForLevel:
-  - {x: 3, y: 1}
-  - {x: 8, y: 2}
-  boostEarnedText: {fileID: 0}
+  rewardEarned: {fileID: 0}
   fireworksVFX: {fileID: 1871025109651522, guid: 62996624d08ede5489e2fd232f53e69c,
     type: 2}
-  sceneLoader: {fileID: 114491699514968516, guid: bd410581d00f82848b2828100b82f224,
-    type: 2}
+  inspectorBonusRewards:
+  - level: 2
+    rewardIndex: 1
+  - level: 3
+    rewardIndex: 2
+  - level: 6
+    rewardIndex: 3
+  - level: 7
+    rewardIndex: 4
+  - level: 11
+    rewardIndex: 5
+  - level: 15
+    rewardIndex: 6
+  inspectorSlotRewards:
+  - level: 4
+    rewardIndex: 1
+  - level: 8
+    rewardIndex: 2
+  inspectorWorldRewards:
+  - level: 5
+    rewardIndex: 2
+  - level: 12
+    rewardIndex: 3
+  - level: 13
+    rewardIndex: 4
+  - level: 14
+    rewardIndex: 5
+  - level: 20
+    rewardIndex: 6

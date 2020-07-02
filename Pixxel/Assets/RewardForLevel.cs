@@ -11,10 +11,10 @@ public class MyDictionaryEntry
 }
 public class RewardForLevel : MonoBehaviour
 {
-    [SerializeField] GameObject boostEarnedText;
+    [SerializeField] GameObject rewardEarned;
     [SerializeField] GameObject fireworksVFX;
-    [SerializeField] SceneLoader sceneLoader;
-    Text boostText;
+
+    Text rewardText;
 
     [SerializeField] List<MyDictionaryEntry> inspectorBonusRewards;
     [SerializeField] List<MyDictionaryEntry> inspectorSlotRewards;
@@ -24,56 +24,63 @@ public class RewardForLevel : MonoBehaviour
     Dictionary<int, int> slotRewards;
     Dictionary<int, int> worldRewards;
 
-    private void Awake()
+    private void Start() // maybe change to Awake
     {
+        int currPlayerLevel = GameData.gameData.saveData.currentLevel;
+
         bonusRewards = new Dictionary<int, int>();
         slotRewards = new Dictionary<int, int>();
         worldRewards = new Dictionary<int, int>();
         foreach (MyDictionaryEntry entry in inspectorBonusRewards)
         {
-            bonusRewards.Add(entry.level, entry.rewardIndex);
+            if (currPlayerLevel < entry.level)
+                bonusRewards.Add(entry.level, entry.rewardIndex);
         }
         foreach (MyDictionaryEntry entry in inspectorSlotRewards)
         {
-            slotRewards.Add(entry.level, entry.rewardIndex);
+            if (currPlayerLevel < entry.level)
+                slotRewards.Add(entry.level, entry.rewardIndex);
         }
         foreach (MyDictionaryEntry entry in inspectorWorldRewards)
         {
-            worldRewards.Add(entry.level, entry.rewardIndex);
+            if (currPlayerLevel < entry.level)
+                worldRewards.Add(entry.level, entry.rewardIndex);
         }
+
+        if (rewardEarned != null)
+            rewardText = rewardEarned.GetComponent<Text>();
     }
-    void Start()
+    /*void Start()
     {
-        boostText = boostEarnedText.GetComponent<Text>();
+        rewardText = rewardEarned.GetComponent<Text>();
         //boostEarnedText.GetComponent<Animation>().Play();
-    }
+    }*/
     public void CheckForReward(int levelAchieved)
     {
         bool rewardPlayer = false;
         if (bonusRewards.ContainsKey(levelAchieved))
         {
             rewardPlayer = true;
-            boostText.text = "New Boost!";
+            rewardText.text = "New Boost!";
             GameData.gameData.UnlockBoost(bonusRewards[levelAchieved]);
         }
         else if (slotRewards.ContainsKey(levelAchieved))
         {
             rewardPlayer = true;
-            boostText.text = "New Boost Slot!";
+            rewardText.text = "New Boost Slot!";
             GameData.gameData.UnlockSlotForBoost(slotRewards[levelAchieved]);
         }
         else if (worldRewards.ContainsKey(levelAchieved))
         {
             rewardPlayer = true;
-            boostText.text = "New World!";
+            rewardText.text = "New World!";
             GameData.gameData.UnlockWorld(worldRewards[levelAchieved]);
         }
 
-        if(rewardPlayer)
+        if (rewardPlayer)
         {
-            boostEarnedText.GetComponent<Animation>().Play();
+            rewardEarned.GetComponent<Animation>().Play();
             LaunchFireworks();
-            rewardPlayer = false;
         }
     }
 
@@ -86,5 +93,19 @@ public class RewardForLevel : MonoBehaviour
             GameObject go = Instantiate(fireworksVFX, spawnPos, fireworksVFX.transform.rotation);
             Destroy(go, 8f);
         }
+    }
+
+    public int GetLevelsUntilReward(int nextLevel)
+    {
+        int levelsUntilReward = 1;
+        for (int i = nextLevel; i < nextLevel + 3; i++) //looking 3 levels ahead
+        {
+            if (bonusRewards.ContainsKey(i) || slotRewards.ContainsKey(i) || worldRewards.ContainsKey(i))
+            {
+                return levelsUntilReward;
+            }
+            levelsUntilReward++;
+        }
+        return 0;
     }
 }

@@ -58,7 +58,6 @@ public class DailyQuestManager : MonoBehaviour
         System.DateTime lastClaim;
         if (string.IsNullOrEmpty(GameData.gameData.saveData.lastTimeQuestClaimed))
         {
-            print("SHIT EMPTY");
             lastClaim = System.DateTime.Now;
         }
         else
@@ -82,7 +81,6 @@ public class DailyQuestManager : MonoBehaviour
 
                 GameData.gameData.saveData.dailyQuests[i] = quest;
             }
-            print("SAVING FKIN QUESTS");
             GameData.gameData.UpdateLastQuestClaim(System.DateTime.Now.AddHours(12));
         }
         else

@@ -8,6 +8,7 @@ public class WorldSprite : MonoBehaviour           //DO NOT CHANGE CHILDREN OBJE
     [SerializeField] int cost;
     [SerializeField] Text text;
     [SerializeField] string worldName;
+    [SerializeField] Material blackAndWhiteMat;
 
     [SerializeField] WorldInformation worldInformation;
 
@@ -31,6 +32,7 @@ public class WorldSprite : MonoBehaviour           //DO NOT CHANGE CHILDREN OBJE
             {
                 transform.GetChild(1).gameObject.SetActive(true);
             }
+            GetComponent<Image>().material = blackAndWhiteMat;
         }
         else
         {

@@ -6,88 +6,168 @@ using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
-public class DisplayHighscore : MonoBehaviour 
+public class DisplayHighscore : MonoBehaviour
 {
+    [SerializeField] WorldInfoDisplay worldInfoDisplay;
     [SerializeField] Text firstPlaceScoreText;
-    [SerializeField] Text scoresText;
 
-	// Use this for initialization
-	void Start () 
+    [SerializeField] GameObject scorePanel;
+    [SerializeField] Transform allScoresContainer;
+
+    LinkedList<GameObject> scorePanels;
+
+    private User[] allUsers;
+    private string playerId;
+    private int playerIndex;
+    private int currCenterIndex;
+
+    // Use this for initialization
+    public async void SetLeaderboard()
     {
+        scorePanels = new LinkedList<GameObject>();
+        var allUsersTask = DatabaseManager.GetAllUsersInfo(worldInfoDisplay.worldInformation.WorldName);
+        allUsers = await allUsersTask;
 
-	}
-
-    public void LoadScores()
-    {
-        PlayGamesPlatform.Instance.LoadScores(
-            "CgkIlY7Xnp8CEAIQAQ",
-            LeaderboardStart.PlayerCentered,
-            10,
-            LeaderboardCollection.Public,
-            LeaderboardTimeSpan.AllTime,
-            (data) =>
-            {
-                LoadUsersAndDisplay(data.Scores);
-            });
-    }
-    internal void LoadUsersAndDisplay(IScore[] allScores)
-    {
-        // get the user ids
-        List<string> userIds = new List<string>();
-
-        int playerPlace = 0;
-
-        foreach (IScore score in allScores)
+        if (allUsers == null)
+            return;
+        for (int i = 0; i < allUsers.Length; i++)
         {
-            userIds.Add(score.userID);
+            print("id: " + allUsers[i].id + " name: " + allUsers[i].username + " score " + allUsers[i].score);
         }
-        if(userIds.Count == 0)
+        string playerId = PlayGamesPlatform.Instance.localUser.id;
+        playerIndex = GetPlayerIndex(allUsers, playerId);
+        currCenterIndex = playerIndex;
+
+        if (playerIndex > 0)
         {
-            firstPlaceScoreText.text = "No players found =(";
-            Debug.LogWarning("0 users in leaderboard");
+            SpawnScoresNearPlayer();
+        }
+        SetFirstPlace();
+        SpawnScoresNearPlayer();
+    }
+
+    public void ClearLeaderboard()
+    {
+        if (scorePanels.Count > 0)
+            scorePanels.Clear();
+    }
+    int GetPlayerIndex(User[] allUsers, string playerId)
+    {
+        for (int i = 0; i < allUsers.Length; i++)
+        {
+            if (allUsers[i].id.CompareTo(playerId) == 0)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    void SpawnScoresNearPlayer()
+    {
+        int startIndex = 0, endIndex = 0;
+        if (playerIndex > 0 && playerIndex < allUsers.Length - 1)
+        {
+            startIndex = playerIndex - 1;
+            endIndex = playerIndex + 1;
+        }
+        else if (playerIndex > 0 && playerIndex >= allUsers.Length - 1)
+        {
+            startIndex = playerIndex - 2;
+            endIndex = playerIndex;
+        }
+        else if (playerIndex == 0 && playerIndex <= allUsers.Length - 1)
+        {
+            startIndex = 0;
+            endIndex = playerIndex + 2;
+        }
+
+        if (startIndex < 0) startIndex = 0;
+        if (endIndex >= allUsers.Length) endIndex = allUsers.Length - 1;
+
+        for (int i = startIndex; i <= endIndex; i++)
+        {
+            GameObject scorePanelClone = SpawnScorePanel(allUsers[i], i);
+            scorePanels.AddLast(scorePanelClone);
+        }
+    }
+
+    void SetFirstPlace()
+    {
+        firstPlaceScoreText.text = "\t<color=red>#" + 1 + "</color>  |  " + allUsers[0].username
+        + "  |  " + allUsers[0].score + "\n\n";
+    }
+
+    public void SpawnScorePanelUp()
+    {
+        if (currCenterIndex - 1 <= 0)
+        {
             return;
         }
+        currCenterIndex--;
+        GameObject scorePanelClone = SpawnScorePanel(allUsers[currCenterIndex - 1], currCenterIndex);
+        scorePanels.AddFirst(scorePanelClone);
 
-        // load the profiles and display
-        Social.LoadUsers(userIds.ToArray(), (users) =>
+        if (scorePanels.Count > 3)
         {
-            IUserProfile firstUser = FindUser(users, allScores[0].userID);
-            firstPlaceScoreText.text = "#" + 1 + "  |  " + firstUser.userName + "  |  " + allScores[0].formattedValue + "\n\n";
-            scoresText.text = "\n";
-
-            for(int i = 1; i < allScores.Length; i++)
-            {
-                IUserProfile user = FindUser(users, allScores[i].userID);
-                if(user.id == Social.localUser.id)
-                {
-                    scoresText.color = Color.red;
-                    scoresText.text += "#" + (i + 1) + "  |  " + user.userName + "  |  " + allScores[i].formattedValue + "\n\n";
-                    scoresText.color = Color.black;
-                    playerPlace = i + 1;
-                    continue;
-                }
-                scoresText.text += "#" + (i + 1) + "  |  " + user.userName + "  |  " + allScores[i].formattedValue + "\n\n";
-            }
-        });
-
-        ShiftTextToShowPlayer(playerPlace);
-    }
-
-    IUserProfile FindUser(IUserProfile[] users, string userId)
-    {
-        for (int i = 0; i < users.Length; i++)
-        {
-            if (users[i].id == userId)
-                return users[i];
+            Destroy(scorePanels.Last.Value);
+            scorePanels.RemoveLast();
         }
-        return null;
+
+        RectTransform rectTransform = allScoresContainer.GetComponent<RectTransform>();
+        RectTransform scorePanelRectTransform = scorePanelClone.GetComponent<RectTransform>();
+        scorePanelRectTransform.SetAsFirstSibling();
+
+        float scorePanelHeight = scorePanelRectTransform.rect.height;
+        float allScoresContainerHeight = rectTransform.rect.height;
+        // rectTransform.sizeDelta = new Vector2(rectTransform.rect.width, allScoresContainerHeight + scorePanelHeight + 15);
+        // rectTransform.position = new Vector2(allScoresContainer.position.x, allScoresContainer.position.y - 14.5f);
+    }
+    public void SpawnScorePanelDown()
+    {
+        if (currCenterIndex + 2 >= allUsers.Length)
+        {
+            return;
+        }
+        currCenterIndex++;
+        GameObject scorePanelClone = SpawnScorePanel(allUsers[currCenterIndex + 1], currCenterIndex);
+        scorePanels.AddLast(scorePanelClone);
+
+        if (scorePanels.Count > 3)
+        {
+            Destroy(scorePanels.First.Value);
+            scorePanels.RemoveFirst();
+        }
+
+        RectTransform rectTransform = allScoresContainer.GetComponent<RectTransform>();
+        RectTransform scorePanelRectTransform = scorePanelClone.GetComponent<RectTransform>();
+        scorePanelRectTransform.SetAsLastSibling();
+
+        float scorePanelHeight = scorePanelRectTransform.rect.height;
+        float allScoresContainerHeight = rectTransform.rect.height;
+        // rectTransform.sizeDelta = new Vector2(rectTransform.rect.width, allScoresContainerHeight + scorePanelHeight + 15);
+        // rectTransform.position = new Vector2(allScoresContainer.position.x, allScoresContainer.position.y + 14.5f);
     }
 
-    void ShiftTextToShowPlayer(int playerPlace)
+    GameObject SpawnScorePanel(User user, int index)
     {
-        Vector2 startTextPos = scoresText.transform.position;
-        Vector2 shiftedTextPos = new Vector2(startTextPos.x, startTextPos.y + (playerPlace - 1) * 70);
+        GameObject go = Instantiate(scorePanel, allScoresContainer);
 
-        scoresText.transform.position = shiftedTextPos;
+        Text scoreText = go.GetComponentInChildren<Text>();
+
+        scoreText.text = "\t#" + (index + 1) + "  |  " + user.username
+        + "  |  " + user.score + "\n\n";
+
+        //SetRandomText(scoreText);
+
+        return go;
+    }
+    string[] maleNames = new string[]
+    { "aaron", "abdul", "abe", "abel", "abraham", "adam", "adan", "adolfo", "adolph",
+        "adrian", "abby", "abigail", "adele", "adrian" };
+    void SetRandomText(Text text)
+    {
+        int nameIndex = Random.Range(0, maleNames.Length);
+        text.text = "#" + Random.Range(0, 100) + "\t|\t" + maleNames[nameIndex] + "\t|\t" + Random.Range(0, 10000);
     }
 }

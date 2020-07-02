@@ -5,12 +5,14 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
+using System.Threading.Tasks;
+using UnityEngine.Events;
 
 public class PlayGamesController : MonoBehaviour
 {
-    [SerializeField] DisplayHighscore displayHighscore;
-
+    [SerializeField] bool testing = false; //TODO remove editor testing
     public static PlayGamesController Instance;
+    public UnityEvent OnAuthenticated;
 
     bool authentificated = false;
 
@@ -19,7 +21,7 @@ public class PlayGamesController : MonoBehaviour
         AuthenticateUser();
     }
 
-    void AuthenticateUser()
+    async void AuthenticateUser()
     {
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
         PlayGamesPlatform.InitializeInstance(config);
@@ -37,56 +39,69 @@ public class PlayGamesController : MonoBehaviour
             }
         }
         );
+
+        if (testing)
+        {
+            string playerId = "editor12345";
+            Task<bool> userTask = DatabaseManager.UserAlreadyInDatabase(playerId);
+            bool userInDatabase = await userTask;
+
+            if (!userInDatabase)
+            {
+                DatabaseManager.WriteNewUser(playerId, "editor Name", "debil", "Sprites/Avatars/DefaultAvatar");
+                GameData.gameData.saveData.playerInfo = new User(playerId, "debil", "Noobe", "Sprites/Avatars/DefaultAvatar");
+                print("Writing test editor user in database");
+            }
+            OnAuthenticated.Invoke();
+        }
+        else
+        {
+            if (authentificated)
+            {
+                string playerId = PlayGamesPlatform.Instance.localUser.id;
+                Task<bool> userTask = DatabaseManager.UserAlreadyInDatabase(playerId);
+                bool userInDatabase = await userTask;
+
+                if (!userInDatabase)
+                {
+                    string playerName = PlayGamesPlatform.Instance.localUser.userName;
+                    DatabaseManager.WriteNewUser(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar");
+                    GameData.gameData.saveData.playerInfo = new User(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar");
+                    print("Writing new user in database");
+                }
+            }
+            else
+            {
+                if(GameData.gameData.saveData.playerInfo == null)
+                {
+                    GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "Sprites/Avatars/DefaultAvatar");
+                }
+            }
+            OnAuthenticated.Invoke();
+        }
     }
 
-    public delegate void OnScoresLoaded(IScore[] scores, IUserProfile[] profiles);
-    public OnScoresLoaded OnScoresLoadedDelegate;
-
-    /*public void LoadLeaderboardUsers()
+    public static bool PostToLeaderboard(int worldIndex)
     {
-        if (!authentificated)
+        string playerId = PlayGamesPlatform.Instance.localUser.id;
+        if (string.IsNullOrEmpty(playerId))
         {
-            Debug.LogError("Couldn't load users info");
-            return;
+            Debug.LogError("Not authentificated to google, can't upload a score");
+            return false;
         }
-        PlayGamesPlatform.Instance.LoadScores(
-            GPGSIds.leaderboard_twilight_city,
-            LeaderboardStart.PlayerCentered,
-            1,
-            LeaderboardCollection.Public,
-            LeaderboardTimeSpan.AllTime,
-        (LeaderboardScoreData data) =>
-        {
-            // get scores
-            IScore[] scores = data.Scores;
-            // get user ids
-            string[] userIds = new string[scores.Length];
-            for (int i = 0; i < scores.Length; i++)
-            {
-                userIds[i] = scores[i].userID;
-            }
-            // forward scores with loaded profiles
-            Social.LoadUsers(userIds, profiles => displayHighscore.DisplayLeaderboardEntries(scores, profiles));
-        });
-    }*/
-   /* void LoadScores()
-    {
-        PlayGamesPlatform.Instance.LoadScores(
-            GPGSIds.leaderboard_twilight_city,
-            LeaderboardStart.PlayerCentered,
-            100,
-            LeaderboardCollection.Public,
-            LeaderboardTimeSpan.AllTime,
-            (data) =>
-            {
-                mStatus = "Leaderboard data valid: " + data.Valid;
-                mStatus += "\n approx:" + data.ApproximateCount + " have " + data.Scores.Length;
-            });
-    }*/
+        string worldName = LevelSettingsKeeper.settingsKeeper.worldName;
+        int score = GameData.gameData.saveData.worldsBestScores[worldIndex];
 
-    public static void PostToLeaderboard(int worldIndex)
-    {
-        Social.ReportScore((GameData.gameData.saveData.worldsBestScores[worldIndex]),
+        if (!DatabaseManager.ChildExists(playerId, worldName))
+        {
+            string playerName = PlayGamesPlatform.Instance.localUser.userName;
+            DatabaseManager.WriteNewScore(worldName, playerId, playerName, 0, score);
+        }
+        else
+            DatabaseManager.OverwriteTheScore(worldName, playerId, score);
+
+        return true;
+        /*Social.ReportScore((GameData.gameData.saveData.worldsBestScores[worldIndex]),
             GPGSIds.leaderboard_twilight_city, (bool success) =>
         {
             if (success)
@@ -97,11 +112,6 @@ public class PlayGamesController : MonoBehaviour
             {
                 Debug.LogError("Unable to post best score to leaderboard");
             }
-        });
-    }
-
-    public void ShowLeaderboard()
-    {
-        PlayGamesPlatform.Instance.ShowLeaderboardUI(GPGSIds.leaderboard_twilight_city);
+        });*/
     }
 }

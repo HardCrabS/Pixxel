@@ -8,7 +8,6 @@ public class TrinketInfo : MonoBehaviour
     public LevelTemplate levelTemplate;
     [SerializeField] TextChanger textChanger;
     [SerializeField] int trinketIndex;
-    [SerializeField] bool isUnlocked = false;
 
     [SerializeField] ColorBlock inactiveTrinketColors;
 
@@ -23,7 +22,6 @@ public class TrinketInfo : MonoBehaviour
     {
         selectionFrame.position = transform.position;
         selectionFrame.SetParent(transform);
-        //selectionFrame.anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
         if (levelTemplate != null)
         {
             textChanger.ChangeTrinketTextName(levelTemplate.trinketName);
@@ -44,12 +42,10 @@ public class TrinketInfo : MonoBehaviour
 
     public void LockTrinket()
     {
-        isUnlocked = false;
         GetComponent<Button>().colors = inactiveTrinketColors;
     }
     public void MakeUnlocked()
     {
-        isUnlocked = true;
         var colors = GetComponent<Button>().colors;
         colors.normalColor = Color.white;
         colors.highlightedColor = new Color(0.95f, 0.95f, 0.95f);

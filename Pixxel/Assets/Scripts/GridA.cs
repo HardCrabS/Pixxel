@@ -75,7 +75,6 @@ public class GridA : MonoBehaviour
     LevelSlider levelSlider;
     CoinsDisplay coinsDisplay;
     GoalManager goalManager;
-    EndGameManager endGameManager;
     LevelTemplate template;
 
     public string tempTagForTrinket;
@@ -95,9 +94,6 @@ public class GridA : MonoBehaviour
 
     void Awake()
     {
-        Level levelTemplate = FindObjectOfType<Level>();
-
-        levelTemplate.LoadLevel();
         if (LevelSettingsKeeper.settingsKeeper != null)
         {
             template = LevelSettingsKeeper.settingsKeeper.levelTemplate;
@@ -140,7 +136,6 @@ public class GridA : MonoBehaviour
         coinsDisplay = FindObjectOfType<CoinsDisplay>();
         levelSlider = FindObjectOfType<LevelSlider>();
         matchFinder = FindObjectOfType<MatchFinder>();
-        endGameManager = FindObjectOfType<EndGameManager>();
         score = FindObjectOfType<Score>();
         CreateGrid();
     }
@@ -450,6 +445,9 @@ public class GridA : MonoBehaviour
         if (allBoxes[j, i] != null)
         {
             Destroy(allBoxes[j, i]);
+            GameObject particle = Instantiate(blockDestroyParticle, allBoxes[j, i].transform.localPosition, transform.rotation);
+            Destroy(particle, 0.5f);
+            AddXPandScorePoints();
         }
     }
 

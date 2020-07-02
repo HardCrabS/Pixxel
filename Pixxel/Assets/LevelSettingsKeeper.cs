@@ -8,6 +8,7 @@ public class LevelSettingsKeeper : MonoBehaviour
     public LevelTemplate levelTemplate;
 
     public int worldIndex;
+    public string worldName;
     public int trinketIndex;
 
     void Awake()

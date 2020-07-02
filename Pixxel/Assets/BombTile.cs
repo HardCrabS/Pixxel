@@ -21,11 +21,12 @@ public class BombTile : MonoBehaviour
     {
         transform.GetChild(0).gameObject.SetActive(false);
         GetComponent<SpriteRenderer>().enabled = false;
-        GameObject go = Instantiate(explosionVFX, transform.position, transform.rotation);
-        Destroy(go, 0.5f);
-        yield return new WaitForSeconds(0.3f);
-
-        FindObjectOfType<LivesManager>().DecreaseHeart();
+        if (FindObjectOfType<LivesManager>().DecreaseHeart())
+        {
+            GameObject go = Instantiate(explosionVFX, transform.position, transform.rotation);
+            Destroy(go, 0.5f);
+            yield return new WaitForSeconds(0.3f);
+        }
         Destroy(gameObject);
     }
 

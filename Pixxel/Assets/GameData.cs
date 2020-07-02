@@ -23,9 +23,15 @@ public class SaveData
     public bool[] boostsUnlocked;
     public int[] boostLevels;
 
+    public int cardInfoIndex;
+    public string cardType;
+    public string lastTimeCardClaimed;
+
     public bool[] slotsForBoostsUnlocked;
     public string lastTimeQuestClaimed;
     public QuestProgress[] dailyQuests;
+
+    public User playerInfo;
 }
 
 public class GameData : MonoBehaviour
@@ -34,6 +40,7 @@ public class GameData : MonoBehaviour
     public SaveData saveData;
 
     public int currentLevel;
+
     // Use this for initialization
     void Awake()
     {
@@ -98,6 +105,13 @@ public class GameData : MonoBehaviour
     public void UpdateLastQuestClaim(DateTime dateTime)
     {
         gameData.saveData.lastTimeQuestClaimed = dateTime.ToString();
+        Save();
+    }
+    public void UpdateCardClaim(DateTime dateTime, int cardIndex, string cardType)
+    {
+        gameData.saveData.cardInfoIndex = cardIndex;
+        gameData.saveData.lastTimeCardClaimed = dateTime.ToString();
+        gameData.saveData.cardType = cardType;
         Save();
     }
     public void Save()

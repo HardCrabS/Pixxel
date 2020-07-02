@@ -8,6 +8,7 @@ public class LevelSlider : MonoBehaviour
     [SerializeField] int addDropCoinChance = 3;
     [SerializeField] RewardForLevel levelRewarder;
     [SerializeField] Text rankText;
+
     Slider levelSlider;
     private int currentLevel = 1;
     int currentSaveBorder = 20;
@@ -64,6 +65,11 @@ public class LevelSlider : MonoBehaviour
     public float GetLevelProgress()
     {
         return levelSlider.value;
+    }
+
+    public int GetXPforLevelUp()
+    {
+        return (int)(levelSlider.maxValue - levelSlider.value);
     }
 
     public void LoadLevelSlider()
