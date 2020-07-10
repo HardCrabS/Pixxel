@@ -1,5 +1,6 @@
 ﻿using GooglePlayGames;
 using GooglePlayGames.BasicApi;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class DisplayHighscore : MonoBehaviour
 {
     [SerializeField] WorldInfoDisplay worldInfoDisplay;
     [SerializeField] Text firstPlaceScoreText;
+    [SerializeField] Image firstPlaceImage;
 
     [SerializeField] GameObject scorePanel;
     [SerializeField] Transform allScoresContainer;
@@ -17,39 +19,55 @@ public class DisplayHighscore : MonoBehaviour
     LinkedList<GameObject> scorePanels;
 
     private User[] allUsers;
-    private string playerId;
     private int playerIndex;
     private int currCenterIndex;
+
+    void Start()
+    {
+        scorePanels = new LinkedList<GameObject>();
+    }
 
     // Use this for initialization
     public async void SetLeaderboard()
     {
-        scorePanels = new LinkedList<GameObject>();
+        if (scorePanels.Count > 0)
+        {
+            return;
+        }
         var allUsersTask = DatabaseManager.GetAllUsersInfo(worldInfoDisplay.worldInformation.WorldName);
         allUsers = await allUsersTask;
 
         if (allUsers == null)
             return;
-        for (int i = 0; i < allUsers.Length; i++)
-        {
-            print("id: " + allUsers[i].id + " name: " + allUsers[i].username + " score " + allUsers[i].score);
-        }
+
+        Array.Reverse(allUsers);
         string playerId = PlayGamesPlatform.Instance.localUser.id;
+        //string playerId = "editor12345";
         playerIndex = GetPlayerIndex(allUsers, playerId);
-        currCenterIndex = playerIndex;
 
         if (playerIndex > 0)
         {
             SpawnScoresNearPlayer();
+            currCenterIndex = playerIndex;
+        }
+        else
+        {
+            SpawnFirst3Players();
+            currCenterIndex = 1;
         }
         SetFirstPlace();
-        SpawnScoresNearPlayer();
     }
 
     public void ClearLeaderboard()
     {
         if (scorePanels.Count > 0)
-            scorePanels.Clear();
+        {
+            while (scorePanels.Count > 0)
+            {
+                Destroy(scorePanels.First.Value);
+                scorePanels.RemoveFirst();
+            }
+        }
     }
     int GetPlayerIndex(User[] allUsers, string playerId)
     {
@@ -71,12 +89,12 @@ public class DisplayHighscore : MonoBehaviour
             startIndex = playerIndex - 1;
             endIndex = playerIndex + 1;
         }
-        else if (playerIndex > 0 && playerIndex >= allUsers.Length - 1)
+        else if (playerIndex >= allUsers.Length - 1)
         {
             startIndex = playerIndex - 2;
             endIndex = playerIndex;
         }
-        else if (playerIndex == 0 && playerIndex <= allUsers.Length - 1)
+        else if (playerIndex == 0)
         {
             startIndex = 0;
             endIndex = playerIndex + 2;
@@ -85,7 +103,21 @@ public class DisplayHighscore : MonoBehaviour
         if (startIndex < 0) startIndex = 0;
         if (endIndex >= allUsers.Length) endIndex = allUsers.Length - 1;
 
+        print("player index: " + playerIndex + "  allUsers length: " + allUsers.Length);
+        print("start index: " + startIndex);
+        print("end index: " + endIndex);
+
         for (int i = startIndex; i <= endIndex; i++)
+        {
+            GameObject scorePanelClone = SpawnScorePanel(allUsers[i], i);
+            scorePanels.AddLast(scorePanelClone);
+        }
+    }
+
+    void SpawnFirst3Players()
+    {
+        int firstPlayers = allUsers.Length >= 3 ? 3 : allUsers.Length;
+        for (int i = 0; i < firstPlayers; i++)
         {
             GameObject scorePanelClone = SpawnScorePanel(allUsers[i], i);
             scorePanels.AddLast(scorePanelClone);
@@ -94,8 +126,9 @@ public class DisplayHighscore : MonoBehaviour
 
     void SetFirstPlace()
     {
-        firstPlaceScoreText.text = "\t<color=red>#" + 1 + "</color>  |  " + allUsers[0].username
+        firstPlaceScoreText.text = "\t#<size=450><color=red>" + 1 + "</color></size>  |  " + allUsers[0].username
         + "  |  " + allUsers[0].score + "\n\n";
+        firstPlaceImage.sprite = Resources.Load<Sprite>(allUsers[0].spritePath);
     }
 
     public void SpawnScorePanelUp()
@@ -105,7 +138,7 @@ public class DisplayHighscore : MonoBehaviour
             return;
         }
         currCenterIndex--;
-        GameObject scorePanelClone = SpawnScorePanel(allUsers[currCenterIndex - 1], currCenterIndex);
+        GameObject scorePanelClone = SpawnScorePanel(allUsers[currCenterIndex - 1], currCenterIndex-1);
         scorePanels.AddFirst(scorePanelClone);
 
         if (scorePanels.Count > 3)
@@ -120,17 +153,16 @@ public class DisplayHighscore : MonoBehaviour
 
         float scorePanelHeight = scorePanelRectTransform.rect.height;
         float allScoresContainerHeight = rectTransform.rect.height;
-        // rectTransform.sizeDelta = new Vector2(rectTransform.rect.width, allScoresContainerHeight + scorePanelHeight + 15);
-        // rectTransform.position = new Vector2(allScoresContainer.position.x, allScoresContainer.position.y - 14.5f);
     }
     public void SpawnScorePanelDown()
     {
+        print(currCenterIndex);
         if (currCenterIndex + 2 >= allUsers.Length)
         {
             return;
         }
         currCenterIndex++;
-        GameObject scorePanelClone = SpawnScorePanel(allUsers[currCenterIndex + 1], currCenterIndex);
+        GameObject scorePanelClone = SpawnScorePanel(allUsers[currCenterIndex + 1], currCenterIndex+1);
         scorePanels.AddLast(scorePanelClone);
 
         if (scorePanels.Count > 3)
@@ -145,8 +177,6 @@ public class DisplayHighscore : MonoBehaviour
 
         float scorePanelHeight = scorePanelRectTransform.rect.height;
         float allScoresContainerHeight = rectTransform.rect.height;
-        // rectTransform.sizeDelta = new Vector2(rectTransform.rect.width, allScoresContainerHeight + scorePanelHeight + 15);
-        // rectTransform.position = new Vector2(allScoresContainer.position.x, allScoresContainer.position.y + 14.5f);
     }
 
     GameObject SpawnScorePanel(User user, int index)
@@ -154,20 +184,12 @@ public class DisplayHighscore : MonoBehaviour
         GameObject go = Instantiate(scorePanel, allScoresContainer);
 
         Text scoreText = go.GetComponentInChildren<Text>();
-
-        scoreText.text = "\t#" + (index + 1) + "  |  " + user.username
+        scoreText.text = "\t#<size=450><color=yellow>" + (index + 1) + "</color></size>  |  " + user.username
         + "  |  " + user.score + "\n\n";
 
-        //SetRandomText(scoreText);
+        Image[] images = go.GetComponentsInChildren<Image>();
+        images[1].sprite = Resources.Load<Sprite>(user.spritePath);
 
         return go;
-    }
-    string[] maleNames = new string[]
-    { "aaron", "abdul", "abe", "abel", "abraham", "adam", "adan", "adolfo", "adolph",
-        "adrian", "abby", "abigail", "adele", "adrian" };
-    void SetRandomText(Text text)
-    {
-        int nameIndex = Random.Range(0, maleNames.Length);
-        text.text = "#" + Random.Range(0, 100) + "\t|\t" + maleNames[nameIndex] + "\t|\t" + Random.Range(0, 10000);
     }
 }

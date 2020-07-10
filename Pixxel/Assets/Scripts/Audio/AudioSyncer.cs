@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioSyncer : MonoBehaviour {
+public class AudioSyncer : MonoBehaviour 
+{
     public float bias;
     public float timeStep;
     public float timeToBeat;

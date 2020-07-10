@@ -63,7 +63,7 @@ public class Switcheroo : MonoBehaviour, IConcreteBonus
     IEnumerator CheckForMatchesDelayed()
     {
         yield return new WaitForSeconds(1f);
-        FindObjectOfType<MatchFinder>().FindAllMatches();
+        MatchFinder.Instance.FindAllMatches();
         grid.DestroyAllMatches();
     }
 
@@ -163,7 +163,7 @@ public class Switcheroo : MonoBehaviour, IConcreteBonus
     }
     public void SetBoostLevel(int lvl)
     {
-        grid = FindObjectOfType<GridA>();
+        grid = GridA.Instance;
         boostLevel = lvl;
         switch (boostLevel)
         {

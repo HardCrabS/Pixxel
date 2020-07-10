@@ -11,7 +11,6 @@ public class FlashField : MonoBehaviour, IConcreteBonus
     private int spriteIndex = 0;
     private int blockToMakeFiredUp = 5;
     GameObject lightning;
-    float lightningTime;
     private GridA grid;
 
     public void ExecuteBonus()
@@ -140,7 +139,7 @@ public class FlashField : MonoBehaviour, IConcreteBonus
     public void SetBoostLevel(int lvl)
     {
         boostLevel = lvl;
-        grid = FindObjectOfType<GridA>();
+        grid = GridA.Instance;
         switch (boostLevel)
         {
             case 1:

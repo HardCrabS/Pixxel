@@ -64,7 +64,6 @@ public class EquipButton : MonoBehaviour
                 Sprite boostSprite = BonusManager.GetBoostImage(boostInfo);
                 if (equipeButtons[i] != null)
                     equipeButtons[i].GetComponent<Image>().sprite = boostSprite;
-                break;
             }
         }
     }

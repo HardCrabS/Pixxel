@@ -26,17 +26,34 @@ public class PlayGamesController : MonoBehaviour
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.Activate();
-        Social.localUser.Authenticate((bool success) =>
+        Social.localUser.Authenticate(async (bool success) =>
         {
             if (success)
             {
-                Debug.Log("Loged in Google Play Services");
                 authentificated = true;
+
+                string playerId = PlayGamesPlatform.Instance.localUser.id;
+                Task<bool> userTask = DatabaseManager.UserAlreadyInDatabase(playerId);
+                bool userInDatabase = await userTask;
+
+                if (!userInDatabase)
+                {
+                    string playerName = PlayGamesPlatform.Instance.localUser.userName;
+                    DatabaseManager.WriteNewUser(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar");
+                    GameData.gameData.saveData.playerInfo = new User(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar");
+                    GameData.gameData.Save();
+                }
             }
             else
             {
                 Debug.LogError("Unable to sign in Google Play Services");
+                if (GameData.gameData.saveData.playerInfo == null)
+                {
+                    GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "Sprites/Avatars/DefaultAvatar");
+                    GameData.gameData.Save();
+                }
             }
+            OnAuthenticated.Invoke();
         }
         );
 
@@ -50,32 +67,8 @@ public class PlayGamesController : MonoBehaviour
             {
                 DatabaseManager.WriteNewUser(playerId, "editor Name", "debil", "Sprites/Avatars/DefaultAvatar");
                 GameData.gameData.saveData.playerInfo = new User(playerId, "debil", "Noobe", "Sprites/Avatars/DefaultAvatar");
+                GameData.gameData.Save();
                 print("Writing test editor user in database");
-            }
-            OnAuthenticated.Invoke();
-        }
-        else
-        {
-            if (authentificated)
-            {
-                string playerId = PlayGamesPlatform.Instance.localUser.id;
-                Task<bool> userTask = DatabaseManager.UserAlreadyInDatabase(playerId);
-                bool userInDatabase = await userTask;
-
-                if (!userInDatabase)
-                {
-                    string playerName = PlayGamesPlatform.Instance.localUser.userName;
-                    DatabaseManager.WriteNewUser(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar");
-                    GameData.gameData.saveData.playerInfo = new User(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar");
-                    print("Writing new user in database");
-                }
-            }
-            else
-            {
-                if(GameData.gameData.saveData.playerInfo == null)
-                {
-                    GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "Sprites/Avatars/DefaultAvatar");
-                }
             }
             OnAuthenticated.Invoke();
         }
@@ -94,24 +87,11 @@ public class PlayGamesController : MonoBehaviour
 
         if (!DatabaseManager.ChildExists(playerId, worldName))
         {
-            string playerName = PlayGamesPlatform.Instance.localUser.userName;
-            DatabaseManager.WriteNewScore(worldName, playerId, playerName, 0, score);
+            DatabaseManager.WriteNewScore(worldName, playerId, score);
         }
         else
             DatabaseManager.OverwriteTheScore(worldName, playerId, score);
 
         return true;
-        /*Social.ReportScore((GameData.gameData.saveData.worldsBestScores[worldIndex]),
-            GPGSIds.leaderboard_twilight_city, (bool success) =>
-        {
-            if (success)
-            {
-                Debug.Log("Posted timee to leaderboard");
-            }
-            else
-            {
-                Debug.LogError("Unable to post best score to leaderboard");
-            }
-        });*/
     }
 }

@@ -15,14 +15,6 @@ public class XPBonus : MonoBehaviour, IConcreteBonus
     float timer;
     GridA grid;
 
-    void Start()
-    {
-        if (isGameField)
-        {
-            grid = FindObjectOfType<GridA>();
-        }
-    }
-
     void Update()
     {
         if (needToResetXPprocent)
@@ -38,6 +30,7 @@ public class XPBonus : MonoBehaviour, IConcreteBonus
 
     public void ExecuteBonus()
     {
+        grid = GridA.Instance;
         grid.SetXPpointsPerBoxByProcent(procentForXP);
         needToResetXPprocent = true;
         timer = timeForBonusLast;

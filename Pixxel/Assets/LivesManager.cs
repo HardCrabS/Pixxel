@@ -13,6 +13,12 @@ public class LivesManager : MonoBehaviour
 
     int totalLives;
 
+    public static LivesManager Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         totalLives = hearts.Length;
@@ -27,6 +33,7 @@ public class LivesManager : MonoBehaviour
                 Time.timeScale = 0;
                 savePlayer();
                 totalLives = 3;
+                MakeAllHeartsActive();
                 return false;
             }
             FindObjectOfType<EndGameManager>().GameOver();
@@ -35,5 +42,13 @@ public class LivesManager : MonoBehaviour
         if (totalLives >= 0)
             hearts[totalLives].color = lostHeartColor;
         return true;
+    }
+
+    void MakeAllHeartsActive()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            hearts[i].color = Color.white;
+        }
     }
 }

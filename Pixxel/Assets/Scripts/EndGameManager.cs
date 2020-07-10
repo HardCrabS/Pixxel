@@ -23,7 +23,6 @@ public class EndGameManager : MonoBehaviour
     [SerializeField] Text counterText;
     [SerializeField] GameObject gameOverPanel;
     [SerializeField] Text bestScoreText;
-    [SerializeField] Score score;
     [SerializeField] Text postToLeaderboardText;
 
     private int currentCounter;
@@ -32,6 +31,12 @@ public class EndGameManager : MonoBehaviour
     public delegate void MyDelegate();
     public event MyDelegate onMatchedBlock;
 
+    public static EndGameManager Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         SetGameType();
@@ -40,10 +45,7 @@ public class EndGameManager : MonoBehaviour
 
     void SetGameType()
     {
-        if (LevelSettingsKeeper.settingsKeeper != null)
-        {
-            requirements = LevelSettingsKeeper.settingsKeeper.levelTemplate.endGameRequirements;
-        }
+        requirements = LevelSettingsKeeper.settingsKeeper.levelTemplate.endGameRequirements;
     }
     public void CallOnMatchDelegate()
     {
@@ -77,7 +79,7 @@ public class EndGameManager : MonoBehaviour
 
     public void GameOver()
     {
-        bestScoreText.text = score.GetCurrentScore() + "";
+        bestScoreText.text = Score.Instance.GetCurrentScore() + "";
         gameOverPanel.SetActive(true);
     }
 

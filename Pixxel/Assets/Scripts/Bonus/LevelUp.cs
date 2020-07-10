@@ -12,18 +12,12 @@ public class LevelUp : MonoBehaviour
     public Boost boostInfo;
     public IConcreteBonus bonus;
 
-    CoinsDisplay coinsDisplay;
-
-	void Start () 
-    {
-        coinsDisplay = FindObjectOfType<CoinsDisplay>();
-	}
     public void UpgradeBoost()
     {
         int level = GameData.gameData.saveData.boostLevels[boostInfo.Index];
-        if (level < 10 && coinsDisplay.GetCoins() >= boostInfo.UpgradeCosts[level - 1])
+        if (level < 10 && CoinsDisplay.Instance.GetCoins() >= boostInfo.UpgradeCosts[level - 1])
         {
-            coinsDisplay.DecreaseCoins(boostInfo.UpgradeCosts[level - 1]);
+            CoinsDisplay.Instance.DecreaseCoins(boostInfo.UpgradeCosts[level - 1]);
             GameData.gameData.saveData.boostLevels[boostInfo.Index]++;
             GameData.gameData.Save();
             //bonusButton.UpdateBonusLevelInfo();

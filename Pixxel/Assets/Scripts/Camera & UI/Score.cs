@@ -7,19 +7,20 @@ public class Score : MonoBehaviour
 {
     [SerializeField] Text bestScoreText;
     Text textScore;
-    GoalManager goalManager;
     int currentScore = 0;
 
     int bestScore;
     int worldIndex;
 
+    public static Score Instance { get; private set; }
+
     void Awake()
     {
         LoadBestScore();
+        Instance = this;
     }
     void Start()
     {
-        goalManager = FindObjectOfType<GoalManager>();
         textScore = GetComponent<Text>();
         worldIndex = LevelSettingsKeeper.settingsKeeper.worldIndex;
         UpdateScore();
@@ -38,11 +39,8 @@ public class Score : MonoBehaviour
     public void AddPoints(int amount)
     {
         currentScore += amount;
-        if (goalManager != null)
-        {
-            goalManager.CompareGoal("Score", amount);
-            goalManager.UpdateGoals();
-        }
+        GoalManager.Instance.CompareGoal("Score", amount);
+        GoalManager.Instance.UpdateGoals();
         UpdateScore();
     }
 

@@ -33,7 +33,6 @@ public struct QuestProgress
 }
 public class DailyQuestManager : MonoBehaviour
 {
-    [SerializeField] CoinsDisplay coinsDisplay;
     [SerializeField] GameObject questPanel;
     [SerializeField] Sprite clickable;
     [SerializeField] Sprite nonClickable;
@@ -128,7 +127,7 @@ public class DailyQuestManager : MonoBehaviour
         int reward = questTemplate.Reward;
         if (questTemplate.RewardType == global::reward.coins)
         {
-            coinsDisplay.AddCoinsAmount(reward);
+            CoinsDisplay.Instance.AddCoinsAmount(reward);
         }
         else
         {
@@ -151,94 +150,4 @@ public class DailyQuestManager : MonoBehaviour
         claimButtons[i].SetActive(false);
         claimedImages[i].SetActive(true);
     }   
-    /*
-    private void GenerateQuests()
-    {
-        System.DateTime lastClaim;
-        if (string.IsNullOrEmpty(GameData.gameData.saveData.lastTimeQuestClaimed))
-        {
-            lastClaim = System.DateTime.Now;
-        }
-        else
-        {
-            lastClaim = System.Convert.ToDateTime(GameData.gameData.saveData.lastTimeQuestClaimed);
-        }
-
-        if (System.DateTime.Now.CompareTo(lastClaim) >= 0)
-        {
-            for (int i = 0; i < requirementsTexts.Length; i++)
-            {
-                QuestProgress quest = GenerateRandomQuest(i);
-                requirementsTexts[i].text = "Requirements: " + quest.requirements;
-                rewardTexts[i].text = "Reward: " + quest.reward + " " + quest.rewardType;
-                progressTexts[i].text = quest.numberCollected + "/" + quest.numberNeeded;
-                checkMarks[i].SetActive(false);
-                GameData.gameData.saveData.dailyQuests[i] = quest;
-            }
-
-            GameData.gameData.UpdateLastQuestClaim(System.DateTime.Now.AddHours(12));
-        }
-        else
-        {
-            QuestProgress[] quests = GameData.gameData.saveData.dailyQuests;
-            for (int i = 0; i < requirementsTexts.Length; i++)
-            {
-                requirementsTexts[i].text = "Requirements: " + quests[i].requirements;
-                rewardTexts[i].text = "Reward: " + quests[i].reward + " " + quests[i].rewardType;
-                if (quests[i].numberCollected >= quests[i].numberNeeded)
-                    checkMarks[i].SetActive(true);
-                else
-                    progressTexts[i].text = quests[i].numberCollected + "/" + quests[i].numberNeeded;
-            }
-        }
-    }
-
-    private QuestProgress GenerateRandomQuest(int arrIndex)
-    {
-        int randomValue = Random.Range(0, 8);
-        int randomWorld = Random.Range(0, allWorlds.Length);
-        string blockName = "";
-        rewardType = GetRandomEnum<reward>();
-        numberNeeded = Random.Range(minNumberNeeded, maxNumberNeeded);
-        reward = Random.Range(minReward, maxReward);
-
-        if (randomValue > 1)
-        {
-            int randTag = Random.Range(0, allWorlds[randomWorld].Boxes.Length);
-            tag = allWorlds[randomWorld].Boxes[randTag].tag;
-            blockName = allWorlds[randomWorld].Boxes[randTag].GetComponent<Box>().blockName;
-        }
-        else
-        {
-            if (randomValue == 0)
-            {
-                tag = "Score";
-                numberNeeded *= 5;
-            }
-            else
-            {
-                tag = "Breakable";
-                blockName = "Breakable";
-            }
-        }
-        if (rewardType == global::reward.XP)
-            reward *= 2;
-
-        if (tag != "Score")
-        {
-            requirements = "Destroy " + numberNeeded + " " + blockName + " in " + allWorlds[randomWorld].WorldName + " world!";
-        }
-        else
-        {
-            requirements = "Reach " + numberNeeded + " points in " + allWorlds[randomWorld].WorldName + " world!";
-        }
-        QuestProgress quest = new QuestProgress(requirements, tag, rewardType, numberNeeded, randomWorld, reward, arrIndex);
-        return quest;
-    }
-    static T GetRandomEnum<T>()
-    {
-        System.Array A = System.Enum.GetValues(typeof(T));
-        T V = (T)A.GetValue(UnityEngine.Random.Range(0, A.Length));
-        return V;
-    }*/
 }

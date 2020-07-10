@@ -8,21 +8,41 @@ public class LevelSlider : MonoBehaviour
     [SerializeField] int addDropCoinChance = 3;
     [SerializeField] RewardForLevel levelRewarder;
     [SerializeField] Text rankText;
+    [SerializeField] Text nameText;
 
     Slider levelSlider;
     private int currentLevel = 1;
     int currentSaveBorder = 20;
-    CoinsDisplay coinsDisplay;
+
+    public static LevelSlider Instance;
 
     void Awake()
     {
-        
+        Instance = this;
     }
     void Start()
     {
         LoadLevelSlider();
         UpdateLevelText(currentLevel);
-        coinsDisplay = FindObjectOfType<CoinsDisplay>();
+
+        if (nameText != null)
+        {
+            string name;
+            if (string.IsNullOrEmpty(GameData.gameData.saveData.playerInfo.username))
+            {
+                name = "Warrior";
+            }
+            else
+            {
+                name = GameData.gameData.saveData.playerInfo.username;
+            }
+            nameText.text = "|\t" + name + "\t|";
+        }
+    }
+
+    public void UpdateNameText()
+    {
+        nameText.text = GameData.gameData.saveData.playerInfo.username;
     }
 
     public void AddXPtoLevel(float amount)
@@ -42,7 +62,7 @@ public class LevelSlider : MonoBehaviour
             currentSaveBorder = 20;
             GameData.gameData.saveData.maxXPforLevelUp = levelSlider.maxValue;
             GameData.gameData.Save();
-            coinsDisplay.IncreaseCoinDropChance(addDropCoinChance);
+            CoinsDisplay.Instance.IncreaseCoinDropChance(addDropCoinChance);
         }
         if (levelSlider.value > currentSaveBorder)
         {

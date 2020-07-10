@@ -11,6 +11,11 @@ public class CoinsDisplay : MonoBehaviour
     private int currChance = 20;
 
     public static CoinsDisplay Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 	void Start () 
     {
         coins = SaveSystem.LoadCoinsAmount();

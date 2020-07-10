@@ -71,10 +71,6 @@ public class GridA : MonoBehaviour
     public BackgroundTile[,] lockedTiles;
     public BombTile[,] bombTiles;
     MatchFinder matchFinder;
-    Score score;
-    LevelSlider levelSlider;
-    CoinsDisplay coinsDisplay;
-    GoalManager goalManager;
     LevelTemplate template;
 
     public string tempTagForTrinket;
@@ -92,32 +88,23 @@ public class GridA : MonoBehaviour
     public delegate void MyDelegate(int column, int row);
     public event MyDelegate onMatchedBlock;
 
+    public static GridA Instance;
+
     void Awake()
     {
-        if (LevelSettingsKeeper.settingsKeeper != null)
+        Instance = this;
+        template = LevelSettingsKeeper.settingsKeeper.levelTemplate;
+        if (template != null)
         {
-            template = LevelSettingsKeeper.settingsKeeper.levelTemplate;
-            if (template != null)
-            {
-                width = template.width;
-                hight = template.hight;
-                offset = template.offset;
-                boardLayout = template.boardLayout;
-            }
+            width = template.width;
+            hight = template.hight;
+            offset = template.offset;
+            boardLayout = template.boardLayout;
         }
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    print(allBoxes[i, j]);
-                }
-            }
-        }
+
     }
     void Start()
     {
@@ -132,11 +119,8 @@ public class GridA : MonoBehaviour
         int startParentY = (8 - hight) / 2;
         parent.position = new Vector2(startParentX, startParentY);
 
-        goalManager = FindObjectOfType<GoalManager>();
-        coinsDisplay = FindObjectOfType<CoinsDisplay>();
-        levelSlider = FindObjectOfType<LevelSlider>();
-        matchFinder = FindObjectOfType<MatchFinder>();
-        score = FindObjectOfType<Score>();
+        matchFinder = MatchFinder.Instance;
+
         CreateGrid();
     }
 
@@ -185,8 +169,8 @@ public class GridA : MonoBehaviour
                 Vector2 tempPos = new Vector3(boardLayout[i].x, boardLayout[i].y);
                 GameObject bomb = Instantiate(bombTilePrefab, parent.position + new Vector3(boardLayout[i].x, boardLayout[i].y), transform.rotation, parent);
                 bombTiles[boardLayout[i].x, boardLayout[i].y] = bomb.GetComponent<BombTile>();
-                bomb.GetComponent<Box>().row = (int)tempPos.y;
-                bomb.GetComponent<Box>().column = (int)tempPos.x;
+                bomb.GetComponent<Box>().column = (int)tempPos.y;
+                bomb.GetComponent<Box>().row = (int)tempPos.x;
                 allBoxes[(int)tempPos.x, (int)tempPos.y] = bomb;
                 bomb.name = "Bomb";
             }
@@ -212,8 +196,8 @@ public class GridA : MonoBehaviour
                         randIndex = Random.Range(0, boxPrefabs.Length);
                     }
                     GameObject go = Instantiate(boxPrefabs[randIndex], tempPos, transform.rotation, parent);
-                    go.GetComponent<Box>().row = y;
-                    go.GetComponent<Box>().column = x;
+                    go.GetComponent<Box>().column = y;
+                    go.GetComponent<Box>().row = x;
                     allBoxes[x, y] = go;
                     go.name = x + "," + y;
                 }
@@ -279,11 +263,10 @@ public class GridA : MonoBehaviour
                 onMatchedBlock(column, row);
                 return;
             }
-            if (goalManager != null)
-            {
-                goalManager.CompareGoal(allBoxes[column, row].tag);
-                goalManager.UpdateGoals();
-            }
+
+            GoalManager.Instance.CompareGoal(allBoxes[column, row].tag);
+            GoalManager.Instance.UpdateGoals();
+
             if (breakableTiles[column, row] != null)
             {
                 breakableTiles[column, row].TakeDamage();
@@ -395,18 +378,18 @@ public class GridA : MonoBehaviour
         {
             foreach (Vector2Int dir in directions)
             {
-                if (box.column + dir.x >= 0 && box.column + dir.x < width
-                    && box.row + dir.y >= 0 && box.row + dir.y < hight)
+                if (box.row + dir.x >= 0 && box.row + dir.x < width
+                    && box.column + dir.y >= 0 && box.column + dir.y < hight)
                 {
                     GameObject particle1 = Instantiate(blockDestroyParticle,
                         box.transform.localPosition + parent.position + new Vector3(dir.x, dir.y), transform.rotation);
                     Destroy(particle1, 0.5f);
-                    Destroy(allBoxes[box.column + dir.x, box.row + dir.y]);
-                    allBoxes[box.column + dir.x, box.row + dir.y] = null;
-                    if (bombTiles[box.column + dir.x, box.row + dir.y])
+                    Destroy(allBoxes[box.row + dir.x, box.column + dir.y]);
+                    allBoxes[box.row + dir.x, box.column + dir.y] = null;
+                    if (bombTiles[box.row + dir.x, box.column + dir.y])
                     {
-                        bombTiles[box.column + dir.x, box.row + dir.y].DeleteBombByMatch();
-                        bombTiles[box.column + dir.x, box.row + dir.y] = null;
+                        bombTiles[box.row + dir.x, box.column + dir.y].DeleteBombByMatch();
+                        bombTiles[box.row + dir.x, box.column + dir.y] = null;
                     }
                     AddXPandScorePoints();
                 }
@@ -415,7 +398,7 @@ public class GridA : MonoBehaviour
                 box.transform.localPosition + parent.position, transform.rotation);
             Destroy(particle, 0.5f);
             Destroy(box.gameObject);
-            allBoxes[box.column, box.row] = null;
+            allBoxes[box.row, box.column] = null;
         }
         Destroy(fireClone);
         Destroy(smokeClone);
@@ -450,7 +433,11 @@ public class GridA : MonoBehaviour
             AddXPandScorePoints();
         }
     }
-
+    public void SpawnBlockParticles(Vector2 pos)
+    {
+        GameObject particle = Instantiate(blockDestroyParticle, pos, transform.rotation);
+        Destroy(particle, 0.5f);
+    }
     void AddPointsForMatchedBlock()
     {
         if (matchFinder.currentMatches.Count == 0)
@@ -464,9 +451,9 @@ public class GridA : MonoBehaviour
     }
     void AddXPandScorePoints()
     {
-        score.AddPoints(pointsToAddperBox);
-        levelSlider.AddXPtoLevel(pointsXPforLevel);
-        coinsDisplay.RandomizeCoin();
+        Score.Instance.AddPoints(pointsToAddperBox);
+        LevelSlider.Instance.AddXPtoLevel(pointsXPforLevel);
+        CoinsDisplay.Instance.RandomizeCoin();
     }
 
     public void SetXPpointsPerBoxByProcent(float procent)
@@ -506,7 +493,7 @@ public class GridA : MonoBehaviour
                                 bombTiles[x, y] = bombTiles[x, k];
                                 bombTiles[x, k] = null;
                             }
-                            allBoxes[x, k].GetComponent<Box>().row = y;
+                            allBoxes[x, k].GetComponent<Box>().column = y;
                             allBoxes[x, k] = null;
                             break;
                         }
@@ -532,8 +519,8 @@ public class GridA : MonoBehaviour
                         Vector2 tempPos = new Vector2(x, y + offset);
                         GameObject bomb = Instantiate(bombTilePrefab, parent.position + new Vector3(tempPos.x, tempPos.y), transform.rotation, parent);
                         bombTiles[x, y] = bomb.GetComponent<BombTile>();
-                        bomb.GetComponent<Box>().row = y;
-                        bomb.GetComponent<Box>().column = x;
+                        bomb.GetComponent<Box>().column = y;
+                        bomb.GetComponent<Box>().row = x;
                         allBoxes[x, y] = bomb;
                         bomb.name = "Bomb";
                         continue;
@@ -544,8 +531,8 @@ public class GridA : MonoBehaviour
                     Vector2 tempPos = new Vector2(x, y + offset);
                     int randIndex = Random.Range(0, boxPrefabs.Length);
                     GameObject box = Instantiate(boxPrefabs[randIndex], tempPos, transform.rotation);
-                    box.GetComponent<Box>().column = x;
-                    box.GetComponent<Box>().row = y;
+                    box.GetComponent<Box>().row = x;
+                    box.GetComponent<Box>().column = y;
                     box.transform.SetParent(parent);
                     allBoxes[x, y] = box;
                 }

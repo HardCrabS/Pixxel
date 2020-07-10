@@ -25,6 +25,13 @@ public class GoalManager : MonoBehaviour
 
     List<QuestProgress> dailyQuests;
 
+    public static GoalManager Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
     // Use this for initialization
     void Start()
     {

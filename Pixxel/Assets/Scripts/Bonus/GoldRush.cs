@@ -17,7 +17,6 @@ public class GoldRush : MonoBehaviour, IConcreteBonus
     private GameObject goldRushPanel;
     private Text timeText;
     GridA grid;
-    CoinsDisplay coinsDisplay;
 
     void Update()
     {
@@ -40,9 +39,7 @@ public class GoldRush : MonoBehaviour, IConcreteBonus
     public void ExecuteBonus()
     {
         if (grid == null)
-            grid = FindObjectOfType<GridA>();
-        if (coinsDisplay == null)
-            coinsDisplay = FindObjectOfType<CoinsDisplay>();
+            grid = GridA.Instance;
         if (goldenRockSprite == null)
             goldenRockSprite = Resources.Load<Sprite>("Sprites/BoostSprites/Gold Rush/GoldenRock");
         if (particleCoin == null)
@@ -68,7 +65,7 @@ public class GoldRush : MonoBehaviour, IConcreteBonus
         grid.allBoxes[column, row].GetComponent<SpriteRenderer>().sprite = goldenRockSprite;
         grid.allBoxes[column, row].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         grid.allBoxes[column, row].AddComponent<GoldenRock>().paticleCoin = particleCoin;
-        grid.allBoxes[column, row].GetComponent<GoldenRock>().SetValues(column, row, grid, coinsDisplay);
+        grid.allBoxes[column, row].GetComponent<GoldenRock>().SetValues(column, row);
         Destroy(grid.allBoxes[column, row].GetComponent<Box>());
         grid.allBoxes[column, row] = null;
         grid.SetBlankSpace(column, row, true);

@@ -7,8 +7,6 @@ public class GoldenRock : MonoBehaviour
     int column;
     int row;
     public GameObject paticleCoin;
-    GridA _grid;
-    CoinsDisplay _coinsDisplay;
 
     public GoldenRock(int x, int y)
     {
@@ -16,12 +14,10 @@ public class GoldenRock : MonoBehaviour
         row = y;
     }
 
-    public void SetValues(int x, int y, GridA grid, CoinsDisplay coinsDisplay)
+    public void SetValues(int x, int y)
     {
         column = x;
         row = y;
-        _grid = grid;
-        _coinsDisplay = coinsDisplay;
     }
     void OnMouseDown()
     {
@@ -31,9 +27,9 @@ public class GoldenRock : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = false;
 
         int coins = Random.Range(2, 5);
-        _coinsDisplay.AddCoinsAmount(coins);
+        CoinsDisplay.Instance.AddCoinsAmount(coins);
 
-        _grid.SetBlankSpace(column, row, false);
-        StartCoroutine(_grid.MoveBoxesDown());
+        GridA.Instance.SetBlankSpace(column, row, false);
+        StartCoroutine(GridA.Instance.MoveBoxesDown());
     }
 }

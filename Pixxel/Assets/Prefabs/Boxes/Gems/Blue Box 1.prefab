@@ -22,7 +22,8 @@ GameObject:
   - component: {fileID: 212405078168309752}
   - component: {fileID: 61195249005412902}
   - component: {fileID: 114364282728307304}
-  - component: {fileID: 114224986181413164}
+  - component: {fileID: 114900989873091516}
+  - component: {fileID: 114019280492193860}
   m_Layer: 0
   m_Name: Blue Box 1
   m_TagString: Blue
@@ -68,23 +69,48 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114224986181413164
+--- !u!114 &114019280492193860
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1993736332043036}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38acc61873645e542998897e3187c659, type: 3}
+  m_Script: {fileID: 11500000, guid: 2dec62303012db54e89de23ee371d29c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bias: 25
-  timeStep: 0.5
-  timeToBeat: 0.1
-  restSmoothTime: 22
-  beatScale: {x: 1.2, y: 1.2}
-  restScale: {x: 1, y: 1}
+  scaleParameters:
+  - bias: 5
+    timeStep: 0.2
+    timeToBeat: 0.05
+    restTime: 3
+    beatScale: {x: 1.1, y: 1.1}
+  - bias: 15
+    timeStep: 0.3
+    timeToBeat: 0.05
+    restTime: 3
+    beatScale: {x: 1.25, y: 1.25}
+  - bias: 23
+    timeStep: 0.25
+    timeToBeat: 0.05
+    restTime: 3
+    beatScale: {x: 1.3, y: 1.3}
+  - bias: 28
+    timeStep: 0.5
+    timeToBeat: 0.05
+    restTime: 2.5
+    beatScale: {x: 1.4, y: 1.4}
+  - bias: 35
+    timeStep: 0.5
+    timeToBeat: 0.05
+    restTime: 2.5
+    beatScale: {x: 1.5, y: 1.5}
+  - bias: 19
+    timeStep: 0.15
+    timeToBeat: 0.05
+    restTime: 2
+    beatScale: {x: 1.3, y: 1.3}
 --- !u!114 &114364282728307304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,17 +122,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3967d20cdefbcb45895ef756b2dc5ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columnArrow: {fileID: 0}
-  rowArrow: {fileID: 0}
   mainMatch: {fileID: 0}
   isMatched: 0
   row: 0
   column: 0
   targetX: 0
   targetY: 0
-  isColumnBomb: 0
-  isRowBomb: 0
+  blockName: 
   neighborBox: {fileID: 0}
+--- !u!114 &114900989873091516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1993736332043036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 226ae976d2b5dd34ea23b9e914ebf1c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bias: 25
+  timeStep: 0.15
+  timeToBeat: 0.05
+  restSmoothTime: 2
+  beatScale: {x: 1.2, y: 1.2}
+  restScale: {x: 1, y: 1}
 --- !u!212 &212405078168309752
 SpriteRenderer:
   m_ObjectHideFlags: 1

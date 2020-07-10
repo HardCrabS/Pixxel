@@ -36,9 +36,26 @@ public class WorldSprite : MonoBehaviour           //DO NOT CHANGE CHILDREN OBJE
         }
         else
         {
+            if(AllTrinketsEarned())
+            {
+                transform.GetChild(1).GetComponentInChildren<Text>().text = "<color=lime>COMPLETED</color>";
+                transform.GetChild(1).Rotate(0, 0, 45);
+                transform.GetChild(1).gameObject.SetActive(true);
+            }
             infoDisplay = FindObjectOfType<WorldInfoDisplay>();
             GetComponent<Button>().onClick.AddListener(OpenWorldInfoPanel);
         }
+    }
+
+    bool AllTrinketsEarned()
+    {
+        bool[] allTrinkets = GameData.gameData.saveData.worldTrinkets[worldInformation.WorldIndex].trinkets;
+        for (int i = 0; i < allTrinkets.Length; i++)
+        {
+            if (allTrinkets[i] == false)
+                return false;
+        }
+        return true;
     }
 
     public void CreateAnimation()
@@ -129,10 +146,10 @@ public class WorldSprite : MonoBehaviour           //DO NOT CHANGE CHILDREN OBJE
 
     public void BuyWorld()
     {
-        CoinsDisplay coinsDisplay = FindObjectOfType<CoinsDisplay>();
-        if(coinsDisplay.GetCoins() >= cost)
+        //CoinsDisplay coinsDisplay = FindObjectOfType<CoinsDisplay>();
+        if(CoinsDisplay.Instance.GetCoins() >= cost)
         {
-            coinsDisplay.DecreaseCoins(cost);
+            CoinsDisplay.Instance.DecreaseCoins(cost);
             GameData.gameData.UnlockWorld(worldNumber);
             StartCoroutine(DestroyAnimation());
             transform.GetChild(1).gameObject.SetActive(false);

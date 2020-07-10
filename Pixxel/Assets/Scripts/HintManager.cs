@@ -6,15 +6,11 @@ public class HintManager : MonoBehaviour {
     [SerializeField] GameObject hintPrefab;
     GridA grid;
     private GameObject currHint;
-	void Start () {
-        grid = FindObjectOfType<GridA>();
+	void Start () 
+    {
+        grid = GridA.Instance;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     List<GameObject> FindAllMatches()
     {
         List<GameObject> possibleMoves = new List<GameObject>();

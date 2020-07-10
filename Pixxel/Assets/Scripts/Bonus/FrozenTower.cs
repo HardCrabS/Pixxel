@@ -18,7 +18,7 @@ public class FrozenTower : MonoBehaviour, IConcreteBonus
 
     public void ExecuteBonus()
     {
-        grid = FindObjectOfType<GridA>();
+        grid = GridA.Instance;
         frozenBlock = Resources.Load<Sprite>("Sprites/BoostSprites/Frozen Tower/Frozen Block");
         freezeParticle = Resources.Load<GameObject>("Sprites/BoostSprites/Frozen Tower/Freeze Particle");
 

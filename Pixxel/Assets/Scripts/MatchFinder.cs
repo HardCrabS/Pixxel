@@ -6,9 +6,16 @@ public class MatchFinder : MonoBehaviour
 {
     GridA grid;
     public List<GameObject> currentMatches = new List<GameObject>();
+
+    public static MatchFinder Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
-        grid = FindObjectOfType<GridA>();
+        grid = GridA.Instance;
     }
 
     public void FindAllMatches()

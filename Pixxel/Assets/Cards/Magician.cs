@@ -16,7 +16,7 @@ public class Magician : MonoBehaviour
     void SavePlayerFromBombs()
     {
         ShowCard();
-        GridA grid = FindObjectOfType<GridA>();
+        GridA grid = GridA.Instance;
 
         for (int i = 0; i < grid.width; i++)
         {

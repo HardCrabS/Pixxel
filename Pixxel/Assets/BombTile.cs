@@ -8,20 +8,20 @@ public class BombTile : MonoBehaviour
     [SerializeField] int counter = 3;
     [SerializeField] GameObject explosionVFX;
     Text timerText;
-    EndGameManager endGameManager;
+
     void Start()
     {
         timerText = GetComponentInChildren<Text>();
         timerText.text = counter.ToString();
-        endGameManager = FindObjectOfType<EndGameManager>();
-        endGameManager.onMatchedBlock += DecreaseBombCounter;
+
+        EndGameManager.Instance.onMatchedBlock += DecreaseBombCounter;
     }
 
     IEnumerator ExplodeBomb()
     {
         transform.GetChild(0).gameObject.SetActive(false);
         GetComponent<SpriteRenderer>().enabled = false;
-        if (FindObjectOfType<LivesManager>().DecreaseHeart())
+        if (LivesManager.Instance.DecreaseHeart())
         {
             GameObject go = Instantiate(explosionVFX, transform.position, transform.rotation);
             Destroy(go, 0.5f);
@@ -48,6 +48,6 @@ public class BombTile : MonoBehaviour
 
     void OnDestroy()
     {
-        endGameManager.onMatchedBlock -= DecreaseBombCounter;
+        EndGameManager.Instance.onMatchedBlock -= DecreaseBombCounter;
     }
 }

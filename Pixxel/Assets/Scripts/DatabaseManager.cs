@@ -11,10 +11,6 @@ using System.Threading.Tasks;
 
 public class DatabaseManager : MonoBehaviour
 {
-    //[SerializeField] Text firstPlaceScoreText;
-    //[SerializeField] Text scoresText;
-    [SerializeField] WorldInfoDisplay infoDisplay;
-    //DatabaseReference mDatabaseRef;
     void Start()
     {
 
@@ -38,7 +34,7 @@ public class DatabaseManager : MonoBehaviour
             Debug.LogError("Not authentificated to google, can't upload a score");
             return;
         }*/
-        
+
         DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
 
         mDatabaseRef.Child("users").Child(playerId).Child("spritePath").SetValueAsync(spritePath);
@@ -69,10 +65,13 @@ public class DatabaseManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(score);
 
-        mDatabaseRef.Child(worldName + "/user-scores/" + userId).Child("score").SetRawJsonValueAsync(json);
+        int currBestScore = System.Convert.ToInt32
+            (mDatabaseRef.Child(worldName + "/user-scores/" + userId).Child("score").GetValueAsync().Result.Value);
+        if (score > currBestScore)
+            mDatabaseRef.Child(worldName + "/user-scores/" + userId).Child("score").SetRawJsonValueAsync(json);
     }
 
-    public static void WriteNewScore(string worldName, string userId, string userName, int spriteIndex, int score)
+    public static void WriteNewScore(string worldName, string userId, int score)
     {
         // Get the root reference location of the database.
         DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
@@ -128,7 +127,7 @@ public class DatabaseManager : MonoBehaviour
 
                 int i = 0;
                 usersInLeaderboard = new User[snapshot.ChildrenCount];
-                print(snapshot.ChildrenCount);
+
                 foreach (DataSnapshot child in snapshot.Children)
                 {
                     usersInLeaderboard[i] = FindUserWithId(allUsers, child.Child("uid").Value as string);
@@ -183,7 +182,7 @@ public class DatabaseManager : MonoBehaviour
 
         await FirebaseDatabase.DefaultInstance.GetReference("users/" + id).GetValueAsync().ContinueWithOnMainThread(task =>
         {
-            if(task.IsFaulted)
+            if (task.IsFaulted)
             {
                 foundUser = true;
                 Debug.LogError("Failed to access database");

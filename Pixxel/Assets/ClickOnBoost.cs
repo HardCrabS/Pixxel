@@ -51,7 +51,7 @@ public class ClickOnBoost : MonoBehaviour
         if (boostLevel < boost.UpgradeCosts.Length + 1)
         {
             int cost = boost.UpgradeCosts[boostLevel - 1];
-            costText.text = "Cost: " + cost;
+            costText.text = "" + cost;
         }
         else
         {

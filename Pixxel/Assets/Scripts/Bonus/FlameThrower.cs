@@ -10,34 +10,26 @@ public class FlameThrower : MonoBehaviour, IConcreteBonus
 
     private int boostLevel = 1;
 
-    LineRenderer line;
     GameObject leadFirePrefab;
     GameObject shineParticles;
     GridA grid;
     Vector3 firstPos;
     Vector3 curr;
     Vector3 target;
-    int lineIndexPos = 0;
+
     private bool boostActivated = false;
     private int linesToDestroy = 1;
     private int spriteIndex = 0;
 
     public void ExecuteBonus()
     {
-        grid = FindObjectOfType<GridA>();
+        grid = GridA.Instance;
         grid.currState = GameState.wait;
-
-        line = gameObject.AddComponent<LineRenderer>();
-        line.widthMultiplier = 0.5f;
-
-        line.material = Resources.Load<Material>("Materials/Fire Line");
 
         firstPos = new Vector3(10, 0, -5);
         curr = firstPos;
         target = new Vector3(-2, 0, -5);
-        lineIndexPos = 0;
 
-        line.SetPosition(lineIndexPos, firstPos);
         leadFirePrefab = Resources.Load<GameObject>("Sprites/BoostSprites/Flamethrower/Lead Fire");
         shineParticles = Resources.Load<GameObject>("Sprites/BoostSprites/Flamethrower/Shine Effect");
         leadFirePrefab = Instantiate(leadFirePrefab, new Vector3(firstPos.x, firstPos.y+0.5f, firstPos.z), Quaternion.Euler(0, 0, -90));
@@ -64,14 +56,12 @@ public class FlameThrower : MonoBehaviour, IConcreteBonus
         if (Mathf.Abs(curr.x - (int)curr.x) <= 0.2 && (int)curr.x >= 0 && (int)curr.x < 8)
             grid.FlameThrower((int)curr.x, (int)curr.y);
 
-        line.SetPosition(lineIndexPos + 1, curr);
-
         if (curr == target)
         {
             if (firstPos.y == linesToDestroy - 1)
             {
                 boostActivated = false;
-                Destroy(line);
+                //Destroy(line);
                 Destroy(leadFirePrefab);
                 Destroy(shineParticles);
                 StartCoroutine(grid.MoveBoxesDown());
@@ -79,17 +69,15 @@ public class FlameThrower : MonoBehaviour, IConcreteBonus
             }
             else
             {
-                line.positionCount += 2;
                 firstPos.y++;
                 leadFirePrefab.transform.position = new Vector3(leadFirePrefab.transform.position.x, leadFirePrefab.transform.position.y + 1f, firstPos.z);
                 shineParticles.transform.position = new Vector3(shineParticles.transform.position.x, shineParticles.transform.position.y + 1, firstPos.z);
                 leadFirePrefab.transform.rotation = Quaternion.Euler(0, leadFirePrefab.transform.rotation.eulerAngles.y + 180, -90);
                 shineParticles.transform.rotation = Quaternion.Euler(0, shineParticles.transform.rotation.eulerAngles.y + 180, 0);
                 target = firstPos;
-                lineIndexPos += 2;
+
                 curr.y++;
                 firstPos = curr;
-                line.SetPosition(lineIndexPos, firstPos);
                 CreateLine();
             }
         }
