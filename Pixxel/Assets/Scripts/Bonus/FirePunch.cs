@@ -33,6 +33,7 @@ public class FirePunch : MonoBehaviour, IConcreteBonus
     void Start()
     {
         clickedBlocks = new List<Vector2>();
+        scrollBackground = ScrollBackground.Instance;
     }
 
     public void ExecuteBonus()
@@ -42,7 +43,6 @@ public class FirePunch : MonoBehaviour, IConcreteBonus
             Camera.main.GetComponent<CameraShake>();
         grid.currState = GameState.wait;
 
-        scrollBackground = FindObjectOfType<ScrollBackground>();
         if (scrollBackground != null)
         {
             scrollBackground.StopScrolling();

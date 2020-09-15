@@ -11,4 +11,10 @@ public class MagicianGame : MonoBehaviour
         GameObject go = Instantiate(VFX, transform.position, transform.rotation);
         Destroy(go, 5);
     }
+
+    public void ShakeCamera()
+    {
+        var camShake = Camera.main.GetComponent<CameraShake>();
+        StartCoroutine(camShake.Shake(0.1f, 0.1f));
+    }
 }

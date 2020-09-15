@@ -11,8 +11,9 @@ public class LevelSlider : MonoBehaviour
     [SerializeField] Text nameText;
 
     Slider levelSlider;
-    private int currentLevel = 1;
+    int currentLevel = 1;
     int currentSaveBorder = 20;
+    float xpMultiplier = 1;
 
     public static LevelSlider Instance;
 
@@ -47,7 +48,7 @@ public class LevelSlider : MonoBehaviour
 
     public void AddXPtoLevel(float amount)
     {
-        levelSlider.value += amount;
+        levelSlider.value += amount * xpMultiplier;
         if (levelSlider.value >= levelSlider.maxValue)
         {
             currentLevel++;
@@ -58,7 +59,7 @@ public class LevelSlider : MonoBehaviour
             GameData.gameData.saveData.levelXP = 0;
 
             levelSlider.value = 0;
-            levelSlider.maxValue += 100;
+            levelSlider.maxValue += 10;
             currentSaveBorder = 20;
             GameData.gameData.saveData.maxXPforLevelUp = levelSlider.maxValue;
             GameData.gameData.Save();
@@ -92,6 +93,11 @@ public class LevelSlider : MonoBehaviour
         return (int)(levelSlider.maxValue - levelSlider.value);
     }
 
+    public void SetXPMultiplier(float multiplier)
+    {
+        xpMultiplier = multiplier;
+    }
+
     public void LoadLevelSlider()
     {
         levelSlider = GetComponent<Slider>();
@@ -101,9 +107,7 @@ public class LevelSlider : MonoBehaviour
             levelSlider.maxValue = GameData.gameData.saveData.maxXPforLevelUp;
             if (currentLevel == 0)
             {
-                currentLevel = 1;
                 levelSlider.maxValue = 200;
-                GameData.gameData.saveData.currentLevel = 1;
                 GameData.gameData.saveData.maxXPforLevelUp = 200;
                 GameData.gameData.Save();
             }

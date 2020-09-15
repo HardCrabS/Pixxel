@@ -1,11 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
-using Firebase.Unity.Editor;
 using GooglePlayGames;
 using System.Threading.Tasks;
 
@@ -43,6 +40,7 @@ public class DatabaseManager : MonoBehaviour
     public static void ChangeName(string name)
     {
         string playerId = PlayGamesPlatform.Instance.localUser.id;
+        //TODO uncomment 
         /*if (string.IsNullOrEmpty(playerId))
         {
             Debug.LogError("Not authentificated to google, can't upload a score");
@@ -54,6 +52,20 @@ public class DatabaseManager : MonoBehaviour
         mDatabaseRef.Child("users").Child(playerId).Child("username").SetValueAsync(name);
     }
 
+    public static void ChangeTitle(string title)
+    {
+        string playerId = PlayGamesPlatform.Instance.localUser.id;
+        //TODO uncomment 
+        /*if (string.IsNullOrEmpty(playerId))
+        {
+            Debug.LogError("Not authentificated to google, can't upload a score");
+            return;
+        }*/
+
+        DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
+
+        mDatabaseRef.Child("users").Child(playerId).Child("titleText").SetValueAsync(title);
+    }
 
     public static void OverwriteTheScore(string worldName, string userId, int score)
     {
@@ -207,7 +219,7 @@ public class User
 {
     public string id;
     public string username;
-    public string extraText;
+    public string titleText;
     public string spritePath;
     public int score;
 
@@ -215,11 +227,11 @@ public class User
     {
     }
 
-    public User(string id, string username, string extraText, string spritePath)
+    public User(string id, string username, string titleText, string spritePath)
     {
         this.id = id;
         this.username = username;
-        this.extraText = extraText;
+        this.titleText = titleText;
         this.spritePath = spritePath;
     }
 }

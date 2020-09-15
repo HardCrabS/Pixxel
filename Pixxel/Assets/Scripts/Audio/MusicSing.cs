@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicSing : MonoBehaviour {
+public class MusicSing : MonoBehaviour 
+{
+    public static MusicSing Instance;
+    
     AudioSource audio;
-	void Start () {
+	void Start () 
+    {
 		if(FindObjectsOfType<MusicSing>().Length > 1)
         {
             Destroy(gameObject);
@@ -12,11 +16,21 @@ public class MusicSing : MonoBehaviour {
         else
         {
             DontDestroyOnLoad(this);
+            Instance = this;
         }
         audio = GetComponent<AudioSource>();
-	}
-	// Update is called once per frame
-	void Update () {
         audio.volume = PlayerPrefsController.GetMasterVolume();
 	}
+
+    public void SetCurrentClip(AudioClip clip)
+    {
+        audio.Stop();
+        audio.clip = clip;
+        audio.Play();
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        audio.volume = value;
+    }
 }

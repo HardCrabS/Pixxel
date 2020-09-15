@@ -13,6 +13,5 @@ public class CardSet : MonoBehaviour
         int randIndex = Random.Range(0, cardsInSet.Length);
         cardsManager.DisplayCardInfo(cardsInSet[randIndex]);
         GameData.gameData.UpdateCardClaim(System.DateTime.Now.AddHours(12), randIndex, cardsInSet[randIndex].CardType);
-        StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(.1f, .15f));
     }
 }

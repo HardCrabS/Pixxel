@@ -22,6 +22,8 @@ public class SaveData
     public int[] equipedBoostIndexes;
     public bool[] boostsUnlocked;
     public int[] boostLevels;
+    public bool[] avatars;
+    public string[] titles;
 
     public int cardInfoIndex;
     public string cardType;
@@ -54,10 +56,6 @@ public class GameData : MonoBehaviour
             Destroy(this.gameObject);
         }
         Load();
-    }
-    void Start()
-    {
-        
     }
 
     public void UnlockWorld(int index)
@@ -100,6 +98,16 @@ public class GameData : MonoBehaviour
         }
         saveData.slotsForBoostsUnlocked[1] = true;
         saveData.slotsForBoostsUnlocked[2] = true;
+        Save();
+    }
+    public void UnlockAvatar(int index)
+    {
+        saveData.avatars[index] = true;
+        Save();
+    }
+    public void UnlockTitle(int index)
+    {
+        saveData.playerInfo.titleText = saveData.titles[index];
         Save();
     }
     public void UpdateLastQuestClaim(DateTime dateTime)

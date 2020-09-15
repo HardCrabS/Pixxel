@@ -8,11 +8,11 @@ public class ProfileHandler : MonoBehaviour
     [SerializeField] LevelSlider levelSlider;
     [SerializeField] Text profileLevelText;
 
-    [SerializeField] RewardForLevel rewarder;
     [SerializeField] Text rewardNextLevel;
 
     [SerializeField] Text playerName;
     [SerializeField] Image profilePicture;
+    [SerializeField] Text titleText;
 
     [SerializeField] Text changedName;
 
@@ -29,6 +29,7 @@ public class ProfileHandler : MonoBehaviour
 
         playerName.text = player.username;
         profilePicture.sprite = Resources.Load<Sprite>(player.spritePath);
+        titleText.text = "\"" + player.titleText + "\"";
     }
 
     public void ChangeName()
@@ -55,19 +56,14 @@ public class ProfileHandler : MonoBehaviour
     void SetRewardNextLevel()
     {
         int nextLevel = levelSlider.GetGameLevel() + 1;
-        int levelsUntilReward = rewarder.GetLevelsUntilReward(nextLevel);
 
-        if(levelsUntilReward == 0)
+        if(nextLevel > 100)
         {
             rewardNextLevel.text = "You are awesome!";
         }
-        else if(levelsUntilReward == 1)
-        {
-            rewardNextLevel.text = "<color=yellow>" + levelsUntilReward + "</color> level until next reward!";
-        }
         else
         {
-            rewardNextLevel.text = "<color=yellow>" + levelsUntilReward + "</color> levels until next reward!";
+            rewardNextLevel.text = "<color=yellow>" + 1 + "</color> level until next reward!";
         }
     }
 }

@@ -7,14 +7,22 @@ public class WorldInformation : ScriptableObject
 {
     [SerializeField] string worldName;
     [SerializeField] int worldIndex;
+    [SerializeField] string worldStyle;
+    [SerializeField] string musicTitle;
+    [SerializeField] string musicCreator;
     [SerializeField] Sprite backgroundSprite;
+    [SerializeField] AudioClip song;
     [SerializeField] Sprite[] blockSprites;
     [SerializeField] GameObject[] boxes;
     [SerializeField] LevelTemplate[] trinketLevelTemplates;
     [SerializeField] LevelTemplate leaderboardTemplate;
 
     public string WorldName { get { return worldName; } }
+    public string Style { get { return worldStyle; } }
+    public string MusicTitle { get { return musicTitle; } }
+    public string MusicCreator { get { return musicCreator; } }
     public Sprite BackgroundSprite { get { return backgroundSprite; } }
+    public AudioClip Song { get { return song; } }
     public Sprite[] BlockSprites { get { return blockSprites; } }
     public GameObject[] Boxes { get { return boxes; } }
     public LevelTemplate[] TrinketLevelTemplates { get { return trinketLevelTemplates; } }

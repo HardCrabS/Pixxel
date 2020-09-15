@@ -9,6 +9,8 @@ public class WorldInfoDisplay : MonoBehaviour
     [SerializeField] GameObject infoPanel;
     [SerializeField] GameObject GOButton;
     [SerializeField] Text worldName;
+    [SerializeField] Text musicInfoText;
+    [SerializeField] Text worldStyleText;
     [SerializeField] Image worldBackgroundImage;
     [SerializeField] Image[] blockImages;
 
@@ -53,9 +55,11 @@ public class WorldInfoDisplay : MonoBehaviour
         {
             worldInformation = worldInfo;
             infoPanel.SetActive(true);
-            SetBlockImages(worldInfo);
+            //SetBlockImages(worldInfo);
             worldBackgroundImage.sprite = worldInfo.BackgroundSprite;
             worldName.text = worldInfo.WorldName;
+            worldStyleText.text = worldInfo.Style;
+            musicInfoText.text = "Music\n" + "\"" + worldInfo.MusicTitle + "\"\n" + "By " + worldInfo.MusicCreator;
             LevelSettingsKeeper.settingsKeeper.worldIndex = worldInfo.WorldIndex;
             LevelSettingsKeeper.settingsKeeper.worldName = worldInfo.WorldName;
             trinketsInfo.SetActive(false);
@@ -79,6 +83,6 @@ public class WorldInfoDisplay : MonoBehaviour
     }
     void LoadWorld()
     {
-        FindObjectOfType<SceneLoader>().LoadConcreteWorld(worldInformation.WorldName);
+        FindObjectOfType<SceneLoader>().LoadConcreteWorld(worldInformation.WorldName, worldInformation.Song);
     }
 }

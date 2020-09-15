@@ -19,9 +19,6 @@ public class EquipButton : MonoBehaviour
         {
             if (!GameData.gameData.saveData.slotsForBoostsUnlocked[i])
             {
-                var colors = equipeButtons[i].colors;
-                colors.disabledColor = new Color(0.7f, 0.7f, 0.7f);
-                equipeButtons[i].colors = colors;
                 equipeButtons[i].interactable = false;
                 if (equipeButtons[i].transform.childCount > 0)
                     equipeButtons[i].transform.GetChild(0).gameObject.SetActive(true);

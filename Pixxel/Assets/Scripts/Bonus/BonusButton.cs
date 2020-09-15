@@ -39,30 +39,11 @@ public class BonusButton : MonoBehaviour
                 GetComponent<Button>().interactable = false;
             }
         }
-        else
-        {
-            //GetComponent<IConcreteBonus>().SetBoostLevel(level);
-        }
     }
     public void SetButtonForGame(Boost boost)
     {
         boostInfo = boost;
     }
-    /*public void UpdateBonusLevelInfo()
-    {
-        GetComponent<IConcreteBonus>().SetBoostLevel(++level);
-        foreach (Button button in equipButton.equipeButtons)
-        {
-            if (button.GetComponent<Image>().sprite == GetComponent<Image>().sprite)
-            {
-                equipButton.bonusSprite = boostSprites[GetComponent<IConcreteBonus>().GetSpiteIndex()];
-                GetComponent<Image>().sprite = boostSprites[GetComponent<IConcreteBonus>().GetSpiteIndex()];
-                button.GetComponent<BonusButton>().EquipBonus();
-                return;
-            }
-        }
-        GetComponent<Image>().sprite = boostSprites[GetComponent<IConcreteBonus>().GetSpiteIndex()];
-    }*/
 
     EquipButton equipButton;
     public void GetBoostInfo()
@@ -75,10 +56,6 @@ public class BonusButton : MonoBehaviour
         int level = GameData.gameData.saveData.boostLevels[boostInfo.Index];
 
         IConcreteBonus myBonus = GetComponent<IConcreteBonus>();
-        //GameObject.Find("Boost Title Text").GetComponent<Text>().text = myBonus.GetBoostTitle();
-        //GameObject.Find("Boost Level Text").GetComponent<Text>().text = "lv " + level;
-        //GameObject.Find("Boost Description Text").GetComponent<Text>().text = myBonus.GetBoostDescription();
-        //GameObject.Find("Cost Text").GetComponent<Text>().text = "Cost: " + myBonus.GetBoostLevelUpCost();
 
         clickOnBoost.ChangeBoostText(boostInfo, myBonus.GetUniqueAbility(level));
         LevelUp levelUp = FindObjectOfType<LevelUp>();
@@ -118,19 +95,4 @@ public class BonusButton : MonoBehaviour
             GameData.gameData.Save();
         }
     }
-    /*public void EquipBonus()
-    {
-        EquipButton equipButton = FindObjectOfType<EquipButton>();
-        IConcreteBonus bonusToEquip = equipButton.currentBonus;
-        if (bonusToEquip != null)
-        {
-            GetComponent<Image>().sprite = equipButton.bonusSprite;
-
-            ButtonData[] allButtons = SaveSystem.LoadEquipedBonuses();
-            string name = bonusToEquip.GetSpriteFromImage().name;
-
-            allButtons[buttonIndex] = new ButtonData(bonusToEquip.GetType(), name);
-            SaveSystem.SaveChosenBoosts(allButtons);
-        }
-    }*/
 }

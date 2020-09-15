@@ -7,10 +7,11 @@ public class SceneLoader : MonoBehaviour
 {
     [SerializeField] GameObject loadingPanel;
     [SerializeField] Slider slider;
+    [SerializeField] AudioClip mainMenuSong;
 
     public void CallUnlockAllBoosts()
     {
-        GameData.gameData.UnlockAllBoosts();  // JUST FOR TEST. REMOVE LATER
+        GameData.gameData.UnlockAllBoosts();  // JUST FOR TEST. TODO REMOVE LATER
     }
     public void LoadNextScene()
     {
@@ -23,14 +24,18 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void LoadConcreteWorld(string world_name)
+    public void LoadConcreteWorld(string world_name, AudioClip worldSong)
     {
-            StartCoroutine(LoadAsynchronously(world_name));
+        StartCoroutine(LoadAsynchronously(world_name, worldSong));
     }
 
-    IEnumerator LoadAsynchronously(string sceneName)
+    IEnumerator LoadAsynchronously(string sceneName, AudioClip worldSong)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        operation.completed += (asyncOperation) =>
+        {
+            MusicSing.Instance.SetCurrentClip(worldSong);
+        };
         if (loadingPanel != null)
         {
             loadingPanel.SetActive(true);
@@ -54,7 +59,9 @@ public class SceneLoader : MonoBehaviour
     {
         if (GameData.gameData != null)
             GameData.gameData.Save();
-            SceneManager.LoadScene("Start");
+        SceneManager.LoadScene("Start");
+        MusicSing.Instance.SetCurrentClip(mainMenuSong);
+        Time.timeScale = 1;
     }
 
     public void LoadOptionsScene()

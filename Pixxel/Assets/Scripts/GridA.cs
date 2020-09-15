@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum BlockTags
 {
@@ -51,7 +50,7 @@ public class GridA : MonoBehaviour
     [SerializeField] GameObject smoke;
 
     [Header("Add for match")]
-    [SerializeField] int pointsToAddperBox = 10;
+    [SerializeField] int scorePointsToAddperBox = 10;
     [SerializeField] float pointsXPforLevel = 1;
 
     [Header("Grid Settings")]
@@ -86,7 +85,7 @@ public class GridA : MonoBehaviour
         new Vector2Int(-1, 1)
     };
     public delegate void MyDelegate(int column, int row);
-    public event MyDelegate onMatchedBlock;
+    public event MyDelegate onGoldRushMatch;
 
     public static GridA Instance;
 
@@ -101,10 +100,6 @@ public class GridA : MonoBehaviour
             offset = template.offset;
             boardLayout = template.boardLayout;
         }
-    }
-    void Update()
-    {
-
     }
     void Start()
     {
@@ -256,11 +251,9 @@ public class GridA : MonoBehaviour
     {
         if (allBoxes[column, row] != null && allBoxes[column, row].GetComponent<Box>().isMatched)
         {
-            //if (allBoxes[column, row].GetComponent<Box>().mainMatch == allBoxes[column, row].GetComponent<Box>())
-            //    b.SpawnBackgroundActivity();
-            if (onMatchedBlock != null)
+            if (onGoldRushMatch != null)
             {
-                onMatchedBlock(column, row);
+                onGoldRushMatch(column, row);
                 return;
             }
 
@@ -414,10 +407,13 @@ public class GridA : MonoBehaviour
             if (go != null && go.CompareTag(boxTag))
             {
                 yield return new WaitForSeconds(.1f);
-                GameObject particle = Instantiate(blockDestroyParticle, go.transform.localPosition, transform.rotation);
-                Destroy(particle, 0.5f);
-                Destroy(go);
-                AddXPandScorePoints();
+                if (go != null)
+                {
+                    GameObject particle = Instantiate(blockDestroyParticle, go.transform.localPosition, transform.rotation);
+                    Destroy(particle, 0.5f);
+                    Destroy(go);
+                    AddXPandScorePoints();
+                }
             }
         }
         StartCoroutine(MoveBoxesDown());
@@ -451,7 +447,7 @@ public class GridA : MonoBehaviour
     }
     void AddXPandScorePoints()
     {
-        Score.Instance.AddPoints(pointsToAddperBox);
+        Score.Instance.AddPoints(scorePointsToAddperBox);
         LevelSlider.Instance.AddXPtoLevel(pointsXPforLevel);
         CoinsDisplay.Instance.RandomizeCoin();
     }
@@ -513,8 +509,8 @@ public class GridA : MonoBehaviour
             {
                 if (allBoxes[x, y] == null && template.isLeaderboard)
                 {
-                    int bombChance = Random.Range(0, 101);
-                    if (bombChance < template.bombChance)
+                    int bombChance = Random.Range(0, 100);
+                    if (bombChance <= template.bombChance)
                     {
                         Vector2 tempPos = new Vector2(x, y + offset);
                         GameObject bomb = Instantiate(bombTilePrefab, parent.position + new Vector3(tempPos.x, tempPos.y), transform.rotation, parent);
@@ -525,7 +521,7 @@ public class GridA : MonoBehaviour
                         bomb.name = "Bomb";
                         continue;
                     }
-                }
+                } 
                 if (allBoxes[x, y] == null && !blankSpaces[x, y])
                 {
                     Vector2 tempPos = new Vector2(x, y + offset);

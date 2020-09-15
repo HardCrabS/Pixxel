@@ -49,8 +49,18 @@ public class EndGameManager : MonoBehaviour
     }
     public void CallOnMatchDelegate()
     {
+        StartCoroutine(OnMatchedDelayed());
+    }
+
+    IEnumerator OnMatchedDelayed()
+    {
+        yield return new WaitForSeconds(0.1f);
         if (onMatchedBlock != null)
+        {
             onMatchedBlock();
+            yield return new WaitForSeconds(0.31f);
+            StartCoroutine(GridA.Instance.MoveBoxesDown());
+        }
     }
     void SetRequirements()
     {
@@ -79,6 +89,12 @@ public class EndGameManager : MonoBehaviour
 
     public void GameOver()
     {
+        StartCoroutine(GameOverDelayed());
+    }
+
+    IEnumerator GameOverDelayed()
+    {
+        yield return new WaitForSeconds(2f);
         bestScoreText.text = Score.Instance.GetCurrentScore() + "";
         gameOverPanel.SetActive(true);
     }

@@ -24,24 +24,27 @@ public class LivesManager : MonoBehaviour
         totalLives = hearts.Length;
     }
 
-    public bool DecreaseHeart()
+    public IEnumerator DecreaseHeart()
     {
         if ((totalLives - 1) <= 0)
         {
             if (savePlayer != null)
             {
-                Time.timeScale = 0;
-                savePlayer();
+                yield return null;
+                if (savePlayer != null)
+                    savePlayer();
                 totalLives = 3;
                 MakeAllHeartsActive();
-                return false;
+                yield break;
             }
-            FindObjectOfType<EndGameManager>().GameOver();
+            else
+            {
+                FindObjectOfType<EndGameManager>().GameOver();
+            }
         }
         totalLives--;
-        if (totalLives >= 0)
+        if (totalLives < 3 && totalLives >= 0)
             hearts[totalLives].color = lostHeartColor;
-        return true;
     }
 
     void MakeAllHeartsActive()

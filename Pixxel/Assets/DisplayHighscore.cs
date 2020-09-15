@@ -11,6 +11,7 @@ public class DisplayHighscore : MonoBehaviour
 {
     [SerializeField] WorldInfoDisplay worldInfoDisplay;
     [SerializeField] Text firstPlaceScoreText;
+    [SerializeField] Text firstPlaceTitleText;
     [SerializeField] Image firstPlaceImage;
 
     [SerializeField] GameObject scorePanel;
@@ -27,7 +28,6 @@ public class DisplayHighscore : MonoBehaviour
         scorePanels = new LinkedList<GameObject>();
     }
 
-    // Use this for initialization
     public async void SetLeaderboard()
     {
         if (scorePanels.Count > 0)
@@ -103,10 +103,6 @@ public class DisplayHighscore : MonoBehaviour
         if (startIndex < 0) startIndex = 0;
         if (endIndex >= allUsers.Length) endIndex = allUsers.Length - 1;
 
-        print("player index: " + playerIndex + "  allUsers length: " + allUsers.Length);
-        print("start index: " + startIndex);
-        print("end index: " + endIndex);
-
         for (int i = startIndex; i <= endIndex; i++)
         {
             GameObject scorePanelClone = SpawnScorePanel(allUsers[i], i);
@@ -128,6 +124,7 @@ public class DisplayHighscore : MonoBehaviour
     {
         firstPlaceScoreText.text = "\t#<size=450><color=red>" + 1 + "</color></size>  |  " + allUsers[0].username
         + "  |  " + allUsers[0].score + "\n\n";
+        firstPlaceTitleText.text = "\"" + allUsers[0].titleText + "\"";
         firstPlaceImage.sprite = Resources.Load<Sprite>(allUsers[0].spritePath);
     }
 
@@ -156,7 +153,6 @@ public class DisplayHighscore : MonoBehaviour
     }
     public void SpawnScorePanelDown()
     {
-        print(currCenterIndex);
         if (currCenterIndex + 2 >= allUsers.Length)
         {
             return;
@@ -183,10 +179,10 @@ public class DisplayHighscore : MonoBehaviour
     {
         GameObject go = Instantiate(scorePanel, allScoresContainer);
 
-        Text scoreText = go.GetComponentInChildren<Text>();
-        scoreText.text = "\t#<size=450><color=yellow>" + (index + 1) + "</color></size>  |  " + user.username
+        Text text = go.GetComponentInChildren<Text>();
+        text.text = "\t#<size=450><color=yellow>" + (index + 1) + "</color></size>  |  " + user.username
         + "  |  " + user.score + "\n\n";
-
+        go.transform.Find("Title Panel/Title Text").GetComponent<Text>().text = "\"" + user.titleText + "\"";
         Image[] images = go.GetComponentsInChildren<Image>();
         images[1].sprite = Resources.Load<Sprite>(user.spritePath);
 

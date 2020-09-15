@@ -31,7 +31,7 @@ public class GoldRush : MonoBehaviour, IConcreteBonus
             {
                 timeText.text = "0.00";
                 activated = false;
-                grid.onMatchedBlock -= ChangeSpriteOnMatch;
+                grid.onGoldRushMatch -= ChangeSpriteOnMatch;
             }
         }
     }
@@ -48,7 +48,7 @@ public class GoldRush : MonoBehaviour, IConcreteBonus
             goldRushPanel = Resources.Load<GameObject>("Sprites/BoostSprites/Gold Rush/Gold Rush Panel");
         activated = true;
         startTime = timeToBonusLast;
-        grid.onMatchedBlock += ChangeSpriteOnMatch;
+        grid.onGoldRushMatch += ChangeSpriteOnMatch;
 
         GameObject canvas = GameObject.FindGameObjectWithTag("Main Canvas");
         RectTransform bonusPanelRectTransform = goldRushPanel.GetComponent<RectTransform>();
