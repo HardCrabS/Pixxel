@@ -64,13 +64,9 @@ public class SceneLoader : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void LoadOptionsScene()
+    public void LoadWorldSelectScene()
     {
-        SceneManager.LoadScene("Options");
-    }
-
-    public void LoadBoostScene()
-    {
-        SceneManager.LoadScene("Boosts");
+        SceneManager.LoadScene("World Select");
+        MusicSing.Instance.SetCurrentClip(mainMenuSong);
     }
 }

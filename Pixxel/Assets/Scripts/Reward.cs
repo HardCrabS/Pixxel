@@ -4,13 +4,15 @@
 public class RewardTemplate
 {
     public LevelReward reward;
+    public string name;
+    public Sprite rewardSprite;
     public int index;
 }
 
 [System.Serializable]
 public class Reward 
 {
-    [SerializeField] RewardTemplate[] rewards;
+    public RewardTemplate[] rewards;
 
 	public void ApplyReward()
     {

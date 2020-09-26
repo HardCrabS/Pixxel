@@ -91,6 +91,7 @@ public class GoalManager : MonoBehaviour
 
     void DisplayWinPanel()
     {
+        RewardForLevel.Instance.CheckForLevelUpReward();
         winPanel.SetActive(true);
         if (GameData.gameData != null)
             GameData.gameData.UnlockTrinket(LevelSettingsKeeper.settingsKeeper.worldIndex, LevelSettingsKeeper.settingsKeeper.trinketIndex);

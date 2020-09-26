@@ -24,6 +24,8 @@ public class MusicSing : MonoBehaviour
 
     public void SetCurrentClip(AudioClip clip)
     {
+        if(clip == audio.clip) { return; }
+
         audio.Stop();
         audio.clip = clip;
         audio.Play();

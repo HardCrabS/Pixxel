@@ -9,6 +9,7 @@ public class ProfileHandler : MonoBehaviour
     [SerializeField] Text profileLevelText;
 
     [SerializeField] Text rewardNextLevel;
+    [SerializeField] Image rewardImage;
 
     [SerializeField] Text playerName;
     [SerializeField] Image profilePicture;
@@ -63,7 +64,9 @@ public class ProfileHandler : MonoBehaviour
         }
         else
         {
-            rewardNextLevel.text = "<color=yellow>" + 1 + "</color> level until next reward!";
+            var reward = FindObjectOfType<RewardForLevel>().GetReward(nextLevel);
+            rewardNextLevel.text = reward.reward.ToString();
+            rewardImage.sprite = reward.rewardSprite;
         }
     }
 }

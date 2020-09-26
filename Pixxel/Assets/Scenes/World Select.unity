@@ -1892,8 +1892,8 @@ GameObject:
   - component: {fileID: 150338291}
   - component: {fileID: 150338290}
   - component: {fileID: 1508168900}
-  - component: {fileID: 150338289}
   - component: {fileID: 150338288}
+  - component: {fileID: 150338289}
   m_Layer: 5
   m_Name: World Button (2)
   m_TagString: Untagged
@@ -1976,22 +1976,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!111 &150338289
-Animation:
+--- !u!114 &150338289
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 111919777696100346, guid: c6b2242f42ddc7742a38170c23a2d2c0,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 150338286}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 7, y: -7}
+  m_UseGraphicAlpha: 1
 --- !u!114 &150338290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2012,7 +2010,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 802d297813ee8fb45945ce14086eb8b7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7c103c346d46dd848915dbcd41c5a05d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3935,9 +3933,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20393f99bf5b91446931dd01373cce17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 11
-  text: {fileID: 1707767486}
-  worldName: Dusk Mountain Story
   blackAndWhiteMat: {fileID: 2100000, guid: 725f0e7b6a69e994296a350133fc0b42, type: 2}
   worldInformation: {fileID: 0}
   worldNumber: 0
@@ -6495,9 +6490,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20393f99bf5b91446931dd01373cce17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 10
-  text: {fileID: 729330974}
-  worldName: Skyscraper
   blackAndWhiteMat: {fileID: 2100000, guid: 725f0e7b6a69e994296a350133fc0b42, type: 2}
   worldInformation: {fileID: 11400000, guid: 12282af5c9ecde34fa0d8c1aa591a5bb, type: 2}
   worldNumber: 0
@@ -8463,9 +8455,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20393f99bf5b91446931dd01373cce17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 750
-  text: {fileID: 57206671}
-  worldName: Twilight City
   blackAndWhiteMat: {fileID: 2100000, guid: 725f0e7b6a69e994296a350133fc0b42, type: 2}
   worldInformation: {fileID: 0}
   worldNumber: 0
@@ -8759,9 +8748,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20393f99bf5b91446931dd01373cce17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 750
-  text: {fileID: 185240085}
-  worldName: Twilight City
   blackAndWhiteMat: {fileID: 2100000, guid: 725f0e7b6a69e994296a350133fc0b42, type: 2}
   worldInformation: {fileID: 0}
   worldNumber: 0
@@ -9436,9 +9422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20393f99bf5b91446931dd01373cce17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 16
-  text: {fileID: 1310835708}
-  worldName: Alien World
   blackAndWhiteMat: {fileID: 2100000, guid: 725f0e7b6a69e994296a350133fc0b42, type: 2}
   worldInformation: {fileID: 0}
   worldNumber: 0
@@ -9784,8 +9767,8 @@ GameObject:
   - component: {fileID: 991972794}
   - component: {fileID: 991972793}
   - component: {fileID: 843409017}
-  - component: {fileID: 991972792}
   - component: {fileID: 991972791}
+  - component: {fileID: 991972792}
   m_Layer: 5
   m_Name: World Button (1)
   m_TagString: Untagged
@@ -9867,22 +9850,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!111 &991972792
-Animation:
+--- !u!114 &991972792
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 111590467806851870, guid: c6b2242f42ddc7742a38170c23a2d2c0,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 991972789}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 7, y: -7}
+  m_UseGraphicAlpha: 1
 --- !u!114 &991972793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9903,7 +9884,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: b255d3ea544144b4f95893af93fbea81, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8d4985756b3a65c44a6d910fcc4cbb3b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10186,8 +10167,8 @@ GameObject:
   - component: {fileID: 1012247453}
   - component: {fileID: 1012247452}
   - component: {fileID: 962559544}
-  - component: {fileID: 1012247451}
   - component: {fileID: 1012247450}
+  - component: {fileID: 1012247451}
   m_Layer: 5
   m_Name: World Button (5)
   m_TagString: Untagged
@@ -10269,22 +10250,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!111 &1012247451
-Animation:
+--- !u!114 &1012247451
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 111534388469530814, guid: c6b2242f42ddc7742a38170c23a2d2c0,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1012247448}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 7, y: -7}
+  m_UseGraphicAlpha: 1
 --- !u!114 &1012247452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10305,7 +10284,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2a1a1db192c2c9b4b84fd4300a0c4bef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cec0af86669a7264aabc22b3dc3dd9ff, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10619,8 +10598,8 @@ GameObject:
   - component: {fileID: 1072745386}
   - component: {fileID: 1072745385}
   - component: {fileID: 1671080537}
-  - component: {fileID: 1072745384}
   - component: {fileID: 1072745383}
+  - component: {fileID: 1072745384}
   m_Layer: 5
   m_Name: World Button (7)
   m_TagString: Untagged
@@ -10702,22 +10681,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!111 &1072745384
-Animation:
+--- !u!114 &1072745384
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 111774452590347322, guid: c6b2242f42ddc7742a38170c23a2d2c0,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1072745381}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 7, y: -7}
+  m_UseGraphicAlpha: 1
 --- !u!114 &1072745385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10738,7 +10715,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 63d2d5c0ca3f3de42823551b07d19769, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bbe45e675549b7f4494441a562b4447c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10967,9 +10944,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20393f99bf5b91446931dd01373cce17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 600
-  text: {fileID: 1412569606}
-  worldName: Twilight City
   blackAndWhiteMat: {fileID: 2100000, guid: 725f0e7b6a69e994296a350133fc0b42, type: 2}
   worldInformation: {fileID: 0}
   worldNumber: 0
@@ -12102,8 +12076,8 @@ GameObject:
   - component: {fileID: 1228258526}
   - component: {fileID: 1228258525}
   - component: {fileID: 876780064}
-  - component: {fileID: 1228258524}
   - component: {fileID: 1228258523}
+  - component: {fileID: 1228258524}
   m_Layer: 5
   m_Name: World Button (0)
   m_TagString: Untagged
@@ -12185,22 +12159,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!111 &1228258524
-Animation:
+--- !u!114 &1228258524
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 111524217428566176, guid: c6b2242f42ddc7742a38170c23a2d2c0,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1228258521}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 7, y: -7}
+  m_UseGraphicAlpha: 1
 --- !u!114 &1228258525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12221,7 +12193,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: b996c17e1eee8034098978a7d66b941e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d8a655b8380cbb04e816dee1d3915db1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14561,9 +14533,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20393f99bf5b91446931dd01373cce17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 800
-  text: {fileID: 200726696}
-  worldName: Twilight City
   blackAndWhiteMat: {fileID: 2100000, guid: 725f0e7b6a69e994296a350133fc0b42, type: 2}
   worldInformation: {fileID: 0}
   worldNumber: 0
@@ -14580,8 +14549,8 @@ GameObject:
   - component: {fileID: 1489838591}
   - component: {fileID: 1489838590}
   - component: {fileID: 1937230402}
-  - component: {fileID: 1489838589}
   - component: {fileID: 1489838588}
+  - component: {fileID: 1489838589}
   m_Layer: 5
   m_Name: World Button (8)
   m_TagString: Untagged
@@ -14663,22 +14632,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!111 &1489838589
-Animation:
+--- !u!114 &1489838589
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 111691394684085316, guid: c6b2242f42ddc7742a38170c23a2d2c0,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1489838586}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 7, y: -7}
+  m_UseGraphicAlpha: 1
 --- !u!114 &1489838590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14699,7 +14666,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: ca5a00926e084614298b5aa3b4fcb38c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cf36b9fb1d785d14db26fc01db4433b4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14800,8 +14767,8 @@ GameObject:
   - component: {fileID: 1501570124}
   - component: {fileID: 1501570123}
   - component: {fileID: 1488424393}
-  - component: {fileID: 1501570122}
   - component: {fileID: 1501570121}
+  - component: {fileID: 1501570122}
   m_Layer: 5
   m_Name: World Button (4)
   m_TagString: Untagged
@@ -14883,22 +14850,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!111 &1501570122
-Animation:
+--- !u!114 &1501570122
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 111669535957444936, guid: c6b2242f42ddc7742a38170c23a2d2c0,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1501570119}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 7, y: -7}
+  m_UseGraphicAlpha: 1
 --- !u!114 &1501570123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14919,7 +14884,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 05261395a87970342ab46d9258f0c2ea, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4836681b0a923c24b82c33527fa9ab5f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14947,9 +14912,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20393f99bf5b91446931dd01373cce17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 750
-  text: {fileID: 305668301}
-  worldName: Twilight City
   blackAndWhiteMat: {fileID: 2100000, guid: 725f0e7b6a69e994296a350133fc0b42, type: 2}
   worldInformation: {fileID: 11400000, guid: eb2dc7359760e484bb7f884c09d49a9e, type: 2}
   worldNumber: 0
@@ -15811,8 +15773,8 @@ GameObject:
   - component: {fileID: 1614867892}
   - component: {fileID: 1614867891}
   - component: {fileID: 600028780}
-  - component: {fileID: 1614867890}
   - component: {fileID: 1614867889}
+  - component: {fileID: 1614867890}
   m_Layer: 5
   m_Name: World Button (3)
   m_TagString: Untagged
@@ -15894,22 +15856,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!111 &1614867890
-Animation:
+--- !u!114 &1614867890
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 111625323078197372, guid: c6b2242f42ddc7742a38170c23a2d2c0,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1614867887}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 7, y: -7}
+  m_UseGraphicAlpha: 1
 --- !u!114 &1614867891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15930,7 +15890,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 919922229df918d4ba958044e4dc537d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 860eb2e3eb582ce4fb6ae711685e6507, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16221,9 +16181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20393f99bf5b91446931dd01373cce17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 720
-  text: {fileID: 1529987938}
-  worldName: Twilight City
   blackAndWhiteMat: {fileID: 2100000, guid: 725f0e7b6a69e994296a350133fc0b42, type: 2}
   worldInformation: {fileID: 0}
   worldNumber: 0
@@ -16490,8 +16447,8 @@ GameObject:
   - component: {fileID: 1718088341}
   - component: {fileID: 1718088340}
   - component: {fileID: 369079680}
-  - component: {fileID: 1718088339}
   - component: {fileID: 1718088338}
+  - component: {fileID: 1718088339}
   m_Layer: 5
   m_Name: World Button (9)
   m_TagString: Untagged
@@ -16573,22 +16530,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!111 &1718088339
-Animation:
+--- !u!114 &1718088339
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 111076826638999618, guid: c6b2242f42ddc7742a38170c23a2d2c0,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1718088336}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 7, y: -7}
+  m_UseGraphicAlpha: 1
 --- !u!114 &1718088340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16609,7 +16564,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 63712383011375346b127cbc6b7a5f21, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0db52e1f1424c3d40b3c6cbb90e76e29, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -19016,9 +18971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20393f99bf5b91446931dd01373cce17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 5
-  text: {fileID: 557322530}
-  worldName: Oaky Platformer
   blackAndWhiteMat: {fileID: 2100000, guid: 725f0e7b6a69e994296a350133fc0b42, type: 2}
   worldInformation: {fileID: 11400000, guid: 4e255c03dda19ec4a8e51725e5cf222b, type: 2}
   worldNumber: 1
@@ -21051,7 +21003,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2121919261
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21132,8 +21084,8 @@ GameObject:
   - component: {fileID: 2124987831}
   - component: {fileID: 2124987830}
   - component: {fileID: 1093342753}
-  - component: {fileID: 2124987829}
   - component: {fileID: 2124987828}
+  - component: {fileID: 2124987829}
   m_Layer: 5
   m_Name: World Button (6)
   m_TagString: Untagged
@@ -21215,22 +21167,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!111 &2124987829
-Animation:
+--- !u!114 &2124987829
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 111385171156408408, guid: c6b2242f42ddc7742a38170c23a2d2c0,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2124987826}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: bc5cf26c1d3805f47ba78b8491c2ead3, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 7, y: -7}
+  m_UseGraphicAlpha: 1
 --- !u!114 &2124987830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21251,7 +21201,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: ac02e402839887f4aa7d7aa3cf085d38, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f51e9bfa88ca3c945b8b4cf6ee3a93b6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

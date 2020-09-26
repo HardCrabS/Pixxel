@@ -29,6 +29,9 @@ public class SaveData
     public string cardType;
     public string lastTimeCardClaimed;
 
+    public string lastFacebookShare;
+    public string lastTwitterShare;
+
     public bool[] slotsForBoostsUnlocked;
     public string lastTimeQuestClaimed;
     public QuestProgress[] dailyQuests;
@@ -128,7 +131,7 @@ public class GameData : MonoBehaviour
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         FileStream stream = File.Open(path, FileMode.Create);
 
-        SaveData data = new SaveData();
+        SaveData data;
         data = saveData;
 
         binaryFormatter.Serialize(stream, data);
