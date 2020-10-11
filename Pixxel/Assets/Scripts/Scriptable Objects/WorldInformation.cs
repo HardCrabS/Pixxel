@@ -6,6 +6,7 @@ using UnityEngine;
 public class WorldInformation : ScriptableObject 
 {
     [SerializeField] string worldName;
+    [TextArea(2, 4)] [SerializeField] string description;
     [SerializeField] int worldIndex;
     [SerializeField] string worldStyle;
     [SerializeField] string musicTitle;
@@ -18,6 +19,7 @@ public class WorldInformation : ScriptableObject
     [SerializeField] LevelTemplate leaderboardTemplate;
 
     public string WorldName { get { return worldName; } }
+    public string Description { get { return description; } }
     public string Style { get { return worldStyle; } }
     public string MusicTitle { get { return musicTitle; } }
     public string MusicCreator { get { return musicCreator; } }

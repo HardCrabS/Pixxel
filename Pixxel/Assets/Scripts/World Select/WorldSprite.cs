@@ -9,23 +9,21 @@ public class WorldSprite : MonoBehaviour
     [SerializeField] WorldInformation worldInformation;
 
     public int worldNumber;
-    public bool isUnlocked = false;
-    WorldManager worldManager;
     WorldInfoDisplay infoDisplay;
 
     void Start()
     {
-        if (worldInformation == null || worldInformation != null && !GameData.gameData.saveData.worldUnlocked[worldInformation.WorldIndex])
+        if (!GameData.gameData.saveData.worldUnlocked[worldInformation.WorldIndex])
         {
-            if (transform.childCount > 1)
+            if (transform.childCount > 0)
             {
-                transform.GetChild(1).gameObject.SetActive(true);
+                transform.GetChild(0).gameObject.SetActive(true);
             }
             GetComponent<Image>().material = blackAndWhiteMat;
         }
         else
         {
-            if(AllTrinketsEarned())
+            if (AllTrinketsEarned())
             {
                 transform.GetChild(1).GetComponentInChildren<Text>().text = "<color=lime>COMPLETED</color>";
                 transform.GetChild(1).Rotate(0, 0, 45);
@@ -34,6 +32,12 @@ public class WorldSprite : MonoBehaviour
             infoDisplay = FindObjectOfType<WorldInfoDisplay>();
             GetComponent<Button>().onClick.AddListener(OpenWorldInfoPanel);
         }
+    }
+
+    public void ShowDescription()
+    {
+        CollectionController.Instance.SetWorldDescription(worldInformation.WorldName,
+            worldInformation.Description, worldInformation.WorldIndex);
     }
 
     bool AllTrinketsEarned()
@@ -49,6 +53,7 @@ public class WorldSprite : MonoBehaviour
 
     void OpenWorldInfoPanel()
     {
-        infoDisplay.SetInfoPanel(worldInformation);
+        if (infoDisplay != null)
+            infoDisplay.SetInfoPanel(worldInformation);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +25,7 @@ public class BombTile : MonoBehaviour
         StartCoroutine(LivesManager.Instance.DecreaseHeart());
         GameObject go = Instantiate(explosionVFX, transform.position, transform.rotation);
         Destroy(go, 0.5f);
+        ShakeCamera();
         yield return new WaitForSeconds(0.3f);
 
         Box box = GetComponent<Box>();
@@ -34,7 +34,11 @@ public class BombTile : MonoBehaviour
         GridA.Instance.allBoxes[row, column] = null;
         GridA.Instance.bombTiles[row, column] = null;
     }
-
+    void ShakeCamera()
+    {
+        var camShake = Camera.main.GetComponent<CameraShake>();
+        StartCoroutine(camShake.Shake(0.1f, 0.05f));
+    }
     public void DecreaseBombCounter()
     {
         StartCoroutine(DecreaseCounterDelayed());

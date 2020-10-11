@@ -84,4 +84,19 @@ public class RewardForLevel : MonoBehaviour
             rewardPanel.SetActive(true);
         }
     }
+    public int GetRankFromRewards(LevelReward levelReward, int index)
+    {
+        for (int i = 0; i < rewards.Length; i++)
+        {
+            var rew = rewards[i].rewards;
+            for (int j = 0; j < rew.Length; j++)
+            {
+                if(rew[j].reward == levelReward && rew[j].index == index)
+                {
+                    return i + 1;
+                }
+            }
+        }
+        return -1;
+    }
 }
