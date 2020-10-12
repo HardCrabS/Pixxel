@@ -13,7 +13,7 @@ public class WorldSprite : MonoBehaviour
 
     void Start()
     {
-        if (!GameData.gameData.saveData.worldUnlocked[worldInformation.WorldIndex])
+        if (worldInformation != null && !GameData.gameData.saveData.worldUnlocked[worldInformation.WorldIndex])
         {
             if (transform.childCount > 0)
             {
@@ -42,6 +42,8 @@ public class WorldSprite : MonoBehaviour
 
     bool AllTrinketsEarned()
     {
+        if (worldInformation == null) return false;
+
         bool[] allTrinkets = GameData.gameData.saveData.worldTrinkets[worldInformation.WorldIndex].trinkets;
         for (int i = 0; i < allTrinkets.Length; i++)
         {

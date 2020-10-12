@@ -23,7 +23,7 @@ public class SaveData
     public bool[] boostsUnlocked;
     public int[] boostLevels;
     public bool[] avatars;
-    public string[] titles;
+    public bool[] titlesUnlocked;
 
     public int cardInfoIndex;
     public string cardType;
@@ -110,8 +110,15 @@ public class GameData : MonoBehaviour
     }
     public void UnlockTitle(int index)
     {
-        saveData.playerInfo.titleText = saveData.titles[index];
+        saveData.titlesUnlocked[index] = true;
         Save();
+    }
+    public void ChangeTitle(string title)
+    {
+        saveData.playerInfo.titleText = title;
+        Save();
+
+        DatabaseManager.ChangeTitle(title);
     }
     public void UpdateLastQuestClaim(DateTime dateTime)
     {

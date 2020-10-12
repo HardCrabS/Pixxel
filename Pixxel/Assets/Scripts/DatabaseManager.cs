@@ -8,11 +8,6 @@ using System.Threading.Tasks;
 
 public class DatabaseManager : MonoBehaviour
 {
-    void Start()
-    {
-
-    }
-
     public static void WriteNewUser(string userId, string name, string extraText, string spritePath)
     {
         DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;

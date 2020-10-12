@@ -42,6 +42,11 @@ public class ProfileHandler : MonoBehaviour
         DatabaseManager.ChangeName(newName);
     }
 
+    public void UpdateTitle()
+    {
+        titleText.text = "\"" + GameData.gameData.saveData.playerInfo.titleText + "\"";
+    }
+
 	void SetSlider()
     {
         if (profileLevelText != null)
