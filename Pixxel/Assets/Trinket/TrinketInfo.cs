@@ -13,11 +13,6 @@ public class TrinketInfo : MonoBehaviour
 
     Transform selectionFrame;
 
-    void Start()
-    {
-
-    }
-
     public void SetTrinketButton()
     {
         selectionFrame.position = transform.position;

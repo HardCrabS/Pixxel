@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 public class DatabaseManager : MonoBehaviour
 {
-    public static void WriteNewUser(string userId, string name, string extraText, string spritePath)
+    public static void WriteNewUser(string userId, string name, string extraText, string spritePath, string bannerPath)
     {
         DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
 
-        User user = new User(userId, name, extraText, spritePath);
+        User user = new User(userId, name, extraText, spritePath, bannerPath);
         string json = JsonUtility.ToJson(user);
 
         mDatabaseRef.Child("users").Child(userId).SetRawJsonValueAsync(json);
@@ -61,7 +61,19 @@ public class DatabaseManager : MonoBehaviour
 
         mDatabaseRef.Child("users").Child(playerId).Child("titleText").SetValueAsync(title);
     }
+    public static void ChangeBanner(string spritePath)
+    {
+        string playerId = PlayGamesPlatform.Instance.localUser.id;
+        /*if (string.IsNullOrEmpty(playerId))
+        {
+            Debug.LogError("Not authentificated to google, can't upload a score");
+            return;
+        }*/
 
+        DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
+
+        mDatabaseRef.Child("users").Child(playerId).Child("bannerPath").SetValueAsync(spritePath);
+    }
     public static void OverwriteTheScore(string worldName, string userId, int score)
     {
         // Set up the Editor before calling into the realtime database.
@@ -216,18 +228,20 @@ public class User
     public string username;
     public string titleText;
     public string spritePath;
+    public string bannerSpritePath;
     public int score;
 
     public User()
     {
     }
 
-    public User(string id, string username, string titleText, string spritePath)
+    public User(string id, string username, string titleText, string spritePath, string bannerSpritePath)
     {
         this.id = id;
         this.username = username;
         this.titleText = titleText;
         this.spritePath = spritePath;
+        this.bannerSpritePath = bannerSpritePath;
     }
 }
 

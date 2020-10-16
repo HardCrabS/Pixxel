@@ -24,6 +24,7 @@ public class SaveData
     public int[] boostLevels;
     public bool[] avatars;
     public bool[] titlesUnlocked;
+    public bool[] bannersUnlocked;
 
     public int cardInfoIndex;
     public string cardType;
@@ -119,6 +120,18 @@ public class GameData : MonoBehaviour
         Save();
 
         DatabaseManager.ChangeTitle(title);
+    }
+    public void UnlockBanner(int index)
+    {
+        saveData.bannersUnlocked[index] = true;
+        Save();
+    }
+    public void ChangeBanner(string bannerPath)
+    {
+        saveData.playerInfo.bannerSpritePath = bannerPath;
+        Save();
+
+        DatabaseManager.ChangeBanner(bannerPath);
     }
     public void UpdateLastQuestClaim(DateTime dateTime)
     {

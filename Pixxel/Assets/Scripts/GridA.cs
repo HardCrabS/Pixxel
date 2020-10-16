@@ -36,8 +36,6 @@ public class TileType
 
 public class GridA : MonoBehaviour
 {
-    [Header("Scriptable objects")]
-    public WorldTemplate world;
     public int level;
 
     [Header("Prefabs")]

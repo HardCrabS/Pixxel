@@ -14,10 +14,12 @@ public class ProfileHandler : MonoBehaviour
     [SerializeField] Text playerName;
     [SerializeField] Image profilePicture;
     [SerializeField] Text titleText;
+    [SerializeField] Image bannerImage;
 
     [SerializeField] Text changedName;
 
-    // Use this for initialization
+    string currTitle;
+
     void Start ()
     {
         SetSlider();
@@ -31,6 +33,8 @@ public class ProfileHandler : MonoBehaviour
         playerName.text = player.username;
         profilePicture.sprite = Resources.Load<Sprite>(player.spritePath);
         titleText.text = "\"" + player.titleText + "\"";
+        currTitle = player.titleText;
+        bannerImage.sprite = Resources.Load<Sprite>(player.bannerSpritePath);
     }
 
     public void ChangeName()
@@ -42,12 +46,24 @@ public class ProfileHandler : MonoBehaviour
         DatabaseManager.ChangeName(newName);
     }
 
-    public void UpdateTitle()
+    public void UpdateTitle(string title)
     {
-        titleText.text = "\"" + GameData.gameData.saveData.playerInfo.titleText + "\"";
+        titleText.text = "\"" + title + "\"";
+        currTitle = title;
     }
-
-	void SetSlider()
+    public void UpdateBanner(Sprite banner)
+    {
+        bannerImage.sprite = banner;
+    }
+    public string GetCurrentTitle()
+    {
+        return currTitle;
+    }
+    public Sprite GetCurrentBanner()
+    {
+        return bannerImage.sprite;
+    }
+    void SetSlider()
     {
         if (profileLevelText != null)
         {

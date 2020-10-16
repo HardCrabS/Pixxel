@@ -39,8 +39,8 @@ public class PlayGamesController : MonoBehaviour
                 if (!userInDatabase)
                 {
                     string playerName = PlayGamesPlatform.Instance.localUser.userName;
-                    DatabaseManager.WriteNewUser(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar");
-                    GameData.gameData.saveData.playerInfo = new User(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar");
+                    DatabaseManager.WriteNewUser(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/Banners/DefaultBanner");
+                    GameData.gameData.saveData.playerInfo = new User(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/Banners/DefaultBanner");
                     GameData.gameData.Save();
                 }
             }
@@ -49,7 +49,7 @@ public class PlayGamesController : MonoBehaviour
                 Debug.LogError("Unable to sign in Google Play Services");
                 if (GameData.gameData.saveData.playerInfo == null)
                 {
-                    GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "Sprites/Avatars/DefaultAvatar");
+                    GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/Banners/DefaultBanner");
                     GameData.gameData.Save();
                 }
             }
@@ -65,8 +65,8 @@ public class PlayGamesController : MonoBehaviour
 
             if (!userInDatabase)
             {
-                DatabaseManager.WriteNewUser(playerId, "editor Name", "debil", "Sprites/Avatars/DefaultAvatar");
-                GameData.gameData.saveData.playerInfo = new User(playerId, "debil", "Noobe", "Sprites/Avatars/DefaultAvatar");
+                DatabaseManager.WriteNewUser(playerId, "editor Name", "debil", "Sprites/Avatars/DefaultAvatar", "Sprites/Banners/DefaultBanner");
+                GameData.gameData.saveData.playerInfo = new User(playerId, "debil", "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/Banners/DefaultBanner");
                 GameData.gameData.Save();
                 print("Writing test editor user in database");
             }
