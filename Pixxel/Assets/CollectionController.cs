@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CollectionController : MonoBehaviour 
+public class CollectionController : MonoBehaviour
 {
     public static CollectionController Instance;
 
@@ -14,15 +14,19 @@ public class CollectionController : MonoBehaviour
     [SerializeField] Button equipButton;
     [SerializeField] ProfileHandler profileHandler;
 
+    [Header("Worlds")]
+    [SerializeField] WorldInformation[] worlds;
+
     [Header("Trinkets")]
     [SerializeField] Transform trinketsContainer;
     [SerializeField] Transform trinketSelectionGlow;
+    [SerializeField] GameObject trinketTemplate;
     [SerializeField] LevelTemplate[] trinkets;
 
     [Header("Titles")]
     [SerializeField] Transform titlesContainer;
     [SerializeField] Transform titleSelectionGlow;
-    [SerializeField] string[] titles;
+    [SerializeField] Title[] titles;
 
     [Header("Banners")]
     [SerializeField] Transform bannersContainer;
@@ -39,29 +43,29 @@ public class CollectionController : MonoBehaviour
 
     void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
     }
 
-	void Start () 
+    void Start()
     {
         SetTitles();
-        //SetTrinkets();
         SetBanners();
+        SetTrinkets();
     }
 
-    public void SetWorldDescription(string worldName, string description, int index)
+    public void SetWorldDescription(string worldName, string description)//called in WorldSprite class
     {
-        var worlds = GameData.gameData.saveData.worldUnlocked;
-        if (worlds[index] == true)
+        var worlds = GameData.gameData.saveData.worldIds;
+        if (worlds.Contains(worldName))
         {
             itemDescription.text = "<color=purple><size=350>" + worldName + "</size></color>\n" + description;
         }
         else
         {
-            string unlockRequirement = GetUnlockRequirement(LevelReward.World, index);
+            string unlockRequirement = GetUnlockRequirement(LevelReward.World, worldName);
             itemDescription.text = "<color=green>" + worldName + "</color>"
                 + "\n" + LOCKED + "\n\n" + unlockRequirement;
         }
@@ -69,8 +73,8 @@ public class CollectionController : MonoBehaviour
 
     public void SetWorldCollectionTexts()   //called on section toggles event
     {
-        var worlds = GameData.gameData.saveData.worldUnlocked;
-        unlockNumber.text = "<size=400>" + GetNumberOfUnlocked(worlds)
+        var worldsUnlocked = GameData.gameData.saveData.worldIds;
+        unlockNumber.text = "<size=400>" + worldsUnlocked.Count
             + "</size>/" + worlds.Length + "\n<color=blue>UNLOCKED</color>";
         sectionName.text = "<color=lime>WORLDS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
@@ -84,7 +88,7 @@ public class CollectionController : MonoBehaviour
         for (int i = 0; i < trinkets.Length; i++)
         {
             totalTrinkets += trinkets[i].trinkets.Length;
-            totalUnlocked += GetNumberOfUnlocked(trinkets[i].trinkets);
+            //totalUnlocked += GetNumberOfUnlocked(trinkets[i].trinkets);
         }
         unlockNumber.text = "<size=400>" + totalUnlocked
             + "</size>/" + totalTrinkets + "\n<color=blue>UNLOCKED</color>";
@@ -94,8 +98,8 @@ public class CollectionController : MonoBehaviour
     }
     public void SetTitleCollectionTexts()
     {
-        var titles = GameData.gameData.saveData.titlesUnlocked;
-        unlockNumber.text = "<size=400>" + GetNumberOfUnlocked(titles)
+        var titlesUnlocked = GameData.gameData.saveData.titleIds;
+        unlockNumber.text = "<size=400>" + titlesUnlocked.Count
             + "</size>/" + titles.Length + "\n<color=blue>UNLOCKED</color>";
         sectionName.text = "<color=orange>TITLES</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
@@ -103,8 +107,8 @@ public class CollectionController : MonoBehaviour
     }
     public void SetBannerCollectionTexts()
     {
-        var banners = GameData.gameData.saveData.bannersUnlocked;
-        unlockNumber.text = "<size=400>" + GetNumberOfUnlocked(banners)
+        var bannersUnlocked = GameData.gameData.saveData.bannerIds;
+        unlockNumber.text = "<size=400>" + bannersUnlocked.Count
             + "</size>/" + banners.Length + "\n<color=blue>UNLOCKED</color>";
         sectionName.text = "<color=red>BANNERS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
@@ -112,16 +116,17 @@ public class CollectionController : MonoBehaviour
     }
     void SetTitles()
     {
-        var titlesUnlocked = GameData.gameData.saveData.titlesUnlocked;
+        var titlesUnlocked = GameData.gameData.saveData.titleIds;
 
-        for (int i = 0; i < titlesUnlocked.Length; i++)
+        for (int i = 0; i < titles.Length; i++)
         {
             var titlePanel = titlesContainer.GetChild(i);
-            titlePanel.GetComponentInChildren<Text>().text = titles[i];
+            string title = titles[i].title.ToString();
+            titlePanel.GetComponentInChildren<Text>().text = title;
             Button button = titlePanel.GetComponent<Button>();
-            string descr = "<color=orange><size=450>" + titles[i] + "</size></color>";
+            string descr = "<color=orange><size=450>" + title + "</size></color>";
             int index = i;
-            if (!titlesUnlocked[i])
+            if (!titlesUnlocked.Contains(title))
             {
                 titlePanel.GetChild(1).gameObject.SetActive(true);  //lock image
                 button.onClick.AddListener(delegate () { OnTitleClicked(descr, index, false); });
@@ -135,16 +140,17 @@ public class CollectionController : MonoBehaviour
     }
     void SetBanners()
     {
-        var bannersUnlocked = GameData.gameData.saveData.bannersUnlocked;
+        var bannersUnlocked = GameData.gameData.saveData.bannerIds;
 
         for (int i = 0; i < banners.Length; i++)
         {
             var bannerPanel = Instantiate(bannerPanelPrefab, bannersContainer).transform;
             bannerPanel.GetComponent<Image>().sprite = banners[i].Sprite;
             Button button = bannerPanel.GetComponent<Button>();
-            string descr = "<color=orange><size=450>" + banners[i].Title + "</size></color>";
+            string bannerName = RewardTemplate.SplitCamelCase(banners[i].BannerName);
+            string descr = "<color=orange><size=450>" + bannerName + "</size></color>";
             int index = i;
-            if (!bannersUnlocked[i])
+            if (!bannersUnlocked.Contains(banners[i].BannerName))
             {
                 bannerPanel.GetChild(0).gameObject.SetActive(true);  //lock image
                 button.onClick.AddListener(delegate () { OnBannerClicked(descr, index, false); });
@@ -158,55 +164,56 @@ public class CollectionController : MonoBehaviour
     }
     void SetTrinkets()
     {
-        var trinketsUnlocked = GameData.gameData.saveData.worldTrinkets;
+        var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
 
-        int counter = 0;
-        foreach(var world in trinketsUnlocked)
+        for (int j = 0; j < trinkets.Length; j++)
         {
-            for (int j = 0; j < world.trinkets.Length; j++)
+            var trinket = Instantiate(trinketTemplate, trinketsContainer).transform;
+            trinket.GetComponent<Image>().sprite = trinkets[j].trinketSprite;
+            Button button = trinket.GetComponent<Button>();
+            string trinkName = RewardTemplate.SplitCamelCase(trinkets[j].GetRewardId());
+            string descr = "<color=orange><size=450>" + trinkName + "</size></color>";
+
+            int index = j;
+            if (!trinketsUnlocked.Contains(trinkets[j].GetRewardId()))
             {
-                var trinket = trinketsContainer.GetChild(counter);
-                trinket.GetComponent<Image>().sprite = trinkets[counter].trinketSprite;
-                Button button = trinket.GetComponent<Button>();
-                string descr = "<color=orange><size=450>" + trinkets[counter].trinketName + "</size></color>";
-
-                if (!world.trinkets[j])
-                {
-                    trinket.GetChild(0).gameObject.SetActive(true);  //lock image
-                    button.onClick.AddListener(delegate () { OnTrinketClicked(descr, counter, false); });
-                }
-                else
-                {
-                    button.onClick.AddListener(delegate () { OnTrinketClicked(descr, counter, true); });
-                }
-                button.onClick.AddListener(delegate () { SetTrinketSelection(trinket.position); });
-
-                counter++;
+                trinket.GetChild(0).gameObject.SetActive(true);  //lock image
+                button.onClick.AddListener(delegate () { OnTrinketClicked(descr, index, false); });
             }
+            else
+            {
+                button.onClick.AddListener(delegate () { OnTrinketClicked(descr, index, true); });
+            }
+            button.onClick.AddListener(delegate () { SetTrinketSelection(trinket.position); });
         }
     }
     void OnTrinketClicked(string description, int index, bool isUnlocked)
     {
         if (!isUnlocked)
         {
-            string unlockRequirement = GetUnlockRequirement(LevelReward.Title, index);
+            string unlockRequirement = GetUnlockRequirement(LevelReward.Trinket, trinkets[index].GetRewardId());
             description += "\n" + LOCKED + "\n" + unlockRequirement;
+        }
+        else
+        {
+            description += "\n" + trinkets[index].description;
         }
         itemDescription.text = description;
     }
-    void OnTitleClicked(string description, int index, bool isUnlocked) 
+    void OnTitleClicked(string description, int index, bool isUnlocked)
     {
-        if(!isUnlocked)
+        string title = RewardTemplate.SplitCamelCase(titles[index].title.ToString());
+        if (!isUnlocked)
         {
             equipButton.gameObject.SetActive(false);    //button to equip a title
-            string unlockRequirement = GetUnlockRequirement(LevelReward.Title, index);
+            string unlockRequirement = GetUnlockRequirement(LevelReward.Title, titles[index].title.ToString());
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
         else
         {
             equipButton.gameObject.SetActive(true);
             Text buttoText = equipButton.GetComponentInChildren<Text>();
-            if (titles[index] == profileHandler.GetCurrentTitle())  //set button text if title is equiped or not
+            if (title == profileHandler.GetCurrentTitle())  //set button text if title is equiped or not
             {
                 buttoText.text = "Equiped!";
             }
@@ -215,7 +222,7 @@ public class CollectionController : MonoBehaviour
                 buttoText.text = "Equip!";
             }
             Button button = equipButton.GetComponent<Button>();
-            button.onClick.AddListener(delegate () { SetTitleEquipButton(index); });
+            button.onClick.AddListener(delegate () { SetTitleEquipButton(title); });
         }
 
         itemDescription.text = description;
@@ -225,7 +232,7 @@ public class CollectionController : MonoBehaviour
         if (!isUnlocked)
         {
             equipButton.gameObject.SetActive(false);    //button to equip a title
-            string unlockRequirement = GetUnlockRequirement(LevelReward.Banner, index);
+            string unlockRequirement = GetUnlockRequirement(LevelReward.Banner, banners[index].BannerName);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
         else
@@ -247,10 +254,10 @@ public class CollectionController : MonoBehaviour
 
         itemDescription.text = description;
     }
-    void SetTitleEquipButton(int index)
+    void SetTitleEquipButton(string title)
     {
-        GameData.gameData.ChangeTitle(titles[index]);   //save title 
-        profileHandler.UpdateTitle(titles[index]);   //update title in profile panel
+        GameData.gameData.ChangeTitle(title);   //save title 
+        profileHandler.UpdateTitle(title);   //update title in profile panel
     }
     void SetBannerEquipButton(int index)
     {
@@ -269,9 +276,9 @@ public class CollectionController : MonoBehaviour
     {
         bannerSelectionGlow.position = position;
     }
-    string GetUnlockRequirement(LevelReward levelReward, int index)
+    string GetUnlockRequirement(LevelReward levelReward, string id)
     {
-        int rankToUnlock = RewardForLevel.Instance.GetRankFromRewards(levelReward, index);
+        int rankToUnlock = RewardForLevel.Instance.GetRankFromRewards(levelReward, id);
 
         if (rankToUnlock < 0)   //negative if not found in rewards
         {
@@ -282,18 +289,5 @@ public class CollectionController : MonoBehaviour
             return "<color=black><size=250>" + UNLOCKED_BY_RANK
                     + rankToUnlock + ".</size></color>";
         }
-    }
-
-    int GetNumberOfUnlocked(bool[] arr)
-    {
-        int unlockedCount = 0;
-        for (int i = 0; i < arr.Length; i++)
-        {
-            if (arr[i] == true)
-            {
-                unlockedCount++;
-            }
-        }
-        return unlockedCount;
     }
 }

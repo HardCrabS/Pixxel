@@ -120,7 +120,7 @@ public class EndGameManager : MonoBehaviour
 
     public void PostToLeaderboard()
     {
-        bool success = PlayGamesController.PostToLeaderboard(LevelSettingsKeeper.settingsKeeper.worldIndex);
+        bool success = PlayGamesController.PostToLeaderboard(LevelSettingsKeeper.settingsKeeper.worldId);
         if (success)
         {
             postToLeaderboardText.text = "Score uploaded";

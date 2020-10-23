@@ -7,9 +7,7 @@ public class LevelSettingsKeeper : MonoBehaviour
     public static LevelSettingsKeeper settingsKeeper;
     public LevelTemplate levelTemplate;
 
-    public int worldIndex;
-    public string worldName;
-    public int trinketIndex;
+    public string worldId;
 
     void Awake()
     {
@@ -22,10 +20,5 @@ public class LevelSettingsKeeper : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-    }
-
-    public void SetLevelTemplate(LevelTemplate _levelTemplate)
-    {
-        levelTemplate = _levelTemplate;
     }
 }

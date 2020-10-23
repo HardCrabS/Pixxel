@@ -36,11 +36,11 @@ public class GoalManager : MonoBehaviour
     void Start()
     {
         dailyQuests = new List<QuestProgress>();
-        int worldIndex = LevelSettingsKeeper.settingsKeeper.worldIndex;
+        string worldId = LevelSettingsKeeper.settingsKeeper.worldId;
         QuestProgress[] questGoals = GameData.gameData.saveData.dailyQuests;
         for (int i = 0; i < questGoals.Length; i++)
         {
-            if(questGoals[i].worldIndex == worldIndex)
+            if(questGoals[i].worldId == worldId)
             {
                 dailyQuests.Add(questGoals[i]);
             }
@@ -94,7 +94,7 @@ public class GoalManager : MonoBehaviour
         RewardForLevel.Instance.CheckForLevelUpReward();
         winPanel.SetActive(true);
         if (GameData.gameData != null)
-            GameData.gameData.UnlockTrinket(LevelSettingsKeeper.settingsKeeper.worldIndex, LevelSettingsKeeper.settingsKeeper.trinketIndex);
+            GameData.gameData.UnlockTrinket(LevelSettingsKeeper.settingsKeeper.levelTemplate.GetRewardId());
     }
 
     public void CompareGoal(string goalToCompare, int pointsToAdd = 1)

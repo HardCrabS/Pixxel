@@ -12,20 +12,41 @@ public class ShareController : MonoBehaviour
     [SerializeField] Text twText;
 
     [SerializeField] int facebookReward = 50;
-    [SerializeField] int facebookWorldIndex = 5;
+    [SerializeField] WorldInformation facebookWorldInfo;
 
     [SerializeField] int twitterReward = 50;
-    [SerializeField] int twitterWorldIndex = 8;
+    [SerializeField] WorldInformation twitterWorldInfo;
 
     private const string TWITTER_ADDRESS = "http://twitter.com/intent/tweet";
     private const string TWEET_LANGUAGE = "en";
+    private string appStoreLink = "https://culagames.com/";
     public static string descriptionParam = "PiXXel is a match-3 casual game with pretty graphics and nice music!";
-    private string appStoreLink = "http://www.PiXXel.com";
 
     const string SHARE_SUCCESS = "Success! Come back tomorrow for more rewards!";
 
+    string fbWorldId, twWorldId;
+
     void Start()
     {
+        fbWorldId = facebookWorldInfo.GetRewardId();
+        twWorldId = twitterWorldInfo.GetRewardId();
+
+        if (!GameData.gameData.saveData.worldIds.Contains(fbWorldId))
+        {
+            fbText.text = "<size=250><color=red>New World!</color></size>\nShare to unlock a world!";
+        }
+        else
+        {
+            fbWorldId = null; // null to check world is already claimed
+        }
+        if (!GameData.gameData.saveData.worldIds.Contains(twWorldId))
+        {
+            twText.text = "<size=250><color=red>New World!</color></size>\nShare to unlock a world!";
+        }
+        else
+        {
+            twWorldId = null;
+        }
         CheckTime(twText, twButton, GameData.gameData.saveData.lastTwitterShare);
         CheckTime(fbText, fbButton, GameData.gameData.saveData.lastFacebookShare);
     }
@@ -44,13 +65,13 @@ public class ShareController : MonoBehaviour
         string nameParameter = "I'm playing this super game for months!";//this is limited in text length 
         Application.OpenURL(TWITTER_ADDRESS +
            "?text=" + WWW.EscapeURL(nameParameter + "\n" + descriptionParam + "\n" + "Get the Game:\n" + appStoreLink));
-        if (GameData.gameData.saveData.worldUnlocked[twitterWorldIndex])  //check if sharing the first time or not
+        if (twWorldId == null)  //check if sharing the first time or not
         {
             StartCoroutine(DelayedCoinsReward(twitterReward, twText));
         }
         else
         {
-            StartCoroutine(DelayedWorldReward(twitterWorldIndex, twText));
+            StartCoroutine(DelayedWorldReward(twWorldId, twText));
         }
         twButton.interactable = false;
     }
@@ -68,13 +89,13 @@ public class ShareController : MonoBehaviour
 
         string facebookshare = "https://www.facebook.com/sharer/sharer.php?u=" + Uri.EscapeUriString(appStoreLink);
         Application.OpenURL(facebookshare);
-        if (GameData.gameData.saveData.worldUnlocked[facebookWorldIndex])     //check if sharing the first time or not
+        if (fbWorldId == null)     //check if sharing the first time or not
         {
             StartCoroutine(DelayedCoinsReward(facebookReward, fbText));
         }
         else
         {
-            StartCoroutine(DelayedWorldReward(facebookWorldIndex, fbText));
+            StartCoroutine(DelayedWorldReward(fbWorldId, fbText));
         }
         fbButton.interactable = false;
     }
@@ -86,10 +107,10 @@ public class ShareController : MonoBehaviour
         text.text = SHARE_SUCCESS + "\n<color=red>" + amount + " coins recived!</color>";
     }
 
-    IEnumerator DelayedWorldReward(int index, Text text)
+    IEnumerator DelayedWorldReward(string worldId, Text text)
     {
         yield return new WaitForSeconds(5);
-        GameData.gameData.UnlockWorld(index);   //unlock world reward
+        GameData.gameData.UnlockWorld(worldId);   //unlock world reward
         text.text = SHARE_SUCCESS + "\n<color=red>The world is unlocked!</color>";
     }
 

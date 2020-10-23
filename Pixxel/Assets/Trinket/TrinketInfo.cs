@@ -7,7 +7,6 @@ public class TrinketInfo : MonoBehaviour
 {
     public LevelTemplate levelTemplate;
     [SerializeField] TextChanger textChanger;
-    [SerializeField] int trinketIndex;
 
     [SerializeField] ColorBlock inactiveTrinketColors;
 
@@ -19,7 +18,8 @@ public class TrinketInfo : MonoBehaviour
         selectionFrame.SetParent(transform);
         if (levelTemplate != null)
         {
-            textChanger.ChangeTrinketTextName(levelTemplate.trinketName);
+            string trinkName = RewardTemplate.SplitCamelCase(levelTemplate.GetRewardId());
+            textChanger.ChangeTrinketTextName(trinkName);
             textChanger.ChangeTrinketTextCondition(levelTemplate.requirementsExplained);
             SetTrinketIndex();
         }
@@ -31,7 +31,6 @@ public class TrinketInfo : MonoBehaviour
     }
     void SetTrinketIndex()
     {
-        LevelSettingsKeeper.settingsKeeper.trinketIndex = trinketIndex;
         LevelSettingsKeeper.settingsKeeper.levelTemplate = levelTemplate;
     }
 

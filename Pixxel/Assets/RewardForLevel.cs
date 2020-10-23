@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public enum LevelReward
@@ -34,7 +33,7 @@ public class RewardForLevel : MonoBehaviour
         Instance = this;
     }
 
-    void Start() // maybe change to Awake
+    void Start()
     {
         int currPlayerLevel = GameData.gameData.saveData.currentLevel;
     }
@@ -42,7 +41,7 @@ public class RewardForLevel : MonoBehaviour
     public void CheckForReward(int levelAchieved)
     {
         rewardEarned.GetComponent<Text>().text = "New Level!";
-        rewards[levelAchieved - 1].ApplyReward();
+        rewards[levelAchieved - 1].ApplyReward(); //-1 cuz array elements start with 0 index
 
         SetRewardPanel(rewards[levelAchieved - 1].rewards);
 
@@ -72,26 +71,27 @@ public class RewardForLevel : MonoBehaviour
         for (int i = 0; i < rewards.Length; i++)
         {
             rewardText.text += rewards[i].reward + ": " + rewards[i].name + "\n\n";
-            if (rewards[i].rewardSprite != null)
-                rewardImage.sprite = rewards[i].rewardSprite;
+            var rewSprite = rewards[i].GetRewardSprite();
+            if (rewSprite != null)
+                rewardImage.sprite = rewSprite;
         }
         levelUped = true;
     }
-    public void CheckForLevelUpReward()
+    public void CheckForLevelUpReward() //called at the end of the game
     {
         if(levelUped)
         {
             rewardPanel.SetActive(true);
         }
     }
-    public int GetRankFromRewards(LevelReward levelReward, int index)
+    public int GetRankFromRewards(LevelReward levelReward, string id)
     {
         for (int i = 0; i < rewards.Length; i++)
         {
             var rew = rewards[i].rewards;
             for (int j = 0; j < rew.Length; j++)
             {
-                if(rew[j].reward == levelReward && rew[j].index == index)
+                if(rew[j].reward == levelReward && rew[j].GetRewardId() == id)
                 {
                     return i + 1;
                 }

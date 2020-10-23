@@ -11,7 +11,7 @@ public class SceneLoader : MonoBehaviour
 
     public void CallUnlockAllBoosts()
     {
-        GameData.gameData.UnlockAllBoosts();  // JUST FOR TEST. TODO REMOVE LATER
+        GameData.gameData.UnlockAllBoosts();  // FOR TEST.
     }
     public void LoadNextScene()
     {
@@ -27,6 +27,10 @@ public class SceneLoader : MonoBehaviour
     public void LoadConcreteWorld(string world_name, AudioClip worldSong)
     {
         StartCoroutine(LoadAsynchronously(world_name, worldSong));
+    }
+    public void LoadSceneAsync(int index)
+    {
+        SceneManager.LoadSceneAsync(index);
     }
 
     IEnumerator LoadAsynchronously(string sceneName, AudioClip worldSong)
@@ -68,5 +72,9 @@ public class SceneLoader : MonoBehaviour
     {
         SceneManager.LoadScene("World Select");
         MusicSing.Instance.SetCurrentClip(mainMenuSong);
+    }
+    public void PlaySpashSceneSound() //play sound in the splash scene
+    {
+        GetComponent<AudioSource>().Play();
     }
 }

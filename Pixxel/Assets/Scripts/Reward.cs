@@ -1,13 +1,5 @@
 ﻿using UnityEngine;
 
-[System.Serializable]
-public class RewardTemplate
-{
-    public LevelReward reward;
-    public string name;
-    public Sprite rewardSprite;
-    public int index;
-}
 
 [System.Serializable]
 public class Reward 
@@ -20,7 +12,7 @@ public class Reward
         {
             switch (rewards[i].reward)
             {
-                case LevelReward.World:
+                /*case LevelReward.World:
                     {
                         GameData.gameData.UnlockWorld(rewards[i].index);
                         break;
@@ -39,10 +31,15 @@ public class Reward
                     {
                         GameData.gameData.UnlockAvatar(rewards[i].index);
                         break;
-                    }
+                    }*/
                 case LevelReward.Title:
                     {
-                        GameData.gameData.UnlockTitle(rewards[i].index);
+                        GameData.gameData.UnlockTitle(rewards[i].GetRewardId());
+                        break;
+                    }
+                case LevelReward.Banner:
+                    {
+                        GameData.gameData.UnlockBanner(rewards[i].GetRewardId());
                         break;
                     }
             }

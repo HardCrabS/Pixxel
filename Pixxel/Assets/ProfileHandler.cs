@@ -34,7 +34,7 @@ public class ProfileHandler : MonoBehaviour
         profilePicture.sprite = Resources.Load<Sprite>(player.spritePath);
         titleText.text = "\"" + player.titleText + "\"";
         currTitle = player.titleText;
-        bannerImage.sprite = Resources.Load<Sprite>(player.bannerSpritePath);
+        bannerImage.sprite = Resources.Load<Sprite>(player.bannerPath);
     }
 
     public void ChangeName()
@@ -87,7 +87,7 @@ public class ProfileHandler : MonoBehaviour
         {
             var reward = FindObjectOfType<RewardForLevel>().GetReward(nextLevel);
             rewardNextLevel.text = reward.reward.ToString();
-            rewardImage.sprite = reward.rewardSprite;
+            rewardImage.sprite = reward.GetRewardSprite();
         }
     }
 }

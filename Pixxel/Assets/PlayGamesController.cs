@@ -10,15 +10,14 @@ using UnityEngine.Events;
 
 public class PlayGamesController : MonoBehaviour
 {
-    [SerializeField] bool testing = false; //TODO remove editor testing
+    [SerializeField] bool testing = false;
     public static PlayGamesController Instance;
     public UnityEvent OnAuthenticated;
 
-    bool authentificated = false;
-
     void Start()
     {
-        AuthenticateUser();
+        if (!GameData.gameData.isAuthentificated)
+            AuthenticateUser();
     }
 
     async void AuthenticateUser()
@@ -30,7 +29,7 @@ public class PlayGamesController : MonoBehaviour
         {
             if (success)
             {
-                authentificated = true;
+                GameData.gameData.isAuthentificated = true;
 
                 string playerId = PlayGamesPlatform.Instance.localUser.id;
                 Task<bool> userTask = DatabaseManager.UserAlreadyInDatabase(playerId);
@@ -49,7 +48,7 @@ public class PlayGamesController : MonoBehaviour
                 Debug.LogError("Unable to sign in Google Play Services");
                 if (GameData.gameData.saveData.playerInfo == null)
                 {
-                    GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/Banners/DefaultBanner");
+                    GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
                     GameData.gameData.Save();
                 }
             }
@@ -65,7 +64,7 @@ public class PlayGamesController : MonoBehaviour
 
             if (!userInDatabase)
             {
-                DatabaseManager.WriteNewUser(playerId, "editor Name", "debil", "Sprites/Avatars/DefaultAvatar", "Sprites/Banners/DefaultBanner");
+                DatabaseManager.WriteNewUser(playerId, "editor Name", "debil", "Sprites/Avatars/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
                 GameData.gameData.saveData.playerInfo = new User(playerId, "debil", "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/Banners/DefaultBanner");
                 GameData.gameData.Save();
                 print("Writing test editor user in database");
@@ -74,7 +73,7 @@ public class PlayGamesController : MonoBehaviour
         }
     }
 
-    public static bool PostToLeaderboard(int worldIndex)
+    public static bool PostToLeaderboard(string worldId)
     {
         string playerId = PlayGamesPlatform.Instance.localUser.id;
         if (string.IsNullOrEmpty(playerId))
@@ -82,8 +81,8 @@ public class PlayGamesController : MonoBehaviour
             Debug.LogError("Not authentificated to google, can't upload a score");
             return false;
         }
-        string worldName = LevelSettingsKeeper.settingsKeeper.worldName;
-        int score = GameData.gameData.saveData.worldsBestScores[worldIndex];
+        string worldName = RewardTemplate.SplitCamelCase(LevelSettingsKeeper.settingsKeeper.worldId);
+        int score = GameData.gameData.saveData.worldBestScores[worldId];
 
         if (!DatabaseManager.ChildExists(playerId, worldName))
         {

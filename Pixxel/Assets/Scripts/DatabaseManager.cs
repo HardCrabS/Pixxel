@@ -64,6 +64,7 @@ public class DatabaseManager : MonoBehaviour
     public static void ChangeBanner(string spritePath)
     {
         string playerId = PlayGamesPlatform.Instance.localUser.id;
+        //string playerId = "editor12345";
         /*if (string.IsNullOrEmpty(playerId))
         {
             Debug.LogError("Not authentificated to google, can't upload a score");
@@ -228,7 +229,7 @@ public class User
     public string username;
     public string titleText;
     public string spritePath;
-    public string bannerSpritePath;
+    public string bannerPath;
     public int score;
 
     public User()
@@ -241,7 +242,7 @@ public class User
         this.username = username;
         this.titleText = titleText;
         this.spritePath = spritePath;
-        this.bannerSpritePath = bannerSpritePath;
+        this.bannerPath = bannerSpritePath;
     }
 }
 

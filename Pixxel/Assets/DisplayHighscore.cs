@@ -12,6 +12,7 @@ public class DisplayHighscore : MonoBehaviour
     [SerializeField] WorldInfoDisplay worldInfoDisplay;
     [SerializeField] Text firstPlaceScoreText;
     [SerializeField] Text firstPlaceTitleText;
+    [SerializeField] Image firstPlaceBanner;
     [SerializeField] Image firstPlaceImage;
 
     [SerializeField] GameObject scorePanel;
@@ -25,11 +26,20 @@ public class DisplayHighscore : MonoBehaviour
 
     void Start()
     {
-        scorePanels = new LinkedList<GameObject>();
+        if (ShareController.CheckForInternetConnection())
+        {
+            scorePanels = new LinkedList<GameObject>();
+        }
     }
 
     public async void SetLeaderboard()
     {
+        if (!ShareController.CheckForInternetConnection())
+        {
+            firstPlaceScoreText.text = "Oops! Internet connection is missing!";
+            firstPlaceTitleText.text = "Oops! Internet connection is missing!";
+            return;
+        }
         if (scorePanels.Count > 0)
         {
             return;
@@ -126,6 +136,7 @@ public class DisplayHighscore : MonoBehaviour
         + "  |  " + allUsers[0].score + "\n\n";
         firstPlaceTitleText.text = "\"" + allUsers[0].titleText + "\"";
         firstPlaceImage.sprite = Resources.Load<Sprite>(allUsers[0].spritePath);
+        firstPlaceBanner.sprite = Resources.Load<Sprite>(allUsers[0].bannerPath);
     }
 
     public void SpawnScorePanelUp()
@@ -178,6 +189,7 @@ public class DisplayHighscore : MonoBehaviour
     GameObject SpawnScorePanel(User user, int index)
     {
         GameObject go = Instantiate(scorePanel, allScoresContainer);
+        go.GetComponent<Image>().sprite = Resources.Load<Sprite>(user.bannerPath);
 
         Text text = go.GetComponentInChildren<Text>();
         text.text = "\t#<size=450><color=yellow>" + (index + 1) + "</color></size>  |  " + user.username

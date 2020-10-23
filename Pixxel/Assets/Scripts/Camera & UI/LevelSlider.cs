@@ -38,6 +38,9 @@ public class LevelSlider : MonoBehaviour
                 name = GameData.gameData.saveData.playerInfo.username;
             }
             nameText.text = "|\t" + name + "\t|";
+
+            string bannerPath = GameData.gameData.saveData.playerInfo.bannerPath;
+            GetComponentInParent<Image>().sprite = Resources.Load<Sprite>(bannerPath); //Load banner
         }
     }
 

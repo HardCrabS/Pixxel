@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -15,16 +16,22 @@ public class SaveData
     public int currentLevel;
     public float levelXP;
     public float maxXPforLevelUp;
-    public bool[] worldUnlocked;
-    public int[] worldsBestScores;
     public WorldTrinkets[] worldTrinkets;
 
     public int[] equipedBoostIndexes;
     public bool[] boostsUnlocked;
     public int[] boostLevels;
     public bool[] avatars;
-    public bool[] titlesUnlocked;
-    public bool[] bannersUnlocked;
+
+    //lists of unlocked rewards
+    public List<string> worldIds;
+    public List<string> trinketIds;
+    public List<string> titleIds;
+    public List<string> bannerIds;
+    public Dictionary<string, int> worldBestScores = new Dictionary<string, int>()
+    {
+        { "TwilightCity", 0 }
+    };
 
     public int cardInfoIndex;
     public string cardType;
@@ -46,6 +53,7 @@ public class GameData : MonoBehaviour
     public SaveData saveData;
 
     public int currentLevel;
+    public bool isAuthentificated = false;
 
     // Use this for initialization
     void Awake()
@@ -62,25 +70,20 @@ public class GameData : MonoBehaviour
         Load();
     }
 
-    public void UnlockWorld(int index)
+    public void UnlockWorld(string id)
     {
-        if (currentLevel < saveData.worldUnlocked.Length)
-        {
-            saveData.worldUnlocked[index] = true;
-            Save();
-        }
+        saveData.worldIds.Add(id);
+        saveData.worldBestScores[id] = 0;
+        Save();
     }
-    public void UnlockTrinket(int worldIndex, int trinketIndex)
+    public void UnlockTrinket(string id)
     {
-        if (worldIndex < saveData.worldTrinkets.Length && trinketIndex < saveData.worldTrinkets[worldIndex].trinkets.Length)
-        {
-            saveData.worldTrinkets[worldIndex].trinkets[trinketIndex] = true;
-            Save();
-        }
+        saveData.trinketIds.Add(id);
+        Save();
     }
     public void UnlockBoost(int bonusIndex)
     {
-        if(bonusIndex < saveData.boostsUnlocked.Length)
+        if (bonusIndex < saveData.boostsUnlocked.Length)
         {
             saveData.boostsUnlocked[bonusIndex] = true;
             Save();
@@ -109,9 +112,9 @@ public class GameData : MonoBehaviour
         saveData.avatars[index] = true;
         Save();
     }
-    public void UnlockTitle(int index)
+    public void UnlockTitle(string id)
     {
-        saveData.titlesUnlocked[index] = true;
+        saveData.titleIds.Add(id);
         Save();
     }
     public void ChangeTitle(string title)
@@ -121,14 +124,14 @@ public class GameData : MonoBehaviour
 
         DatabaseManager.ChangeTitle(title);
     }
-    public void UnlockBanner(int index)
+    public void UnlockBanner(string id)
     {
-        saveData.bannersUnlocked[index] = true;
+        saveData.bannerIds.Add(id);
         Save();
     }
     public void ChangeBanner(string bannerPath)
     {
-        saveData.playerInfo.bannerSpritePath = bannerPath;
+        saveData.playerInfo.bannerPath = bannerPath;
         Save();
 
         DatabaseManager.ChangeBanner(bannerPath);

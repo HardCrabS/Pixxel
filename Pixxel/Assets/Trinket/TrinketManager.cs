@@ -11,20 +11,16 @@ public class TrinketManager : MonoBehaviour
 
     public void SetTrinkets(WorldInformation worldInformation)
     {
-        int trinketsCollected = 0;
-        int worldIndex = worldInformation.WorldIndex;
+        var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
+        int trinketsCollected = trinketsUnlocked.Count;
         LevelTemplate[] trinketTemplates = worldInformation.TrinketLevelTemplates;
 
         SetSprites(worldInformation.TrinketLevelTemplates);
 
-        bool[] trinketLockStatus = GameData.gameData.saveData.worldTrinkets[worldIndex].trinkets;
-
-        int trinketArrayLenght = trinketLockStatus.Length;
-        for (int i = 0; i < trinketArrayLenght; i++)
+        for (int i = 0; i < trinketTemplates.Length; i++)
         {
-            if (trinketLockStatus[i])
+            if (trinketsUnlocked.Contains(trinketTemplates[i].GetRewardId()))
             {
-                trinketsCollected++;
                 trinketInfos[i].MakeUnlocked();
             }
             trinketInfos[i].SetSelectionFrame(selectionFrame);

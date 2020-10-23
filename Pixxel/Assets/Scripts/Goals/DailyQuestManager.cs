@@ -12,12 +12,12 @@ public enum reward
 [System.Serializable]
 public struct QuestProgress
 {
-    public QuestProgress(string _tag, int _numberNeeded, int _worldIndex, int _savedArrayIndex, int _questTemplateIndex, int _numberCollected = 0, bool _rewardClaimed = false)
+    public QuestProgress(string _tag, int _numberNeeded, string _worldId, int _savedArrayIndex, int _questTemplateIndex, int _numberCollected = 0, bool _rewardClaimed = false)
     {
         tag = _tag;
         numberNeeded = _numberNeeded;
         numberCollected = _numberCollected;
-        worldIndex = _worldIndex;
+        worldId = _worldId;
         savedArrayIndex = _savedArrayIndex;
         questTemplateIndex = _questTemplateIndex;
         rewardClaimed = _rewardClaimed;
@@ -25,7 +25,7 @@ public struct QuestProgress
     public string tag;
     public int numberNeeded;
     public int numberCollected;
-    public int worldIndex;
+    public string worldId;
     public bool rewardClaimed;
 
     public int questTemplateIndex;
@@ -41,8 +41,6 @@ public class DailyQuestManager : MonoBehaviour
     [SerializeField] Text[] QuestsText;
     [SerializeField] GameObject[] claimButtons;
     [SerializeField] GameObject[] claimedImages;
-
-    [SerializeField] WorldInformation[] allWorlds;
 
     QuestProgress[] quests;
 
@@ -70,7 +68,7 @@ public class DailyQuestManager : MonoBehaviour
             {
                 int randQuest = Random.Range(0, allQuests.Length);
                 QuestTemplate questTemplate = allQuests[randQuest];
-                QuestProgress quest = new QuestProgress(questTemplate.Tag, questTemplate.NumberNeeded, questTemplate.WorldIndex, i, randQuest);
+                QuestProgress quest = new QuestProgress(questTemplate.Tag, questTemplate.NumberNeeded, questTemplate.WorldId, i, randQuest);
 
                 FillQuestText(QuestsText[i], questTemplate, quest);
 
@@ -115,8 +113,9 @@ public class DailyQuestManager : MonoBehaviour
 
     void FillQuestText(Text text, QuestTemplate questTemplate, QuestProgress questProgress)
     {
+        string worldName = RewardTemplate.SplitCamelCase(questProgress.worldId);
         text.text = questTemplate.QuestDescription + "\n";
-        text.text += "<color=red>WORLD:</color> " + allWorlds[questProgress.worldIndex].WorldName + "\n";
+        text.text += "<color=red>WORLD:</color> " + worldName + "\n";
         text.text += "<color=red>PROGRESS:</color> " + questProgress.numberCollected + "/" + questTemplate.NumberNeeded + "\n";
         text.text += "<color=red>REWARD:</color> " + questTemplate.Reward + " " + questTemplate.RewardType;
     }

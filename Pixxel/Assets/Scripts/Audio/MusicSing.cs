@@ -5,7 +5,7 @@ using UnityEngine;
 public class MusicSing : MonoBehaviour 
 {
     public static MusicSing Instance;
-    
+
     AudioSource audio;
 	void Start () 
     {

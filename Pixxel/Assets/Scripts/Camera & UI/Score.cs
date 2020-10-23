@@ -10,7 +10,7 @@ public class Score : MonoBehaviour
     int currentScore = 0;
 
     int bestScore;
-    int worldIndex;
+    string worldId;
 
     public static Score Instance { get; private set; }
 
@@ -22,7 +22,6 @@ public class Score : MonoBehaviour
     void Start()
     {
         textScore = GetComponent<Text>();
-        worldIndex = LevelSettingsKeeper.settingsKeeper.worldIndex;
         UpdateScore();
     }
 
@@ -32,7 +31,7 @@ public class Score : MonoBehaviour
         if (currentScore > bestScore)
         {
             bestScoreText.text = currentScore.ToString();
-            GameData.gameData.saveData.worldsBestScores[worldIndex] = currentScore;
+            GameData.gameData.saveData.worldBestScores[worldId] = currentScore;
         }
     }
 
@@ -46,7 +45,8 @@ public class Score : MonoBehaviour
 
     public void LoadBestScore()
     {
-        bestScore = GameData.gameData.saveData.worldsBestScores[worldIndex];
+        worldId = LevelSettingsKeeper.settingsKeeper.worldId;
+        bestScore = GameData.gameData.saveData.worldBestScores[worldId];
         bestScoreText.text = bestScore.ToString();
     }
 

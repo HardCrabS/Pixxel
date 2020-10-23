@@ -41,7 +41,7 @@ public class WorldInfoDisplay : MonoBehaviour
     {
         trinketsInfo.SetActive(false);
         leaderboardInfo.SetActive(true);
-        FindObjectOfType<LevelSettingsKeeper>().levelTemplate = worldInformation.LeaderboardLevelTemplate;
+        LevelSettingsKeeper.settingsKeeper.levelTemplate = worldInformation.LeaderboardLevelTemplate;
     }
 
     public void HideInfoPanel()
@@ -60,8 +60,7 @@ public class WorldInfoDisplay : MonoBehaviour
             worldName.text = worldInfo.WorldName;
             worldStyleText.text = worldInfo.Style;
             musicInfoText.text = "Music\n" + "\"" + worldInfo.MusicTitle + "\"\n" + "By " + worldInfo.MusicCreator;
-            LevelSettingsKeeper.settingsKeeper.worldIndex = worldInfo.WorldIndex;
-            LevelSettingsKeeper.settingsKeeper.worldName = worldInfo.WorldName;
+            LevelSettingsKeeper.settingsKeeper.worldId = worldInfo.GetRewardId();
             trinketsInfo.SetActive(false);
             leaderboardInfo.SetActive(false);
             SetLoadButton();
