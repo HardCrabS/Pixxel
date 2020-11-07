@@ -9,6 +9,7 @@ public class CoinsDisplay : MonoBehaviour
     Text coinsText;
     private int coins;
     private int currChance = 20;
+    private int coinsAtStartOfLevel;
 
     public static CoinsDisplay Instance;
 
@@ -19,6 +20,7 @@ public class CoinsDisplay : MonoBehaviour
 	void Start () 
     {
         coins = SaveSystem.LoadCoinsAmount();
+        coinsAtStartOfLevel = coins;
         coinsText = GetComponent<Text>();
         coinsText.text = coins.ToString();
     }
@@ -63,5 +65,9 @@ public class CoinsDisplay : MonoBehaviour
     public int GetCoins()
     {
         return coins;
+    }
+    public int EarnedCoinsSinceStart()
+    {
+        return coins - coinsAtStartOfLevel;
     }
 }

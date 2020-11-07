@@ -24,15 +24,28 @@ public class LivesManager : MonoBehaviour
         totalLives = hearts.Length;
     }
 
+#if UNITY_EDITOR
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.L)) //lose by button press(for testing) 
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                hearts[i].color = lostHeartColor;
+            }
+            EndGameManager.Instance.GameOver();
+            Destroy(this);
+        }
+    }
+#endif
     public IEnumerator DecreaseHeart()
     {
-        if ((totalLives - 1) <= 0)
+        if ((totalLives - 1) == 0)
         {
             if (savePlayer != null)
             {
                 yield return null;
-                if (savePlayer != null)
-                    savePlayer();
+                savePlayer?.Invoke();
                 totalLives = 3;
                 MakeAllHeartsActive();
                 yield break;
@@ -40,6 +53,7 @@ public class LivesManager : MonoBehaviour
             else
             {
                 FindObjectOfType<EndGameManager>().GameOver();
+                Destroy(this);
             }
         }
         totalLives--;

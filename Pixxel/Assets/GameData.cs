@@ -5,33 +5,29 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 [Serializable]
-public class WorldTrinkets
-{
-    public bool[] trinkets;
-}
-
-[Serializable]
 public class SaveData
 {
     public int currentLevel;
     public float levelXP;
     public float maxXPforLevelUp;
-    public WorldTrinkets[] worldTrinkets;
 
-    public int[] equipedBoostIndexes;
-    public bool[] boostsUnlocked;
-    public int[] boostLevels;
+    //public int[] equipedBoostIndexes;
+    //public bool[] boostsUnlocked;
+    //public int[] boostLevels;
     public bool[] avatars;
+    public List<string> equipedBoosts;
 
     //lists of unlocked rewards
     public List<string> worldIds;
+    public List<string> boostIds;
     public List<string> trinketIds;
     public List<string> titleIds;
     public List<string> bannerIds;
     public Dictionary<string, int> worldBestScores = new Dictionary<string, int>()
     {
-        { "TwilightCity", 0 }
+        { "TwilightCity", 0 }   //unlocked by default
     };
+    public Dictionary<string, int> boostLevels = new Dictionary<string, int>();
 
     public int cardInfoIndex;
     public string cardType;
@@ -76,18 +72,19 @@ public class GameData : MonoBehaviour
         saveData.worldBestScores[id] = 0;
         Save();
     }
+    public void UnlockBoost(string id)
+    {
+        saveData.boostIds.Add(id);
+        Save();
+    }
+    public int GetBoostLevel(string boostName)
+    {
+        return saveData.boostLevels.ContainsKey(boostName) ? saveData.boostLevels[boostName] : 1;
+    }
     public void UnlockTrinket(string id)
     {
         saveData.trinketIds.Add(id);
         Save();
-    }
-    public void UnlockBoost(int bonusIndex)
-    {
-        if (bonusIndex < saveData.boostsUnlocked.Length)
-        {
-            saveData.boostsUnlocked[bonusIndex] = true;
-            Save();
-        }
     }
     public void UnlockSlotForBoost(int index)
     {
@@ -99,9 +96,10 @@ public class GameData : MonoBehaviour
     }
     public void UnlockAllBoosts()   //TODO JUST FOR TEST. REMOVE LATER
     {
-        for (int i = 0; i < saveData.boostsUnlocked.Length; i++)
+        var boostNames = Enum.GetValues(typeof(BoostName));
+        for (int i = 0; i < boostNames.Length; i++)
         {
-            saveData.boostsUnlocked[i] = true;
+            saveData.boostIds.Add(boostNames.GetValue(i).ToString());
         }
         saveData.slotsForBoostsUnlocked[1] = true;
         saveData.slotsForBoostsUnlocked[2] = true;
@@ -123,6 +121,13 @@ public class GameData : MonoBehaviour
         Save();
 
         DatabaseManager.ChangeTitle(title);
+    }
+    public void ChangeAvatar(string avatarPath)
+    {
+        saveData.playerInfo.spritePath = avatarPath;
+        Save();
+
+        DatabaseManager.ChangeAvatar(avatarPath);
     }
     public void UnlockBanner(string id)
     {
@@ -174,7 +179,7 @@ public class GameData : MonoBehaviour
         }
     }
 
-    public void EraseGameData() //For testing TODO remove
+    public void EraseGameData()
     {
         string path = Application.persistentDataPath + "/GameData.data";
         if (File.Exists(path))

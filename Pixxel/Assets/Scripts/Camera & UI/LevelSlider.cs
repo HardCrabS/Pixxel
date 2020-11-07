@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,9 @@ public class LevelSlider : MonoBehaviour
     int currentLevel = 1;
     int currentSaveBorder = 20;
     float xpMultiplier = 1;
+
+    int initLevel;
+    float initXPValue;
 
     public static LevelSlider Instance;
 
@@ -42,6 +46,8 @@ public class LevelSlider : MonoBehaviour
             string bannerPath = GameData.gameData.saveData.playerInfo.bannerPath;
             GetComponentInParent<Image>().sprite = Resources.Load<Sprite>(bannerPath); //Load banner
         }
+        initLevel = currentLevel;
+        initXPValue = levelSlider.value;
     }
 
     public void UpdateNameText()
@@ -99,6 +105,10 @@ public class LevelSlider : MonoBehaviour
     public void SetXPMultiplier(float multiplier)
     {
         xpMultiplier = multiplier;
+    }
+    public Tuple<int, float> GetInitLevelInfo()
+    {
+        return Tuple.Create(initLevel, initXPValue);
     }
 
     public void LoadLevelSlider()

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public enum LevelReward
@@ -18,13 +20,26 @@ public class RewardForLevel : MonoBehaviour
     [SerializeField] GameObject rewardEarned;
     [SerializeField] GameObject fireworksVFX;
 
-    [SerializeField] GameObject rewardPanel;
     [SerializeField] Text rewardText;
     [SerializeField] Image rewardImage;
 
     [SerializeField] Reward[] rewards;
 
+    [Header("End Game Reward Panel")]
+    [SerializeField] GameObject rewardPanel;
+    [SerializeField] Slider xpSlider;
+    [SerializeField] Text XPText;
+    [SerializeField] Text coinsText;
+    [SerializeField] ScrollWithButtons scrollContainer;
+
+    [Header("Reward Sprites")]
+    [SerializeField] Text rewardDescrText;
+    [SerializeField] Transform rewardsContainer;
+    [SerializeField] Sprite title, banner;
+
     public static RewardForLevel Instance;
+
+    private Vector2 worldSpriteSize = new Vector2(2.2f, 1.3f);
 
     bool levelUped = false;
 
@@ -33,13 +48,9 @@ public class RewardForLevel : MonoBehaviour
         Instance = this;
     }
 
-    void Start()
-    {
-        int currPlayerLevel = GameData.gameData.saveData.currentLevel;
-    }
-
     public void CheckForReward(int levelAchieved)
     {
+        if(levelAchieved > rewards.Length) { return; }
         rewardEarned.GetComponent<Text>().text = "New Level!";
         rewards[levelAchieved - 1].ApplyReward(); //-1 cuz array elements start with 0 index
 
@@ -47,6 +58,8 @@ public class RewardForLevel : MonoBehaviour
 
         rewardEarned.GetComponent<Animation>().Play();
         LaunchFireworks();
+
+        levelUped = true;
     }
 
     public RewardTemplate GetReward(int level)
@@ -70,19 +83,70 @@ public class RewardForLevel : MonoBehaviour
         rewardText.text = "Your rewards:\n";
         for (int i = 0; i < rewards.Length; i++)
         {
-            rewardText.text += rewards[i].reward + ": " + rewards[i].name + "\n\n";
-            var rewSprite = rewards[i].GetRewardSprite();
-            if (rewSprite != null)
-                rewardImage.sprite = rewSprite;
+            GameObject go;
+            if (rewards[i].reward == LevelReward.Title)
+            {
+                go = SpawnRewardImage(title, rewards[i]);
+            }
+            else if(rewards[i].reward == LevelReward.Banner)
+            {
+                go = SpawnRewardImage(banner, rewards[i]);
+            }
+            else
+            {
+                go = SpawnRewardImage(rewards[i].GetRewardSprite(), rewards[i]);          
+            }
+            scrollContainer.AddObject(go);
         }
-        levelUped = true;
+        scrollContainer.MoveToFirstObject();
+        rewardDescrText.text = "<color=yellow>New " + rewards[0].reward
+    + "</color>\n" + RewardTemplate.SplitCamelCase(rewards[0].GetRewardId()) + "\n\n";
     }
+
+    GameObject SpawnRewardImage(Sprite rewSprite, RewardTemplate reward)
+    {
+        var rew = new GameObject();
+        rew.name = rewSprite.name;
+        rew.transform.SetParent(rewardsContainer);
+
+        var image = rew.AddComponent<Image>();
+        image.sprite = rewSprite;
+        rew.transform.localScale = Vector3.one;
+        float textWidth = image.sprite.texture.width;
+        float textHeight = image.sprite.texture.height;
+        if (reward.reward == LevelReward.World)
+        {
+            rew.transform.localScale = worldSpriteSize;
+            rew.AddComponent<Outline>().effectDistance = new Vector2(3, 3);
+        }
+
+        if(textHeight > 150 || textWidth > 150)
+        {
+            float b = textHeight > textWidth ? 100 / textHeight : 100 / textWidth;
+            image.rectTransform.sizeDelta = new Vector2(textWidth, textHeight) * b;
+        }
+
+        SetButton(reward, rew);
+
+        return rew;
+    }
+
+    void SetButton(RewardTemplate reward, GameObject spawnedRew)
+    {
+        var button = spawnedRew.AddComponent<Button>();
+        button.onClick.AddListener(delegate () { SetRewardDescriptionText(reward); });
+    }
+
+    void SetRewardDescriptionText(RewardTemplate reward)
+    {
+        rewardDescrText.text = "<color=yellow>New " + reward.reward + "</color>\n" 
+            + RewardTemplate.SplitCamelCase(reward.GetRewardId());
+    }
+
     public void CheckForLevelUpReward() //called at the end of the game
     {
-        if(levelUped)
-        {
-            rewardPanel.SetActive(true);
-        }
+        rewardPanel.SetActive(true);
+        StartCoroutine(SetRewardUI());
     }
     public int GetRankFromRewards(LevelReward levelReward, string id)
     {
@@ -91,12 +155,57 @@ public class RewardForLevel : MonoBehaviour
             var rew = rewards[i].rewards;
             for (int j = 0; j < rew.Length; j++)
             {
-                if(rew[j].reward == levelReward && rew[j].GetRewardId() == id)
+                if (rew[j].reward == levelReward && rew[j].GetRewardId() == id)
                 {
                     return i + 1;
                 }
             }
         }
         return -1;
+    }
+
+    IEnumerator SetRewardUI()
+    {
+        yield return StartCoroutine(FillXPBar());
+        SetEarnedCoinsText();
+    }
+
+    IEnumerator FillXPBar()
+    {
+        Tuple<int, float> initLevelInfo = LevelSlider.Instance.GetInitLevelInfo();
+        int initLevel = initLevelInfo.Item1;
+        float initLevelXP = initLevelInfo.Item2;
+
+        int levelDif = LevelSlider.Instance.GetGameLevel() - initLevel;
+        float finalXP = LevelSlider.Instance.GetLevelProgress();
+        float totalXPEarned = 0;
+        xpSlider.maxValue = GameData.gameData.saveData.maxXPforLevelUp;
+        xpSlider.value = initLevelXP;
+        for (int i = 0; i < levelDif; i++)
+        {
+            for (float xp = initLevelXP; xp < xpSlider.maxValue; xp++) //fill to max for comleted levels
+            {
+                xpSlider.value = xp;
+                XPText.text = "+" + totalXPEarned + "xp";
+                totalXPEarned++;
+                yield return new WaitForSeconds(0.01f);
+            }
+            xpSlider.value = 0;
+            initLevelXP = 0;
+        }
+        for (float xp = 0; xp < finalXP; xp++) //fill to current xp value
+        {
+            xpSlider.value = xp;
+            XPText.text = "+" + totalXPEarned + "xp";
+            totalXPEarned++;
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
+    void SetEarnedCoinsText()
+    {
+        int earnedCoins = CoinsDisplay.Instance.EarnedCoinsSinceStart();
+        coinsText.text = "+" + earnedCoins + "G";
+        coinsText.transform.parent.gameObject.SetActive(true); //activate block of coins info
     }
 }

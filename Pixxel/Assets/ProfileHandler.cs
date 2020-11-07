@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProfileHandler : MonoBehaviour 
+public class ProfileHandler : MonoBehaviour
 {
     [SerializeField] LevelSlider levelSlider;
     [SerializeField] Text profileLevelText;
@@ -12,26 +12,30 @@ public class ProfileHandler : MonoBehaviour
     [SerializeField] Image rewardImage;
 
     [SerializeField] Text playerName;
-    [SerializeField] Image profilePicture;
+    [SerializeField] Image avatarImage;
     [SerializeField] Text titleText;
     [SerializeField] Image bannerImage;
 
     [SerializeField] Text changedName;
 
+    [Header("Change Avatar")]
+    [SerializeField] GameObject collectionPanel;
+    [SerializeField] Toggle trinketsToggle;
+
     string currTitle;
 
-    void Start ()
+    void Start()
     {
         SetSlider();
         SetRewardNextLevel();
     }
-	
+
     public void SetProfileData()
     {
         User player = GameData.gameData.saveData.playerInfo;
 
         playerName.text = player.username;
-        profilePicture.sprite = Resources.Load<Sprite>(player.spritePath);
+        avatarImage.sprite = Resources.Load<Sprite>(player.spritePath);
         titleText.text = "\"" + player.titleText + "\"";
         currTitle = player.titleText;
         bannerImage.sprite = Resources.Load<Sprite>(player.bannerPath);
@@ -55,6 +59,10 @@ public class ProfileHandler : MonoBehaviour
     {
         bannerImage.sprite = banner;
     }
+    public void UpdateAvatar(Sprite avatar)
+    {
+        avatarImage.sprite = avatar;
+    }
     public string GetCurrentTitle()
     {
         return currTitle;
@@ -62,6 +70,10 @@ public class ProfileHandler : MonoBehaviour
     public Sprite GetCurrentBanner()
     {
         return bannerImage.sprite;
+    }
+    public Sprite GetCurrAvatar()
+    {
+        return avatarImage.sprite;
     }
     void SetSlider()
     {
@@ -79,15 +91,29 @@ public class ProfileHandler : MonoBehaviour
     {
         int nextLevel = levelSlider.GetGameLevel() + 1;
 
-        if(nextLevel > 100)
+        if (nextLevel > 100)
         {
             rewardNextLevel.text = "You are awesome!";
         }
         else
         {
             var reward = FindObjectOfType<RewardForLevel>().GetReward(nextLevel);
-            rewardNextLevel.text = reward.reward.ToString();
-            rewardImage.sprite = reward.GetRewardSprite();
+            rewardNextLevel.text = reward.reward.ToString() + ": " + RewardTemplate.SplitCamelCase(reward.GetRewardId());
+            Sprite rewardSprite = reward.GetRewardSprite();
+            if (rewardSprite != null)
+            {
+                rewardImage.sprite = rewardSprite;
+            }
+            else
+            {
+                rewardImage.gameObject.SetActive(false);
+            }
         }
+    }
+
+    public void ActivateTrinketsCollection() //for changing avatar image
+    {
+        collectionPanel.SetActive(true);
+        trinketsToggle.isOn = !trinketsToggle.isOn;
     }
 }

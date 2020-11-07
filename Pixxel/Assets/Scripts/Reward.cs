@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-
-
-[System.Serializable]
+﻿[System.Serializable]
 public class Reward 
 {
     public RewardTemplate[] rewards;
@@ -12,26 +9,21 @@ public class Reward
         {
             switch (rewards[i].reward)
             {
-                /*case LevelReward.World:
+                case LevelReward.World:
                     {
-                        GameData.gameData.UnlockWorld(rewards[i].index);
+                        GameData.gameData.UnlockWorld(rewards[i].GetRewardId());
                         break;
                     }
                 case LevelReward.BoostSlot:
                     {
-                        GameData.gameData.UnlockSlotForBoost(rewards[i].index);
+                        GameData.gameData.UnlockSlotForBoost(System.Int32.Parse(rewards[i].GetRewardId()));
                         break;
                     }
                 case LevelReward.Boost:
                     {
-                        GameData.gameData.UnlockBoost(rewards[i].index);
+                        GameData.gameData.UnlockBoost(rewards[i].GetRewardId());
                         break;
                     }
-                case LevelReward.Avatar:
-                    {
-                        GameData.gameData.UnlockAvatar(rewards[i].index);
-                        break;
-                    }*/
                 case LevelReward.Title:
                     {
                         GameData.gameData.UnlockTitle(rewards[i].GetRewardId());

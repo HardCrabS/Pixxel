@@ -8,8 +8,9 @@ public class BonusButton : MonoBehaviour
 {
     [SerializeField] ClickOnBoost clickOnBoost;
     [SerializeField] bool isGameButton;
+    public Image relatedFrame;
     public Boost boostInfo;
-    public int buttonIndex;
+    public int buttonIndex; // for equip slots
     Animation buttonReloadAnim;
 
     IConcreteBonus concreteBonus;
@@ -18,12 +19,12 @@ public class BonusButton : MonoBehaviour
     {
         if (isGameButton)
         {
-            if (GameData.gameData.saveData.slotsForBoostsUnlocked[buttonIndex])
+            if (GameData.gameData.saveData.slotsForBoostsUnlocked[buttonIndex] && boostInfo != null)
             {
                 GetComponent<Image>().sprite = BonusManager.GetBoostImage(boostInfo);
                 buttonReloadAnim = GetComponent<Animation>();
 
-                int boostLevel = GameData.gameData.saveData.boostLevels[boostInfo.Index];
+                int boostLevel = GameData.gameData.GetBoostLevel(boostInfo.GetRewardId());
                 Type boostType = Type.GetType(boostInfo.BoostTypeString);
                 concreteBonus = gameObject.AddComponent(boostType) as IConcreteBonus;
                 concreteBonus.SetBoostLevel(boostLevel);
@@ -53,7 +54,7 @@ public class BonusButton : MonoBehaviour
             Debug.LogError("No boostInfo found in button, assign it in the inspector");
             return;
         }
-        int level = GameData.gameData.saveData.boostLevels[boostInfo.Index];
+        int level = GameData.gameData.GetBoostLevel(boostInfo.GetRewardId());
 
         IConcreteBonus myBonus = GetComponent<IConcreteBonus>();
 
@@ -66,6 +67,7 @@ public class BonusButton : MonoBehaviour
             equipButton = FindObjectOfType<EquipButton>();
         equipButton.currentBonus = myBonus;
         equipButton.bonusSprite = GetComponent<Image>().sprite;
+        GetComponentInParent<BonusManager>().currButtonSelected = this;
     }
 
     public void ActivateBonus()
@@ -91,7 +93,7 @@ public class BonusButton : MonoBehaviour
         {
             GetComponent<Image>().sprite = BonusManager.GetBoostImage(boostInfo);
 
-            GameData.gameData.saveData.equipedBoostIndexes[buttonIndex] = boostInfo.Index;
+            GameData.gameData.saveData.equipedBoosts[buttonIndex] = boostInfo.GetRewardId();
             GameData.gameData.Save();
         }
     }

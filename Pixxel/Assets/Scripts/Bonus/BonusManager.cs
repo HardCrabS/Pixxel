@@ -21,23 +21,24 @@ public class BonusManager : MonoBehaviour
     [SerializeField] Sprite[] boostFrames = new Sprite[4];
     [SerializeField] Image[] boostPanels;
 
+    public BonusButton currButtonSelected;
+
     BonusButton[] children;
     void Awake()
     {
-        int[] boostLevels = GameData.gameData.saveData.boostLevels;
+        Dictionary<string, int> boostLevels = GameData.gameData.saveData.boostLevels;
         children = GetComponentsInChildren<BonusButton>();
 
         if (!isBoostScreen)
         {
             for (int i = 0; i < children.Length; i++)
             {
-                int equipedBoostIndex = GameData.gameData.saveData.equipedBoostIndexes[children[i].buttonIndex];
-                if (GameData.gameData.saveData.slotsForBoostsUnlocked[i] && equipedBoostIndex >= 0)
+                string equipedBoostId = GameData.gameData.saveData.equipedBoosts[children[i].buttonIndex];
+                if (GameData.gameData.saveData.slotsForBoostsUnlocked[i])
                 {
-                    if (i < allBoostInfos.Length && allBoostInfos[i].Index < boostLevels.Length)
-                        children[i].SetButtonForGame(allBoostInfos[equipedBoostIndex]);
+                    children[i].SetButtonForGame(GetBoostWithId(equipedBoostId));
 
-                    int spriteIndex = ChooseBoostSpriteIndex(boostLevels[equipedBoostIndex]);
+                    int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(equipedBoostId));
                     boostPanels[i].sprite = boostFrames[spriteIndex];
                 }
             }
@@ -46,10 +47,11 @@ public class BonusManager : MonoBehaviour
         {
             for (int i = 0; i < children.Length; i++)
             {
-                if (GameData.gameData.saveData.boostsUnlocked[i])
+                string boostId = children[i].boostInfo.GetRewardId();
+                if (GameData.gameData.saveData.boostIds.Contains(boostId))
                 {
                     children[i].transform.GetChild(0).gameObject.SetActive(false);
-                    int spriteIndex = ChooseBoostSpriteIndex(boostLevels[i]);
+                    int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(boostId));
                     boostPanels[i].sprite = boostFrames[spriteIndex];
                     Boost boostInfo = children[i].boostInfo;
                     if (boostInfo != null && spriteIndex < boostInfo.UpgradeSprites.Length)
@@ -69,22 +71,31 @@ public class BonusManager : MonoBehaviour
     public Sprite[] GetEquipedBoosts()
     {
         Sprite[] boostSprites = new Sprite[3];
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < GameData.gameData.saveData.equipedBoosts.Count; i++)  //check every equiped slot
         {
-            int equipedBoostIndex = GameData.gameData.saveData.equipedBoostIndexes[i];
-            if (equipedBoostIndex >= 0)
+            string equipedBoostId = GameData.gameData.saveData.equipedBoosts[i];  //get id of equiped boost
+
+            int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(equipedBoostId));//sprite according to boost level
+            Boost boostInfo = GetBoostWithId(equipedBoostId);
+            if (boostInfo != null && spriteIndex < boostInfo.UpgradeSprites.Length)
             {
-                int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.saveData.boostLevels[equipedBoostIndex]);
-                Boost boostInfo = allBoostInfos[equipedBoostIndex];
-                if (boostInfo != null && spriteIndex < boostInfo.UpgradeSprites.Length)
-                {
-                    boostSprites[i] = boostInfo.UpgradeSprites[spriteIndex];
-                }
+                boostSprites[i] = boostInfo.UpgradeSprites[spriteIndex];
             }
+
         }
         return boostSprites;
     }
-
+    Boost GetBoostWithId(string id)
+    {
+        for (int j = 0; j < allBoostInfos.Length; j++)
+        {
+            if (allBoostInfos[j].GetRewardId() == id)
+            {
+                return allBoostInfos[j];
+            }
+        }
+        return null;
+    }
     public static int ChooseBoostSpriteIndex(int level)
     {
         if (level < 4)
@@ -97,26 +108,28 @@ public class BonusManager : MonoBehaviour
             return 3;
     }
 
-    public void UpdateBoostSprites(int boostIndex, int level)
+    public void UpdateBoostSprites(string boostId, int level)
     {
         int index = ChooseBoostSpriteIndex(level);
-        boostPanels[boostIndex].sprite = boostFrames[index];
+        currButtonSelected.relatedFrame.sprite = boostFrames[index];
 
-        Boost boostInfo = children[boostIndex].boostInfo;
+        Boost boostInfo = GetBoostWithId(boostId);
         if (index < boostInfo.UpgradeSprites.Length)
         {
-            children[boostIndex].GetComponent<Image>().sprite = boostInfo.UpgradeSprites[index];
+            currButtonSelected.GetComponent<Image>().sprite = boostInfo.UpgradeSprites[index];
         }
     }
 
     public static Sprite GetBoostImage(Boost boostInfo)
     {
-        int level = GameData.gameData.saveData.boostLevels[boostInfo.Index];
-        int index = ChooseBoostSpriteIndex(level);
-
-        if (index < boostInfo.UpgradeSprites.Length)
+        if (boostInfo != null)
         {
-            return boostInfo.UpgradeSprites[index];
+            int level = GameData.gameData.GetBoostLevel(boostInfo.GetRewardId());
+            int index = ChooseBoostSpriteIndex(level);
+            if (index < boostInfo.UpgradeSprites.Length)
+            {
+                return boostInfo.UpgradeSprites[index];
+            }
         }
         return null;
     }

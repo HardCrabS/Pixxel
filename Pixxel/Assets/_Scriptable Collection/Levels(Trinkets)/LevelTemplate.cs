@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "World", menuName = "Reward/Trinket")]
+[CreateAssetMenu(fileName = "World", menuName = "Collection/Trinket")]
 public class LevelTemplate : RewardTemplate
 {
     [Header("Grid Settings")]

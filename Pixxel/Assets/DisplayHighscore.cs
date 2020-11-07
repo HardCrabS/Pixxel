@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class DisplayHighscore : MonoBehaviour
 {
-    [SerializeField] WorldInfoDisplay worldInfoDisplay;
     [SerializeField] Text firstPlaceScoreText;
     [SerializeField] Text firstPlaceTitleText;
     [SerializeField] Image firstPlaceBanner;
@@ -23,6 +22,13 @@ public class DisplayHighscore : MonoBehaviour
     private User[] allUsers;
     private int playerIndex;
     private int currCenterIndex;
+
+    public static DisplayHighscore Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -40,21 +46,26 @@ public class DisplayHighscore : MonoBehaviour
             firstPlaceTitleText.text = "Oops! Internet connection is missing!";
             return;
         }
-        if (scorePanels.Count > 0)
+        if (scorePanels.Count > 0) // if players already loaded
         {
+            print("Players already loaded");
             return;
         }
-        var allUsersTask = DatabaseManager.GetAllUsersInfo(worldInfoDisplay.worldInformation.WorldName);
+
+        var allUsersTask = DatabaseManager.GetAllUsersInfo(RewardTemplate.SplitCamelCase(LevelSettingsKeeper.settingsKeeper.worldId));
         allUsers = await allUsersTask;
 
-        if (allUsers == null)
+        if (allUsers == null || allUsers.Length == 0)
+        {
+            firstPlaceScoreText.text = "No players found in Database";
             return;
-
+        }
         Array.Reverse(allUsers);
         string playerId = PlayGamesPlatform.Instance.localUser.id;
-        //string playerId = "editor12345";
+#if UNITY_EDITOR
+        playerId = "editor12345";
+#endif
         playerIndex = GetPlayerIndex(allUsers, playerId);
-
         if (playerIndex > 0)
         {
             SpawnScoresNearPlayer();
@@ -146,7 +157,7 @@ public class DisplayHighscore : MonoBehaviour
             return;
         }
         currCenterIndex--;
-        GameObject scorePanelClone = SpawnScorePanel(allUsers[currCenterIndex - 1], currCenterIndex-1);
+        GameObject scorePanelClone = SpawnScorePanel(allUsers[currCenterIndex - 1], currCenterIndex - 1);
         scorePanels.AddFirst(scorePanelClone);
 
         if (scorePanels.Count > 3)
@@ -169,7 +180,7 @@ public class DisplayHighscore : MonoBehaviour
             return;
         }
         currCenterIndex++;
-        GameObject scorePanelClone = SpawnScorePanel(allUsers[currCenterIndex + 1], currCenterIndex+1);
+        GameObject scorePanelClone = SpawnScorePanel(allUsers[currCenterIndex + 1], currCenterIndex + 1);
         scorePanels.AddLast(scorePanelClone);
 
         if (scorePanels.Count > 3)

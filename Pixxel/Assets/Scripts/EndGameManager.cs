@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public enum GameType
@@ -93,6 +94,7 @@ public class EndGameManager : MonoBehaviour
 
     public void GameOver()
     {
+        DisplayHighscore.Instance.SetLeaderboard();
         StartCoroutine(GameOverDelayed());
     }
 
@@ -101,7 +103,6 @@ public class EndGameManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         bestScoreText.text = Score.Instance.GetCurrentScore() + "";
         RewardForLevel.Instance.CheckForLevelUpReward();
-        gameOverPanel.SetActive(true);
     }
 
     // Update is called once per frame

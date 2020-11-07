@@ -16,7 +16,7 @@ public class ClickOnBoost : MonoBehaviour
     {
         boostTitleText.text = boost.Title;
         descriptionText.text = boost.Description;
-        int boostLevel = GameData.gameData.saveData.boostLevels[boost.Index];
+        int boostLevel = GameData.gameData.GetBoostLevel(boost.GetRewardId());
         levelText.text = "lv " + boostLevel;
         if (boostLevel < boost.UpgradeCosts.Length - 1)
         {
@@ -46,7 +46,7 @@ public class ClickOnBoost : MonoBehaviour
 
     public void UpdateText(Boost boost, string stats)
     {
-        int boostLevel = GameData.gameData.saveData.boostLevels[boost.Index];
+        int boostLevel = GameData.gameData.GetBoostLevel(boost.GetRewardId());
         levelText.text = "lv " + boostLevel;
         if (boostLevel < boost.UpgradeCosts.Length + 1)
         {

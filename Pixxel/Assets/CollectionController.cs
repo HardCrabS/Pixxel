@@ -17,6 +17,13 @@ public class CollectionController : MonoBehaviour
     [Header("Worlds")]
     [SerializeField] WorldInformation[] worlds;
 
+    [Header("Boosts")]
+    [SerializeField] Transform boostsContainer;
+    [SerializeField] Transform boostSelectionGlow;
+    [SerializeField] GameObject boostTemplate;
+    [SerializeField] Sprite[] levelFrames;
+    [SerializeField] Boost[] boostInfos;
+
     [Header("Trinkets")]
     [SerializeField] Transform trinketsContainer;
     [SerializeField] Transform trinketSelectionGlow;
@@ -40,6 +47,7 @@ public class CollectionController : MonoBehaviour
     const string UNLOCKED_BY_RANK = "Unlocked by reaching Player Rank ";
 
     const string BANNERS_LOCATION = "Sprites/UI images/Banners/";
+    const string TRINKETS_LOCATION = "Sprites/UI images/Trinkets/";
 
     void Awake()
     {
@@ -54,6 +62,7 @@ public class CollectionController : MonoBehaviour
         SetTitles();
         SetBanners();
         SetTrinkets();
+        SetBoosts();
     }
 
     public void SetWorldDescription(string worldName, string description)//called in WorldSprite class
@@ -80,18 +89,20 @@ public class CollectionController : MonoBehaviour
         itemDescription.text = "";
         equipButton.gameObject.SetActive(false);
     }
+    public void SetBoostCollectionTexts()   //called on section toggles event
+    {
+        var boostsUnlocked = GameData.gameData.saveData.boostIds;
+        unlockNumber.text = "<size=400>" + boostsUnlocked.Count
+            + "</size>/" + boostInfos.Length + "\n<color=blue>UNLOCKED</color>";
+        sectionName.text = "<color=red>BOOSTS</color>\n" + SECTION_NAME_DOTS;
+        itemDescription.text = "";
+        equipButton.gameObject.SetActive(false);
+    }
     public void SetTrinketCollectionTexts()
     {
-        var trinkets = GameData.gameData.saveData.worldTrinkets;
-        int totalTrinkets = 0;
-        int totalUnlocked = 0;
-        for (int i = 0; i < trinkets.Length; i++)
-        {
-            totalTrinkets += trinkets[i].trinkets.Length;
-            //totalUnlocked += GetNumberOfUnlocked(trinkets[i].trinkets);
-        }
-        unlockNumber.text = "<size=400>" + totalUnlocked
-            + "</size>/" + totalTrinkets + "\n<color=blue>UNLOCKED</color>";
+        var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
+        unlockNumber.text = "<size=400>" + trinketsUnlocked.Count
+            + "</size>/" + trinkets.Length + "\n<color=blue>UNLOCKED</color>";
         sectionName.text = "<color=blue>TRINKETS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         equipButton.gameObject.SetActive(false);
@@ -113,6 +124,36 @@ public class CollectionController : MonoBehaviour
         sectionName.text = "<color=red>BANNERS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         equipButton.gameObject.SetActive(false);
+    }
+    void SetBoosts()
+    {
+        var boostsUnlocked = GameData.gameData.saveData.boostIds;
+
+        for (int i = 0; i < boostInfos.Length; i++)
+        {
+            Boost boost = boostInfos[i];
+            var boostPanel = Instantiate(boostTemplate, boostsContainer).transform;
+            Image[] images = boostPanel.GetComponentsInChildren<Image>();
+            int levelFrameIndex = BonusManager.ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(boost.GetRewardId())); //get frame based on boost level
+
+            images[0].sprite = levelFrames[levelFrameIndex]; // set boost frame sprite
+            images[1].sprite = boost.UpgradeSprites[levelFrameIndex]; // set boost image based on level
+
+            string title = boost.Title;
+            Button button = boostPanel.GetComponent<Button>();
+            string descr = "<color=red><size=450>" + title + "</size></color>";
+            int index = i;
+            if (!boostsUnlocked.Contains(boost.GetRewardId()))
+            {
+                boostPanel.GetChild(1).gameObject.SetActive(true);  //lock image
+                button.onClick.AddListener(delegate () { OnBoostClicked(descr, index, false); });
+            }
+            else
+            {
+                button.onClick.AddListener(delegate () { OnBoostClicked(descr, index, true); });
+            }
+            button.onClick.AddListener(delegate () { SetBoostSelection(boostPanel.position); });
+        }
     }
     void SetTitles()
     {
@@ -172,7 +213,7 @@ public class CollectionController : MonoBehaviour
             trinket.GetComponent<Image>().sprite = trinkets[j].trinketSprite;
             Button button = trinket.GetComponent<Button>();
             string trinkName = RewardTemplate.SplitCamelCase(trinkets[j].GetRewardId());
-            string descr = "<color=orange><size=450>" + trinkName + "</size></color>";
+            string descr = "<color=orange><size=420>" + trinkName + "</size></color>";
 
             int index = j;
             if (!trinketsUnlocked.Contains(trinkets[j].GetRewardId()))
@@ -187,16 +228,42 @@ public class CollectionController : MonoBehaviour
             button.onClick.AddListener(delegate () { SetTrinketSelection(trinket.position); });
         }
     }
+    void OnBoostClicked(string description, int index, bool isUnlocked)
+    {
+        if (!isUnlocked)
+        {
+            string unlockRequirement = GetUnlockRequirement(LevelReward.Boost, boostInfos[index].GetRewardId());
+            description += "\n" + LOCKED + "\n" + unlockRequirement;
+        }
+        else
+        {
+            description += "\n" + boostInfos[index].Description;
+        }
+        itemDescription.text = description;
+    }
     void OnTrinketClicked(string description, int index, bool isUnlocked)
     {
         if (!isUnlocked)
         {
+            equipButton.gameObject.SetActive(false);    //button to equip a avatar
             string unlockRequirement = GetUnlockRequirement(LevelReward.Trinket, trinkets[index].GetRewardId());
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
         else
         {
             description += "\n" + trinkets[index].description;
+            equipButton.gameObject.SetActive(true);
+            Text buttoText = equipButton.GetComponentInChildren<Text>();
+            if (trinkets[index].trinketSprite == profileHandler.GetCurrAvatar())  //set button text if avatar is equiped or not
+            {
+                buttoText.text = "Equiped!";
+            }
+            else
+            {
+                buttoText.text = "Equip!";
+            }
+            Button button = equipButton.GetComponent<Button>();
+            button.onClick.AddListener(delegate () { SetAvatarEquipButton(trinkets[index].trinketSprite); });
         }
         itemDescription.text = description;
     }
@@ -263,6 +330,15 @@ public class CollectionController : MonoBehaviour
     {
         GameData.gameData.ChangeBanner(BANNERS_LOCATION + banners[index].Sprite.name);   //save banner path 
         profileHandler.UpdateBanner(banners[index].Sprite);   //update banner in profile panel
+    }
+    void SetAvatarEquipButton(Sprite avatar)
+    {
+        GameData.gameData.ChangeAvatar(TRINKETS_LOCATION + avatar.name);   //save avatar 
+        profileHandler.UpdateAvatar(avatar);   //update avatar in profile panel
+    }
+    void SetBoostSelection(Vector3 position)
+    {
+        boostSelectionGlow.position = position;
     }
     void SetTitleSelection(Vector3 position)
     {

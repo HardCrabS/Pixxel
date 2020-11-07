@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class LevelUp : MonoBehaviour 
 {
@@ -14,16 +11,15 @@ public class LevelUp : MonoBehaviour
 
     public void UpgradeBoost()
     {
-        int level = GameData.gameData.saveData.boostLevels[boostInfo.Index];
+        int level = GameData.gameData.GetBoostLevel(boostInfo.GetRewardId());
         if (level < 10 && CoinsDisplay.Instance.GetCoins() >= boostInfo.UpgradeCosts[level - 1])
         {
             CoinsDisplay.Instance.DecreaseCoins(boostInfo.UpgradeCosts[level - 1]);
-            GameData.gameData.saveData.boostLevels[boostInfo.Index]++;
+            GameData.gameData.saveData.boostLevels[boostInfo.GetRewardId()]++;
             GameData.gameData.Save();
-            //bonusButton.UpdateBonusLevelInfo();
             level++;
             clickOnBoost.UpdateText(boostInfo, bonus.GetUniqueAbility(level));
-            bonusManager.UpdateBoostSprites(boostInfo.Index, level);
+            bonusManager.UpdateBoostSprites(boostInfo.GetRewardId(), level);
             equipButton.UpdateEquipedBoosts(boostInfo);
         }
     }

@@ -53,10 +53,10 @@ public class EquipButton : MonoBehaviour
 
     public void UpdateEquipedBoosts(Boost boostInfo)
     {
-        int[] equipedBoostsIndex = GameData.gameData.saveData.equipedBoostIndexes;
+        List<string> equipedBoostIds = GameData.gameData.saveData.equipedBoosts;
         for (int i = 0; i < equipeButtons.Length; i++)
         {
-            if (boostInfo.Index == equipedBoostsIndex[i])
+            if (boostInfo.GetRewardId() == equipedBoostIds[i])
             {
                 Sprite boostSprite = BonusManager.GetBoostImage(boostInfo);
                 if (equipeButtons[i] != null)
