@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
-using UnityEngine.SocialPlatforms;
-using UnityEngine.UI;
 using System.Threading.Tasks;
 using UnityEngine.Events;
 
 public class PlayGamesController : MonoBehaviour
 {
-    [SerializeField] bool testing = false;
     public static PlayGamesController Instance;
     public UnityEvent OnAuthenticated;
 
@@ -55,22 +50,20 @@ public class PlayGamesController : MonoBehaviour
             OnAuthenticated.Invoke();
         }
         );
+#if UNITY_EDITOR
+        string playerIdeditor = "editor12345";
+        Task<bool> userTaskEditor = DatabaseManager.UserAlreadyInDatabase(playerIdeditor);
+        bool userInDatabaseEditor = await userTaskEditor;
 
-        if (testing)
+        if (!userInDatabaseEditor)
         {
-            string playerId = "editor12345";
-            Task<bool> userTask = DatabaseManager.UserAlreadyInDatabase(playerId);
-            bool userInDatabase = await userTask;
-
-            if (!userInDatabase)
-            {
-                DatabaseManager.WriteNewUser(playerId, "editor Name", "debil", "Sprites/Avatars/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
-                GameData.gameData.saveData.playerInfo = new User(playerId, "debil", "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/Banners/DefaultBanner");
-                GameData.gameData.Save();
-                print("Writing test editor user in database");
-            }
-            OnAuthenticated.Invoke();
+            DatabaseManager.WriteNewUser(playerIdeditor, "editor Name", "debil", "Sprites/Avatars/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+            GameData.gameData.saveData.playerInfo = new User(playerIdeditor, "debil", "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/Banners/DefaultBanner");
+            GameData.gameData.Save();
+            print("Writing test editor user in database");
         }
+        OnAuthenticated.Invoke();
+#endif
     }
 
     public static bool PostToLeaderboard(string worldId)

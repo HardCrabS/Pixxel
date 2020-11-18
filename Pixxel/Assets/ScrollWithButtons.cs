@@ -14,18 +14,28 @@ public class ScrollWithButtons : MonoBehaviour
 
     int currObjIndex = 0;
     bool objIsScaled = false;
-    Vector2 initObjScale;
+    const float defaultDistBetweenObj = 75;
 
+    void Start()
+    {
+        //MoveToFirstObject();
+    }
+    IEnumerator SetSpeedDelayed()
+    {
+        if (allObjects.Count < 2) yield break;
+        yield return new WaitForSeconds(1f);
+        float distBetwObjects = Mathf.Abs(allObjects[1].transform.position.x - allObjects[0].transform.position.x);
+        scrollSpeed *= distBetwObjects / defaultDistBetweenObj; //for different screen resolutions, i.e. distBetwObjects bigger on large screens
+        print(distBetwObjects);
+        print(scrollSpeed);
+    }
     public void MoveToFirstObject()
     {
         GameObject objToMove = allObjects[0];
         Vector3 centerOfScrolling = transform.position;
         Vector3 currPos = containerToMove.position;
         Vector3 dif = centerOfScrolling - objToMove.transform.position;
-        containerToMove.position = new Vector2(containerToMove.position.x + dif.x - 60, containerToMove.position.y);
-        float dir = Mathf.Sign(Vector2.Distance(objToMove.transform.position, centerOfScrolling));
 
-        initObjScale = objToMove.transform.localScale;
         objToMove.transform.localScale *= scaleMultiplier;
         objIsScaled = true;
     }
@@ -41,7 +51,8 @@ public class ScrollWithButtons : MonoBehaviour
             }
             currObjIndex += dir;
             allObjects[currObjIndex].GetComponent<Button>().onClick.Invoke(); //trigger button which is on every object
-            StartCoroutine(ScrollToObject(allObjects[currObjIndex], dir));  //scroll to next object
+            //StartCoroutine(ScrollToObject(allObjects[currObjIndex], dir));  //scroll to next object
+            StartCoroutine(ScaleCurrentObj(allObjects[currObjIndex], scaleMultiplier));
         }
     }
 
@@ -49,11 +60,11 @@ public class ScrollWithButtons : MonoBehaviour
     {
         Vector3 centerOfScrolling = transform.position;
         Vector3 currPos = containerToMove.position;
-        while (Mathf.Abs(Mathf.Abs(objToMove.transform.position.x) - Mathf.Abs(centerOfScrolling.x)) > 1)
+        while ((Mathf.Abs(centerOfScrolling.x) - Mathf.Abs(objToMove.transform.position.x)) * (-dir) > 0)
         {
             float step = scrollSpeed * Time.deltaTime;
-            currPos = Vector3.MoveTowards(currPos,
-                new Vector3(centerOfScrolling.x + (-dir * 100), containerToMove.position.y, 0), step);
+            currPos += new Vector3(-dir * step, 0);
+            print("step is: " + step);
             containerToMove.position = currPos;  //moving whole container to match object to center
 
             yield return null;
@@ -67,17 +78,16 @@ public class ScrollWithButtons : MonoBehaviour
         Vector2 targetScale;
         if (multiplier == 0)
         {
-            targetScale = initObjScale; //scale down if multiplier 0
+            targetScale = Vector2.one; //scale down
             objIsScaled = false;
         }
         else
         {
-            targetScale = objToScale.transform.localScale * multiplier; //scale up and save init scale
-            initObjScale = objToScale.transform.localScale;
+            targetScale = new Vector2(scaleMultiplier, scaleMultiplier); //scale up and save init scale
             objIsScaled = true;
         }
 
-        while (Vector2.Distance(currScale, targetScale) > Mathf.Epsilon)
+        while (Vector2.Distance(currScale, targetScale) > 0)
         {
             float step = scaleSpeed * Time.deltaTime;
             currScale = Vector3.MoveTowards(currScale, targetScale, step);
@@ -90,5 +100,10 @@ public class ScrollWithButtons : MonoBehaviour
     public void AddObject(GameObject ob)
     {
         allObjects.Add(ob);
+    }
+
+    void OnEnable()
+    {
+        StartCoroutine(SetSpeedDelayed());
     }
 }

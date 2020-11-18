@@ -39,7 +39,7 @@ public class RewardForLevel : MonoBehaviour
 
     public static RewardForLevel Instance;
 
-    private Vector2 worldSpriteSize = new Vector2(2.2f, 1.3f);
+    private Vector2 worldSpriteSize = new Vector2(1.7f, 1f);
 
     bool levelUped = false;
 
@@ -116,8 +116,10 @@ public class RewardForLevel : MonoBehaviour
         float textHeight = image.sprite.texture.height;
         if (reward.reward == LevelReward.World)
         {
-            rew.transform.localScale = worldSpriteSize;
+            //rew.transform.localScale = worldSpriteSize;
+            textHeight -= 200;
             rew.AddComponent<Outline>().effectDistance = new Vector2(3, 3);
+            rew.AddComponent<Shadow>().effectDistance = new Vector2(10, -8);
         }
 
         if(textHeight > 150 || textWidth > 150)
@@ -135,6 +137,10 @@ public class RewardForLevel : MonoBehaviour
     {
         var button = spawnedRew.AddComponent<Button>();
         button.onClick.AddListener(delegate () { SetRewardDescriptionText(reward); });
+        button.interactable = false;
+        var colors = button.colors;
+        colors.disabledColor = Color.white;
+        button.colors = colors;
     }
 
     void SetRewardDescriptionText(RewardTemplate reward)

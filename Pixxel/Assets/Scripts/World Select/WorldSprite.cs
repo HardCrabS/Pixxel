@@ -38,7 +38,7 @@ public class WorldSprite : MonoBehaviour
 
     public void ShowDescription()
     {
-        CollectionController.Instance.SetWorldDescription(worldInformation.WorldName,
+        CollectionController.Instance.SetWorldDescription(worldInformation.GetRewardId(),
             worldInformation.Description);
     }
 
