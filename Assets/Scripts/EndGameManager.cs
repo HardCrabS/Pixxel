@@ -22,14 +22,10 @@ public class EndGameManager : MonoBehaviour
     public EndGameRequirements requirements;
     [SerializeField] Text requirementText;
     [SerializeField] Text counterText;
-    [SerializeField] GameObject leaderboardGameOverPanel;
-    [SerializeField] GameObject trinketGameOverPanel;
     [SerializeField] Text bestScoreText;
-    [SerializeField] Text postToLeaderboardText;
 
     private int currentCounter;
     private float timerSeconds;
-    private GameObject gameOverPanel;
 
     public delegate void MyDelegate();
     public event MyDelegate onMatchedBlock;
@@ -51,7 +47,6 @@ public class EndGameManager : MonoBehaviour
         if (LevelSettingsKeeper.settingsKeeper == null) return;
         var levelTemplate = LevelSettingsKeeper.settingsKeeper.levelTemplate;
         requirements = levelTemplate.endGameRequirements;
-        gameOverPanel = levelTemplate.isLeaderboard ? leaderboardGameOverPanel : trinketGameOverPanel;
     }
     public void CallOnMatchDelegate()
     {
@@ -96,7 +91,7 @@ public class EndGameManager : MonoBehaviour
     public void GameOver()
     {
         string worldId = LevelSettingsKeeper.settingsKeeper == null ? "TwilightCity"
-            : LevelSettingsKeeper.settingsKeeper.worldId;
+            : LevelSettingsKeeper.settingsKeeper.worldInfo.GetRewardId();
 
         PlayGamesController.PostToLeaderboard(worldId);
 

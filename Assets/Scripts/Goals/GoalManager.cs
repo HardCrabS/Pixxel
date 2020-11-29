@@ -42,7 +42,7 @@ public class GoalManager : MonoBehaviour
     void Start()
     {
         dailyQuests = new List<QuestProgress>();
-        string worldId = LevelSettingsKeeper.settingsKeeper.worldId;
+        string worldId = LevelSettingsKeeper.settingsKeeper.worldInfo.GetRewardId();
         QuestProgress[] questGoals = GameData.gameData.saveData.dailyQuests;
         for (int i = 0; i < questGoals.Length; i++)
         {

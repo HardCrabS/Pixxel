@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class WorldInfoDisplay : MonoBehaviour 
@@ -12,7 +10,6 @@ public class WorldInfoDisplay : MonoBehaviour
     [SerializeField] Text musicInfoText;
     [SerializeField] Text worldStyleText;
     [SerializeField] Image worldBackgroundImage;
-    [SerializeField] Image[] blockImages;
 
     [Header("Trinkets")]
     [SerializeField] GameObject trinketsInfo;
@@ -55,24 +52,14 @@ public class WorldInfoDisplay : MonoBehaviour
         {
             worldInformation = worldInfo;
             infoPanel.SetActive(true);
-            //SetBlockImages(worldInfo);
             worldBackgroundImage.sprite = worldInfo.BackgroundSprite;
             worldName.text = worldInfo.WorldName;
             worldStyleText.text = worldInfo.Style;
             musicInfoText.text = "Music\n" + "\"" + worldInfo.MusicTitle + "\"\n" + "By " + worldInfo.MusicCreator;
-            LevelSettingsKeeper.settingsKeeper.worldId = worldInfo.GetRewardId();
+            LevelSettingsKeeper.settingsKeeper.worldInfo = worldInfo;
             trinketsInfo.SetActive(false);
             leaderboardInfo.SetActive(false);
             SetLoadButton();
-        }
-    }
-
-    void SetBlockImages(WorldInformation worldInfo)
-    {
-        Sprite[] blockSprites = worldInfo.BlockSprites;
-        for (int i = 0; i < blockSprites.Length; i++)
-        {
-            blockImages[i].sprite = blockSprites[i];
         }
     }
 

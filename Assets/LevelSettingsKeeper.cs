@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LevelSettingsKeeper : MonoBehaviour
 {
     public static LevelSettingsKeeper settingsKeeper;
     public LevelTemplate levelTemplate;
 
-    public string worldId;
+    public WorldInformation worldInfo;
 
     void Awake()
     {

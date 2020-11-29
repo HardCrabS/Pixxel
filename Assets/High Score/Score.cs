@@ -50,7 +50,7 @@ public class Score : MonoBehaviour
     public void LoadBestScore()
     {
         if (LevelSettingsKeeper.settingsKeeper == null) return;
-        worldId = LevelSettingsKeeper.settingsKeeper.worldId;
+        worldId = LevelSettingsKeeper.settingsKeeper.worldInfo.GetRewardId();
         bestScore = GameData.gameData.saveData.worldBestScores[worldId];
         bestScoreText.text = bestScore.ToString();
     }

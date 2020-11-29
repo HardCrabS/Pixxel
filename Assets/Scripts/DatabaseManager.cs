@@ -211,7 +211,6 @@ public class DatabaseManager : MonoBehaviour
                 if (snapshot.Exists)
                 {
                     foundUser = true;
-                    print("USER EXISTS");
                 }
             }
         });

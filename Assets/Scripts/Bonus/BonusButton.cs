@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,16 +38,17 @@ public class BonusButton : MonoBehaviour
                 }
                 else
                 {
-                    gameObject.SetActive(false);
+                    gameObject.SetActive(false); //hide bonus button if wasnt picked
                 }
             }
             else
             {
-                Button button = GetComponent<Button>();
+                Button button = GetComponent<Button>(); //set lock image if panel is locked
                 button.interactable = false;
                 var colors = button.colors;
                 colors.disabledColor = Color.white;
                 button.colors = colors;
+                gameObject.AddComponent<Shadow>().effectDistance = new Vector2(10, -10);
             }
         }
     }

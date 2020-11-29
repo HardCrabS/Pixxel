@@ -10,8 +10,8 @@ public class Box : MonoBehaviour
     public bool isMatched = false;
     public int row;
     public int column;
-    int prevRow;
     int prevColumn;
+    int prevRow;
     public int targetX;
     public int targetY;
     float finalAngle;
@@ -75,10 +75,7 @@ public class Box : MonoBehaviour
         {
             firstMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
-        if (blockClicked != null)
-        {
-            blockClicked(row, column);
-        }
+        blockClicked?.Invoke(row, column);
     }
 
     void OnMouseUp()
@@ -109,8 +106,8 @@ public class Box : MonoBehaviour
     void SwipeBoxesActual(Vector2 direction)
     {
         neighborBox = grid.allBoxes[row + (int)direction.x, column + (int)direction.y];
-        prevColumn = row;
-        prevRow = column;
+        prevRow = row;
+        prevColumn = column;
 
         if (grid.lockedTiles[row, column] == null
             && grid.lockedTiles[row + (int)direction.x, column + (int)direction.y] == null)
@@ -165,14 +162,24 @@ public class Box : MonoBehaviour
             {
                 neighborBox.GetComponent<Box>().column = column;
                 neighborBox.GetComponent<Box>().row = row;
-                column = prevRow;
-                row = prevColumn;
+                column = prevColumn;
+                row = prevRow;
                 yield return new WaitForSeconds(.5f);
                 grid.currBox = null;
                 grid.currState = GameState.move;
             }
             else
             {
+                if (GetComponent<BombTile>())
+                {
+                    grid.bombTiles[row, column] = grid.bombTiles[prevRow, prevColumn];
+                    grid.bombTiles[prevRow, prevColumn] = null;
+                }
+                else if(neighborBox.GetComponent<BombTile>())
+                {
+                    grid.bombTiles[prevRow, prevColumn] = grid.bombTiles[row, column];
+                    grid.bombTiles[row, column] = null;
+                }
                 grid.DestroyAllMatches();
 
                 if (EndGameManager.Instance.requirements.gameType == GameType.Moves)

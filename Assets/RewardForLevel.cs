@@ -20,9 +20,6 @@ public class RewardForLevel : MonoBehaviour
     [SerializeField] GameObject rewardEarned;
     [SerializeField] GameObject fireworksVFX;
 
-    [SerializeField] Text rewardText;
-    [SerializeField] Image rewardImage;
-
     [SerializeField] Reward[] rewards;
 
     [Header("End Game Reward Panel")]
@@ -38,8 +35,6 @@ public class RewardForLevel : MonoBehaviour
     [SerializeField] Sprite title, banner;
 
     public static RewardForLevel Instance;
-
-    private Vector2 worldSpriteSize = new Vector2(1.7f, 1f);
 
     bool levelUped = false;
 
@@ -80,7 +75,6 @@ public class RewardForLevel : MonoBehaviour
 
     void SetRewardPanel(RewardTemplate[] rewards)
     {
-        rewardText.text = "Your rewards:\n";
         for (int i = 0; i < rewards.Length; i++)
         {
             GameObject go;
@@ -116,7 +110,6 @@ public class RewardForLevel : MonoBehaviour
         float textHeight = image.sprite.texture.height;
         if (reward.reward == LevelReward.World)
         {
-            //rew.transform.localScale = worldSpriteSize;
             textHeight -= 200;
             rew.AddComponent<Outline>().effectDistance = new Vector2(3, 3);
             rew.AddComponent<Shadow>().effectDistance = new Vector2(10, -8);

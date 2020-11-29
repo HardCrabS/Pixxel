@@ -14,7 +14,6 @@ public class BombTile : MonoBehaviour
         timerText.text = counter.ToString();
 
         EndGameManager.Instance.onMatchedBlock += DecreaseBombCounter;
-        var box = GetComponent<Box>();
     }
 
     IEnumerator ExplodeBomb()
@@ -30,6 +29,7 @@ public class BombTile : MonoBehaviour
 
         Box box = GetComponent<Box>();
         int row = box.row, column = box.column;
+
         Destroy(gameObject);
         GridA.Instance.allBoxes[row, column] = null;
         GridA.Instance.bombTiles[row, column] = null;
@@ -58,8 +58,7 @@ public class BombTile : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
-    void OnDestroy()
+    private void OnDestroy()
     {
         EndGameManager.Instance.onMatchedBlock -= DecreaseBombCounter;
     }

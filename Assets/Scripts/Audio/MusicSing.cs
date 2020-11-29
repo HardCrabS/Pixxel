@@ -7,7 +7,7 @@ public class MusicSing : MonoBehaviour
     public static MusicSing Instance;
 
     AudioSource audio;
-	void Start () 
+	void Awake () 
     {
 		if(FindObjectsOfType<MusicSing>().Length > 1)
         {

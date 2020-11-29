@@ -83,7 +83,7 @@ public class GridA : MonoBehaviour
         Vector2Int.left,
         new Vector2Int(-1, 1)
     };
-    public delegate void MyDelegate(int column, int row);
+    public delegate void MyDelegate(int row, int column);
     public event MyDelegate onGoldRushMatch;
 
     public static GridA Instance;
@@ -93,6 +93,7 @@ public class GridA : MonoBehaviour
         Instance = this;
         if (LevelSettingsKeeper.settingsKeeper != null)
         {
+            boxPrefabs = LevelSettingsKeeper.settingsKeeper.worldInfo.Boxes;
             template = LevelSettingsKeeper.settingsKeeper.levelTemplate;
             if (template != null)
             {
@@ -119,7 +120,7 @@ public class GridA : MonoBehaviour
 
         matchFinder = MatchFinder.Instance;
 
-        if(CheckForTutorial())
+        if (CheckForTutorial())
         {
             return;
         }
@@ -365,6 +366,7 @@ public class GridA : MonoBehaviour
             Destroy(particle, 0.5f);
             CheckBomb();
             AddPointsForMatchedBlock();
+
             Destroy(allBoxes[column, row]);
             matchFinder.currentMatches.Remove(allBoxes[column, row]);
             allBoxes[column, row] = null;
@@ -598,7 +600,7 @@ public class GridA : MonoBehaviour
         {
             for (int y = 0; y < hight; y++)
             {
-                if (allBoxes[x, y] == null && template.isLeaderboard )
+                if (allBoxes[x, y] == null && template.isLeaderboard)
                 {
                     int bombChance = Random.Range(0, 100);
                     if (bombChance <= template.bombChance)

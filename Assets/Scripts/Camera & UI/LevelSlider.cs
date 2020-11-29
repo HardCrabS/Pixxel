@@ -54,7 +54,7 @@ public class LevelSlider : MonoBehaviour
 
     public void UpdateNameText()
     {
-        nameText.text = GameData.gameData.saveData.playerInfo.username;
+        nameText.text = "|\t" + GameData.gameData.saveData.playerInfo.username + "\t|";
     }
 
     public void AddXPtoLevel(float amount)

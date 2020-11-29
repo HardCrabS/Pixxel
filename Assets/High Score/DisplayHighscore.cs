@@ -55,7 +55,7 @@ public class DisplayHighscore : MonoBehaviour
         }
 
         string worldName = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City" 
-            : RewardTemplate.SplitCamelCase(LevelSettingsKeeper.settingsKeeper.worldId);
+            : LevelSettingsKeeper.settingsKeeper.worldInfo.WorldName;
         var allUsersTask = DatabaseManager.GetAllUsersInfo(worldName);
         allUsers = await allUsersTask;
 
