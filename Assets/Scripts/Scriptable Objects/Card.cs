@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new Card", menuName = "Card")]
+[CreateAssetMenu(fileName = "new Card", menuName = "Reward/Card")]
 public class Card : ScriptableObject
 {
     [SerializeField] string title;

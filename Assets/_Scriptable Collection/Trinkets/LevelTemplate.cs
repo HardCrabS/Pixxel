@@ -36,6 +36,7 @@ public class LevelTemplate : RewardTemplate
 
 public enum TrinketName
 {
+    Tutorial,
     PlasticCrown,
     JarOfJam,
     OldChest,

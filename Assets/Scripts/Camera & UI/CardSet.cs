@@ -1,17 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class CardSet : MonoBehaviour 
+[CreateAssetMenu(menuName = "Reward/CardSet")]
+public class CardSet : RewardTemplate
 {
-    [SerializeField] CardsManager cardsManager;
+    [SerializeField] CardSetName cardSetName;
+    [SerializeField] Sprite cardSetSprite;
     [SerializeField] Card[] cardsInSet;
-	
-    public void DisplayCardsInSet()
+
+    public Card[] CardsInSet => cardsInSet;
+
+    public override string GetRewardId()
     {
-        int randIndex = Random.Range(0, cardsInSet.Length);
-        cardsManager.DisplayCardInfo(cardsInSet[randIndex]);
-        GameData.gameData.UpdateCardClaim(System.DateTime.Now.AddHours(12), randIndex, cardsInSet[randIndex].CardType);
+        return cardSetName.ToString(); 
     }
+    public override Sprite GetRewardSprite()
+    {
+        return cardSetSprite;
+    }
+}
+
+public enum CardSetName
+{
+    InitCardSet,
+    FighterCardSet,
+    MediumCardSet,
+    ProCardSet,
+    MasterCardSet
 }

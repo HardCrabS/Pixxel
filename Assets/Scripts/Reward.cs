@@ -16,12 +16,17 @@ public class Reward
                     }
                 case LevelReward.BoostSlot:
                     {
-                        GameData.gameData.UnlockSlotForBoost(System.Int32.Parse(rewards[i].GetRewardId()));
+                        GameData.gameData.UnlockSlotForBoost(int.Parse(rewards[i].GetRewardId()));
                         break;
                     }
                 case LevelReward.Boost:
                     {
                         GameData.gameData.UnlockBoost(rewards[i].GetRewardId());
+                        break;
+                    }
+                case LevelReward.Trinket:
+                    {
+                        GameData.gameData.UnlockTrinket(rewards[i].GetRewardId());
                         break;
                     }
                 case LevelReward.Title:
@@ -32,6 +37,11 @@ public class Reward
                 case LevelReward.Banner:
                     {
                         GameData.gameData.UnlockBanner(rewards[i].GetRewardId());
+                        break;
+                    }
+                case LevelReward.CardSet:
+                    {
+                        GameData.gameData.UnlockCardSet(rewards[i].GetRewardId());
                         break;
                     }
             }

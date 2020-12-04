@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Tutorial : MonoBehaviour 
 {
     [SerializeField] GameObject gameCanvas;
+    [SerializeField] GameObject visualizerCanvas;
     [SerializeField] GameObject tutorialCanvas;
     [SerializeField] SequentialText text;
     [SerializeField] Dialogue[] helloDialogues;
@@ -19,6 +20,7 @@ public class Tutorial : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
         {
+            visualizerCanvas.SetActive(false);
             gameCanvas.SetActive(false);
             tutorialCanvas.SetActive(true);
             StartCoroutine(PlayTutorial());
@@ -50,6 +52,7 @@ public class Tutorial : MonoBehaviour
 
         tutorialCanvas.SetActive(false);
         gameCanvas.SetActive(true);
+        visualizerCanvas.SetActive(true);
 
         PlayerPrefs.SetInt("TUTORIAL", 1);
 

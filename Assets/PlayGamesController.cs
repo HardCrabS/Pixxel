@@ -11,25 +11,34 @@ public class PlayGamesController : MonoBehaviour
     {
         if (!GameData.gameData.isAuthentificated)
         {
-            AuthenticateUser();
+            WaitForAuthenticate();
         }
+    }
+
+    private async void WaitForAuthenticate()
+    {
+        await AuthenticateUser();
         OnAuthenticated.Invoke();
     }
 
-    static async void AuthenticateUser()
+    static async Task AuthenticateUser()
     {
         if (ShareController.CheckForInternetConnection())
         {
             string playerId = SystemInfo.deviceUniqueIdentifier;
-            Task<bool> userTask = DatabaseManager.UserAlreadyInDatabase(playerId);
-            bool userInDatabase = await userTask;
+            Task<User> userTask = DatabaseManager.UserAlreadyInDatabase(playerId);
+            User userInDatabase = await userTask;
 
-            if (!userInDatabase)
+            if (userInDatabase == null)
             {
                 string playerName = "Soldier";
-                DatabaseManager.WriteNewUser(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
-                GameData.gameData.saveData.playerInfo = new User(playerId, playerName, "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+                DatabaseManager.WriteNewUser(playerId, playerName, "Noobe", "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+                GameData.gameData.saveData.playerInfo = new User(playerId, playerName, "Noobe", "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
                 GameData.gameData.Save();
+            }
+            else
+            {
+                GameData.gameData.saveData.playerInfo = userInDatabase;
             }
             GameData.gameData.isAuthentificated = true;
         }
@@ -37,7 +46,7 @@ public class PlayGamesController : MonoBehaviour
         {
             if (GameData.gameData.saveData.playerInfo == null)
             {
-                GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "Sprites/Avatars/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+                GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
                 GameData.gameData.Save();
             }
         }

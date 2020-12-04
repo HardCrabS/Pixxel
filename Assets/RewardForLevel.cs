@@ -11,7 +11,6 @@ public enum LevelReward
     BoostSlot,
     Title,
     Banner,
-    Avatar,
     CardSet
 }
 
@@ -113,6 +112,10 @@ public class RewardForLevel : MonoBehaviour
             textHeight -= 200;
             rew.AddComponent<Outline>().effectDistance = new Vector2(3, 3);
             rew.AddComponent<Shadow>().effectDistance = new Vector2(10, -8);
+        }
+        else if(reward.reward == LevelReward.CardSet)
+        {
+            textWidth /= 5;     //5 cards in spritesheet
         }
 
         if(textHeight > 150 || textWidth > 150)

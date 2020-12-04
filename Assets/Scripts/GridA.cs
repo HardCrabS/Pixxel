@@ -600,7 +600,7 @@ public class GridA : MonoBehaviour
         {
             for (int y = 0; y < hight; y++)
             {
-                if (allBoxes[x, y] == null && template.isLeaderboard)
+                if (allBoxes[x, y] == null && template.isLeaderboard && !blankSpaces[x, y])
                 {
                     int bombChance = Random.Range(0, 100);
                     if (bombChance <= template.bombChance)

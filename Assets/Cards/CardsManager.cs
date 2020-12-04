@@ -11,7 +11,70 @@ public class CardsManager : MonoBehaviour
     [SerializeField] Text descriptionText;
     [SerializeField] Image cardImage;
 
+    [SerializeField] Button[] cardButtons;
+    [SerializeField] CardSet[] cardSets;
     [SerializeField] Card[] allCards;
+
+    public static CardsManager Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        SetCardSets();
+    }
+
+    void SetCardSets()
+    {
+        Material blackWhiteMat = Resources.Load("Materials/B&W mat", typeof(Material)) as Material;
+        for (int i = 0; i < cardButtons.Length; i++)
+        {
+            string cardSetId = cardSets[i].GetRewardId();
+            if (GameData.gameData.saveData.cardIds.Contains(cardSetId))
+            {
+                int index = i;
+                cardButtons[i].onClick.AddListener(delegate () { OnCardPressed(index); });
+            }
+            else
+            {
+                cardButtons[i].interactable = false;
+                cardButtons[i].GetComponent<Image>().material = blackWhiteMat;
+
+                int rankToUnlock = RewardForLevel.Instance.GetRankFromRewards(LevelReward.CardSet, cardSetId);
+                Text text = cardButtons[i].transform.GetChild(0).GetComponent<Text>();
+                text.text = "RANK\n" + rankToUnlock;
+                text.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    void OnCardPressed(int index)
+    {
+        Animator animator = cardButtons[index].GetComponent<Animator>();
+        animator.enabled = true;
+
+        float clipLength = animator.GetCurrentAnimatorStateInfo(0).length;
+        DisplayCardsInSet(index);
+        StartCoroutine(CardPanelDelayed(clipLength));
+    }
+
+    IEnumerator CardPanelDelayed(float time)
+    {
+        yield return new WaitForSeconds(time + 0.5f);
+        earnedCardPanel.SetActive(true);
+    }
+
+    public void DisplayCardsInSet(int cardSetIndex)
+    {
+        Card[] cardsInSet = cardSets[cardSetIndex].CardsInSet;
+        int randIndex = Random.Range(0, cardsInSet.Length);
+        DisplayCardInfo(cardsInSet[randIndex]);
+        GameData.gameData.UpdateCardClaim(System.DateTime.Now.AddHours(12), cardsInSet[randIndex].CardType);
+        cardButtons[cardSetIndex].GetComponent<SpriteChanger>().SetSprite(cardsInSet[randIndex].Sprite);
+    }
 
     public void ActivateCardPanel()
     {
@@ -31,7 +94,7 @@ public class CardsManager : MonoBehaviour
         }
         else
         {
-            DisplayCardInfo(allCards[GameData.gameData.saveData.cardInfoIndex]);
+            DisplayCardInfo(GetCardInArray(GameData.gameData.saveData.cardType));
             earnedCardPanel.SetActive(true);
         }
     }
@@ -41,5 +104,17 @@ public class CardsManager : MonoBehaviour
         titleText.text = card.Title;
         descriptionText.text = card.Description;
         cardImage.sprite = card.Sprite;
+    }
+
+    Card GetCardInArray(string cardType)
+    {
+        for (int i = 0; i < allCards.Length; i++)
+        {
+            if(allCards[i].CardType.CompareTo(cardType) == 0)
+            {
+                return allCards[i];
+            }
+        }
+        return null;
     }
 }

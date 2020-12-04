@@ -112,6 +112,7 @@ public class SequentialText : MonoBehaviour
 
         FillTextBoxWithHiddenChars(message);
 
+        bool soundWasPlayed = false;
         int index = 0;
         while (message.Length > index)
         {
@@ -123,7 +124,15 @@ public class SequentialText : MonoBehaviour
             {
                 CharacterShown?.Invoke();
                 if (!Skipping())
-                    audioSource.PlayOneShot(typeSound);
+                {
+                    if (!soundWasPlayed) //playing sound every 2 characters
+                    {
+                        audioSource.PlayOneShot(typeSound);
+                        soundWasPlayed = true;
+                    }
+                    else
+                        soundWasPlayed = false;
+                }
             }
             shown += message[index];
             if (message == shown)

@@ -20,13 +20,16 @@ public class SaveData
     public List<string> trinketIds;
     public List<string> titleIds;
     public List<string> bannerIds;
+    public List<string> cardIds;
     public Dictionary<string, int> worldBestScores = new Dictionary<string, int>()
     {
         { "TwilightCity", 0 }   //unlocked by default
     };
-    public Dictionary<string, int> boostLevels = new Dictionary<string, int>();
+    public Dictionary<string, int> boostLevels = new Dictionary<string, int>()
+    {
+        { "ColorHater", 1 }   //unlocked by default
+    };
 
-    public int cardInfoIndex;
     public string cardType;
     public string lastTimeCardClaimed;
 
@@ -71,6 +74,7 @@ public class GameData : MonoBehaviour
     public void UnlockBoost(string id)
     {
         saveData.boostIds.Add(id);
+        saveData.boostLevels.Add(id, 1);
         Save();
     }
     public int GetBoostLevel(string boostName)
@@ -96,6 +100,8 @@ public class GameData : MonoBehaviour
         for (int i = 0; i < boostNames.Length; i++)
         {
             saveData.boostIds.Add(boostNames.GetValue(i).ToString());
+            if (!saveData.boostLevels.ContainsKey(boostNames.GetValue(i).ToString()))
+                saveData.boostLevels.Add(boostNames.GetValue(i).ToString(), 1);
         }
         saveData.slotsForBoostsUnlocked[1] = true;
         saveData.slotsForBoostsUnlocked[2] = true;
@@ -137,14 +143,20 @@ public class GameData : MonoBehaviour
 
         DatabaseManager.ChangeBanner(bannerPath);
     }
+    public void UnlockCardSet(string id)
+    {
+        saveData.cardIds.Add(id);
+        saveData.lastTimeCardClaimed = "";
+        saveData.cardType = "";
+        Save();
+    }
     public void UpdateLastQuestClaim(DateTime dateTime)
     {
         gameData.saveData.lastTimeQuestClaimed = dateTime.ToString();
         Save();
     }
-    public void UpdateCardClaim(DateTime dateTime, int cardIndex, string cardType)
+    public void UpdateCardClaim(DateTime dateTime, string cardType)
     {
-        gameData.saveData.cardInfoIndex = cardIndex;
         gameData.saveData.lastTimeCardClaimed = dateTime.ToString();
         gameData.saveData.cardType = cardType;
         Save();
