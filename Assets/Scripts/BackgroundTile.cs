@@ -12,7 +12,6 @@ public class BackgroundTile : MonoBehaviour
         if (hitPoints <= 0)
         {
             GoalManager.Instance.CompareGoal(gameObject.tag);
-            GoalManager.Instance.UpdateGoals();
             Destroy(gameObject);
         }
     }

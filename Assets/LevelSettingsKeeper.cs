@@ -3,7 +3,6 @@
 public class LevelSettingsKeeper : MonoBehaviour
 {
     public static LevelSettingsKeeper settingsKeeper;
-    public LevelTemplate levelTemplate;
 
     public WorldInformation worldInfo;
 

@@ -6,21 +6,21 @@ using UnityEngine.UI;
 public class TextChanger : MonoBehaviour 
 {
     [SerializeField] Text trinketName;
-    [SerializeField] Text trinketCondition;
+    [SerializeField] Text trinketRequirements;
 	
     public void ChangeTrinketTextName(string _trinketName)
     {
         trinketName.text = _trinketName;
     }
-    public void ChangeTrinketTextCondition(string _condition)
+    public void ChangeTrinketTextCondition(string _requirement)
     {
-        trinketCondition.text = _condition;
+        trinketRequirements.text = _requirement;
     }
 
     public void SetDefaultText()
     {
         trinketName.text = "Trinket Name";
-        trinketCondition.text = "Requirements";
+        trinketRequirements.text = "Requirements";
     }
     void OnEnable()
     {

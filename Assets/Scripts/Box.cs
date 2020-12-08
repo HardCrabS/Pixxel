@@ -182,11 +182,7 @@ public class Box : MonoBehaviour
                 }
                 grid.DestroyAllMatches();
 
-                if (EndGameManager.Instance.requirements.gameType == GameType.Moves)
-                {
-                    EndGameManager.Instance.DecreaseCounterValue();
-                    EndGameManager.Instance.CallOnMatchDelegate();
-                }
+                EndGameManager.Instance.CallOnMatchDelegate();
             }
             neighborBox = null;
         }

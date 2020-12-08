@@ -38,7 +38,6 @@ public class WorldInfoDisplay : MonoBehaviour
     {
         trinketsInfo.SetActive(false);
         leaderboardInfo.SetActive(true);
-        LevelSettingsKeeper.settingsKeeper.levelTemplate = worldInformation.LeaderboardLevelTemplate;
     }
 
     public void HideInfoPanel()

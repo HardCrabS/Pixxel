@@ -94,7 +94,7 @@ public class GridA : MonoBehaviour
         if (LevelSettingsKeeper.settingsKeeper != null)
         {
             boxPrefabs = LevelSettingsKeeper.settingsKeeper.worldInfo.Boxes;
-            template = LevelSettingsKeeper.settingsKeeper.levelTemplate;
+            template = LevelSettingsKeeper.settingsKeeper.worldInfo.LeaderboardLevelTemplate;
             if (template != null)
             {
                 width = template.width;
@@ -145,7 +145,7 @@ public class GridA : MonoBehaviour
         template = ScriptableObject.CreateInstance("LevelTemplate") as LevelTemplate;
         template.boardLayout = layout;
         boardLayout = layout;
-        template.isLeaderboard = true;
+
         template.hight = 8;
         template.width = 8;
 
@@ -170,7 +170,6 @@ public class GridA : MonoBehaviour
         template = tutorialTemplate;
         boardLayout = template.boardLayout;
 
-        template.isLeaderboard = false;
         template.hight = 8;
         template.width = 8;
 
@@ -349,7 +348,6 @@ public class GridA : MonoBehaviour
             if (GoalManager.Instance != null)
             {
                 GoalManager.Instance.CompareGoal(allBoxes[column, row].tag);
-                GoalManager.Instance.UpdateGoals();
             }
             if (breakableTiles[column, row] != null)
             {
@@ -600,7 +598,7 @@ public class GridA : MonoBehaviour
         {
             for (int y = 0; y < hight; y++)
             {
-                if (allBoxes[x, y] == null && template.isLeaderboard && !blankSpaces[x, y])
+                if (allBoxes[x, y] == null && !blankSpaces[x, y])
                 {
                     int bombChance = Random.Range(0, 100);
                     if (bombChance <= template.bombChance)

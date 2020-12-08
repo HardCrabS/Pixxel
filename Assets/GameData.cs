@@ -29,6 +29,7 @@ public class SaveData
     {
         { "ColorHater", 1 }   //unlocked by default
     };
+    public Dictionary<string, int> trinketsProgress = new Dictionary<string, int>();
 
     public string cardType;
     public string lastTimeCardClaimed;

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -13,15 +12,15 @@ public class LevelGoal
 
 public class GoalManager : MonoBehaviour
 {
-    [SerializeField] LevelGoal[] levelGoals;
-    [SerializeField] List<GoalPanel> currentGoals = new List<GoalPanel>();
-    [SerializeField] GameObject goalPrefab;
-    [SerializeField] GameObject winPanel;
+    [SerializeField] List<LevelTemplate> levelTemplates;
+    //[SerializeField] List<GoalPanel> currentGoals = new List<GoalPanel>();
+    //[SerializeField] GameObject goalPrefab;
+    //[SerializeField] GameObject winPanel;
 
-    [SerializeField] GameObject goalParent;
+    //[SerializeField] GameObject goalParent;
 
-    private delegate void LevelWon();
-    LevelWon onLevelWon;
+    //private delegate void LevelWon();
+    //LevelWon onLevelWon;
 
     List<QuestProgress> dailyQuests;
 
@@ -41,77 +40,82 @@ public class GoalManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        SetDailyQuests();
+        //onLevelWon += DisplayWinPanel;
+        WorldInformation worldInformation = LevelSettingsKeeper.settingsKeeper.worldInfo;
+        SetupGoals(worldInformation);
+    }
+
+    private void SetDailyQuests()
+    {
         dailyQuests = new List<QuestProgress>();
         string worldId = LevelSettingsKeeper.settingsKeeper.worldInfo.GetRewardId();
         QuestProgress[] questGoals = GameData.gameData.saveData.dailyQuests;
         for (int i = 0; i < questGoals.Length; i++)
         {
-            if(questGoals[i].worldId == worldId)
+            if (questGoals[i].worldId == worldId)
             {
                 dailyQuests.Add(questGoals[i]);
             }
         }
-        if (!LevelSettingsKeeper.settingsKeeper.levelTemplate.isLeaderboard)
-        {
-            levelGoals = LevelSettingsKeeper.settingsKeeper.levelTemplate.levelGoals;
-            onLevelWon += DisplayWinPanel;
-            SetupGoals();
-        }
     }
 
-    void SetupGoals()
+    void SetupGoals(WorldInformation worldInformation)
     {
-        for (int i = 0; i < levelGoals.Length; i++)
+        GameData gamedata = GameData.gameData;
+        for (int i = 0; i < worldInformation.TrinketLevelTemplates.Length; i++)
         {
-            levelGoals[i].numberCollected = 0;
-            GameObject goal = Instantiate(goalPrefab, goalParent.transform.position, Quaternion.identity, goalParent.transform);
-            GoalPanel goalPanel = goal.GetComponent<GoalPanel>();
-            currentGoals.Add(goalPanel);
-            goalPanel.SetPanelSprite(levelGoals[i].goalSprite);
-            goalPanel.SetPanelText("0/" + levelGoals[i].numberNeeded);
+            LevelTemplate trinket = worldInformation.TrinketLevelTemplates[i];
+            string trinketId = trinket.GetRewardId(); //get trinket id
+            if (gamedata.saveData.trinketsProgress.ContainsKey(trinketId)) //if id already saved
+            {
+                if(gamedata.saveData.trinketsProgress[trinketId] < trinket.levelGoal.numberNeeded)
+                {
+                    levelTemplates.Add(trinket); //getting if not completed 
+                }
+            }
+            else
+            {
+                gamedata.saveData.trinketsProgress.Add(trinketId, 0); //create new element
+            }
+
+            //GameObject goal = Instantiate(goalPrefab, goalParent.transform.position, Quaternion.identity, goalParent.transform);
+            //GoalPanel goalPanel = goal.GetComponent<GoalPanel>();
+            //currentGoals.Add(goalPanel);
+            //goalPanel.SetPanelSprite(levelGoals[i].goalSprite);
+            //goalPanel.SetPanelText("0/" + levelGoals[i].numberNeeded);
         }
     }
 
-    public void UpdateGoals()
-    {
-        int goalsCompleted = 0;
-
-        for (int i = 0; i < levelGoals.Length; i++)
-        {
-            currentGoals[i].SetPanelText(levelGoals[i].numberCollected + "/" + levelGoals[i].numberNeeded);
-            if (levelGoals[i].numberCollected >= levelGoals[i].numberNeeded)
-            {
-                goalsCompleted++;
-                currentGoals[i].SetPanelText(levelGoals[i].numberNeeded + "/" + levelGoals[i].numberNeeded);
-            }
-        }
-        if (goalsCompleted >= levelGoals.Length)
-        {
-            if (onLevelWon != null)
-            {
-                onLevelWon();
-                onLevelWon -= DisplayWinPanel;
-            }
-        }
-    }
-
-    void DisplayWinPanel()
+    /*void DisplayWinPanel()
     {
         RewardForLevel.Instance.CheckForLevelUpReward();
         winPanel.SetActive(true);
         if (GameData.gameData != null)
             GameData.gameData.UnlockTrinket(LevelSettingsKeeper.settingsKeeper.levelTemplate.GetRewardId());
-    }
+    }*/
 
     public void CompareGoal(string goalToCompare, int pointsToAdd = 1)
     {
-        for (int i = 0; i < levelGoals.Length; i++)
+        GameData gamedata = GameData.gameData;
+        //trinkets
+        for (int i = 0; i < levelTemplates.Count; i++)
         {
-            if (levelGoals[i].matchTag == goalToCompare)
+            if (levelTemplates[i].levelGoal.matchTag == goalToCompare) //if goal compares
             {
-                levelGoals[i].numberCollected += pointsToAdd;
+                string trinketId = levelTemplates[i].GetRewardId(); //get trinket id
+                gamedata.saveData.trinketsProgress[trinketId] += pointsToAdd; //update
+
+                if(gamedata.saveData.trinketsProgress[trinketId] >= levelTemplates[i].levelGoal.numberNeeded)
+                {
+                    gamedata.saveData.trinketsProgress[trinketId] = levelTemplates[i].levelGoal.numberNeeded;
+                    gamedata.saveData.trinketIds.Add(trinketId);
+                    levelTemplates.RemoveAt(i);
+                }
             }
         }
+
+        //daily quests
         for (int i = 0; i < dailyQuests.Count; i++)
         {
             if (dailyQuests[i].tag == goalToCompare)
@@ -125,7 +129,7 @@ public class GoalManager : MonoBehaviour
                 {
                     dailyQuests.RemoveAt(i);
                 }
-                break;
+                break; //only 1 task with same goal at a time
             }
         }
     }

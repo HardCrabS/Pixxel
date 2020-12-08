@@ -42,7 +42,6 @@ public class Score : MonoBehaviour
         if (GoalManager.Instance != null)
         {
             GoalManager.Instance.CompareGoal("Score", amount);
-            GoalManager.Instance.UpdateGoals();
         }
         UpdateScore();
     }

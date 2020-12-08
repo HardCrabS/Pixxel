@@ -20,18 +20,38 @@ public class TrinketInfo : MonoBehaviour
         {
             string trinkName = RewardTemplate.SplitCamelCase(levelTemplate.GetRewardId());
             textChanger.ChangeTrinketTextName(trinkName);
-            textChanger.ChangeTrinketTextCondition(levelTemplate.requirementsExplained);
-            SetTrinketIndex();
+
+            string trinketId = levelTemplate.GetRewardId();
+            string trinketProgress;
+
+            if(GameData.gameData.saveData.trinketsProgress.ContainsKey(trinketId))
+            {
+                int numCollected = GameData.gameData.saveData.trinketsProgress[trinketId];
+                if (numCollected >= levelTemplate.levelGoal.numberNeeded)
+                {
+                    numCollected = levelTemplate.levelGoal.numberNeeded;
+                    trinketProgress = numCollected + "/" + levelTemplate.levelGoal.numberNeeded;
+                    trinketProgress = SequentialText.ColorString(trinketProgress, Color.green);
+                }
+                else
+                {
+                    trinketProgress = numCollected + "/" + levelTemplate.levelGoal.numberNeeded;
+                    trinketProgress = SequentialText.ColorString(trinketProgress, Color.red);
+                }
+            }
+            else
+            {
+                trinketProgress = 0 + "/" + levelTemplate.levelGoal.numberNeeded;
+                trinketProgress = SequentialText.ColorString(trinketProgress, Color.red);
+            }
+            textChanger.ChangeTrinketTextCondition(levelTemplate.requirementsExplained 
+                + "\n" + trinketProgress);
         }
     }
 
     public void SetSelectionFrame(Transform transform)
     {
         selectionFrame = transform;
-    }
-    void SetTrinketIndex()
-    {
-        LevelSettingsKeeper.settingsKeeper.levelTemplate = levelTemplate;
     }
 
     public void LockTrinket()
@@ -44,6 +64,7 @@ public class TrinketInfo : MonoBehaviour
         colors.normalColor = Color.white;
         colors.highlightedColor = new Color(0.95f, 0.95f, 0.95f);
         colors.pressedColor = new Color(0.9f, 0.9f, 0.9f);
+        colors.selectedColor = new Color(1, 1, 1, 1);
         GetComponent<Button>().colors = colors;
     }
 }
