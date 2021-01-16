@@ -5,6 +5,7 @@ public class LevelUp : MonoBehaviour
     [SerializeField] ClickOnBoost clickOnBoost;
     [SerializeField] BonusManager bonusManager;
     [SerializeField] EquipButton equipButton;
+    [SerializeField] AudioClip boostUpgradeSFX;
 
     public Boost boostInfo;
     public IConcreteBonus bonus;
@@ -21,6 +22,8 @@ public class LevelUp : MonoBehaviour
             clickOnBoost.UpdateText(boostInfo, bonus.GetUniqueAbility(level));
             bonusManager.UpdateBoostSprites(boostInfo.GetRewardId(), level);
             equipButton.UpdateEquipedBoosts(boostInfo);
+
+            AudioController.Instance.PlayNewClip(boostUpgradeSFX, 0.5f, transform.position);
         }
     }
 }

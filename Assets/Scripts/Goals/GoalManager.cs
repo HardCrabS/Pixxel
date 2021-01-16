@@ -12,16 +12,7 @@ public class LevelGoal
 
 public class GoalManager : MonoBehaviour
 {
-    [SerializeField] List<LevelTemplate> levelTemplates;
-    //[SerializeField] List<GoalPanel> currentGoals = new List<GoalPanel>();
-    //[SerializeField] GameObject goalPrefab;
-    //[SerializeField] GameObject winPanel;
-
-    //[SerializeField] GameObject goalParent;
-
-    //private delegate void LevelWon();
-    //LevelWon onLevelWon;
-
+    List<LevelTemplate> levelTemplates;
     List<QuestProgress> dailyQuests;
 
     public static GoalManager Instance;
@@ -41,9 +32,7 @@ public class GoalManager : MonoBehaviour
     void Start()
     {
         SetDailyQuests();
-        //onLevelWon += DisplayWinPanel;
-        WorldInformation worldInformation = LevelSettingsKeeper.settingsKeeper.worldInfo;
-        SetupGoals(worldInformation);
+        SetupGoals();
     }
 
     private void SetDailyQuests()
@@ -60,8 +49,11 @@ public class GoalManager : MonoBehaviour
         }
     }
 
-    void SetupGoals(WorldInformation worldInformation)
+    void SetupGoals()
     {
+        levelTemplates = new List<LevelTemplate>();
+
+        WorldInformation worldInformation = LevelSettingsKeeper.settingsKeeper.worldInfo;
         GameData gamedata = GameData.gameData;
         for (int i = 0; i < worldInformation.TrinketLevelTemplates.Length; i++)
         {
@@ -78,22 +70,8 @@ public class GoalManager : MonoBehaviour
             {
                 gamedata.saveData.trinketsProgress.Add(trinketId, 0); //create new element
             }
-
-            //GameObject goal = Instantiate(goalPrefab, goalParent.transform.position, Quaternion.identity, goalParent.transform);
-            //GoalPanel goalPanel = goal.GetComponent<GoalPanel>();
-            //currentGoals.Add(goalPanel);
-            //goalPanel.SetPanelSprite(levelGoals[i].goalSprite);
-            //goalPanel.SetPanelText("0/" + levelGoals[i].numberNeeded);
         }
     }
-
-    /*void DisplayWinPanel()
-    {
-        RewardForLevel.Instance.CheckForLevelUpReward();
-        winPanel.SetActive(true);
-        if (GameData.gameData != null)
-            GameData.gameData.UnlockTrinket(LevelSettingsKeeper.settingsKeeper.levelTemplate.GetRewardId());
-    }*/
 
     public void CompareGoal(string goalToCompare, int pointsToAdd = 1)
     {

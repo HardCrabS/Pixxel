@@ -31,8 +31,6 @@ public class ScrollWithButtons : MonoBehaviour
     {
         GameObject objToMove = allObjects[0];
         Vector3 centerOfScrolling = transform.position;
-        Vector3 currPos = containerToMove.position;
-        Vector3 dif = centerOfScrolling - objToMove.transform.position;
 
         objToMove.transform.localScale *= scaleMultiplier;
         objIsScaled = true;

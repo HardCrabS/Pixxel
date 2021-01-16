@@ -28,19 +28,7 @@ public class WorldSprite : MonoBehaviour
             infoDisplay = FindObjectOfType<WorldInfoDisplay>();
             GetComponent<Button>().onClick.AddListener(OpenWorldInfoPanel);
         }
-
-        if(selectionGlow != null)
-        {
-            GetComponent<Button>().onClick.AddListener(SetSelectionGlow);
-        }
     }
-
-    public void ShowDescription()
-    {
-        CollectionController.Instance.SetWorldDescription(worldInformation.GetRewardId(),
-            worldInformation.Description);
-    }
-
     public void SetSelectionGlow()
     {
         selectionGlow.position = transform.position;
@@ -48,6 +36,9 @@ public class WorldSprite : MonoBehaviour
     void OpenWorldInfoPanel()
     {
         if (infoDisplay != null)
+        {
             infoDisplay.SetInfoPanel(worldInformation);
+            DisplayHighscore.Instance.SetLeaderboard();
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Tutorial : MonoBehaviour 
+public class Tutorial : MonoBehaviour
 {
     [SerializeField] GameObject gameCanvas;
     [SerializeField] GameObject visualizerCanvas;
@@ -13,6 +13,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] Dialogue[] blocksDialogues;
     [SerializeField] Dialogue[] finalDialogues;
 
+    [SerializeField] Transform crosshair;
     [SerializeField] Glitcher glitcher;
     [SerializeField] GameObject background;
 
@@ -28,6 +29,7 @@ public class Tutorial : MonoBehaviour
         else
         {
             Destroy(tutorialCanvas);
+            Destroy(glitcher);
             Destroy(gameObject);
         }
     }
@@ -43,12 +45,16 @@ public class Tutorial : MonoBehaviour
 
         GridA.Instance.FillTutorialLayout();
         yield return StartCoroutine(PlayDialogues(blocksDialogues));
+
         GridA.Instance.currState = GameState.move;
+        var movingCrosshair = StartCoroutine(MoveCrosshair());
         yield return new WaitWhile(() => GridA.Instance.allBoxes[2, 7] != null);
+        StopCoroutine(movingCrosshair);
+
         yield return StartCoroutine(PlayDialogues(finalDialogues));
 
         GridA.Instance.SetDefaultTemplate();
-        MusicSing.Instance.PlayClip();
+        AudioController.Instance.PlayClip();
 
         tutorialCanvas.SetActive(false);
         gameCanvas.SetActive(true);
@@ -69,7 +75,7 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator PlayDialogues(Dialogue[] dialogues)
     {
-        foreach(var dialogue in dialogues)
+        foreach (var dialogue in dialogues)
         {
             text.Clear();
             yield return new WaitForSeconds(0.15f);
@@ -93,5 +99,27 @@ public class Tutorial : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
         background.SetActive(false);
+    }
+
+    IEnumerator MoveCrosshair()
+    {
+        float speed = 2;
+        Vector2 start = GridA.Instance.allBoxes[3, 7].transform.position;
+        Vector2 end = GridA.Instance.allBoxes[3, 6].transform.position;
+
+        Vector2 target = end;
+        crosshair.position = start;
+
+        while (true)
+        {
+            float step = speed * Time.deltaTime;
+            crosshair.position = Vector2.MoveTowards(crosshair.position, target, step);
+
+            if (Vector3.Distance(crosshair.position, target) < 0.001f)
+            {
+                target = target == end ? start : end;
+            }
+            yield return null;
+        }
     }
 }

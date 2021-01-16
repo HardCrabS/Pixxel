@@ -12,7 +12,6 @@ public class FirebaseInit : MonoBehaviour
     {
         if (GameData.gameData.isAuthentificated)
         {
-            print("Destroing firebase init object");
             Destroy(gameObject);
         }
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>

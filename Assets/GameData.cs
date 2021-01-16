@@ -11,7 +11,6 @@ public class SaveData
     public float levelXP;
     public float maxXPforLevelUp;
 
-    public bool[] avatars;
     public List<string> equipedBoosts;
 
     //lists of unlocked rewards
@@ -52,6 +51,8 @@ public class GameData : MonoBehaviour
     public int currentLevel;
     public bool isAuthentificated = false;
 
+    public readonly Dictionary<LevelReward, List<string>> allItemsId = new Dictionary<LevelReward, List<string>>();
+
     void Awake()
     {
         if (gameData == null)
@@ -64,6 +65,12 @@ public class GameData : MonoBehaviour
             Destroy(this.gameObject);
         }
         Load();
+
+        allItemsId.Add(LevelReward.World, saveData.worldIds);
+        allItemsId.Add(LevelReward.Boost, saveData.boostIds);
+        allItemsId.Add(LevelReward.Trinket, saveData.trinketIds);
+        allItemsId.Add(LevelReward.Title, saveData.titleIds);
+        allItemsId.Add(LevelReward.Banner, saveData.bannerIds);
     }
 
     public void UnlockWorld(string id)
@@ -106,11 +113,6 @@ public class GameData : MonoBehaviour
         }
         saveData.slotsForBoostsUnlocked[1] = true;
         saveData.slotsForBoostsUnlocked[2] = true;
-        Save();
-    }
-    public void UnlockAvatar(int index)
-    {
-        saveData.avatars[index] = true;
         Save();
     }
     public void UnlockTitle(string id)
@@ -188,6 +190,12 @@ public class GameData : MonoBehaviour
         }
     }
 
+    public static bool IsItemCollected(RewardTemplate reward)
+    {
+        List<string> ids = gameData.allItemsId[reward.reward];
+        return ids.Contains(reward.GetRewardId());
+    }
+
     public void EraseGameData()
     {
         string path = Application.persistentDataPath + "/GameData.data";
@@ -196,5 +204,8 @@ public class GameData : MonoBehaviour
             File.Delete(path);
         }
         PlayerPrefs.DeleteAll();
+        gameData = null;
+
+        FindObjectOfType<SceneLoader>().LoadSceneAsync(1);
     }
 }

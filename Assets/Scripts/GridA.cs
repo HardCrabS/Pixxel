@@ -36,8 +36,6 @@ public class TileType
 
 public class GridA : MonoBehaviour
 {
-    public int level;
-
     [Header("Prefabs")]
     public GameObject[] boxPrefabs;
     [SerializeField] GameObject blockDestroyParticle;
@@ -46,6 +44,10 @@ public class GridA : MonoBehaviour
     [SerializeField] GameObject lockTilePrefab;
     [SerializeField] GameObject fire;
     [SerializeField] GameObject smoke;
+    [SerializeField] Transform crosshair;
+
+    [Header("Sounds")]
+    [SerializeField] AudioClip blockDestroySFX;
 
     [Header("Add for match")]
     [SerializeField] int scorePointsToAddperBox = 10;
@@ -200,6 +202,11 @@ public class GridA : MonoBehaviour
         SpawnNormalBlock(5, 7, tempPos, 0);
 
         GenerateBlankSpaces();
+    }
+
+    public void CrosshairToBlock(int x, int y)
+    {
+        crosshair.position = new Vector2(x, y);
     }
 
     void GenerateBlankSpaces()
@@ -361,6 +368,7 @@ public class GridA : MonoBehaviour
 
             GameObject particle = Instantiate(blockDestroyParticle,
                 allBoxes[column, row].transform.localPosition + parent.position, transform.rotation);
+            BlockDestroyedSFX();
             Destroy(particle, 0.5f);
             CheckBomb();
             AddPointsForMatchedBlock();
@@ -477,8 +485,12 @@ public class GridA : MonoBehaviour
                     AddXPandScorePoints();
                 }
             }
+            var camShake = Camera.main.GetComponent<CameraShake>();
+            StartCoroutine(camShake.Shake(0.07f, 0.04f));
+
             GameObject particle = Instantiate(blockDestroyParticle,
                 box.transform.localPosition + parent.position, transform.rotation);
+            BlockDestroyedSFX();
             Destroy(particle, 0.5f);
             Destroy(box.gameObject);
             allBoxes[box.row, box.column] = null;
@@ -499,6 +511,7 @@ public class GridA : MonoBehaviour
                 yield return new WaitForSeconds(.1f);
                 if (go != null)
                 {
+                    BlockDestroyedSFX();
                     GameObject particle = Instantiate(blockDestroyParticle, go.transform.localPosition, transform.rotation);
                     Destroy(particle, 0.5f);
                     Destroy(go);
@@ -514,6 +527,7 @@ public class GridA : MonoBehaviour
         if (allBoxes[j, i] != null)
         {
             Destroy(allBoxes[j, i]);
+            BlockDestroyedSFX();
             GameObject particle = Instantiate(blockDestroyParticle, allBoxes[j, i].transform.localPosition, transform.rotation);
             Destroy(particle, 0.5f);
             AddXPandScorePoints();
@@ -742,5 +756,10 @@ public class GridA : MonoBehaviour
             }
         }
         return true;
+    }
+
+    void BlockDestroyedSFX()
+    {
+        AudioController.Instance.PlayNewClip(blockDestroySFX, 0.7f);
     }
 }

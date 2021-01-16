@@ -29,6 +29,7 @@ public class Box : MonoBehaviour
     {
         grid = GridA.Instance;
         matchFinder = MatchFinder.Instance;
+        blockClicked += grid.CrosshairToBlock;
     }
 
     void Update()

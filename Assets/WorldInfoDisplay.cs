@@ -24,7 +24,7 @@ public class WorldInfoDisplay : MonoBehaviour
     void Start () 
     {
         infoPanel.SetActive(false);
-        leaderboardInfo.SetActive(false);
+        leaderboardInfo.SetActive(true);
         trinketsInfo.SetActive(false);
     }
 	
@@ -57,7 +57,7 @@ public class WorldInfoDisplay : MonoBehaviour
             musicInfoText.text = "Music\n" + "\"" + worldInfo.MusicTitle + "\"\n" + "By " + worldInfo.MusicCreator;
             LevelSettingsKeeper.settingsKeeper.worldInfo = worldInfo;
             trinketsInfo.SetActive(false);
-            leaderboardInfo.SetActive(false);
+            leaderboardInfo.SetActive(true);
             SetLoadButton();
         }
     }

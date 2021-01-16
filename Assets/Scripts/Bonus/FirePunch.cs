@@ -259,7 +259,7 @@ public class FirePunch : MonoBehaviour, IConcreteBonus
             {
                 if (grid.allBoxes[i, j] != null)
                 {
-                    grid.allBoxes[i, j].GetComponent<Box>().blockClicked = null;
+                    grid.allBoxes[i, j].GetComponent<Box>().blockClicked -= ClickOnBlock;
                 }
             }
         }

@@ -22,13 +22,22 @@ public class VisualizerScript : MonoBehaviour
     RectTransform[] upperImages;
     float visualObjHalfHeight;
 
+    void Awake()
+    {
+        if(PlayerPrefsController.GetMasterVisualizer() == 0)
+        {
+            GameObject canvas = GetComponentInParent<Canvas>().gameObject;
+            canvas.SetActive(false);
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
         visualizerObjects = GetComponentsInChildren<VisualizerObjectScript>();
         upperImages = new RectTransform[visualizerObjects.Length];
         visualObjHalfHeight = visualizerObjects[0].GetComponent<RectTransform>().rect.height / 2;
-        audioSource = MusicSing.Instance.gameObject.GetComponent<AudioSource>();
+        audioSource = AudioController.Instance.gameObject.GetComponent<AudioSource>();
         for (int i = 0; i < visualizerObjects.Length; i++)
         {
             var go = Instantiate(upperImage, visualizerObjects[i].transform);
@@ -36,15 +45,6 @@ public class VisualizerScript : MonoBehaviour
             upperImages[i] = go.GetComponent<RectTransform>();
         }
         spectrumData = new float[visualizerSimples];
-        //CreateAudioSource();
-    }
-
-    private void CreateAudioSource()
-    {
-        audioSource = new GameObject("_AudioSource").AddComponent<AudioSource>();
-        audioSource.loop = loop;
-        audioSource.clip = audioClip;
-        audioSource.Play();
     }
 
     // Update is called once per frame
@@ -56,11 +56,6 @@ public class VisualizerScript : MonoBehaviour
         {
             Vector2 newSize = visualizerObjects[i].GetComponent<RectTransform>().rect.size;
 
-            float muliplier = 1;
-            if (spectrumData[i] > 0.01f && spectrumData[i] < 0.03f)
-            {
-                muliplier = 3;
-            }
             newSize.y = Mathf.Clamp(Mathf.Lerp(newSize.y, spectrumData[i] * (1300 + i * i * 13), updateSentivity * 0.5f), minHeight, maxHeight);
             //newSize.y = Mathf.Clamp(Mathf.Lerp(newSize.y, minHeight + (spectrumData[i] * muliplier * (maxHeight - minHeight) * 5.0f), updateSentivity * 0.5f), minHeight, maxHeight);
             visualizerObjects[i].GetComponent<RectTransform>().sizeDelta = newSize;
@@ -74,15 +69,5 @@ public class VisualizerScript : MonoBehaviour
                 upperImages[i].anchoredPosition += gravity;
             }
         }
-    }
-
-    float GetAverage(float[] arr)
-    {
-        float sum = 0;
-        foreach (var value in arr)
-        {
-            sum += value;
-        }
-        return sum / arr.Length;
     }
 }

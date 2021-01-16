@@ -39,7 +39,7 @@ public class SceneLoader : MonoBehaviour
             AsyncOperation operation = SceneManager.LoadSceneAsync(index);
             operation.completed += (asyncOperation) =>
             {
-                MusicSing.Instance.SetCurrentClip(mainMenuSong);
+                AudioController.Instance.SetCurrentClip(mainMenuSong);
             };
         }
     }
@@ -49,7 +49,7 @@ public class SceneLoader : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.completed += (asyncOperation) =>
         {
-            MusicSing.Instance.SetCurrentClip(worldSong);
+            AudioController.Instance.SetCurrentClip(worldSong);
         };
         if (loadingPanel != null)
         {
@@ -75,14 +75,14 @@ public class SceneLoader : MonoBehaviour
         if (GameData.gameData != null)
             GameData.gameData.Save();
         SceneManager.LoadScene("Start");
-        MusicSing.Instance.SetCurrentClip(mainMenuSong);
+        AudioController.Instance.SetCurrentClip(mainMenuSong);
         Time.timeScale = 1;
     }
 
     public void LoadWorldSelectScene()
     {
         SceneManager.LoadScene("World Select");
-        MusicSing.Instance.SetCurrentClip(mainMenuSong);
+        AudioController.Instance.SetCurrentClip(mainMenuSong);
     }
     public void PlaySpashSceneSound() //play sound in the splash scene
     {

@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class RewardTemplate : ScriptableObject 
 {
     public LevelReward reward;
+    public int cost = 750;
 
     public virtual Sprite GetRewardSprite()
     {

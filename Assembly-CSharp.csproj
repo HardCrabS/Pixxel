@@ -61,6 +61,7 @@
     <Compile Include="Assets\ClickOnBoost.cs" />
     <Compile Include="Assets\Scripts\Bonus\FirePunch.cs" />
     <Compile Include="Assets\LivesManager.cs" />
+    <Compile Include="Assets\UIAnimator.cs" />
     <Compile Include="Assets\Cards\CardsManager.cs" />
     <Compile Include="Assets\Scripts\Bonus\FlameThrower.cs" />
     <Compile Include="Assets\Scripts\ScrollBackground.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Assets\Scripts\Bonus\GoldRush.cs" />
     <Compile Include="Assets\Scripts\Goals\DailyQuestManager.cs" />
     <Compile Include="Assets\Scripts\Scriptable Objects\Card.cs" />
+    <Compile Include="Assets\ShopController.cs" />
     <Compile Include="Assets\PlayGamesController.cs" />
     <Compile Include="Assets\ScrollWithButtons.cs" />
     <Compile Include="Assets\Kino\Glitch\DigitalGlitch.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="Assets\Scripts\Camera &amp; UI\CoinsDisplay.cs" />
     <Compile Include="Assets\High Score\DisplayHighscore.cs" />
     <Compile Include="Assets\Scripts\FirebaseInit.cs" />
+    <Compile Include="Assets\Scripts\Audio\AudioController.cs" />
     <Compile Include="Assets\Scripts\Audio\AudioSyncColor.cs" />
     <Compile Include="Assets\Tutorial\Glitcher.cs" />
     <Compile Include="Assets\CollectionSectionButton.cs" />
@@ -116,6 +119,7 @@
     <Compile Include="Assets\Scripts\Goals\GoalPanel.cs" />
     <Compile Include="Assets\Scripts\Goals\GoalManager.cs" />
     <Compile Include="Assets\Tutorial\Ease.cs" />
+    <Compile Include="Assets\Scripts\Camera &amp; UI\UISounds.cs" />
     <Compile Include="Assets\Scripts\Camera &amp; UI\LevelSlider.cs" />
     <Compile Include="Assets\_Scriptable Collection\Worlds Info\WorldInformation.cs" />
     <Compile Include="Assets\Cards\BombRemover.cs" />
@@ -135,7 +139,6 @@
     <Compile Include="Assets\Tutorial\Tutorial.cs" />
     <Compile Include="Assets\GameData.cs" />
     <Compile Include="Assets\Scripts\Bonus\Switcheroo.cs" />
-    <Compile Include="Assets\Scripts\Audio\MusicSing.cs" />
     <Compile Include="Assets\WorldInfoDisplay.cs" />
     <Compile Include="Assets\Scripts\Camera &amp; UI\TextChanger.cs" />
     <Compile Include="Assets\Cards\MagicianGame.cs" />
@@ -150,11 +153,32 @@
     <Compile Include="Assets\Scripts\LevelData.cs" />
   </ItemGroup>
   <ItemGroup>
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Resources\Materials\Gradient.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\Resources\Materials\Black&amp;White.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\Resources\Materials\Blur.shader" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
      <None Include="Assets\Kino\Glitch\Shader\DigitalGlitch.shader" />
      <None Include="Assets\Kino\Glitch\Shader\AnalogGlitch.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.0f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -766,6 +790,12 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

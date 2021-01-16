@@ -1,21 +1,113 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1689380390777152}
-  m_IsPrefabAsset: 1
+--- !u!1 &68550015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 68550016}
+  - component: {fileID: 68550018}
+  - component: {fileID: 68550017}
+  m_Layer: 0
+  m_Name: Crosshair Sprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &68550016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68550015}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.76, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4307391811566808}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &68550018
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68550015}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 805d8e0f7616e3e4698b0620b34342cf, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.8, y: 0.8}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!95 &68550017
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68550015}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1249553f74eb73141854840ed214a357, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1689380390777152
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4307391811566808}
@@ -30,22 +122,73 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4307391811566808
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1689380390777152}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 68550016}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114236077325878052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689380390777152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3729bc548df91db47a2d2dfb0b7c18fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxPrefabs:
+  - {fileID: 1993736332043036, guid: 45ede24c657892144ac1ec29e0e1a3fa, type: 3}
+  - {fileID: 1902052236032742, guid: 89098a0becda6b54b9f99ef24854f5c8, type: 3}
+  - {fileID: 1359055737259038, guid: 496be21306bb4bd41902e3440dcf2ae2, type: 3}
+  - {fileID: 1573989259907358, guid: 7a87dc54fc9a98246a03a11e68de02c4, type: 3}
+  - {fileID: 1919764638639184, guid: 4a2c87852e400144c88b324db8a5933c, type: 3}
+  - {fileID: 1847557593696548, guid: 4008d709f19f0b64e9342a38962d2114, type: 3}
+  blockDestroyParticle: {fileID: 1961195146937722, guid: a5013bb814b695641935b73b6eb345f2,
+    type: 3}
+  breakableTilePrefab: {fileID: 1174475086489704, guid: 7b54202c1fbe68f4fbc211006f351aae,
+    type: 3}
+  bombTilePrefab: {fileID: 1174677114083692, guid: 16e105a3a522a9e4b9be559d346c4ce7,
+    type: 3}
+  lockTilePrefab: {fileID: 1050234788906202, guid: 30a31edf19a2dc041be1cc96c1da1bcc,
+    type: 3}
+  fire: {fileID: 1046721144709678, guid: 223be3dd6453bf940860d056c1bb04c9, type: 3}
+  smoke: {fileID: 100000, guid: 5a97962f7d5ba4df0823334b52c7c02c, type: 3}
+  crosshair: {fileID: 68550016}
+  blockDestroySFX: {fileID: 8300000, guid: aabd304a61f5be44a8c6e0d63473974f, type: 3}
+  scorePointsToAddperBox: 10
+  pointsXPforLevel: 1
+  tutorialTemplate: {fileID: 11400000, guid: fe8d7fa365144e845b15413841a7d462, type: 2}
+  boardLayout:
+  - x: 0
+    y: 0
+    tileKind: 4
+  - x: 3
+    y: 3
+    tileKind: 4
+  width: 8
+  hight: 8
+  offset: 20
+  currState: 0
+  parent: {fileID: 4889112496014104, guid: d31b917482f7f6e4e89ce85f14e06538, type: 3}
+  currBox: {fileID: 0}
+  tempTagForTrinket: 
 --- !u!82 &82419679014080194
 AudioSource:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1689380390777152}
   m_Enabled: 1
   serializedVersion: 4
@@ -136,44 +279,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114236077325878052
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1689380390777152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3729bc548df91db47a2d2dfb0b7c18fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currState: 0
-  moneySlider: {fileID: 0}
-  armySlider: {fileID: 0}
-  happinessSlider: {fileID: 0}
-  cultureSlider: {fileID: 0}
-  deathSlider: {fileID: 0}
-  armySounds:
-  - {fileID: 8300000, guid: ed66eb6e4424b2c4195d72d8464fbceb, type: 3}
-  - {fileID: 8300000, guid: b259e3928a9d97042b9f71e0df09ad21, type: 3}
-  moneySounds:
-  - {fileID: 8300000, guid: 78ea1117b9cac9b4e91ca9c257a82882, type: 3}
-  - {fileID: 8300000, guid: 870de06080b3e82439b71c3aeac6eb81, type: 3}
-  happinessSounds:
-  - {fileID: 8300000, guid: 6d53a48f09af63e42ba7d2391a214077, type: 3}
-  cultureSounds:
-  - {fileID: 8300000, guid: ade79d9ec8007b74cb60cf2049b1e5ed, type: 3}
-  deathSounds:
-  - {fileID: 8300000, guid: 9ab8c4e7cdd65c941877ab22bb6eeb8b, type: 3}
-  boxPrefabs:
-  - {fileID: 1847557593696548, guid: 63a7ecc7233f628478634f52edb22415, type: 2}
-  - {fileID: 1573989259907358, guid: f4f47f590d3be494e9ed29a6ed30a553, type: 2}
-  - {fileID: 1902052236032742, guid: af7a34ed893cf7d4e84d950c88a07097, type: 2}
-  - {fileID: 1919764638639184, guid: 086c02b38802aca42b477f48de882198, type: 2}
-  - {fileID: 1359055737259038, guid: f0f2cc5aa951d114d98f812550f56a6b, type: 2}
-  gameOverPanel: {fileID: 0}
-  parent: {fileID: 0}
-  bomb: {fileID: 1488935405532246, guid: 173af8c2550843b4f9e10964c1acd829, type: 2}
-  width: 8
-  hight: 8
-  offset: 20

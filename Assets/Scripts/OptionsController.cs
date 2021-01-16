@@ -6,26 +6,23 @@ using UnityEngine.UI;
 public class OptionsController : MonoBehaviour
 {
     [SerializeField] Slider volumeSlider;
+    [SerializeField] Slider SFXSlider;
+    [SerializeField] Toggle visualizerToggle;
     [SerializeField] GameObject pausePanel;
-
-    ScrollBackground scrollBackground;
 
     void Start()
     {
-        if (volumeSlider != null)
-        {
-            volumeSlider.value = PlayerPrefsController.GetMasterVolume();
-            volumeSlider.onValueChanged.AddListener(delegate { MusicSing.Instance.SetMusicVolume(volumeSlider.value); });
-        }
-        else
-        {
-            scrollBackground = FindObjectOfType<ScrollBackground>();
-        }
+        volumeSlider.value = PlayerPrefsController.GetMasterVolume();
+        SFXSlider.value = PlayerPrefsController.GetMasterSFXVolume();
+        if (visualizerToggle != null)
+            visualizerToggle.isOn = System.Convert.ToBoolean(PlayerPrefsController.GetMasterVisualizer());
+        volumeSlider.onValueChanged.AddListener(delegate { AudioController.Instance.SetMusicVolume(volumeSlider.value); });
     }
 
     public void Pause()
     {
         pausePanel.SetActive(true);
+        AudioController.Instance.Pause();
         ScrollBackground.Instance.StopScrolling();
         Time.timeScale = 0;
     }
@@ -33,12 +30,16 @@ public class OptionsController : MonoBehaviour
     public void Resume()
     {
         pausePanel.SetActive(false);
+        AudioController.Instance.Resume();
         ScrollBackground.Instance.ResumeScrolling();
         Time.timeScale = 1;
     }
 
-    public void SaveVolume()
+    public void SaveSettings()
     {
         PlayerPrefsController.SetMasterVolume(volumeSlider.value);
+        PlayerPrefsController.SetMasterSFXVolume(SFXSlider.value);
+        if (visualizerToggle != null)
+            PlayerPrefsController.SetMasterVisualizer(System.Convert.ToInt32(visualizerToggle.isOn));
     }
 }
