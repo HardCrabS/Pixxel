@@ -5,21 +5,12 @@ using UnityEngine;
 public abstract class RewardTemplate : ScriptableObject 
 {
     public LevelReward reward;
+    public string id;
+    [TextArea(2, 3)] public string description;
     public int cost = 750;
 
     public virtual Sprite GetRewardSprite()
     {
         return null;
-    }
-    public abstract string GetRewardId();
-
-    public static string SplitCamelCase(string source)
-    {
-        var r = new Regex(@"
-                (?<=[A-Z])(?=[A-Z][a-z]) |
-                 (?<=[^A-Z])(?=[A-Z]) |
-                 (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
-
-        return r.Replace(source, " ");
     }
 }

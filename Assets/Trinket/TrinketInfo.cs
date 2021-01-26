@@ -18,10 +18,10 @@ public class TrinketInfo : MonoBehaviour
         selectionFrame.SetParent(transform);
         if (levelTemplate != null)
         {
-            string trinkName = RewardTemplate.SplitCamelCase(levelTemplate.GetRewardId());
+            string trinkName = levelTemplate.id;
             textChanger.ChangeTrinketTextName(trinkName);
 
-            string trinketId = levelTemplate.GetRewardId();
+            string trinketId = levelTemplate.id;
             string trinketProgress;
 
             if(GameData.gameData.saveData.trinketsProgress.ContainsKey(trinketId))

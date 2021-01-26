@@ -22,6 +22,7 @@ public class RewardForLevel : MonoBehaviour
     [SerializeField] Reward[] rewards;
 
     [Header("End Game Reward Panel")]
+    [SerializeField] GameObject blockingPanel;
     [SerializeField] GameObject rewardPanel;
     [SerializeField] Slider xpSlider;
     [SerializeField] Text XPText;
@@ -34,8 +35,6 @@ public class RewardForLevel : MonoBehaviour
     [SerializeField] Sprite title, banner;
 
     public static RewardForLevel Instance;
-
-    bool levelUped = false;
 
     void Awake()
     {
@@ -52,8 +51,6 @@ public class RewardForLevel : MonoBehaviour
 
         rewardEarned.GetComponent<Animation>().Play();
         LaunchFireworks();
-
-        levelUped = true;
     }
 
     public RewardTemplate GetReward(int level)
@@ -93,7 +90,7 @@ public class RewardForLevel : MonoBehaviour
         }
         scrollContainer.MoveToFirstObject();
         rewardDescrText.text = "<color=yellow>New " + rewards[0].reward
-    + "</color>\n" + RewardTemplate.SplitCamelCase(rewards[0].GetRewardId()) + "\n\n";
+    + "</color>\n" + rewards[0].id + "\n\n";
     }
 
     GameObject SpawnRewardImage(Sprite rewSprite, RewardTemplate reward)
@@ -141,12 +138,12 @@ public class RewardForLevel : MonoBehaviour
 
     void SetRewardDescriptionText(RewardTemplate reward)
     {
-        rewardDescrText.text = "<color=yellow>New " + reward.reward + "</color>\n" 
-            + RewardTemplate.SplitCamelCase(reward.GetRewardId());
+        rewardDescrText.text = "<color=yellow>New " + reward.reward + "</color>\n" + reward.id;
     }
 
-    public void CheckForLevelUpReward() //called at the end of the game
+    public void CheckForLevelUpReward() //called at the end of the game and paused "retire" button 
     {
+        blockingPanel.SetActive(true);
         rewardPanel.SetActive(true);
         StartCoroutine(SetRewardUI());
     }
@@ -157,7 +154,7 @@ public class RewardForLevel : MonoBehaviour
             var rew = rewards[i].rewards;
             for (int j = 0; j < rew.Length; j++)
             {
-                if (rew[j].reward == levelReward && rew[j].GetRewardId() == id)
+                if (rew[j].reward == levelReward && rew[j].id == id)
                 {
                     return i + 1;
                 }

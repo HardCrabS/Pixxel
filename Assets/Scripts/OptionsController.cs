@@ -9,6 +9,7 @@ public class OptionsController : MonoBehaviour
     [SerializeField] Slider SFXSlider;
     [SerializeField] Toggle visualizerToggle;
     [SerializeField] GameObject pausePanel;
+    [SerializeField] GameObject visualizerCanvas;
 
     void Start()
     {
@@ -16,6 +17,11 @@ public class OptionsController : MonoBehaviour
         SFXSlider.value = PlayerPrefsController.GetMasterSFXVolume();
         if (visualizerToggle != null)
             visualizerToggle.isOn = System.Convert.ToBoolean(PlayerPrefsController.GetMasterVisualizer());
+        visualizerToggle.onValueChanged.AddListener(delegate
+        {
+            if (visualizerCanvas != null)
+                visualizerCanvas.SetActive(visualizerToggle.isOn);
+        });
         volumeSlider.onValueChanged.AddListener(delegate { AudioController.Instance.SetMusicVolume(volumeSlider.value); });
     }
 

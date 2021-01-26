@@ -6,8 +6,6 @@ using UnityEngine;
 public class LevelTemplate : RewardTemplate
 {
     [Header("Trinket Info")]
-    public string trinketId;
-    [TextArea(2, 3)] public string description;
     [TextArea(2, 3)] public string requirementsExplained;
     public Sprite trinketSprite;
 
@@ -22,12 +20,9 @@ public class LevelTemplate : RewardTemplate
 
     [Header("Leaderboard Info")]
     public int bombChance = 20;
+
     public override Sprite GetRewardSprite()
     {
         return trinketSprite;
-    }
-    public override string GetRewardId()
-    {
-        return trinketId;
     }
 }

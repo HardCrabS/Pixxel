@@ -16,6 +16,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] Transform crosshair;
     [SerializeField] Glitcher glitcher;
     [SerializeField] GameObject background;
+    [SerializeField] AudioClip worldClip;
 
     void Awake()
     {
@@ -36,7 +37,6 @@ public class Tutorial : MonoBehaviour
 
     public IEnumerator PlayTutorial()
     {
-        //AddGlitchComponents();
         yield return StartCoroutine(PlayDialogues(helloDialogues));
 
         StartCoroutine(BackgroundFadeOut());
@@ -54,7 +54,7 @@ public class Tutorial : MonoBehaviour
         yield return StartCoroutine(PlayDialogues(finalDialogues));
 
         GridA.Instance.SetDefaultTemplate();
-        AudioController.Instance.PlayClip();
+        AudioController.Instance.SetCurrentClip(worldClip, 3.5f);
 
         tutorialCanvas.SetActive(false);
         gameCanvas.SetActive(true);
@@ -66,13 +66,6 @@ public class Tutorial : MonoBehaviour
         Destroy(tutorialCanvas);
         Destroy(glitcher);
     }
-
-    void AddGlitchComponents()
-    {
-        Camera.main.gameObject.AddComponent<Kino.DigitalGlitch>();
-        Camera.main.gameObject.AddComponent<Kino.AnalogGlitch>();
-    }
-
     IEnumerator PlayDialogues(Dialogue[] dialogues)
     {
         foreach (var dialogue in dialogues)

@@ -45,7 +45,7 @@ public class ProfileHandler : MonoBehaviour
         string newName = changedName.text;
         playerName.text = newName;
         GameData.gameData.saveData.playerInfo.username = newName;
-        GameData.gameData.Save();
+        GameData.Save();
         DatabaseManager.ChangeName(newName);
     }
 
@@ -97,7 +97,7 @@ public class ProfileHandler : MonoBehaviour
         else
         {
             var reward = FindObjectOfType<RewardForLevel>().GetReward(nextLevel);
-            rewardNextLevel.text = reward.reward.ToString() + ": " + RewardTemplate.SplitCamelCase(reward.GetRewardId());
+            rewardNextLevel.text = reward.reward.ToString() + ": " + reward.id;
             Sprite rewardSprite = reward.GetRewardSprite();
             if (rewardSprite != null)
             {

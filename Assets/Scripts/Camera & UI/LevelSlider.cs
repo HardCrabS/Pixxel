@@ -74,13 +74,13 @@ public class LevelSlider : MonoBehaviour
             levelSlider.maxValue += 10;
             currentSaveBorder = 20;
             GameData.gameData.saveData.maxXPforLevelUp = levelSlider.maxValue;
-            GameData.gameData.Save();
+            GameData.Save();
             CoinsDisplay.Instance.IncreaseCoinDropChance(addDropCoinChance);
         }
         if (levelSlider.value > currentSaveBorder)
         {
             GameData.gameData.saveData.levelXP = levelSlider.value;
-            GameData.gameData.Save();
+            GameData.Save();
             currentSaveBorder += 20;
         }
     }
@@ -125,7 +125,7 @@ public class LevelSlider : MonoBehaviour
             {
                 levelSlider.maxValue = 200;
                 GameData.gameData.saveData.maxXPforLevelUp = 200;
-                GameData.gameData.Save();
+                GameData.Save();
             }
             if (levelSlider != null)
             {

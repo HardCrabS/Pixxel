@@ -35,7 +35,7 @@ public class EndGameManager : MonoBehaviour
     public void GameOver()
     {
         string worldId = LevelSettingsKeeper.settingsKeeper == null ? "TwilightCity"
-            : LevelSettingsKeeper.settingsKeeper.worldInfo.GetRewardId();
+            : LevelSettingsKeeper.settingsKeeper.worldInfo.id;
 
         PlayGamesController.PostToLeaderboard(worldId);
 

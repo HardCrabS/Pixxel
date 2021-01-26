@@ -24,13 +24,13 @@ public class AudioController : MonoBehaviour
     {
         audioSource.Play();
     }
-    public void SetCurrentClip(AudioClip clip)
+    public void SetCurrentClip(AudioClip clip, float delay = 0)
     {
         if(clip == audioSource.clip) { return; }
 
         audioSource.Stop();
         audioSource.clip = clip;
-        audioSource.Play();
+        audioSource.PlayDelayed(delay);
     }
 
     public void SetMusicVolume(float value)

@@ -22,13 +22,16 @@ public class SaveData
     public List<string> cardIds;
     public Dictionary<string, int> worldBestScores = new Dictionary<string, int>()
     {
-        { "TwilightCity", 0 }   //unlocked by default
+        { "Twilight City", 0 }   //unlocked by default
     };
     public Dictionary<string, int> boostLevels = new Dictionary<string, int>()
     {
-        { "ColorHater", 1 }   //unlocked by default
+        { "Color Hater", 1 }   //unlocked by default
     };
     public Dictionary<string, int> trinketsProgress = new Dictionary<string, int>();
+
+    public (LevelReward, string, int)[] saleItemsInfo = new (LevelReward, string, int)[2]; //rewardType, Id, sale
+    public string lastTimeSaleClaimed;
 
     public string cardType;
     public string lastTimeCardClaimed;
@@ -104,12 +107,12 @@ public class GameData : MonoBehaviour
     }
     public void UnlockAllBoosts()   //TODO JUST FOR TEST. REMOVE LATER
     {
-        var boostNames = Enum.GetValues(typeof(BoostName));
-        for (int i = 0; i < boostNames.Length; i++)
+        var allBoosts = CollectionController.Instance.boostInfos;
+        for (int i = 0; i < allBoosts.Length; i++)
         {
-            saveData.boostIds.Add(boostNames.GetValue(i).ToString());
-            if (!saveData.boostLevels.ContainsKey(boostNames.GetValue(i).ToString()))
-                saveData.boostLevels.Add(boostNames.GetValue(i).ToString(), 1);
+            saveData.boostIds.Add(allBoosts[i].id);
+            if (!saveData.boostLevels.ContainsKey(allBoosts[i].id))
+                saveData.boostLevels.Add(allBoosts[i].id, 1);
         }
         saveData.slotsForBoostsUnlocked[1] = true;
         saveData.slotsForBoostsUnlocked[2] = true;
@@ -164,14 +167,14 @@ public class GameData : MonoBehaviour
         gameData.saveData.cardType = cardType;
         Save();
     }
-    public void Save()
+    public static void Save()
     {
         string path = Application.persistentDataPath + "/GameData.data";
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         FileStream stream = File.Open(path, FileMode.Create);
 
         SaveData data;
-        data = saveData;
+        data = gameData.saveData;
 
         binaryFormatter.Serialize(stream, data);
         stream.Close();
@@ -193,7 +196,7 @@ public class GameData : MonoBehaviour
     public static bool IsItemCollected(RewardTemplate reward)
     {
         List<string> ids = gameData.allItemsId[reward.reward];
-        return ids.Contains(reward.GetRewardId());
+        return ids.Contains(reward.id);
     }
 
     public void EraseGameData()
@@ -206,6 +209,7 @@ public class GameData : MonoBehaviour
         PlayerPrefs.DeleteAll();
         gameData = null;
 
+        AudioController.Instance.SetCurrentClip(null);
         FindObjectOfType<SceneLoader>().LoadSceneAsync(1);
     }
 }

@@ -1,10 +1,7 @@
-﻿//using GooglePlayGames;
-//using GooglePlayGames.BasicApi;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public class DisplayHighscore : MonoBehaviour
@@ -55,7 +52,7 @@ public class DisplayHighscore : MonoBehaviour
         }
 
         string worldName = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City" 
-            : LevelSettingsKeeper.settingsKeeper.worldInfo.WorldName;
+            : LevelSettingsKeeper.settingsKeeper.worldInfo.id;
         var allUsersTask = DatabaseManager.GetAllUsersInfo(worldName);
         allUsers = await allUsersTask;
 
@@ -164,7 +161,8 @@ public class DisplayHighscore : MonoBehaviour
         firstPlaceScoreText.text = "\t#<size=450><color=red>" + 1 + "</color></size>  |  " + allUsers[0].username
         + "  |  " + allUsers[0].score + "\n\n";
         firstPlaceTitleText.text = "\"" + allUsers[0].titleText + "\"";
-        firstPlaceImage.sprite = Resources.Load<Sprite>(allUsers[0].spritePath);
+        Sprite userSprite = Resources.Load<Sprite>(allUsers[0].spritePath);
+        firstPlaceImage.sprite = userSprite != null ? userSprite : Resources.Load<Sprite>("Sprites/UI images/Trinkets/DefaultAvatar");
         firstPlaceBanner.sprite = Resources.Load<Sprite>(allUsers[0].bannerPath);
     }
 
@@ -222,7 +220,8 @@ public class DisplayHighscore : MonoBehaviour
         + "  |  " + user.score + "\n\n";
         go.transform.Find("Title Panel/Title Text").GetComponent<Text>().text = "\"" + user.titleText + "\"";
         Image[] images = go.GetComponentsInChildren<Image>();
-        images[1].sprite = Resources.Load<Sprite>(user.spritePath);
+        Sprite userSprite = Resources.Load<Sprite>(user.spritePath);
+        images[1].sprite = userSprite != null ? userSprite : Resources.Load<Sprite>("Sprites/UI images/Trinkets/DefaultAvatar");
 
         return go;
     }

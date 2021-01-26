@@ -26,14 +26,14 @@ public class BonusButton : MonoBehaviour
                     GetComponent<Image>().sprite = BonusManager.GetBoostImage(boostInfo);
                     buttonReloadAnim = GetComponent<Animation>();
 
-                    int boostLevel = GameData.gameData.GetBoostLevel(boostInfo.GetRewardId());
+                    int boostLevel = GameData.gameData.GetBoostLevel(boostInfo.id);
                     Type boostType = Type.GetType(boostInfo.BoostTypeString);
                     concreteBonus = gameObject.AddComponent(boostType) as IConcreteBonus;
                     concreteBonus.SetBoostLevel(boostLevel);
 
                     foreach (AnimationState state in buttonReloadAnim)
                     {
-                        state.speed = 1 / boostInfo.ReloadSpeed[boostLevel - 1];
+                        state.speed = 1 / boostInfo.GetReloadSpeed(boostLevel);
                     }
                 }
                 else
@@ -65,7 +65,7 @@ public class BonusButton : MonoBehaviour
             Debug.LogError("No boostInfo found in button, assign it in the inspector");
             return;
         }
-        int level = GameData.gameData.GetBoostLevel(boostInfo.GetRewardId());
+        int level = GameData.gameData.GetBoostLevel(boostInfo.id);
 
         IConcreteBonus myBonus = GetComponent<IConcreteBonus>();
 
@@ -104,8 +104,8 @@ public class BonusButton : MonoBehaviour
         {
             GetComponent<Image>().sprite = BonusManager.GetBoostImage(boostInfo);
 
-            GameData.gameData.saveData.equipedBoosts[buttonIndex] = boostInfo.GetRewardId();
-            GameData.gameData.Save();
+            GameData.gameData.saveData.equipedBoosts[buttonIndex] = boostInfo.id;
+            GameData.Save();
         }
     }
 }

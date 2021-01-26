@@ -11,37 +11,37 @@ public class Reward
             {
                 case LevelReward.World:
                     {
-                        GameData.gameData.UnlockWorld(rewards[i].GetRewardId());
+                        GameData.gameData.UnlockWorld(rewards[i].id);
                         break;
                     }
                 case LevelReward.BoostSlot:
                     {
-                        GameData.gameData.UnlockSlotForBoost(int.Parse(rewards[i].GetRewardId()));
+                        GameData.gameData.UnlockSlotForBoost(int.Parse(rewards[i].id));
                         break;
                     }
                 case LevelReward.Boost:
                     {
-                        GameData.gameData.UnlockBoost(rewards[i].GetRewardId());
+                        GameData.gameData.UnlockBoost(rewards[i].id);
                         break;
                     }
                 case LevelReward.Trinket:
                     {
-                        GameData.gameData.UnlockTrinket(rewards[i].GetRewardId());
+                        GameData.gameData.UnlockTrinket(rewards[i].id);
                         break;
                     }
                 case LevelReward.Title:
                     {
-                        GameData.gameData.UnlockTitle(rewards[i].GetRewardId());
+                        GameData.gameData.UnlockTitle(rewards[i].id);
                         break;
                     }
                 case LevelReward.Banner:
                     {
-                        GameData.gameData.UnlockBanner(rewards[i].GetRewardId());
+                        GameData.gameData.UnlockBanner(rewards[i].id);
                         break;
                     }
                 case LevelReward.CardSet:
                     {
-                        GameData.gameData.UnlockCardSet(rewards[i].GetRewardId());
+                        GameData.gameData.UnlockCardSet(rewards[i].id);
                         break;
                     }
             }

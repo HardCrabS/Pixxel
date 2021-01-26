@@ -32,7 +32,7 @@ public class CardsManager : MonoBehaviour
         Material blackWhiteMat = Resources.Load("Materials/B&W mat", typeof(Material)) as Material;
         for (int i = 0; i < cardButtons.Length; i++)
         {
-            string cardSetId = cardSets[i].GetRewardId();
+            string cardSetId = cardSets[i].id;
             if (GameData.gameData.saveData.cardIds.Contains(cardSetId))
             {
                 int index = i;

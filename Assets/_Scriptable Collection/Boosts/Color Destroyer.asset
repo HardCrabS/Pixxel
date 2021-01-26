@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12,21 +13,20 @@ MonoBehaviour:
   m_Name: Color Destroyer
   m_EditorClassIdentifier: 
   reward: 2
-  boostName: 0
+  id: Magic Potion
   description: Destroys all blocks with concrete color.
-  boostIndex: 0
-  upgradeCosts: 0a000000140000001e00000028000000320000003c00000046000000500000006e000000
-  reloadSpeed:
-  - 60
-  - 45
-  - 40
-  - 35
-  - 30
-  - 25
-  - 20
-  - 15
-  - 10
-  - 5
+  cost: 750
+  costAndReload:
+  - {x: 0, y: 60}
+  - {x: 10, y: 50}
+  - {x: 20, y: 45}
+  - {x: 30, y: 44}
+  - {x: 40, y: 33}
+  - {x: 50, y: 28}
+  - {x: 60, y: 17}
+  - {x: 70, y: 23}
+  - {x: 80, y: 55}
+  - {x: 90, y: 10}
   upgradeSprites:
   - {fileID: 21300052, guid: e801bbe00b9519c47a39ac089a8ebdbf, type: 3}
   - {fileID: 21300032, guid: e801bbe00b9519c47a39ac089a8ebdbf, type: 3}

@@ -28,8 +28,8 @@ public class ShareController : MonoBehaviour
 
     void Start()
     {
-        fbWorldId = facebookWorldInfo.GetRewardId();
-        twWorldId = twitterWorldInfo.GetRewardId();
+        fbWorldId = facebookWorldInfo.id;
+        twWorldId = twitterWorldInfo.id;
 
         if (!GameData.gameData.saveData.worldIds.Contains(fbWorldId))
         {
@@ -60,7 +60,7 @@ public class ShareController : MonoBehaviour
         }
         //if (!DayPassed(twText, twButton, GameData.gameData.saveData.lastTwitterShare)) { return; };
         GameData.gameData.saveData.lastTwitterShare = DateTime.Now.ToString();
-        GameData.gameData.Save();
+        GameData.Save();
 
         string nameParameter = "I'm playing this super game for months!";//this is limited in text length 
         Application.OpenURL(TWITTER_ADDRESS +
@@ -85,7 +85,7 @@ public class ShareController : MonoBehaviour
         }
         //if (DayPassed(fbText, fbButton, GameData.gameData.saveData.lastFacebookShare)) { return; };
         GameData.gameData.saveData.lastFacebookShare = (DateTime.Now).ToString();
-        GameData.gameData.Save();
+        GameData.Save();
 
         string facebookshare = "https://www.facebook.com/sharer/sharer.php?u=" + Uri.EscapeUriString(appStoreLink);
         Application.OpenURL(facebookshare);

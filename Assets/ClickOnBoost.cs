@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ClickOnBoost : MonoBehaviour
@@ -14,30 +12,30 @@ public class ClickOnBoost : MonoBehaviour
 
     public void ChangeBoostText(Boost boost, string stats)
     {
-        boostTitleText.text = boost.Title;
-        descriptionText.text = boost.Description;
-        int boostLevel = GameData.gameData.GetBoostLevel(boost.GetRewardId());
+        boostTitleText.text = boost.id;
+        descriptionText.text = boost.description;
+        int boostLevel = GameData.gameData.GetBoostLevel(boost.id);
         levelText.text = "lv " + boostLevel;
-        if (boostLevel < boost.UpgradeCosts.Length - 1)
+        if (boostLevel < 10)
         {
-            int cost = boost.UpgradeCosts[boostLevel - 1];
+            int cost = boost.GetUpgradeCost(boostLevel);
             costText.text = "" + cost;
         }
         else
         {
-            costText.text = "max";
+            costText.text = "MAX";
         }
         string[] allStats = stats.Split('|');
-        currStatsText.text = "Cooldown: " + "<color=red>" + boost.ReloadSpeed[boostLevel - 1] + "s</color>\n" + allStats[0];
-        if (boostLevel < boost.ReloadSpeed.Length)
+        currStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel) + "s</color>\n" + allStats[0];
+        if (boostLevel < 10)
         {
             if (allStats.Length > 1)
             {
-                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.ReloadSpeed[boostLevel] + "s</color>\n" + allStats[1];
+                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel + 1) + "s</color>\n" + allStats[1];
             }
             else
             {
-                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.ReloadSpeed[boostLevel] + "s</color>\n";
+                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel + 1) + "s</color>\n";
             }
         }
         else
@@ -46,29 +44,29 @@ public class ClickOnBoost : MonoBehaviour
 
     public void UpdateText(Boost boost, string stats)
     {
-        int boostLevel = GameData.gameData.GetBoostLevel(boost.GetRewardId());
+        int boostLevel = GameData.gameData.GetBoostLevel(boost.id);
         levelText.text = "lv " + boostLevel;
-        if (boostLevel < boost.UpgradeCosts.Length + 1)
+        if (boostLevel < 10)
         {
-            int cost = boost.UpgradeCosts[boostLevel - 1];
+            int cost = boost.GetUpgradeCost(boostLevel);
             costText.text = "" + cost;
         }
         else
         {
-            costText.text = "max";
+            costText.text = "MAX";
         }
 
         string[] allStats = stats.Split('|');
-        currStatsText.text = "Cooldown: " + "<color=red>" + boost.ReloadSpeed[boostLevel - 1] + "s</color>\n" + allStats[0];
-        if (boostLevel < boost.ReloadSpeed.Length)
+        currStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel) + "s</color>\n" + allStats[0];
+        if (boostLevel < 10)
         {
             if (allStats.Length > 1)
             {
-                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.ReloadSpeed[boostLevel] + "s</color>\n" + allStats[1];
+                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel + 1) + "s</color>\n" + allStats[1];
             }
             else
             {
-                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.ReloadSpeed[boostLevel] + "s</color>\n";
+                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel + 1) + "s</color>\n";
             }
         }
         else

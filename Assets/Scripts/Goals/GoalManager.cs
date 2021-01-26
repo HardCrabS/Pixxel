@@ -38,7 +38,7 @@ public class GoalManager : MonoBehaviour
     private void SetDailyQuests()
     {
         dailyQuests = new List<QuestProgress>();
-        string worldId = LevelSettingsKeeper.settingsKeeper.worldInfo.GetRewardId();
+        string worldId = LevelSettingsKeeper.settingsKeeper.worldInfo.id;
         QuestProgress[] questGoals = GameData.gameData.saveData.dailyQuests;
         for (int i = 0; i < questGoals.Length; i++)
         {
@@ -58,7 +58,7 @@ public class GoalManager : MonoBehaviour
         for (int i = 0; i < worldInformation.TrinketLevelTemplates.Length; i++)
         {
             LevelTemplate trinket = worldInformation.TrinketLevelTemplates[i];
-            string trinketId = trinket.GetRewardId(); //get trinket id
+            string trinketId = trinket.id; //get trinket id
             if (gamedata.saveData.trinketsProgress.ContainsKey(trinketId)) //if id already saved
             {
                 if(gamedata.saveData.trinketsProgress[trinketId] < trinket.levelGoal.numberNeeded)
@@ -81,7 +81,7 @@ public class GoalManager : MonoBehaviour
         {
             if (levelTemplates[i].levelGoal.matchTag == goalToCompare) //if goal compares
             {
-                string trinketId = levelTemplates[i].GetRewardId(); //get trinket id
+                string trinketId = levelTemplates[i].id; //get trinket id
                 gamedata.saveData.trinketsProgress[trinketId] += pointsToAdd; //update
 
                 if(gamedata.saveData.trinketsProgress[trinketId] >= levelTemplates[i].levelGoal.numberNeeded)

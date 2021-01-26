@@ -17,7 +17,8 @@ public class EquipButton : MonoBehaviour
         Sprite[] boostSprites = bonusManager.GetEquipedBoosts();
         for (int i = 0; i < equipeButtons.Length; i++)
         {
-            if (!GameData.gameData.saveData.slotsForBoostsUnlocked[i])
+            bool slotUnlocked = GameData.gameData.saveData.slotsForBoostsUnlocked[i];
+            if (!slotUnlocked)
             {
                 equipeButtons[i].interactable = false;
                 if (equipeButtons[i].transform.childCount > 0)
@@ -56,7 +57,7 @@ public class EquipButton : MonoBehaviour
         List<string> equipedBoostIds = GameData.gameData.saveData.equipedBoosts;
         for (int i = 0; i < equipeButtons.Length; i++)
         {
-            if (boostInfo.GetRewardId() == equipedBoostIds[i])
+            if (boostInfo.id == equipedBoostIds[i])
             {
                 Sprite boostSprite = BonusManager.GetBoostImage(boostInfo);
                 if (equipeButtons[i] != null)

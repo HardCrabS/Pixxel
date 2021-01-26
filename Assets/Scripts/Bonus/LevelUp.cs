@@ -12,15 +12,15 @@ public class LevelUp : MonoBehaviour
 
     public void UpgradeBoost()
     {
-        int level = GameData.gameData.GetBoostLevel(boostInfo.GetRewardId());
-        if (level < 10 && CoinsDisplay.Instance.GetCoins() >= boostInfo.UpgradeCosts[level - 1])
+        int level = GameData.gameData.GetBoostLevel(boostInfo.id);
+        if (level < 10 && CoinsDisplay.Instance.GetCoins() >= boostInfo.GetUpgradeCost(level))
         {
-            CoinsDisplay.Instance.DecreaseCoins(boostInfo.UpgradeCosts[level - 1]);
-            GameData.gameData.saveData.boostLevels[boostInfo.GetRewardId()]++;
-            GameData.gameData.Save();
+            CoinsDisplay.Instance.DecreaseCoins(boostInfo.GetUpgradeCost(level));
+            GameData.gameData.saveData.boostLevels[boostInfo.id]++;
+            GameData.Save();
             level++;
             clickOnBoost.UpdateText(boostInfo, bonus.GetUniqueAbility(level));
-            bonusManager.UpdateBoostSprites(boostInfo.GetRewardId(), level);
+            bonusManager.UpdateBoostSprites(boostInfo.id, level);
             equipButton.UpdateEquipedBoosts(boostInfo);
 
             AudioController.Instance.PlayNewClip(boostUpgradeSFX, 0.5f, transform.position);

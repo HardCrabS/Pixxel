@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class UIAnimator : MonoBehaviour
 {
     [SerializeField] GameObject objectToDisable;

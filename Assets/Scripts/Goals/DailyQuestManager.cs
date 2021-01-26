@@ -113,7 +113,7 @@ public class DailyQuestManager : MonoBehaviour
 
     void FillQuestText(Text text, QuestTemplate questTemplate, QuestProgress questProgress)
     {
-        string worldName = RewardTemplate.SplitCamelCase(questProgress.worldId);
+        string worldName = questProgress.worldId;
         text.text = questTemplate.QuestDescription + "\n";
         text.text += "<color=red>WORLD:</color> " + worldName + "\n";
         text.text += "<color=red>PROGRESS:</color> " + questProgress.numberCollected + "/" + questTemplate.NumberNeeded + "\n";
@@ -144,7 +144,7 @@ public class DailyQuestManager : MonoBehaviour
             }
         }
         GameData.gameData.saveData.dailyQuests[i].rewardClaimed = true;
-        GameData.gameData.Save();
+        GameData.Save();
         QuestsText[i].text = "";
         claimButtons[i].SetActive(false);
         claimedImages[i].SetActive(true);

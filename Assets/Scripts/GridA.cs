@@ -126,10 +126,14 @@ public class GridA : MonoBehaviour
         {
             return;
         }
-
+        StartCoroutine(CreateGridDelayed(3.5f));
+        //CreateGrid();
+    }
+    IEnumerator CreateGridDelayed(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         CreateGrid();
     }
-
     bool CheckForTutorial()
     {
         if (PlayerPrefs.GetInt("TUTORIAL", 0) == 1) //if first time playing

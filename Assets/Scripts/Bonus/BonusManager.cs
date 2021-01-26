@@ -49,7 +49,7 @@ public class BonusManager : MonoBehaviour
         {
             for (int i = 0; i < children.Length; i++)
             {
-                string boostId = children[i].boostInfo.GetRewardId();
+                string boostId = children[i].boostInfo.id;
                 if (GameData.gameData.saveData.boostIds.Contains(boostId))
                 {
                     children[i].transform.GetChild(0).gameObject.SetActive(false);
@@ -91,7 +91,7 @@ public class BonusManager : MonoBehaviour
     {
         for (int j = 0; j < allBoostInfos.Length; j++)
         {
-            if (allBoostInfos[j].GetRewardId() == id)
+            if (allBoostInfos[j].id == id)
             {
                 return allBoostInfos[j];
             }
@@ -126,7 +126,7 @@ public class BonusManager : MonoBehaviour
     {
         if (boostInfo != null)
         {
-            int level = GameData.gameData.GetBoostLevel(boostInfo.GetRewardId());
+            int level = GameData.gameData.GetBoostLevel(boostInfo.id);
             int index = ChooseBoostSpriteIndex(level);
             if (index < boostInfo.UpgradeSprites.Length)
             {

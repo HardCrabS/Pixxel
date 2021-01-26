@@ -19,7 +19,7 @@ public class TrinketManager : MonoBehaviour
 
         for (int i = 0; i < trinketTemplates.Length; i++)
         {
-            if (trinketsUnlocked.Contains(trinketTemplates[i].GetRewardId()))
+            if (trinketsUnlocked.Contains(trinketTemplates[i].id))
             {
                 trinketInfos[i].MakeUnlocked();
             }

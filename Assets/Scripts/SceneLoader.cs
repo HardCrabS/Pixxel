@@ -24,9 +24,9 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void LoadConcreteWorld(string world_name, AudioClip worldSong)
+    public void LoadConcreteWorld(string world_name, AudioClip worldSong, float delay)
     {
-        StartCoroutine(LoadAsynchronously(world_name, worldSong));
+        StartCoroutine(LoadAsynchronously(world_name, worldSong, delay));
     }
     public void LoadSceneAsync(int index) //used in splash scene
     {
@@ -44,12 +44,12 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
-    IEnumerator LoadAsynchronously(string sceneName, AudioClip worldSong)
+    IEnumerator LoadAsynchronously(string sceneName, AudioClip worldSong, float delay)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.completed += (asyncOperation) =>
         {
-            AudioController.Instance.SetCurrentClip(worldSong);
+            AudioController.Instance.SetCurrentClip(worldSong, delay);
         };
         if (loadingPanel != null)
         {
@@ -73,7 +73,7 @@ public class SceneLoader : MonoBehaviour
     public void MainMenu()
     {
         if (GameData.gameData != null)
-            GameData.gameData.Save();
+            GameData.Save();
         SceneManager.LoadScene("Start");
         AudioController.Instance.SetCurrentClip(mainMenuSong);
         Time.timeScale = 1;

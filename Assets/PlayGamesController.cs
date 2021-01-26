@@ -34,7 +34,7 @@ public class PlayGamesController : MonoBehaviour
                 string playerName = "Soldier";
                 DatabaseManager.WriteNewUser(playerId, playerName, "Noobe", "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
                 GameData.gameData.saveData.playerInfo = new User(playerId, playerName, "Noobe", "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
-                GameData.gameData.Save();
+                GameData.Save();
             }
             else
             {
@@ -47,7 +47,7 @@ public class PlayGamesController : MonoBehaviour
             if (GameData.gameData.saveData.playerInfo == null)
             {
                 GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
-                GameData.gameData.Save();
+                GameData.Save();
             }
         }
     }
@@ -60,15 +60,14 @@ public class PlayGamesController : MonoBehaviour
         }
         string playerId = SystemInfo.deviceUniqueIdentifier;
 
-        string worldName = RewardTemplate.SplitCamelCase(worldId);
         int score = GameData.gameData.saveData.worldBestScores[worldId];
 
 
-        if (!DatabaseManager.ChildExists(playerId, worldName))
+        if (!DatabaseManager.ChildExists(playerId, worldId))
         {
-            DatabaseManager.WriteNewScore(worldName, playerId, score);
+            DatabaseManager.WriteNewScore(worldId, playerId, score);
         }
         else
-            DatabaseManager.OverwriteTheScore(worldName, playerId, score);
+            DatabaseManager.OverwriteTheScore(worldId, playerId, score);
     }
 }

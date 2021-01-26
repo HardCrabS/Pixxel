@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class WorldInfoDisplay : MonoBehaviour 
@@ -6,7 +7,7 @@ public class WorldInfoDisplay : MonoBehaviour
     [Header("Info Panel")]
     [SerializeField] GameObject infoPanel;
     [SerializeField] GameObject GOButton;
-    [SerializeField] Text worldName;
+    [SerializeField] TextMeshProUGUI worldName;
     [SerializeField] Text musicInfoText;
     [SerializeField] Text worldStyleText;
     [SerializeField] Image worldBackgroundImage;
@@ -52,7 +53,7 @@ public class WorldInfoDisplay : MonoBehaviour
             worldInformation = worldInfo;
             infoPanel.SetActive(true);
             worldBackgroundImage.sprite = worldInfo.BackgroundSprite;
-            worldName.text = worldInfo.WorldName;
+            worldName.text = worldInfo.id.ToUpper();
             worldStyleText.text = worldInfo.Style;
             musicInfoText.text = "Music\n" + "\"" + worldInfo.MusicTitle + "\"\n" + "By " + worldInfo.MusicCreator;
             LevelSettingsKeeper.settingsKeeper.worldInfo = worldInfo;
@@ -68,6 +69,6 @@ public class WorldInfoDisplay : MonoBehaviour
     }
     void LoadWorld()
     {
-        FindObjectOfType<SceneLoader>().LoadConcreteWorld(worldInformation.WorldName, worldInformation.Song);
+        FindObjectOfType<SceneLoader>().LoadConcreteWorld(worldInformation.id, worldInformation.Song, worldInformation.MusicStartDelay);
     }
 }

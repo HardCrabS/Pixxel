@@ -5,38 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Collection/Boost")]
 public class Boost : RewardTemplate 
 {
-    [SerializeField] BoostName boostName;
-    [TextArea(2, 4)] [SerializeField] string description;
-    [SerializeField] int[] upgradeCosts;
-    [SerializeField] float[] reloadSpeed;
+    [SerializeField] Vector2[] costAndReload = new Vector2[10];
     [SerializeField] Sprite[] upgradeSprites;
     [SerializeField] string boostTypeString;
-
-    public string Title { get { return SplitCamelCase(boostName.ToString()); } }
-    public string Description { get { return description; } }
-    public int[] UpgradeCosts { get { return upgradeCosts; } }
-    public float[] ReloadSpeed { get { return reloadSpeed; } }
+    public int GetUpgradeCost(int boostLevel) => boostLevel < costAndReload.Length ? (int)costAndReload[boostLevel].x : -1;
+    public int GetReloadSpeed(int boostLevel) => boostLevel - 1 < costAndReload.Length ? (int)costAndReload[boostLevel - 1].y : -1;
     public Sprite[] UpgradeSprites { get { return upgradeSprites; } }
     public string BoostTypeString { get { return boostTypeString; } }
 
-    public override string GetRewardId()
-    {
-        return boostName.ToString();
-    }
     public override Sprite GetRewardSprite()
     {
         return upgradeSprites.Length > 1 ? upgradeSprites[2] : upgradeSprites[0];
     }
-}
-
-public enum BoostName
-{
-    ColorHater,
-    Flamethrower,
-    FrozenTower,
-    FireFist,
-    XPBooster,
-    FlashField,
-    Switcheroo,
-    GoldRush
 }
