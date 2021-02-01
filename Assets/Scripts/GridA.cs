@@ -72,6 +72,7 @@ public class GridA : MonoBehaviour
     public BombTile[,] bombTiles;
     MatchFinder matchFinder;
     LevelTemplate template;
+    int bombSpawnChance;
 
     public string tempTagForTrinket;
     Vector2Int[] directions = new Vector2Int[]
@@ -95,6 +96,7 @@ public class GridA : MonoBehaviour
         Instance = this;
         if (LevelSettingsKeeper.settingsKeeper != null)
         {
+            bombSpawnChance = LevelSettingsKeeper.settingsKeeper.worldInfo.BombSpawnChance;
             boxPrefabs = LevelSettingsKeeper.settingsKeeper.worldInfo.Boxes;
             template = LevelSettingsKeeper.settingsKeeper.worldInfo.LeaderboardLevelTemplate;
             if (template != null)
@@ -128,6 +130,10 @@ public class GridA : MonoBehaviour
         }
         StartCoroutine(CreateGridDelayed(3.5f));
         //CreateGrid();
+    }
+    public void IncreaseBombSpawnChance(int value)
+    {
+        bombSpawnChance += value;
     }
     IEnumerator CreateGridDelayed(float delay)
     {
@@ -619,7 +625,7 @@ public class GridA : MonoBehaviour
                 if (allBoxes[x, y] == null && !blankSpaces[x, y])
                 {
                     int bombChance = Random.Range(0, 100);
-                    if (bombChance <= template.bombChance)
+                    if (bombChance <= bombSpawnChance)
                     {
                         Vector2 tempPos = new Vector2(x, y + offset);
                         GameObject bomb = Instantiate(bombTilePrefab, parent.position + new Vector3(tempPos.x, tempPos.y), transform.rotation, parent);

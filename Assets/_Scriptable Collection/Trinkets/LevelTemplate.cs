@@ -18,9 +18,6 @@ public class LevelTemplate : RewardTemplate
     public int offset;
     public TileType[] boardLayout;
 
-    [Header("Leaderboard Info")]
-    public int bombChance = 20;
-
     public override Sprite GetRewardSprite()
     {
         return trinketSprite;
