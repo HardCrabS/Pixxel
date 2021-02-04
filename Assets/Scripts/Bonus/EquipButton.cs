@@ -14,42 +14,28 @@ public class EquipButton : MonoBehaviour
 
     private void Start()
     {
-        Sprite[] boostSprites = bonusManager.GetEquipedBoosts();
-        for (int i = 0; i < equipeButtons.Length; i++)
+        if (bonusManager != null)
         {
-            bool slotUnlocked = GameData.gameData.saveData.slotsForBoostsUnlocked[i];
-            if (!slotUnlocked)
+            Sprite[] boostSprites = bonusManager.GetEquipedBoosts();
+            for (int i = 0; i < equipeButtons.Length; i++)
             {
-                equipeButtons[i].interactable = false;
-                if (equipeButtons[i].transform.childCount > 0)
-                    equipeButtons[i].transform.GetChild(0).gameObject.SetActive(true);
-                equipeButtons[i] = null;
-            }
-            else
-            {
-                if (boostSprites[i] != null)
+                bool slotUnlocked = GameData.gameData.saveData.slotsForBoostsUnlocked[i];
+                if (!slotUnlocked)
                 {
-                    equipeButtons[i].GetComponent<Image>().sprite = boostSprites[i];
+                    equipeButtons[i].interactable = false;
+                    if (equipeButtons[i].transform.childCount > 0)
+                        equipeButtons[i].transform.GetChild(0).gameObject.SetActive(true);
+                    equipeButtons[i] = null;
+                }
+                else
+                {
+                    if (boostSprites[i] != null)
+                    {
+                        equipeButtons[i].GetComponent<Image>().sprite = boostSprites[i];
+                    }
                 }
             }
         }
-    }
-
-    public static Sprite AssignSpriteToBonus(ButtonData loadedBonus)
-    {
-        if (loadedBonus == null) { return null; }
-        Sprite[] allSprites = Resources.LoadAll<Sprite>("Sprites/BoostSprites");
-        Sprite sprite = null;
-
-        for (int k = 0; k < allSprites.Length; k++)
-        {
-            if (allSprites[k].name == loadedBonus.Name)
-            {
-                sprite = allSprites[k];
-                break;
-            }
-        }
-        return sprite;
     }
 
     public void UpdateEquipedBoosts(Boost boostInfo)
@@ -73,26 +59,5 @@ public class EquipButton : MonoBehaviour
             if (worldDisplayEqupped.equipeButtons[i] != null)
                 worldDisplayEqupped.equipeButtons[i].GetComponent<Image>().sprite = equipeButtons[i].GetComponent<Image>().sprite;
         }
-    }
-}
-
-[Serializable]
-public class ButtonData
-{
-    private Type type;
-    private string name;
-
-    public ButtonData(Type type, string name)
-    {
-        this.type = type;
-        this.name = name;
-    }
-    public Type Type
-    {
-        get { return type; }
-    }
-    public string Name
-    {
-        get { return name; }
     }
 }

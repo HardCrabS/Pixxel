@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class EndGameManager : MonoBehaviour
 {
     [SerializeField] Text bestScoreText;
+    [SerializeField] UnityEvent onGameOver;
 
     public delegate void MyDelegate();
     public event MyDelegate onMatchedBlock;
@@ -34,19 +36,21 @@ public class EndGameManager : MonoBehaviour
 
     public void GameOver()
     {
-        string worldId = LevelSettingsKeeper.settingsKeeper == null ? "TwilightCity"
+        string worldId = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City"
             : LevelSettingsKeeper.settingsKeeper.worldInfo.id;
 
         PlayGamesController.PostToLeaderboard(worldId);
 
         DisplayHighscore.Instance.SetLeaderboard();
         StartCoroutine(GameOverDelayed());
+        GridA.Instance.currState = GameState.wait;
+        onGameOver.Invoke();
     }
 
     IEnumerator GameOverDelayed()
     {
         yield return new WaitForSeconds(2f);
         bestScoreText.text = Score.Instance.GetCurrentScore() + "";
-        RewardForLevel.Instance.CheckForLevelUpReward();
+        //RewardForLevel.Instance.SetRewardScreenUI();
     }
 }

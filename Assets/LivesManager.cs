@@ -56,6 +56,8 @@ public class LivesManager : MonoBehaviour
                 Destroy(this);
             }
         }
+
+        Glitcher.Instance.GlitchOut();
         totalLives--;
         if (totalLives < 3 && totalLives >= 0)
             hearts[totalLives].color = lostHeartColor;

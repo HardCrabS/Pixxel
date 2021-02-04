@@ -27,18 +27,18 @@ public class OptionsController : MonoBehaviour
 
     public void Pause()
     {
-        pausePanel.SetActive(true);
+        //pausePanel.SetActive(true);
         AudioController.Instance.Pause();
         ScrollBackground.Instance.StopScrolling();
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
     }
 
     public void Resume()
     {
-        pausePanel.SetActive(false);
+        //pausePanel.SetActive(false);
         AudioController.Instance.Resume();
         ScrollBackground.Instance.ResumeScrolling();
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
     }
 
     public void SaveSettings()

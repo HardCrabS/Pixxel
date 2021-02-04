@@ -23,7 +23,7 @@ public class RewardForLevel : MonoBehaviour
 
     [Header("End Game Reward Panel")]
     [SerializeField] GameObject blockingPanel;
-    [SerializeField] GameObject rewardPanel;
+    [SerializeField] UI_Screen rewardScreen;
     [SerializeField] Slider xpSlider;
     [SerializeField] Text XPText;
     [SerializeField] Text coinsText;
@@ -141,11 +141,12 @@ public class RewardForLevel : MonoBehaviour
         rewardDescrText.text = "<color=yellow>New " + reward.reward + "</color>\n" + reward.id;
     }
 
-    public void CheckForLevelUpReward() //called at the end of the game and paused "retire" button 
+    public void SetRewardScreenUI() //called at the end of the game and paused "retire" button 
     {
-        blockingPanel.SetActive(true);
-        rewardPanel.SetActive(true);
-        StartCoroutine(SetRewardUI());
+        //blockingPanel.SetActive(true);
+        //rewardPanel.SetActive(true);
+        //UI_System.Instance.SwitchScreens(rewardScreen);
+        StartCoroutine(ShowCoinsAfterXPBar());
     }
     public int GetRankFromRewards(LevelReward levelReward, string id)
     {
@@ -163,7 +164,7 @@ public class RewardForLevel : MonoBehaviour
         return -1;
     }
 
-    IEnumerator SetRewardUI()
+    IEnumerator ShowCoinsAfterXPBar()
     {
         yield return StartCoroutine(FillXPBar());
         SetEarnedCoinsText();

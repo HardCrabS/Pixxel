@@ -135,8 +135,7 @@ public class DisplayHighscore : MonoBehaviour
     private void SpawnPlayerArrow(GameObject scorePanelClone) //arrow points to player score
     {
         var arrow = Instantiate(playerArrow, scorePanelClone.transform);
-        Vector3 arrowPos = arrow.transform.position;
-        arrow.transform.position = new Vector3(arrowPos.x, scorePanelClone.transform.position.y, arrowPos.z);
+        arrow.transform.localPosition = playerArrow.transform.localPosition;
 
         //shift text and image to the right
         Transform child1 = scorePanelClone.transform.GetChild(0).GetComponent<RectTransform>();

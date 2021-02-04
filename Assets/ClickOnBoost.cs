@@ -8,68 +8,41 @@ public class ClickOnBoost : MonoBehaviour
     [SerializeField] Text levelText;
     [SerializeField] Text costText;
     [SerializeField] Text currStatsText;
-    [SerializeField] Text nextStatsText;
+    [SerializeField] Color darkRed;
 
     public void ChangeBoostText(Boost boost, string stats)
     {
-        boostTitleText.text = boost.id;
-        descriptionText.text = boost.description;
         int boostLevel = GameData.gameData.GetBoostLevel(boost.id);
-        levelText.text = "lv " + boostLevel;
+        boostTitleText.text = boost.id.ToUpper() + " <color=black>LV</color><size=300><color=red>" + boostLevel + "</color></size>"; ;
+
         if (boostLevel < 10)
         {
             int cost = boost.GetUpgradeCost(boostLevel);
-            costText.text = "" + cost;
+            costText.text = "x" + cost;
+            levelText.text = "LV<size=350>" + (boostLevel + 1) + "</size>";
         }
         else
         {
             costText.text = "MAX";
+            levelText.text = "LV<size=350>" + boostLevel + "</size>";
         }
-        string[] allStats = stats.Split('|');
-        currStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel) + "s</color>\n" + allStats[0];
-        if (boostLevel < 10)
+        if(boostLevel < 4)
         {
-            if (allStats.Length > 1)
-            {
-                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel + 1) + "s</color>\n" + allStats[1];
-            }
-            else
-            {
-                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel + 1) + "s</color>\n";
-            }
+            descriptionText.text = boost.descrlevel1;
         }
-        else
-            nextStatsText.text = "Maximum level reached!";
-    }
-
-    public void UpdateText(Boost boost, string stats)
-    {
-        int boostLevel = GameData.gameData.GetBoostLevel(boost.id);
-        levelText.text = "lv " + boostLevel;
-        if (boostLevel < 10)
+        else if(boostLevel < 7)
         {
-            int cost = boost.GetUpgradeCost(boostLevel);
-            costText.text = "" + cost;
+            descriptionText.text = boost.descrlevel4;
+        }
+        else if (boostLevel < 10)
+        {
+            descriptionText.text = boost.descrlevel7;
         }
         else
         {
-            costText.text = "MAX";
+            descriptionText.text = boost.descrlevel10;
         }
 
-        string[] allStats = stats.Split('|');
-        currStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel) + "s</color>\n" + allStats[0];
-        if (boostLevel < 10)
-        {
-            if (allStats.Length > 1)
-            {
-                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel + 1) + "s</color>\n" + allStats[1];
-            }
-            else
-            {
-                nextStatsText.text = "Cooldown: " + "<color=red>" + boost.GetReloadSpeed(boostLevel + 1) + "s</color>\n";
-            }
-        }
-        else
-            nextStatsText.text = "Maximum level reached!";
+        currStatsText.text = "Cooldown: " + SequentialText.ColorString(boost.GetReloadSpeed(boostLevel) + "s", darkRed);
     }
 }

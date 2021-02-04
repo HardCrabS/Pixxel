@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Easings;
+
 public class Glitcher : MonoBehaviour
 {
     Kino.AnalogGlitch glitchAnalog;
@@ -12,9 +13,10 @@ public class Glitcher : MonoBehaviour
 
     public float glitchTime;
 
-    void Start()
+    public static Glitcher Instance;
+    void Awake()
     {
-
+        Instance = this;
     }
     public void GlitchIn()
     {
@@ -30,22 +32,22 @@ public class Glitcher : MonoBehaviour
         glitchDigital = Camera.main.GetComponent<Kino.DigitalGlitch>();
         glitchAnalog.enabled = true;
         glitchDigital.enabled = true;
-        float t = (forward)? 0:glitchTime;
+        float t = (forward) ? 0 : glitchTime;
         bool glitch = true;
         while (glitch)
         {
-            t =(forward)?t+ Time.deltaTime:t-Time.deltaTime;
+            t = (forward) ? t + Time.deltaTime : t - Time.deltaTime;
             t = Mathf.Clamp(t, 0f, glitchTime);
             if (forward)
             {
-                if (t>= glitchTime)
+                if (t >= glitchTime)
                 {
                     glitch = false;
                 }
             }
             else
             {
-                if (t<=0)
+                if (t <= 0)
                 {
                     glitch = false;
                 }
@@ -66,5 +68,14 @@ public class Glitcher : MonoBehaviour
     public void StopGlitch()
     {
         StopAllCoroutines();
+    }
+    public void SetBombExplodeParameters()
+    {
+        verticalJump = 0;
+        horizontalShake = 0;
+        colorDrift = 0;
+        scanlineJitter = 0.3f;
+        digitalIntensity = 0.1f;
+        glitchTime = 0.8f;
     }
 }

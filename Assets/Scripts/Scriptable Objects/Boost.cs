@@ -5,6 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Collection/Boost")]
 public class Boost : RewardTemplate 
 {
+    [Header("Level Descriptions")]
+    [TextArea(2, 3)] public string descrlevel1;
+    [TextArea(2, 3)] public string descrlevel4;
+    [TextArea(2, 3)] public string descrlevel7;
+    [TextArea(2, 3)] public string descrlevel10;
+
     [SerializeField] Vector2[] costAndReload = new Vector2[10];
     [SerializeField] Sprite[] upgradeSprites;
     [SerializeField] string boostTypeString;

@@ -29,8 +29,8 @@ public class Tutorial : MonoBehaviour
         }
         else
         {
+            glitcher.SetBombExplodeParameters();
             Destroy(tutorialCanvas);
-            Destroy(glitcher);
             Destroy(gameObject);
         }
     }
@@ -61,10 +61,10 @@ public class Tutorial : MonoBehaviour
         visualizerCanvas.SetActive(true);
 
         PlayerPrefs.SetInt("TUTORIAL", 1);
+        glitcher.SetBombExplodeParameters();
 
         Destroy(gameObject);
         Destroy(tutorialCanvas);
-        Destroy(glitcher);
     }
     IEnumerator PlayDialogues(Dialogue[] dialogues)
     {

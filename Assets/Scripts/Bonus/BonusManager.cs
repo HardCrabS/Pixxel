@@ -50,7 +50,8 @@ public class BonusManager : MonoBehaviour
             for (int i = 0; i < children.Length; i++)
             {
                 string boostId = children[i].boostInfo.id;
-                if (GameData.gameData.saveData.boostIds.Contains(boostId))
+                bool isUnlocked = GameData.gameData.saveData.boostIds.Contains(boostId);
+                if (isUnlocked)
                 {
                     children[i].transform.GetChild(0).gameObject.SetActive(false);
                     int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(boostId));
@@ -60,6 +61,7 @@ public class BonusManager : MonoBehaviour
                     {
                         children[i].GetComponent<Image>().sprite = boostInfo.UpgradeSprites[spriteIndex];
                     }
+                    children[i].gameObject.AddComponent<DragBoost>();
                 }
                 else
                 {

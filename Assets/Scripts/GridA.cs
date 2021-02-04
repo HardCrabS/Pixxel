@@ -770,6 +770,7 @@ public class GridA : MonoBehaviour
 
     void BlockDestroyedSFX()
     {
-        AudioController.Instance.PlayNewClip(blockDestroySFX, 0.7f);
+        if (AudioController.Instance)
+            AudioController.Instance.PlayNewClip(blockDestroySFX, 0.7f);
     }
 }

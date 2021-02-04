@@ -25,10 +25,16 @@ public class UI_System : MonoBehaviour
 
     private UI_Screen currentScreen;
     public UI_Screen CurrentScreen { get { return currentScreen; } }
+
+    public static UI_System Instance;
     #endregion
 
 
     #region Main Methods
+    private void Awake()
+    {
+        Instance = this;
+    }
     // Use this for initialization
     void Start()
     {

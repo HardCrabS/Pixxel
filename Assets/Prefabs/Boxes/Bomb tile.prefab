@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 222186156756059510}
   - component: {fileID: 114747440907757080}
   - component: {fileID: 61628902590649232}
+  - component: {fileID: 3018316707014086529}
   m_Layer: 0
   m_Name: Bomb tile
   m_TagString: Bomb
@@ -82,7 +83,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c64c653205f30194191dcce34197607e, type: 3}
+  m_Sprite: {fileID: 1629578388879879155, guid: b46609ec0102cb94fa94322b28dd1259,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -153,7 +155,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.5, y: 1.55}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -162,6 +164,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0416973, y: 1.0288949}
   m_EdgeRadius: 0
+--- !u!95 &3018316707014086529
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174677114083692}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f28145f3e7b7ea74ba8b33fc3c67d44b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1490714348408136
 GameObject:
   m_ObjectHideFlags: 0

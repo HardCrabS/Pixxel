@@ -19,7 +19,7 @@ public class LevelUp : MonoBehaviour
             GameData.gameData.saveData.boostLevels[boostInfo.id]++;
             GameData.Save();
             level++;
-            clickOnBoost.UpdateText(boostInfo, bonus.GetUniqueAbility(level));
+            clickOnBoost.ChangeBoostText(boostInfo, bonus.GetUniqueAbility(level));
             bonusManager.UpdateBoostSprites(boostInfo.id, level);
             equipButton.UpdateEquipedBoosts(boostInfo);
 

@@ -17,8 +17,8 @@ public class BonusButton : MonoBehaviour
     {
         if (isGameButton)
         {
-            bool isUnlocked = GameData.gameData == null ? false : GameData.gameData.saveData.slotsForBoostsUnlocked[buttonIndex];
-            if (isUnlocked)
+            bool slotUnlocked = GameData.gameData == null ? false : GameData.gameData.saveData.slotsForBoostsUnlocked[buttonIndex];
+            if (slotUnlocked)
             {
                 if (boostInfo != null)
                 {

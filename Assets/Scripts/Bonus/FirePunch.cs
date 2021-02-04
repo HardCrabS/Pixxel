@@ -65,8 +65,7 @@ public class FirePunch : MonoBehaviour, IConcreteBonus
     void SpawnFist(Vector2 blockPos)
     {
         float width = grid.width;
-        float height = grid.hight;
-
+ 
         Vector2 spawnPos = Vector2.zero;
 
         if (blockPos.x > width - blockPos.x) // closer to the right
