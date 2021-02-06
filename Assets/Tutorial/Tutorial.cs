@@ -52,7 +52,7 @@ public class Tutorial : MonoBehaviour
         StopCoroutine(movingCrosshair);
 
         yield return StartCoroutine(PlayDialogues(finalDialogues));
-
+        crosshair.position = new Vector2(-10, 0);
         GridA.Instance.SetDefaultTemplate();
         AudioController.Instance.SetCurrentClip(worldClip, 3.5f);
 

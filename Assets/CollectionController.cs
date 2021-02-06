@@ -16,7 +16,7 @@ public class CollectionController : MonoBehaviour
     [SerializeField] Transform worldsContainer;
     [SerializeField] Transform worldSelectionGlow;
     [SerializeField] GameObject worldTemplate;
-    [SerializeField] WorldInformation[] worlds;
+    public WorldInformation[] worlds;   //quest uses for randomisation
 
     [Header("Boosts")]
     [SerializeField] Transform boostsContainer;

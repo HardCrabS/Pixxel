@@ -173,7 +173,7 @@ public class GridA : MonoBehaviour
                 blankSpaces[x, y] = false;
             }
         }
-        CreateGrid();
+        StartCoroutine(CreateGridDelayed(3.5f));
     }
 
     public void FillTutorialLayout()
@@ -198,7 +198,7 @@ public class GridA : MonoBehaviour
         }
 
         Vector2 tempPos = new Vector3(1, 7 + offset);
-        SpawnNormalBlock(1, 7, tempPos, 5); //yellow on the left
+        SpawnNormalBlock(1, 7, tempPos, 3); //yellow on the left
         for (int x = 2; x < 5; x += 2)
         {
             tempPos = new Vector3(x, 7 + offset); //red on 2 places

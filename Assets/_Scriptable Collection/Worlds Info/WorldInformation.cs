@@ -4,6 +4,7 @@
 public class WorldInformation : RewardTemplate 
 {
     [Header("World Specific")]
+    [SerializeField] string blocksName;
     [SerializeField] int bombSpawnChance;
     [SerializeField] float musicStartDelay = 0;
     [SerializeField] AudioClip song;
@@ -18,6 +19,7 @@ public class WorldInformation : RewardTemplate
     [SerializeField] string musicCreator;
     [SerializeField] Sprite backgroundSprite;
 
+    public string BlocksName => blocksName;
     public int BombSpawnChance => bombSpawnChance;
     public int[] ScoreWorldLevels => scoreWorldLevels;
     public float MusicStartDelay { get { return musicStartDelay; } }
