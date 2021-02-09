@@ -22,8 +22,6 @@ public class RewardForLevel : MonoBehaviour
     [SerializeField] Reward[] rewards;
 
     [Header("End Game Reward Panel")]
-    [SerializeField] GameObject blockingPanel;
-    [SerializeField] UI_Screen rewardScreen;
     [SerializeField] Slider xpSlider;
     [SerializeField] Text XPText;
     [SerializeField] Text coinsText;
@@ -143,9 +141,6 @@ public class RewardForLevel : MonoBehaviour
 
     public void SetRewardScreenUI() //called at the end of the game and paused "retire" button 
     {
-        //blockingPanel.SetActive(true);
-        //rewardPanel.SetActive(true);
-        //UI_System.Instance.SwitchScreens(rewardScreen);
         StartCoroutine(ShowCoinsAfterXPBar());
     }
     public int GetRankFromRewards(LevelReward levelReward, string id)

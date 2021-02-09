@@ -16,7 +16,7 @@ public class Box : MonoBehaviour
     public int targetY;
     float finalAngle;
     float swipeResist = .5f;
-    public string blockName;
+    public string boxName;
 
     GridA grid;
     MatchFinder matchFinder;
@@ -30,43 +30,49 @@ public class Box : MonoBehaviour
         grid = GridA.Instance;
         matchFinder = MatchFinder.Instance;
         blockClicked += grid.CrosshairToBlock;
+        StartCoroutine(MainBlockLogic());
     }
 
-    void Update()
+    IEnumerator MainBlockLogic()
     {
-        if (isMatched)
+        while (true)
         {
-            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-        }
-        targetX = row;
-        targetY = column;
-        if (Mathf.Abs(targetX - transform.localPosition.x) > 0.1f)
-        {
-            transform.localPosition = Vector2.Lerp(transform.localPosition, new Vector2(targetX, transform.localPosition.y), 0.4f);
-            if (grid.allBoxes[row, column] != this.gameObject)
+            if (isMatched)
             {
+                GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+            }
+            targetX = row;
+            targetY = column;
+            if (Mathf.Abs(targetX - transform.localPosition.x) > 0.1f)
+            {
+                transform.localPosition = Vector2.Lerp(transform.localPosition, new Vector2(targetX, transform.localPosition.y), 0.4f);
+                if (grid.allBoxes[row, column] != this.gameObject)
+                {
+                    grid.allBoxes[row, column] = this.gameObject;
+                }
+                matchFinder.FindAllMatches();
+            }
+            else
+            {
+                transform.localPosition = new Vector2(targetX, transform.localPosition.y);
                 grid.allBoxes[row, column] = this.gameObject;
             }
-            matchFinder.FindAllMatches();
-        }
-        else
-        {
-            transform.localPosition = new Vector2(targetX, transform.localPosition.y);
-            grid.allBoxes[row, column] = this.gameObject;
-        }
-        if (Mathf.Abs(targetY - transform.localPosition.y) > 0.1f)
-        {
-            transform.localPosition = Vector2.Lerp(transform.localPosition, new Vector2(transform.localPosition.x, targetY), 0.4f);
-            if (grid.allBoxes[row, column] != this.gameObject)
+            if (Mathf.Abs(targetY - transform.localPosition.y) > 0.1f)
             {
+                transform.localPosition = Vector2.Lerp(transform.localPosition, new Vector2(transform.localPosition.x, targetY), 0.4f);
+                if (grid.allBoxes[row, column] != this.gameObject)
+                {
+                    grid.allBoxes[row, column] = this.gameObject;
+                }
+                matchFinder.FindAllMatches();
+            }
+            else
+            {
+                transform.localPosition = new Vector2(transform.localPosition.x, targetY);
                 grid.allBoxes[row, column] = this.gameObject;
             }
-            matchFinder.FindAllMatches();
-        }
-        else
-        {
-            transform.localPosition = new Vector2(transform.localPosition.x, targetY);
-            grid.allBoxes[row, column] = this.gameObject;
+
+            yield return null;
         }
     }
 
@@ -176,7 +182,7 @@ public class Box : MonoBehaviour
                     grid.bombTiles[row, column] = grid.bombTiles[prevRow, prevColumn];
                     grid.bombTiles[prevRow, prevColumn] = null;
                 }
-                else if(neighborBox.GetComponent<BombTile>())
+                else if (neighborBox.GetComponent<BombTile>())
                 {
                     grid.bombTiles[prevRow, prevColumn] = grid.bombTiles[row, column];
                     grid.bombTiles[row, column] = null;
@@ -186,6 +192,23 @@ public class Box : MonoBehaviour
                 EndGameManager.Instance.CallOnMatchDelegate();
             }
             neighborBox = null;
+        }
+    }
+    public void MoveBoxDown()
+    {
+        StopAllCoroutines();
+        StartCoroutine(MoveDown());
+    }
+    IEnumerator MoveDown()
+    {
+        float smoothTime = 0.3f;
+        Vector3 velocity = Vector3.zero;
+        Vector3 targetPos = new Vector3(transform.position.x, transform.position.y - 30, transform.position.z);
+
+        while (transform.position != targetPos)
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime);
+            yield return null;
         }
     }
 

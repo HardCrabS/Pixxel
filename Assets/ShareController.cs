@@ -47,8 +47,8 @@ public class ShareController : MonoBehaviour
         {
             twWorldId = null;
         }
-        CheckTime(twText, twButton, GameData.gameData.saveData.lastTwitterShare);
-        CheckTime(fbText, fbButton, GameData.gameData.saveData.lastFacebookShare);
+        CheckTime(twText, twButton, GameData.gameData.saveData.nextPossibleTwitterShare);
+        CheckTime(fbText, fbButton, GameData.gameData.saveData.nextPossibleFacebookShare);
     }
 
     public void ShareToTW(string linkParameter)
@@ -59,7 +59,7 @@ public class ShareController : MonoBehaviour
             return;
         }
         //if (!DayPassed(twText, twButton, GameData.gameData.saveData.lastTwitterShare)) { return; };
-        GameData.gameData.saveData.lastTwitterShare = DateTime.Now.ToString();
+        GameData.gameData.saveData.nextPossibleTwitterShare = DateTime.Now.ToString();
         GameData.Save();
 
         string nameParameter = "I'm playing this super game for months!";//this is limited in text length 
@@ -84,7 +84,7 @@ public class ShareController : MonoBehaviour
             return;
         }
         //if (DayPassed(fbText, fbButton, GameData.gameData.saveData.lastFacebookShare)) { return; };
-        GameData.gameData.saveData.lastFacebookShare = (DateTime.Now).ToString();
+        GameData.gameData.saveData.nextPossibleFacebookShare = (DateTime.Now).ToString();
         GameData.Save();
 
         string facebookshare = "https://www.facebook.com/sharer/sharer.php?u=" + Uri.EscapeUriString(appStoreLink);

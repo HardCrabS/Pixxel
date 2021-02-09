@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class Tutorial : MonoBehaviour
 {
-    [SerializeField] GameObject gameCanvas;
+    [SerializeField] UI_System uiSystem;
     [SerializeField] GameObject visualizerCanvas;
     [SerializeField] GameObject tutorialCanvas;
+    [SerializeField] GameObject logo;
     [SerializeField] SequentialText text;
     [SerializeField] Dialogue[] helloDialogues;
     [SerializeField] Dialogue[] blocksDialogues;
@@ -18,12 +19,18 @@ public class Tutorial : MonoBehaviour
     [SerializeField] GameObject background;
     [SerializeField] AudioClip worldClip;
 
+    UI_Screen gameUI;
+
     void Awake()
     {
         if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
         {
+            logo.SetActive(false);
             visualizerCanvas.SetActive(false);
-            gameCanvas.SetActive(false);
+            gameUI = uiSystem.m_StartScreen;
+            uiSystem.m_StartScreen = tutorialCanvas.GetComponent<UI_Screen>();
+            //uiSystem.m_Fader = fadeImage;
+            //gameCanvas.SetActive(false);
             tutorialCanvas.SetActive(true);
             StartCoroutine(PlayTutorial());
         }
@@ -37,6 +44,7 @@ public class Tutorial : MonoBehaviour
 
     public IEnumerator PlayTutorial()
     {
+        yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(PlayDialogues(helloDialogues));
 
         StartCoroutine(BackgroundFadeOut());
@@ -57,8 +65,11 @@ public class Tutorial : MonoBehaviour
         AudioController.Instance.SetCurrentClip(worldClip, 3.5f);
 
         tutorialCanvas.SetActive(false);
-        gameCanvas.SetActive(true);
+        //gameCanvas.SetActive(true);
+        //UI_System.Instance.m_StartScreen.gameObject.SetActive(true);
+        uiSystem.SwitchScreens(gameUI);
         visualizerCanvas.SetActive(true);
+        logo.SetActive(true);
 
         PlayerPrefs.SetInt("TUTORIAL", 1);
         glitcher.SetBombExplodeParameters();

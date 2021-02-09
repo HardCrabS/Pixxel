@@ -15,7 +15,7 @@ public class AudioController : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(this);
 
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = PlayerPrefsController.GetMasterVolume();
@@ -26,7 +26,7 @@ public class AudioController : MonoBehaviour
     }
     public void SetCurrentClip(AudioClip clip, float delay = 0)
     {
-        if(clip == audioSource.clip) { return; }
+        //if(clip == audioSource.clip) { return; }
 
         audioSource.Stop();
         audioSource.clip = clip;

@@ -13,6 +13,8 @@ public class EndGameManager : MonoBehaviour
 
     public static EndGameManager Instance;
 
+    bool gameIsOver = false;
+
     void Awake()
     {
         Instance = this;
@@ -36,6 +38,8 @@ public class EndGameManager : MonoBehaviour
 
     public void GameOver()
     {
+        print("Game is over!");
+        if (gameIsOver) return;
         string worldId = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City"
             : LevelSettingsKeeper.settingsKeeper.worldInfo.id;
 

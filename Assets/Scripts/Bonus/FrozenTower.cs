@@ -65,6 +65,7 @@ public class FrozenTower : MonoBehaviour, IConcreteBonus
                 Destroy(grid.allBoxes[randColumns[j], i]);
             }
         }
+        StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.1f, 0.2f));
         StartCoroutine(grid.MoveBoxesDown());
     }
 

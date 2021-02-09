@@ -26,7 +26,7 @@ public class SaveData
     };
     public Dictionary<string, int> boostLevels = new Dictionary<string, int>()
     {
-        { "Color Hater", 1 }   //unlocked by default
+        { "Magic Potion", 1 }   //unlocked by default
     };
     public Dictionary<string, int> trinketsProgress = new Dictionary<string, int>();
 
@@ -34,13 +34,13 @@ public class SaveData
     public string lastTimeSaleClaimed;
 
     public string cardType;
-    public string lastTimeCardClaimed;
+    public string nextPossibleCardClaime;
 
-    public string lastFacebookShare;
-    public string lastTwitterShare;
+    public string nextPossibleFacebookShare;
+    public string nextPossibleTwitterShare;
 
     public bool[] slotsForBoostsUnlocked;
-    public string lastTimeQuestClaimed;
+    public string nextPossibleQuestClaime;
     public QuestProgress[] dailyQuests;
 
     public User playerInfo;
@@ -78,12 +78,14 @@ public class GameData : MonoBehaviour
 
     public void UnlockWorld(string id)
     {
+        if (saveData.worldIds.Contains(id)) return;
         saveData.worldIds.Add(id);
         saveData.worldBestScores[id] = 0;
         Save();
     }
     public void UnlockBoost(string id)
     {
+        if (saveData.boostIds.Contains(id)) return;
         saveData.boostIds.Add(id);
         saveData.boostLevels.Add(id, 1);
         Save();
@@ -94,6 +96,7 @@ public class GameData : MonoBehaviour
     }
     public void UnlockTrinket(string id)
     {
+        if (saveData.trinketIds.Contains(id)) return;
         saveData.trinketIds.Add(id);
         Save();
     }
@@ -120,6 +123,7 @@ public class GameData : MonoBehaviour
     }
     public void UnlockTitle(string id)
     {
+        if (saveData.titleIds.Contains(id)) return;
         saveData.titleIds.Add(id);
         Save();
     }
@@ -139,6 +143,7 @@ public class GameData : MonoBehaviour
     }
     public void UnlockBanner(string id)
     {
+        if (saveData.bannerIds.Contains(id)) return;
         saveData.bannerIds.Add(id);
         Save();
     }
@@ -151,19 +156,20 @@ public class GameData : MonoBehaviour
     }
     public void UnlockCardSet(string id)
     {
+        if (saveData.cardIds.Contains(id)) return;
         saveData.cardIds.Add(id);
-        saveData.lastTimeCardClaimed = "";
+        saveData.nextPossibleCardClaime = "";
         saveData.cardType = "";
         Save();
     }
     public void UpdateLastQuestClaim(DateTime dateTime)
     {
-        gameData.saveData.lastTimeQuestClaimed = dateTime.ToString();
+        gameData.saveData.nextPossibleQuestClaime = dateTime.ToString();
         Save();
     }
     public void UpdateCardClaim(DateTime dateTime, string cardType)
     {
-        gameData.saveData.lastTimeCardClaimed = dateTime.ToString();
+        gameData.saveData.nextPossibleCardClaime = dateTime.ToString();
         gameData.saveData.cardType = cardType;
         Save();
     }

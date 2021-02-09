@@ -52,7 +52,7 @@ public class LivesManager : MonoBehaviour
             }
             else
             {
-                FindObjectOfType<EndGameManager>().GameOver();
+                EndGameManager.Instance.GameOver();
                 Destroy(this);
             }
         }

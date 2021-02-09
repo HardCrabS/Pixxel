@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BonusButton : MonoBehaviour
 {
-    [SerializeField] ClickOnBoost clickOnBoost;
+    //[SerializeField] ClickOnBoost clickOnBoost;
     [SerializeField] bool isGameButton;
     public Image relatedFrame;
     public Boost boostInfo;
@@ -35,6 +36,7 @@ public class BonusButton : MonoBehaviour
                     {
                         state.speed = 1 / boostInfo.GetReloadSpeed(boostLevel);
                     }
+                    StartCoroutine(UnlockAfterCountdown());
                 }
                 else
                 {
@@ -51,6 +53,12 @@ public class BonusButton : MonoBehaviour
                 gameObject.AddComponent<Shadow>().effectDistance = new Vector2(10, -10);
             }
         }
+    }
+    IEnumerator UnlockAfterCountdown()
+    {
+        GetComponent<Button>().interactable = false;
+        yield return new WaitForSeconds(3.5f);
+        GetComponent<Button>().interactable = true;
     }
     public void SetButtonForGame(Boost boost)
     {
@@ -69,7 +77,7 @@ public class BonusButton : MonoBehaviour
 
         IConcreteBonus myBonus = GetComponent<IConcreteBonus>();
 
-        clickOnBoost.ChangeBoostText(boostInfo, myBonus.GetUniqueAbility(level));
+        ClickOnBoost.Instance.ChangeBoostText(boostInfo, myBonus.GetUniqueAbility(level));
         LevelUp levelUp = FindObjectOfType<LevelUp>();
         levelUp.boostInfo = boostInfo;
         levelUp.bonus = myBonus;

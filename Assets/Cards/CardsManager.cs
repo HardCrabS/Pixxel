@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CardsManager : MonoBehaviour 
 {
+    [SerializeField] GameObject exclamationBubble; //shows if card card unclaimed
     [SerializeField] GameObject cardPanel;
     [SerializeField] GameObject earnedCardPanel;
     [SerializeField] Text titleText;
@@ -24,7 +25,20 @@ public class CardsManager : MonoBehaviour
 
     private void Start()
     {
-        SetCardSets();
+        System.DateTime lastClaim;
+        if (string.IsNullOrEmpty(GameData.gameData.saveData.nextPossibleCardClaime))
+        {
+            lastClaim = System.DateTime.Now;
+        }
+        else
+        {
+            lastClaim = System.Convert.ToDateTime(GameData.gameData.saveData.nextPossibleCardClaime);
+        }
+
+        if (System.DateTime.Now.CompareTo(lastClaim) >= 0)
+        {
+            exclamationBubble.SetActive(true);
+        }
     }
 
     void SetCardSets()
@@ -59,6 +73,7 @@ public class CardsManager : MonoBehaviour
         float clipLength = animator.GetCurrentAnimatorStateInfo(0).length;
         DisplayCardsInSet(index);
         StartCoroutine(CardPanelDelayed(clipLength));
+        exclamationBubble.SetActive(false);
     }
 
     IEnumerator CardPanelDelayed(float time)
@@ -79,17 +94,18 @@ public class CardsManager : MonoBehaviour
     public void ActivateCardPanel()
     {
         System.DateTime lastClaim;
-        if (string.IsNullOrEmpty(GameData.gameData.saveData.lastTimeCardClaimed))
+        if (string.IsNullOrEmpty(GameData.gameData.saveData.nextPossibleCardClaime))
         {
             lastClaim = System.DateTime.Now;
         }
         else
         {
-            lastClaim = System.Convert.ToDateTime(GameData.gameData.saveData.lastTimeCardClaimed);
+            lastClaim = System.Convert.ToDateTime(GameData.gameData.saveData.nextPossibleCardClaime);
         }
 
         if (System.DateTime.Now.CompareTo(lastClaim) >= 0)
         {
+            SetCardSets();
             cardPanel.SetActive(true);
         }
         else

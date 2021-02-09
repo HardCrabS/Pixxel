@@ -10,6 +10,13 @@ public class ClickOnBoost : MonoBehaviour
     [SerializeField] Text currStatsText;
     [SerializeField] Color darkRed;
 
+    public static ClickOnBoost Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     public void ChangeBoostText(Boost boost, string stats)
     {
         int boostLevel = GameData.gameData.GetBoostLevel(boost.id);

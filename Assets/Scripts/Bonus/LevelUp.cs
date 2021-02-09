@@ -2,7 +2,6 @@
 
 public class LevelUp : MonoBehaviour 
 {
-    [SerializeField] ClickOnBoost clickOnBoost;
     [SerializeField] BonusManager bonusManager;
     [SerializeField] EquipButton equipButton;
     [SerializeField] AudioClip boostUpgradeSFX;
@@ -19,7 +18,7 @@ public class LevelUp : MonoBehaviour
             GameData.gameData.saveData.boostLevels[boostInfo.id]++;
             GameData.Save();
             level++;
-            clickOnBoost.ChangeBoostText(boostInfo, bonus.GetUniqueAbility(level));
+            ClickOnBoost.Instance.ChangeBoostText(boostInfo, bonus.GetUniqueAbility(level));
             bonusManager.UpdateBoostSprites(boostInfo.id, level);
             equipButton.UpdateEquipedBoosts(boostInfo);
 

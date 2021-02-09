@@ -14,16 +14,6 @@ public enum reward
 [System.Serializable]
 public class QuestProgress
 {
-    /*public QuestProgress(string _questDescription, string _tag, int _numberNeeded, string _worldId, 
-        int _savedArrayIndex, int _questTemplateIndex)
-    {
-        questDescription = _questDescription;
-        tag = _tag;
-        numberNeeded = _numberNeeded;
-        worldId = _worldId;
-        savedArrayIndex = _savedArrayIndex;
-        questTemplateIndex = _questTemplateIndex;
-    }*/
     public string questDescription;
     public string tag;
     public int numberNeeded;
@@ -34,16 +24,15 @@ public class QuestProgress
     public int rewardAmount;
 
     public bool rewardClaimed = false;
-    public int questTemplateIndex;
     public int savedArrayIndex;
 }
 public class DailyQuestManager : MonoBehaviour
 {
+    [SerializeField] GameObject exclamationBubble;
     [SerializeField] GameObject questPanel;
     [SerializeField] Sprite clickable;
     [SerializeField] Sprite nonClickable;
 
-    //[SerializeField] QuestTemplate[] allQuests;
     [SerializeField] TextMeshProUGUI[] questsTexts;
     [SerializeField] GameObject[] claimButtons;
     [SerializeField] GameObject[] claimedImages;
@@ -82,6 +71,11 @@ public class DailyQuestManager : MonoBehaviour
 
     void Start()
     {
+        if(IsTimeToClaim() || IsUnfinishedQuest())
+        {
+            exclamationBubble.SetActive(true);
+        }
+
         questVariables.Add(QUESTS, questTemplates);
         questVariables.Add("[Occupation]", occupations);
         questVariables.Add("[Name]", names);
@@ -170,9 +164,11 @@ public class DailyQuestManager : MonoBehaviour
             }
             else //block type
             {
-                string tag = worldInfo.Boxes[Random.Range(0, worldInfo.Boxes.Length)].tag;
+                GameObject block = worldInfo.Boxes[Random.Range(0, worldInfo.Boxes.Length)];
+                string tag = block.tag;
+                string boxName = block.GetComponent<Box>().boxName;
                 questProgress.tag = tag;    //block tag to collect
-                return tag;
+                return boxName;
             }
         }
     }
@@ -185,22 +181,10 @@ public class DailyQuestManager : MonoBehaviour
 
     private void PickRandomQuests()
     {
-        System.DateTime lastClaim;
-        if (string.IsNullOrEmpty(GameData.gameData.saveData.lastTimeQuestClaimed))
-        {
-            lastClaim = System.DateTime.Now;
-        }
-        else
-        {
-            lastClaim = System.Convert.ToDateTime(GameData.gameData.saveData.lastTimeQuestClaimed);
-        }
-
-        if (System.DateTime.Now.CompareTo(lastClaim) >= 0)
+        if (IsTimeToClaim())
         {
             for (int i = 0; i < questsTexts.Length; i++)
             {
-                //int randQuest = Random.Range(0, allQuests.Length);
-                //QuestTemplate questTemplate = allQuests[randQuest];
                 QuestProgress quest = GetQuest();
                 quest.savedArrayIndex = i;
 
@@ -259,7 +243,6 @@ public class DailyQuestManager : MonoBehaviour
 
     public void ClaimReward(int i)
     {
-        //QuestTemplate questTemplate = allQuests[quests[i].questTemplateIndex];
         int reward = quests[i].rewardAmount;
         if (quests[i].rewardType == global::reward.coins)
         {
@@ -285,5 +268,28 @@ public class DailyQuestManager : MonoBehaviour
         questsTexts[i].text = "";
         claimButtons[i].SetActive(false);
         claimedImages[i].SetActive(true);
+    }
+    bool IsTimeToClaim()
+    {
+        System.DateTime nextClaimTime;
+        if (string.IsNullOrEmpty(GameData.gameData.saveData.nextPossibleQuestClaime))
+        {
+            nextClaimTime = System.DateTime.Now;
+        }
+        else
+        {
+            nextClaimTime = System.Convert.ToDateTime(GameData.gameData.saveData.nextPossibleQuestClaime);
+        }
+
+        return System.DateTime.Now.CompareTo(nextClaimTime) >= 0;
+    }
+    bool IsUnfinishedQuest()
+    {
+        quests = GameData.gameData.saveData.dailyQuests;
+        for (int i = 0; i < quests.Length; i++)
+        {
+            if (!quests[i].rewardClaimed) return true;
+        }
+        return false;
     }
 }

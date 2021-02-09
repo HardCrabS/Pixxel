@@ -44,7 +44,9 @@ public class GridA : MonoBehaviour
     [SerializeField] GameObject lockTilePrefab;
     [SerializeField] GameObject fire;
     [SerializeField] GameObject smoke;
+    [SerializeField] GameObject warpedPart;
     [SerializeField] Transform crosshair;
+    [SerializeField] Material blackAndWhiteMat;
 
     [Header("Sounds")]
     [SerializeField] AudioClip blockDestroySFX;
@@ -142,7 +144,7 @@ public class GridA : MonoBehaviour
     }
     bool CheckForTutorial()
     {
-        if (PlayerPrefs.GetInt("TUTORIAL", 0) == 1) //if first time playing
+        if (PlayerPrefs.GetInt("TUTORIAL", 0) == 1) //if not first time playing
         {
             return false;
         }
@@ -457,13 +459,13 @@ public class GridA : MonoBehaviour
                 {
                     currBox.isMatched = false;
                     currBox.GetComponent<SpriteRenderer>().color = Color.blue;
-                    StartCoroutine(DestroyAllSameColor(currBox.tag));
+                    StartCoroutine(DestroyAllSameColor(currBox.tag, currBox));
                 }
                 else if (currBox.neighborBox != null && currBox.neighborBox.GetComponent<Box>().isMatched)
                 {
                     currBox.neighborBox.GetComponent<Box>().isMatched = false;
                     currBox.neighborBox.GetComponent<SpriteRenderer>().color = Color.red;
-                    StartCoroutine(DestroyAllSameColor(currBox.neighborBox.tag));
+                    StartCoroutine(DestroyAllSameColor(currBox.neighborBox.tag, currBox.neighborBox.GetComponent<Box>()));
                 }
             }
         }
@@ -511,8 +513,10 @@ public class GridA : MonoBehaviour
         StartCoroutine(MoveBoxesDown());
     }
 
-    public IEnumerator DestroyAllSameColor(string boxTag)
+    public IEnumerator DestroyAllSameColor(string boxTag, Box box = null)
     {
+        if (box != null)
+            Instantiate(warpedPart, box.gameObject.transform.position, transform.rotation, box.transform);
         yield return new WaitForSeconds(2f);
         foreach (GameObject go in allBoxes)
         {
@@ -561,7 +565,7 @@ public class GridA : MonoBehaviour
     }
     void AddXPandScorePoints()
     {
-        if (Score.Instance == null) return;
+        if (Score.Instance == null || LevelSlider.Instance == null) return;
         Score.Instance.AddPoints(scorePointsToAddperBox);
         LevelSlider.Instance.AddXPtoLevel(pointsXPforLevel);
         CoinsDisplay.Instance.RandomizeCoin();
@@ -681,6 +685,8 @@ public class GridA : MonoBehaviour
         if (IsDeadlocked())
         {
             Debug.Log("Is deadlocked");
+            HandleDeadlock();
+            yield break;
         }
         currState = GameState.move;
     }
@@ -766,6 +772,46 @@ public class GridA : MonoBehaviour
             }
         }
         return true;
+    }
+
+    bool handlingDeadlock = false;
+    void HandleDeadlock()
+    {
+        if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0) return; //if first time playing
+        if (handlingDeadlock) return;
+
+        handlingDeadlock = true;
+        currState = GameState.wait;
+        StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.2f, 0.2f));
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < hight; y++)
+            {
+                if (allBoxes[x, y] != null)
+                {
+                    allBoxes[x, y].GetComponent<SpriteRenderer>().material = blackAndWhiteMat;
+                }
+            }
+        }
+        StartCoroutine(DeadlockMoveBoxesDown());
+        EndGameManager.Instance.GameOver();
+    }
+
+    IEnumerator DeadlockMoveBoxesDown()
+    {
+        yield return new WaitForSeconds(0.5f);
+        for (int y = 0; y < width; y++)
+        {
+            for (int x = 0; x < hight; x++)
+            {
+                if (allBoxes[x, y] != null)
+                {
+                    allBoxes[x, y].GetComponent<Box>().MoveBoxDown();
+                    yield return new WaitForSeconds(0.01f);
+                }
+            }
+            yield return new WaitForSeconds(0.05f);
+        }
     }
 
     void BlockDestroyedSFX()

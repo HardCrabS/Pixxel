@@ -8,7 +8,6 @@ public class OptionsController : MonoBehaviour
     [SerializeField] Slider volumeSlider;
     [SerializeField] Slider SFXSlider;
     [SerializeField] Toggle visualizerToggle;
-    [SerializeField] GameObject pausePanel;
     [SerializeField] GameObject visualizerCanvas;
 
     void Start()
@@ -27,18 +26,14 @@ public class OptionsController : MonoBehaviour
 
     public void Pause()
     {
-        //pausePanel.SetActive(true);
         AudioController.Instance.Pause();
         ScrollBackground.Instance.StopScrolling();
-        //Time.timeScale = 0;
     }
 
     public void Resume()
     {
-        //pausePanel.SetActive(false);
         AudioController.Instance.Resume();
         ScrollBackground.Instance.ResumeScrolling();
-        //Time.timeScale = 1;
     }
 
     public void SaveSettings()
