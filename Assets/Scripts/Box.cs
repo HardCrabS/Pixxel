@@ -140,6 +140,7 @@ public class Box : MonoBehaviour
 
     void SwipeBox()
     {
+        GridA.Instance.SwipeBoxesSFX();
         if (finalAngle <= 45 && finalAngle >= -45 && row < grid.width - 1) //right swipe
         {
             SwipeBoxesActual(Vector2.right);
@@ -167,6 +168,7 @@ public class Box : MonoBehaviour
         {
             if (!isMatched && !neighborBox.GetComponent<Box>().isMatched)
             {
+                GridA.Instance.ReturnBoxesSFX();
                 neighborBox.GetComponent<Box>().column = column;
                 neighborBox.GetComponent<Box>().row = row;
                 column = prevColumn;

@@ -17,6 +17,8 @@ public class ShareController : MonoBehaviour
     [SerializeField] int twitterReward = 50;
     [SerializeField] WorldInformation twitterWorldInfo;
 
+    [SerializeField] AudioClip sharingSuccessClip;
+
     private const string TWITTER_ADDRESS = "http://twitter.com/intent/tweet";
     private const string TWEET_LANGUAGE = "en";
     private string appStoreLink = "https://culagames.com/";
@@ -105,6 +107,7 @@ public class ShareController : MonoBehaviour
         yield return new WaitForSeconds(5);
         CoinsDisplay.Instance.AddCoinsAmount(amount);
         text.text = SHARE_SUCCESS + "\n<color=red>" + amount + " coins recived!</color>";
+        GetComponent<AudioSource>().PlayOneShot(sharingSuccessClip);
     }
 
     IEnumerator DelayedWorldReward(string worldId, Text text)
@@ -112,6 +115,7 @@ public class ShareController : MonoBehaviour
         yield return new WaitForSeconds(5);
         GameData.gameData.UnlockWorld(worldId);   //unlock world reward
         text.text = SHARE_SUCCESS + "\n<color=red>The world is unlocked!</color>";
+        GetComponent<AudioSource>().PlayOneShot(sharingSuccessClip);
     }
 
     void CheckTime(Text text, Button button, string lastClaimStr)

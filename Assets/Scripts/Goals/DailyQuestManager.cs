@@ -37,6 +37,10 @@ public class DailyQuestManager : MonoBehaviour
     [SerializeField] GameObject[] claimButtons;
     [SerializeField] GameObject[] claimedImages;
 
+    [Header("Audio clips")]
+    [SerializeField] AudioClip claimErrorClip;
+    [SerializeField] AudioClip claimSuccessClip;
+
     [Header("Quest Info")]
     [SerializeField] TextAsset questTemplates;
     [SerializeField] TextAsset names;
@@ -71,7 +75,7 @@ public class DailyQuestManager : MonoBehaviour
 
     void Start()
     {
-        if(IsTimeToClaim() || IsUnfinishedQuest())
+        if(IsTimeToClaim() || IsUnfinishedQuestLeft())
         {
             exclamationBubble.SetActive(true);
         }
@@ -192,7 +196,9 @@ public class DailyQuestManager : MonoBehaviour
 
                 claimButtons[i].GetComponent<Image>().sprite = nonClickable;
                 claimButtons[i].GetComponentInChildren<Text>().text = "Not Complete";
-                claimButtons[i].GetComponent<Button>().interactable = false;
+                //claimButtons[i].GetComponent<Button>().interactable = false;
+                claimButtons[i].GetComponent<Button>().onClick.AddListener(delegate ()
+                { GetComponent<AudioSource>().PlayOneShot(claimErrorClip); });
 
                 GameData.gameData.saveData.dailyQuests[i] = quest;
             }
@@ -216,13 +222,17 @@ public class DailyQuestManager : MonoBehaviour
                     {
                         claimButtons[i].GetComponent<Image>().sprite = clickable;
                         claimButtons[i].GetComponentInChildren<Text>().text = "Turn in now!";
-                        claimButtons[i].GetComponent<Button>().interactable = true;
+                        //claimButtons[i].GetComponent<Button>().interactable = true;
+                        int index = i;
+                        claimButtons[i].GetComponent<Button>().onClick.AddListener(delegate () { ClaimReward(index); });
                     }
                     else
                     {
                         claimButtons[i].GetComponent<Image>().sprite = nonClickable;
                         claimButtons[i].GetComponentInChildren<Text>().text = "Not Complete";
-                        claimButtons[i].GetComponent<Button>().interactable = false;
+                        //claimButtons[i].GetComponent<Button>().interactable = false;
+                        claimButtons[i].GetComponent<Button>().onClick.AddListener(delegate () 
+                        { GetComponent<AudioSource>().PlayOneShot(claimErrorClip); });
                     }
                 }
             }
@@ -268,6 +278,7 @@ public class DailyQuestManager : MonoBehaviour
         questsTexts[i].text = "";
         claimButtons[i].SetActive(false);
         claimedImages[i].SetActive(true);
+        GetComponent<AudioSource>().PlayOneShot(claimSuccessClip);
     }
     bool IsTimeToClaim()
     {
@@ -283,7 +294,7 @@ public class DailyQuestManager : MonoBehaviour
 
         return System.DateTime.Now.CompareTo(nextClaimTime) >= 0;
     }
-    bool IsUnfinishedQuest()
+    bool IsUnfinishedQuestLeft()
     {
         quests = GameData.gameData.saveData.dailyQuests;
         for (int i = 0; i < quests.Length; i++)

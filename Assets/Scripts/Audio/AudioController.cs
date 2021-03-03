@@ -20,13 +20,13 @@ public class AudioController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = PlayerPrefsController.GetMasterVolume();
 	}
-    public void PlayClip()
+    public void PlayClipOneShot(AudioClip clip)
     {
-        audioSource.Play();
+        audioSource.PlayOneShot(clip);
     }
     public void SetCurrentClip(AudioClip clip, float delay = 0)
     {
-        //if(clip == audioSource.clip) { return; }
+        if(clip == audioSource.clip) { return; }
 
         audioSource.Stop();
         audioSource.clip = clip;

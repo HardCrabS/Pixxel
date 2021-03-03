@@ -87,7 +87,7 @@ public class CollectionController : MonoBehaviour
     }
     public void SetWorlds()
     {
-        ClearContainer(worldsContainer);
+        //ClearContainer(worldsContainer);
         var worldsUnlocked = GameData.gameData.saveData.worldIds;
 
         for (int i = 0; i < worlds.Length; i++)
@@ -140,7 +140,7 @@ public class CollectionController : MonoBehaviour
     }
     public void SetBoosts()
     {
-        ClearContainer(boostsContainer);
+        //ClearContainer(boostsContainer);
         var boostsUnlocked = GameData.gameData.saveData.boostIds;
 
         for (int i = 0; i < boostInfos.Length; i++)
@@ -197,7 +197,7 @@ public class CollectionController : MonoBehaviour
     }
     public void SetTrinkets()
     {
-        ClearContainer(trinketsContainer);
+        //ClearContainer(trinketsContainer);
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
 
         for (int j = 0; j < trinkets.Length; j++)
@@ -268,7 +268,7 @@ public class CollectionController : MonoBehaviour
     }
     public void SetTitles()
     {
-        ClearContainer(titlesContainer);
+        //ClearContainer(titlesContainer);
         var titlesUnlocked = GameData.gameData.saveData.titleIds;
 
         for (int i = 0; i < titles.Length; i++)
@@ -336,7 +336,7 @@ public class CollectionController : MonoBehaviour
     }
     public void SetBanners()
     {
-        ClearContainer(bannersContainer);
+        //ClearContainer(bannersContainer);
         var bannersUnlocked = GameData.gameData.saveData.bannerIds;
 
         for (int i = 0; i < banners.Length; i++)

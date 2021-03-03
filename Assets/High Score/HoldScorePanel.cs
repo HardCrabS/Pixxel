@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HoldScorePanel : MonoBehaviour
 {
+    [SerializeField] Text nameText;
+    [SerializeField] Image profileImage;
+    [SerializeField] Image bannerImage;
+    [SerializeField] Text titleText;
     public GameObject title;
 
     public void onPress()
@@ -14,5 +19,15 @@ public class HoldScorePanel : MonoBehaviour
     public void onRelease()
     {
         title.SetActive(false);
+    }
+    public void SetScorePanel(string _name, Sprite _profileImage = null, Sprite _bannerImage = null, string _title = null)
+    {
+        nameText.text = _name;
+        if (_profileImage != null)
+            profileImage.sprite = _profileImage;
+        if (_bannerImage != null)
+            bannerImage.sprite = _bannerImage;
+        if (string.IsNullOrEmpty(_title))
+            titleText.text = _title;
     }
 }

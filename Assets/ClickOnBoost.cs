@@ -17,7 +17,7 @@ public class ClickOnBoost : MonoBehaviour
         Instance = this;
     }
 
-    public void ChangeBoostText(Boost boost, string stats)
+    public void ChangeBoostText(Boost boost)
     {
         int boostLevel = GameData.gameData.GetBoostLevel(boost.id);
         boostTitleText.text = boost.id.ToUpper() + " <color=black>LV</color><size=300><color=red>" + boostLevel + "</color></size>"; ;

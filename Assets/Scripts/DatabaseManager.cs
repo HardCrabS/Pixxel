@@ -33,13 +33,6 @@ public class DatabaseManager : MonoBehaviour
     public static void ChangeName(string name)
     {
         string playerId = SystemInfo.deviceUniqueIdentifier;
-        //TODO uncomment 
-        /*if (string.IsNullOrEmpty(playerId))
-        {
-            Debug.LogError("Not authentificated to google, can't upload a score");
-            return;
-        }*/
-
         DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
 
         mDatabaseRef.Child("users").Child(playerId).Child("username").SetValueAsync(name);
@@ -48,13 +41,6 @@ public class DatabaseManager : MonoBehaviour
     public static void ChangeTitle(string title)
     {
         string playerId = SystemInfo.deviceUniqueIdentifier;
-        //TODO uncomment 
-        /*if (string.IsNullOrEmpty(playerId))
-        {
-            Debug.LogError("Not authentificated to google, can't upload a score");
-            return;
-        }*/
-
         DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
 
         mDatabaseRef.Child("users").Child(playerId).Child("titleText").SetValueAsync(title);
@@ -62,13 +48,6 @@ public class DatabaseManager : MonoBehaviour
     public static void ChangeBanner(string spritePath)
     {
         string playerId = SystemInfo.deviceUniqueIdentifier;
-        //string playerId = "editor12345";
-        /*if (string.IsNullOrEmpty(playerId))
-        {
-            Debug.LogError("Not authentificated to google, can't upload a score");
-            return;
-        }*/
-
         DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
 
         mDatabaseRef.Child("users").Child(playerId).Child("bannerPath").SetValueAsync(spritePath);

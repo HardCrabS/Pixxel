@@ -50,6 +50,7 @@ public class VisualizerScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!audioSource) return;
         audioSource.GetSpectrumData(spectrumData, 0, FFTWindow.BlackmanHarris);
         
         for (int i = 0; i < visualizerObjects.Length; i++)

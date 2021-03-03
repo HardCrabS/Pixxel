@@ -11,8 +11,11 @@ public class UISounds : MonoBehaviour
     {
         audioSource.PlayOneShot(clip);
     }
-    public void PlaySound(AudioClip soundToPlay)
+    public void PlayClipBetweenScenes(AudioClip clip)
     {
-        AudioController.Instance.PlayNewClip(soundToPlay);
+        if(AudioController.Instance)
+        {
+            AudioController.Instance.PlayClipOneShot(clip);
+        }
     }
 }

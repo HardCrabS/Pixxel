@@ -50,6 +50,12 @@ public class GridA : MonoBehaviour
 
     [Header("Sounds")]
     [SerializeField] AudioClip blockDestroySFX;
+    [SerializeField] AudioClip swipeBoxesSFX;
+    [SerializeField] AudioClip returnBoxesSFX;
+    [SerializeField] AudioClip firedUpSFX;
+    [SerializeField] AudioClip warpedSFX;
+    [SerializeField] AudioClip deadLock1;
+    [SerializeField] AudioClip deadLock2;
 
     [Header("Add for match")]
     [SerializeField] int scorePointsToAddperBox = 10;
@@ -74,7 +80,9 @@ public class GridA : MonoBehaviour
     public BombTile[,] bombTiles;
     MatchFinder matchFinder;
     LevelTemplate template;
+    AudioSource audioSource;
     int bombSpawnChance;
+    bool boxDestroyed = false; //to check if sfx need to be played
 
     public string tempTagForTrinket;
     Vector2Int[] directions = new Vector2Int[]
@@ -125,6 +133,10 @@ public class GridA : MonoBehaviour
         parent.position = new Vector2(startParentX, startParentY);
 
         matchFinder = MatchFinder.Instance;
+
+        float sfxVolumeMultiplier = PlayerPrefsController.GetMasterSFXVolume();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = sfxVolumeMultiplier;
 
         if (CheckForTutorial())
         {
@@ -380,7 +392,7 @@ public class GridA : MonoBehaviour
 
             GameObject particle = Instantiate(blockDestroyParticle,
                 allBoxes[column, row].transform.localPosition + parent.position, transform.rotation);
-            BlockDestroyedSFX();
+            //BlockDestroyedSFX();
             Destroy(particle, 0.5f);
             CheckBomb();
             AddPointsForMatchedBlock();
@@ -389,6 +401,7 @@ public class GridA : MonoBehaviour
             matchFinder.currentMatches.Remove(allBoxes[column, row]);
             allBoxes[column, row] = null;
             currBox = null;
+            boxDestroyed = true;
         }
     }
 
@@ -476,6 +489,7 @@ public class GridA : MonoBehaviour
         GameObject smokeClone = Instantiate(smoke, box.gameObject.transform.position, smoke.transform.rotation, box.transform);
         GameObject fireClone = Instantiate(fire, box.gameObject.transform.position, transform.rotation, box.transform);
         box.GetComponent<SpriteRenderer>().color = Color.red;
+        audioSource.PlayOneShot(firedUpSFX);
         yield return new WaitForSeconds(2f);
         if (box != null)
         {
@@ -517,6 +531,7 @@ public class GridA : MonoBehaviour
     {
         if (box != null)
             Instantiate(warpedPart, box.gameObject.transform.position, transform.rotation, box.transform);
+        audioSource.PlayOneShot(warpedSFX);
         yield return new WaitForSeconds(2f);
         foreach (GameObject go in allBoxes)
         {
@@ -587,6 +602,11 @@ public class GridA : MonoBehaviour
                     DestroyMatched(x, y);
                 }
             }
+        }
+        if (boxDestroyed)
+        {
+            BlockDestroyedSFX();
+            boxDestroyed = false;
         }
         StartCoroutine(MoveBoxesDown());
     }
@@ -780,6 +800,7 @@ public class GridA : MonoBehaviour
         if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0) return; //if first time playing
         if (handlingDeadlock) return;
 
+        audioSource.PlayOneShot(deadLock1);
         handlingDeadlock = true;
         currState = GameState.wait;
         StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.2f, 0.2f));
@@ -793,6 +814,7 @@ public class GridA : MonoBehaviour
                 }
             }
         }
+        audioSource.PlayOneShot(deadLock2);
         StartCoroutine(DeadlockMoveBoxesDown());
         EndGameManager.Instance.GameOver();
     }
@@ -816,7 +838,16 @@ public class GridA : MonoBehaviour
 
     void BlockDestroyedSFX()
     {
-        if (AudioController.Instance)
-            AudioController.Instance.PlayNewClip(blockDestroySFX, 0.7f);
+        //if (AudioController.Instance)
+           //AudioController.Instance.PlayNewClip(blockDestroySFX, 0.7f);
+        audioSource.PlayOneShot(blockDestroySFX);
+    }
+    public void ReturnBoxesSFX()
+    {
+        audioSource.PlayOneShot(returnBoxesSFX);
+    }
+    public void SwipeBoxesSFX()
+    {
+        audioSource.PlayOneShot(swipeBoxesSFX);
     }
 }

@@ -32,11 +32,22 @@ public class RewardForLevel : MonoBehaviour
     [SerializeField] Transform rewardsContainer;
     [SerializeField] Sprite title, banner;
 
+    [Header("Sounds")]
+    [SerializeField] AudioClip xpBarSFX;
+    [SerializeField] AudioClip coinsAppearSFX;
+
+    AudioSource audioSource;
+
     public static RewardForLevel Instance;
 
     void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void CheckForReward(int levelAchieved)
@@ -161,6 +172,7 @@ public class RewardForLevel : MonoBehaviour
 
     IEnumerator ShowCoinsAfterXPBar()
     {
+        yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(FillXPBar());
         SetEarnedCoinsText();
     }
@@ -176,6 +188,11 @@ public class RewardForLevel : MonoBehaviour
         float totalXPEarned = 0;
         xpSlider.maxValue = GameData.gameData.saveData.maxXPforLevelUp;
         xpSlider.value = initLevelXP;
+
+        float xpDelta = levelDif > 0 ? xpSlider.maxValue - initLevelXP + finalXP : finalXP - initLevelXP;
+        if (xpDelta == 0) yield break;
+        float deltaTime = xpBarSFX.length / xpDelta;
+        audioSource.PlayOneShot(xpBarSFX);
         for (int i = 0; i < levelDif; i++)
         {
             for (float xp = initLevelXP; xp < xpSlider.maxValue; xp++) //fill to max for comleted levels
@@ -183,17 +200,17 @@ public class RewardForLevel : MonoBehaviour
                 xpSlider.value = xp;
                 XPText.text = "+" + totalXPEarned + "xp";
                 totalXPEarned++;
-                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForSeconds(deltaTime);
             }
             xpSlider.value = 0;
             initLevelXP = 0;
         }
-        for (float xp = 0; xp < finalXP; xp++) //fill to current xp value
+        for (float xp = initLevelXP; xp < finalXP; xp++) //fill to current xp value
         {
             xpSlider.value = xp;
             XPText.text = "+" + totalXPEarned + "xp";
             totalXPEarned++;
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(deltaTime);
         }
     }
 
@@ -202,5 +219,6 @@ public class RewardForLevel : MonoBehaviour
         int earnedCoins = CoinsDisplay.Instance.EarnedCoinsSinceStart();
         coinsText.text = "+" + earnedCoins + "G";
         coinsText.transform.parent.gameObject.SetActive(true); //activate block of coins info
+        audioSource.PlayOneShot(coinsAppearSFX);
     }
 }

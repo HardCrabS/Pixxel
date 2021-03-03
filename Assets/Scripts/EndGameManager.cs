@@ -38,7 +38,6 @@ public class EndGameManager : MonoBehaviour
 
     public void GameOver()
     {
-        print("Game is over!");
         if (gameIsOver) return;
         string worldId = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City"
             : LevelSettingsKeeper.settingsKeeper.worldInfo.id;
@@ -53,8 +52,7 @@ public class EndGameManager : MonoBehaviour
 
     IEnumerator GameOverDelayed()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2);
         bestScoreText.text = Score.Instance.GetCurrentScore() + "";
-        //RewardForLevel.Instance.SetRewardScreenUI();
     }
 }

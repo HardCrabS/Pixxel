@@ -47,7 +47,7 @@ public class WorldSprite : MonoBehaviour
         if (infoDisplay != null)
         {
             infoDisplay.SetInfoPanel(worldInformation);
-            DisplayHighscore.Instance.SetLeaderboard();
+            LeaderboardController.Instance.SetLeaderboard();
         }
     }
 

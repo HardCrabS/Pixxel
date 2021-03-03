@@ -81,8 +81,11 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadWorldSelectScene()
     {
-        SceneManager.LoadScene("World Select");
-        AudioController.Instance.SetCurrentClip(mainMenuSong);
+        AsyncOperation operation = SceneManager.LoadSceneAsync("World Select");
+        operation.completed += (asyncOperation) =>
+        {
+            AudioController.Instance.SetCurrentClip(mainMenuSong);
+        };
     }
     public void PlaySpashSceneSound() //play sound in the splash scene
     {

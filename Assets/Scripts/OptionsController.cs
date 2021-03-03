@@ -26,14 +26,18 @@ public class OptionsController : MonoBehaviour
 
     public void Pause()
     {
-        AudioController.Instance.Pause();
+        if (AudioController.Instance)
+            AudioController.Instance.Pause();
         ScrollBackground.Instance.StopScrolling();
+        GridA.Instance.currState = GameState.wait;
     }
 
     public void Resume()
     {
-        AudioController.Instance.Resume();
+        if (AudioController.Instance)
+            AudioController.Instance.Resume();
         ScrollBackground.Instance.ResumeScrolling();
+        GridA.Instance.currState = GameState.move;
     }
 
     public void SaveSettings()

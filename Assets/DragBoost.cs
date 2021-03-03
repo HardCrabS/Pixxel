@@ -11,7 +11,6 @@ public class DragBoost : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnBeginDrag(PointerEventData eventData)
     {
         GetComponent<Button>().onClick.Invoke(); //press button to get boost info
-        print("Spawned icon");
         Sprite sprite = GetComponent<Image>().sprite;
         dragabbleIcon = new GameObject(sprite.name);
         dragabbleIcon.transform.SetParent(transform.parent.parent.parent, false);

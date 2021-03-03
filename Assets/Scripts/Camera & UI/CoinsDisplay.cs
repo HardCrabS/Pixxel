@@ -6,10 +6,15 @@ using UnityEngine.UI;
 public class CoinsDisplay : MonoBehaviour 
 {
     [SerializeField] int coinsToAdd = 1;
+    [SerializeField] AudioClip coinSFX;
     Text coinsText;
     private int coins;
     private int currChance = 20;
     private int coinsAtStartOfLevel;
+    private float coinSoundAtATime = 0.1f;
+    private float lastTimeCoinSoundPlayed = 0;
+
+    AudioSource audioSource;
 
     public static CoinsDisplay Instance;
 
@@ -23,6 +28,7 @@ public class CoinsDisplay : MonoBehaviour
         coinsAtStartOfLevel = coins;
         coinsText = GetComponent<Text>();
         coinsText.text = coins.ToString();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void UpdateText()
@@ -37,6 +43,11 @@ public class CoinsDisplay : MonoBehaviour
         int randNumber = Random.Range(0, 100);
         if(randNumber < currChance)
         {
+            if (Time.time > lastTimeCoinSoundPlayed + coinSoundAtATime)
+            {
+                audioSource.PlayOneShot(coinSFX);
+                lastTimeCoinSoundPlayed = Time.time;
+            }
             AddCoins();
             UpdateText();
         }
