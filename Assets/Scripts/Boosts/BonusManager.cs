@@ -13,13 +13,14 @@ public class BonusManager : MonoBehaviour
     public BonusButton currButtonSelected;
 
     BonusButton[] children;
+
+    public static BonusManager Instance;
     void Awake()
     {
         if (GameData.gameData == null) return;
+        if (Instance == null) Instance = this;
 
-        Dictionary<string, int> boostLevels = GameData.gameData.saveData.boostLevels;
         children = GetComponentsInChildren<BonusButton>();
-
         if (!isBoostScreen)
         {
             for (int i = 0; i < children.Length; i++)
@@ -60,7 +61,14 @@ public class BonusManager : MonoBehaviour
             }
         }
     }
-
+    public void SetAllButtonsInterraction(bool state)
+    {
+        foreach (BonusButton button in children)
+        {
+            if (button != null)
+                button.SetInteractable(state);
+        }
+    }
     public Sprite[] GetEquipedBoosts()
     {
         Sprite[] boostSprites = new Sprite[3];

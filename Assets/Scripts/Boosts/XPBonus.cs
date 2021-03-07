@@ -18,6 +18,7 @@ public class XPBonus : BoostBase
             {
                 grid.SetXPpointsPerBoxByProcent(1 / procentForXP);
                 needToResetXPprocent = false;
+                finished = true;
             }
         }
     }

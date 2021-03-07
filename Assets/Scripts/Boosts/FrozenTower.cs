@@ -17,12 +17,12 @@ public class FrozenTower : BoostBase
         if (frozenBlock == null)
         {
             grid = GridA.Instance;
-            frozenBlock = Resources.Load<Sprite>(resourcesFolder + "Frozen Tower/Frozen Block");
-            freezeParticle = Resources.Load<GameObject>(resourcesFolder + "Frozen Tower/Freeze Particle");
+            frozenBlock = Resources.Load<Sprite>(RECOURSES_FOLDER + "Frozen Tower/Frozen Block");
+            freezeParticle = Resources.Load<GameObject>(RECOURSES_FOLDER + "Frozen Tower/Freeze Particle");
 
-            iceStart = Resources.Load<AudioClip>(resourcesFolder + "Frozen Tower/sfx_boost_icestart");
-            iceFreeze = Resources.Load<AudioClip>(resourcesFolder + "Frozen Tower/sfx_boost_icefreeze");
-            iceBreak = Resources.Load<AudioClip>(resourcesFolder + "Frozen Tower/sfx_boost_icebreak");
+            iceStart = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Frozen Tower/sfx_boost_icestart");
+            iceFreeze = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Frozen Tower/sfx_boost_icefreeze");
+            iceBreak = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Frozen Tower/sfx_boost_icebreak");
         }
         randColumns = new int[columnsToDestroy];
         StartCoroutine(FreezeAllColumns());
@@ -74,6 +74,7 @@ public class FrozenTower : BoostBase
         audioSource.PlayOneShot(iceBreak);
         StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.1f, 0.2f));
         StartCoroutine(grid.MoveBoxesDown());
+        finished = true;
     }
 
     bool IsTheSame(int[] arr, int x, int a)

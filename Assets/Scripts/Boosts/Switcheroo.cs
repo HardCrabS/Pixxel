@@ -13,8 +13,8 @@ public class Switcheroo : BoostBase
     {
         if (clip == null)
         {
-            clip = Resources.Load<AnimationClip>(resourcesFolder + "Switcheroo/Switch Anim");
-            boxComeIn = Resources.Load<AudioClip>(resourcesFolder + "Switcheroo/sfx_game_heartgain");
+            clip = Resources.Load<AnimationClip>(RECOURSES_FOLDER + "Switcheroo/Switch Anim");
+            boxComeIn = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Switcheroo/sfx_game_heartgain");
         }
 
         string finalTag;    //all picked boxes will switch to it
@@ -63,6 +63,7 @@ public class Switcheroo : BoostBase
         yield return new WaitForSeconds(1f);
         MatchFinder.Instance.FindAllMatches();
         grid.DestroyAllMatches();
+        finished = true;
     }
     void AddRandomTagsToList(int amount)
     {

@@ -12,9 +12,9 @@ public class FlashField : BoostBase
     {
         if (lightning == null)
         {
-            lightning = Resources.Load<GameObject>(resourcesFolder + "Flash Field/Lightning");
-            flashStart = Resources.Load<AudioClip>(resourcesFolder + "Flash Field/sfx_boost_flashf");
-            flashStrike = Resources.Load<AudioClip>(resourcesFolder + "Flash Field/sfx_boost_flashf1");
+            lightning = Resources.Load<GameObject>(RECOURSES_FOLDER + "Flash Field/Lightning");
+            flashStart = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Flash Field/sfx_boost_flashf");
+            flashStrike = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Flash Field/sfx_boost_flashf1");
         }
         audioSource.PlayOneShot(flashStart);
         StartCoroutine(MakeAllFiredUp());
@@ -31,6 +31,7 @@ public class FlashField : BoostBase
                 MakeBlockFiredUp(grid.allBoxes[randX, randY].GetComponent<Box>(), new Vector2(randX, randY));
             yield return new WaitForSeconds(1f);
         }
+        finished = true;
     }
 
     void MakeBlockFiredUp(Box box, Vector2 pos)

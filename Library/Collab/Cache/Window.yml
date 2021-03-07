@@ -62,6 +62,8 @@ MonoBehaviour:
     - Assets/Animations/GO glow expand.anim.meta
     - Assets/Animations/GameOver coins fade In.anim
     - Assets/Animations/GameOver coins fade In.anim.meta
+    - Assets/Animations/LB arrows.anim
+    - Assets/Animations/LB arrows.anim.meta
     - Assets/Animations/Loading Circle.anim
     - Assets/Animations/Loading Circle.anim.meta
     - Assets/Animations/Loading Circle.controller
@@ -93,12 +95,16 @@ MonoBehaviour:
     - Assets/Animations/Taskboard.controller.meta
     - Assets/Animations/Test Button.controller
     - Assets/Animations/Test Button.controller.meta
+    - Assets/Animations/board arrows.controller
+    - Assets/Animations/board arrows.controller.meta
     - Assets/Animations/boost earned text.anim
     - Assets/Animations/boost earned text.anim.meta
     - Assets/Animations/warped block.anim
     - Assets/Animations/warped block.anim.meta
     - "Assets/Audio/01.Monplaisir - Je veux \xEAtre bon\xB7ne, aim\xE9\xB7e, et pardonn\xE9\xB7e.ogg"
     - "Assets/Audio/01.Monplaisir - Je veux \xEAtre bon\xB7ne, aim\xE9\xB7e, et pardonn\xE9\xB7e.ogg.meta"
+    - Assets/Audio/Sim Gretina - Moist Mechas (128kbit_AAC).ogg
+    - Assets/Audio/Sim Gretina - Moist Mechas (128kbit_AAC).ogg.meta
     - Assets/Audio/Splash coin drop.mp3
     - Assets/Audio/Splash coin drop.mp3.meta
     - Assets/BombTile.cs
@@ -112,6 +118,8 @@ MonoBehaviour:
     - Assets/Cards/BombRemover.asset.meta
     - Assets/Cards/BombRemover.cs
     - Assets/Cards/BombRemover.cs.meta
+    - Assets/Cards/Card.cs
+    - Assets/Cards/Card.cs.meta
     - Assets/Cards/CardSets.meta
     - Assets/Cards/CardSets/Set 1.asset
     - Assets/Cards/CardSets/Set 1.asset.meta
@@ -137,10 +145,6 @@ MonoBehaviour:
     - Assets/Cards/Magician.cs.meta
     - Assets/Cards/MagicianGame.cs
     - Assets/Cards/MagicianGame.cs.meta
-    - Assets/ClickOnBoost.cs
-    - Assets/ClickOnBoost.cs.meta
-    - Assets/CollectionController.cs
-    - Assets/CollectionController.cs.meta
     - Assets/CollectionSectionButton.cs
     - Assets/CollectionSectionButton.cs.meta
     - Assets/Data.meta
@@ -162,8 +166,6 @@ MonoBehaviour:
     - Assets/Dialogs/Mountain/Man2.5.asset.meta
     - Assets/Dialogs/Mountain/StartDialogs.asset
     - Assets/Dialogs/Mountain/StartDialogs.asset.meta
-    - Assets/DragBoost.cs
-    - Assets/DragBoost.cs.meta
     - Assets/Editor.meta
     - Assets/Editor/MenuItems.cs
     - Assets/Editor/MenuItems.cs.meta
@@ -191,8 +193,8 @@ MonoBehaviour:
     - Assets/Fonts/upheavtt.ttf.meta
     - Assets/GPGSIds.cs
     - Assets/GPGSIds.cs.meta
-    - Assets/GameData.cs
-    - Assets/GameData.cs.meta
+    - Assets/GoalPanel.cs
+    - Assets/GoalPanel.cs.meta
     - Assets/High Score.meta
     - Assets/High Score/DisplayHighscore.cs
     - Assets/High Score/DisplayHighscore.cs.meta
@@ -200,16 +202,14 @@ MonoBehaviour:
     - Assets/High Score/Highscore.prefab.meta
     - Assets/High Score/HoldScorePanel.cs
     - Assets/High Score/HoldScorePanel.cs.meta
-    - Assets/High Score/LEADERBOARD INF.prefab
-    - Assets/High Score/LEADERBOARD INF.prefab.meta
+    - Assets/High Score/LEADERBOARD INFO.prefab
+    - Assets/High Score/LEADERBOARD INFO.prefab.meta
     - Assets/High Score/Leaderboard.prefab
     - Assets/High Score/Leaderboard.prefab.meta
     - Assets/High Score/Player Arrow 1.prefab
     - Assets/High Score/Player Arrow 1.prefab.meta
-    - Assets/High Score/Player Arrow.prefab
-    - Assets/High Score/Player Arrow.prefab.meta
-    - Assets/High Score/Score Panel (0).prefab
-    - Assets/High Score/Score Panel (0).prefab.meta
+    - Assets/High Score/Score Panel.prefab
+    - Assets/High Score/Score Panel.prefab.meta
     - Assets/High Score/Score.cs
     - Assets/High Score/Score.cs.meta
     - Assets/InfiniteScroll.cs
@@ -230,10 +230,6 @@ MonoBehaviour:
     - Assets/Kino/Glitch/Shader/AnalogGlitch.shader.meta
     - Assets/Kino/Glitch/Shader/DigitalGlitch.shader
     - Assets/Kino/Glitch/Shader/DigitalGlitch.shader.meta
-    - Assets/LeaderboardController.cs
-    - Assets/LeaderboardController.cs.meta
-    - Assets/LeaderboardScrollable.cs
-    - Assets/LeaderboardScrollable.cs.meta
     - Assets/LevelSettingsKeeper.cs
     - Assets/LevelSettingsKeeper.cs.meta
     - Assets/Levels/Mountain.meta
@@ -247,8 +243,6 @@ MonoBehaviour:
     - Assets/Levels/Mountain/Mountain world.asset.meta
     - Assets/LighningBloom.cs
     - Assets/LighningBloom.cs.meta
-    - Assets/LivesManager.cs
-    - Assets/LivesManager.cs.meta
     - Assets/PlayGamesController.cs
     - Assets/PlayGamesController.cs.meta
     - Assets/PlayerPrefsController.cs
@@ -510,15 +504,7 @@ MonoBehaviour:
     - Assets/Prefabs/World select/World Info Display.prefab.meta
     - Assets/Prefabs/World select/World Select Canvas.prefab
     - Assets/Prefabs/World select/World Select Canvas.prefab.meta
-    - Assets/ProfileHandler.cs
-    - Assets/ProfileHandler.cs.meta
     - Assets/Quests.meta
-    - Assets/Quests/City.asset
-    - Assets/Quests/City.asset.meta
-    - Assets/Quests/Cookie.asset
-    - Assets/Quests/Cookie.asset.meta
-    - Assets/Quests/Farmer Joe.asset
-    - Assets/Quests/Farmer Joe.asset.meta
     - Assets/Quests/Names.txt
     - Assets/Quests/Names.txt.meta
     - Assets/Quests/Occupations.txt
@@ -1132,8 +1118,6 @@ MonoBehaviour:
     - Assets/Resources/Sprites/UI images/credits button.png.meta
     - Assets/Resources/Sprites/UI images/crosshair_3.png
     - Assets/Resources/Sprites/UI images/crosshair_3.png.meta
-    - Assets/Resources/Sprites/UI images/dAILY qUEST BOD.png
-    - Assets/Resources/Sprites/UI images/dAILY qUEST BOD.png.meta
     - Assets/Resources/Sprites/UI images/dailyquestblock.png
     - Assets/Resources/Sprites/UI images/dailyquestblock.png.meta
     - Assets/Resources/Sprites/UI images/fired up explosion.png
@@ -1307,8 +1291,8 @@ MonoBehaviour:
     - Assets/Scripts/Audio/AudioController.cs.meta
     - Assets/Scripts/Audio/AudioSpectrum.cs
     - Assets/Scripts/Audio/AudioSyncer.cs
-    - Assets/Scripts/Audio/GemsAudio.cs
-    - Assets/Scripts/Audio/GemsAudio.cs.meta
+    - Assets/Scripts/BackgroundActivity.cs
+    - Assets/Scripts/BackgroundActivity.cs.meta
     - Assets/Scripts/BackgroundTile.cs
     - Assets/Scripts/BackgroundTile.cs.meta
     - Assets/Scripts/Bonus/Bonus.cs
@@ -1318,10 +1302,16 @@ MonoBehaviour:
     - Assets/Scripts/Boosts/BonusButton.cs.meta
     - Assets/Scripts/Boosts/BonusManager.cs
     - Assets/Scripts/Boosts/BonusManager.cs.meta
+    - Assets/Scripts/Boosts/Boost.cs
+    - Assets/Scripts/Boosts/Boost.cs.meta
     - Assets/Scripts/Boosts/BoostBase.cs
     - Assets/Scripts/Boosts/BoostBase.cs.meta
+    - Assets/Scripts/Boosts/ClickOnBoost.cs
+    - Assets/Scripts/Boosts/ClickOnBoost.cs.meta
     - Assets/Scripts/Boosts/ColorBonus.cs
     - Assets/Scripts/Boosts/ColorBonus.cs.meta
+    - Assets/Scripts/Boosts/DragBoost.cs
+    - Assets/Scripts/Boosts/DragBoost.cs.meta
     - Assets/Scripts/Boosts/EquipButton.cs
     - Assets/Scripts/Boosts/EquipButton.cs.meta
     - Assets/Scripts/Boosts/FirePunch.cs
@@ -1352,41 +1342,53 @@ MonoBehaviour:
     - Assets/Scripts/Camera & UI/TextChanger.cs.meta
     - Assets/Scripts/Camera & UI/UISounds.cs
     - Assets/Scripts/Camera & UI/UISounds.cs.meta
+    - Assets/Scripts/Car.cs
+    - Assets/Scripts/Car.cs.meta
     - Assets/Scripts/DatabaseManager.cs
     - Assets/Scripts/DatabaseManager.cs.meta
-    - Assets/Scripts/EndGameManager.cs
     - Assets/Scripts/FirebaseInit.cs
     - Assets/Scripts/FirebaseInit.cs.meta
-    - Assets/Scripts/Goals.meta
-    - Assets/Scripts/Goals/DailyQuestManager.cs
-    - Assets/Scripts/Goals/DailyQuestManager.cs.meta
-    - Assets/Scripts/Goals/GoalManager.cs
-    - Assets/Scripts/Goals/GoalManager.cs.meta
-    - Assets/Scripts/Goals/GoalPanel.cs
-    - Assets/Scripts/Goals/GoalPanel.cs.meta
     - Assets/Scripts/GridA.cs
-    - Assets/Scripts/HintManager.cs
     - Assets/Scripts/Level.cs
     - Assets/Scripts/Level.cs.meta
     - Assets/Scripts/LevelData.cs
+    - Assets/Scripts/Managers.meta
+    - Assets/Scripts/Managers/CollectionController.cs
+    - Assets/Scripts/Managers/CollectionController.cs.meta
+    - Assets/Scripts/Managers/DailyQuestManager.cs
+    - Assets/Scripts/Managers/DailyQuestManager.cs.meta
+    - Assets/Scripts/Managers/EndGameManager.cs
+    - Assets/Scripts/Managers/EndGameManager.cs.meta
+    - Assets/Scripts/Managers/GameData.cs
+    - Assets/Scripts/Managers/GameData.cs.meta
+    - Assets/Scripts/Managers/GoalManager.cs
+    - Assets/Scripts/Managers/GoalManager.cs.meta
+    - Assets/Scripts/Managers/HintManager.cs
+    - Assets/Scripts/Managers/HintManager.cs.meta
+    - Assets/Scripts/Managers/LeaderboardController.cs
+    - Assets/Scripts/Managers/LeaderboardController.cs.meta
+    - Assets/Scripts/Managers/LivesManager.cs
+    - Assets/Scripts/Managers/LivesManager.cs.meta
+    - Assets/Scripts/Managers/OptionsController.cs
+    - Assets/Scripts/Managers/OptionsController.cs.meta
+    - Assets/Scripts/Managers/ProfileHandler.cs
+    - Assets/Scripts/Managers/ProfileHandler.cs.meta
+    - Assets/Scripts/Managers/ShareController.cs
+    - Assets/Scripts/Managers/ShareController.cs.meta
+    - Assets/Scripts/Managers/ShopController.cs
+    - Assets/Scripts/Managers/ShopController.cs.meta
     - Assets/Scripts/MatchFinder.cs
     - Assets/Scripts/MusicSing.cs
     - Assets/Scripts/MusicSing.cs.meta
-    - Assets/Scripts/OptionsController.cs
     - Assets/Scripts/PlayerPrefsController.cs
     - Assets/Scripts/PlayerPrefsController.cs.meta
     - Assets/Scripts/Reward.cs
     - Assets/Scripts/Reward.cs.meta
     - Assets/Scripts/SaveSystem.cs
     - Assets/Scripts/SceneLoader.cs
-    - Assets/Scripts/Scriptable Objects/Boost.cs
-    - Assets/Scripts/Scriptable Objects/Boost.cs.meta
-    - Assets/Scripts/Scriptable Objects/Card.cs
-    - Assets/Scripts/Scriptable Objects/Card.cs.meta
+    - Assets/Scripts/Scriptable Objects.meta
     - Assets/Scripts/Scriptable Objects/DialogState.cs
     - Assets/Scripts/Scriptable Objects/DialogState.cs.meta
-    - Assets/Scripts/Scriptable Objects/QuestTemplate.cs
-    - Assets/Scripts/Scriptable Objects/QuestTemplate.cs.meta
     - Assets/Scripts/Scriptable Objects/StartDialogs.cs
     - Assets/Scripts/Scriptable Objects/StartDialogs.cs.meta
     - Assets/Scripts/Scriptable Objects/WorldTemplate.cs
@@ -1399,10 +1401,8 @@ MonoBehaviour:
     - Assets/Scripts/World Select/WorldSprite.cs
     - Assets/ScrollWithButtons.cs
     - Assets/ScrollWithButtons.cs.meta
-    - Assets/ShareController.cs
-    - Assets/ShareController.cs.meta
-    - Assets/ShopController.cs
-    - Assets/ShopController.cs.meta
+    - Assets/SetVisualizer.cs
+    - Assets/SetVisualizer.cs.meta
     - Assets/SpriteChanger.cs
     - Assets/SpriteChanger.cs.meta
     - Assets/StreamingAssets.meta
@@ -1530,8 +1530,6 @@ MonoBehaviour:
     - Assets/Tutorial/voice_comp.wav.meta
     - Assets/Tutorial/voice_main.wav
     - Assets/Tutorial/voice_main.wav.meta
-    - Assets/UIAnimator.cs
-    - Assets/UIAnimator.cs.meta
     - Assets/UI_System.meta
     - Assets/UI_System/Animation.meta
     - Assets/UI_System/Animation/Base_Screen_Controller.controller
@@ -1592,6 +1590,24 @@ MonoBehaviour:
     - Assets/Visualizer/AudioVisualizer.cs.meta
     - Assets/Visualizer/Cube.prefab
     - Assets/Visualizer/Cube.prefab.meta
+    - Assets/Visualizer/MuseSyncScripts.meta
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts.meta
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_Alpha.cs
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_Alpha.cs.meta
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_AnimatorSpeed.cs
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_AnimatorSpeed.cs.meta
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_Line.cs
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_Line.cs.meta
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_PositionChange.cs
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_PositionChange.cs.meta
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_RotationChange.cs
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_RotationChange.cs.meta
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_ScaleChange.cs
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_ScaleChange.cs.meta
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_Shake.cs
+    - Assets/Visualizer/MuseSyncScripts/EffectScripts/MSS_Shake.cs.meta
+    - Assets/Visualizer/MuseSyncScripts/MSS_SpectrumManager.cs
+    - Assets/Visualizer/MuseSyncScripts/MSS_SpectrumManager.cs.meta
     - Assets/Visualizer/Unlit blue.mat
     - Assets/Visualizer/Unlit blue.mat.meta
     - Assets/Visualizer/Upper image.prefab
@@ -1600,10 +1616,10 @@ MonoBehaviour:
     - Assets/Visualizer/VisualizerObjectScript.cs.meta
     - Assets/Visualizer/VisualizerScript.cs
     - Assets/Visualizer/VisualizerScript.cs.meta
+    - Assets/Visualizer/Vizualizer Canvas v2.prefab
+    - Assets/Visualizer/Vizualizer Canvas v2.prefab.meta
     - Assets/Visualizer/Vizualizer Canvas.prefab
     - Assets/Visualizer/Vizualizer Canvas.prefab.meta
-    - Assets/Visualizer/iu.png
-    - Assets/Visualizer/iu.png.meta
     - "Assets/Visualizer/\u0421\u043B\u043E\u0439 2.png"
     - "Assets/Visualizer/\u0421\u043B\u043E\u0439 2.png.meta"
     - "Assets/Visualizer/\u0421\u043B\u043E\u0439 3.png"
@@ -1815,7 +1831,7 @@ MonoBehaviour:
     - ProjectSettings/VFXManager.asset
     - ProjectSettings/VersionControlSettings.asset
     - 
-    m_Values: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    m_Values: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   RevisionSummary: 
   ChangesSearchValue: 
   SelectedHistoryRevision: 

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum BlockTags
@@ -392,7 +391,6 @@ public class GridA : MonoBehaviour
 
             GameObject particle = Instantiate(blockDestroyParticle,
                 allBoxes[column, row].transform.localPosition + parent.position, transform.rotation);
-            //BlockDestroyedSFX();
             Destroy(particle, 0.5f);
             CheckBomb();
             AddPointsForMatchedBlock();
@@ -501,13 +499,14 @@ public class GridA : MonoBehaviour
                     GameObject particle1 = Instantiate(blockDestroyParticle,
                         box.transform.localPosition + parent.position + new Vector3(dir.x, dir.y), transform.rotation);
                     Destroy(particle1, 0.5f);
-                    Destroy(allBoxes[box.row + dir.x, box.column + dir.y]);
-                    allBoxes[box.row + dir.x, box.column + dir.y] = null;
-                    if (bombTiles[box.row + dir.x, box.column + dir.y])
+                    /*if (bombTiles[box.row + dir.x, box.column + dir.y])
                     {
-                        bombTiles[box.row + dir.x, box.column + dir.y].DeleteBombByMatch();
+                        bombTiles[box.row + dir.x, box.column + dir.y].DeleteBombByMatch();//no need to delete 2 times
                         bombTiles[box.row + dir.x, box.column + dir.y] = null;
-                    }
+                    }*/
+                    Destroy(allBoxes[box.row + dir.x, box.column + dir.y]);
+                    bombTiles[box.row + dir.x, box.column + dir.y] = null;
+                    allBoxes[box.row + dir.x, box.column + dir.y] = null;
                     AddXPandScorePoints();
                 }
             }
@@ -520,6 +519,7 @@ public class GridA : MonoBehaviour
             Destroy(particle, 0.5f);
             Destroy(box.gameObject);
             allBoxes[box.row, box.column] = null;
+            bombTiles[box.row, box.column] = null;
         }
         Destroy(fireClone);
         Destroy(smokeClone);
@@ -797,7 +797,11 @@ public class GridA : MonoBehaviour
     bool handlingDeadlock = false;
     void HandleDeadlock()
     {
-        if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0) return; //if first time playing
+        if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
+        {
+            currState = GameState.move;
+            return; //if first time playing
+        }
         if (handlingDeadlock) return;
 
         audioSource.PlayOneShot(deadLock1);
@@ -836,10 +840,24 @@ public class GridA : MonoBehaviour
         }
     }
 
+    public void TurnBlocksOff()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < hight; j++)
+            {
+                if (allBoxes[i, j] != null)
+                {
+                    var collider = allBoxes[i, j].GetComponent<Collider2D>();
+                    if (collider)
+                        Destroy(collider);
+                }
+            }
+        }
+    }
+
     void BlockDestroyedSFX()
     {
-        //if (AudioController.Instance)
-           //AudioController.Instance.PlayNewClip(blockDestroySFX, 0.7f);
         audioSource.PlayOneShot(blockDestroySFX);
     }
     public void ReturnBoxesSFX()

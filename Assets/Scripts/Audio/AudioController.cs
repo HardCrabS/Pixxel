@@ -26,7 +26,7 @@ public class AudioController : MonoBehaviour
     }
     public void SetCurrentClip(AudioClip clip, float delay = 0)
     {
-        if(clip == audioSource.clip) { return; }
+        if(clip == audioSource.clip && audioSource.isPlaying) { return; }
 
         audioSource.Stop();
         audioSource.clip = clip;

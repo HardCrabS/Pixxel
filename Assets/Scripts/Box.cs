@@ -33,7 +33,7 @@ public class Box : MonoBehaviour
         StartCoroutine(MainBlockLogic());
     }
 
-    IEnumerator MainBlockLogic()
+    public IEnumerator MainBlockLogic()
     {
         while (true)
         {
@@ -214,6 +214,13 @@ public class Box : MonoBehaviour
         }
     }
 
+    public void ChangeBoxPosition(int _row, int _column)
+    {
+        prevRow = row;
+        prevColumn = column;
+        row = _row;
+        column = _column;
+    }
     //switcheroo boost
     void ChangeBlockSprite(string tag)
     {

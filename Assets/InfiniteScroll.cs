@@ -411,7 +411,7 @@ namespace Mopsicus.InfiniteScroll
                 _views[newIndex].name = position.ToString();
                 OnFill(position, _views[newIndex]);
             }
-            _previousPosition = position;
+            _previousPosition = Mathf.Clamp(position, 0, _count - 1);
         }
 
         /// <summary>

@@ -24,6 +24,7 @@ public class GoldRush : BoostBase
         }
         timeText.text = "0.00";
         grid.onGoldRushMatch -= ChangeSpriteOnMatch;
+        finished = true;
     }
 
     public override void ExecuteBonus()
@@ -31,13 +32,13 @@ public class GoldRush : BoostBase
         if (grid == null)
         {
             grid = GridA.Instance;
-            goldenRockSprite = Resources.Load<Sprite>(resourcesFolder + "Gold Rush/GoldenRock");
-            particleCoin = Resources.Load<GameObject>(resourcesFolder + "Gold Rush/Coins Particle");
-            goldRushPanel = Resources.Load<GameObject>(resourcesFolder + "Gold Rush/Gold Rush Panel");
+            goldenRockSprite = Resources.Load<Sprite>(RECOURSES_FOLDER + "Gold Rush/GoldenRock");
+            particleCoin = Resources.Load<GameObject>(RECOURSES_FOLDER + "Gold Rush/Coins Particle");
+            goldRushPanel = Resources.Load<GameObject>(RECOURSES_FOLDER + "Gold Rush/Gold Rush Panel");
 
-            goldStart = Resources.Load<AudioClip>(resourcesFolder + "Gold Rush/sfx_boost_alert");
-            turnGold = Resources.Load<AudioClip>(resourcesFolder + "Gold Rush/sfx_boost_goldr1");
-            goldTapped = Resources.Load<AudioClip>(resourcesFolder + "Gold Rush/sfx_boost_goldr2");
+            goldStart = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Gold Rush/sfx_boost_alert");
+            turnGold = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Gold Rush/sfx_boost_goldr1");
+            goldTapped = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Gold Rush/sfx_boost_goldr2");
         }
         startTime = timeToBonusLast;
         grid.onGoldRushMatch += ChangeSpriteOnMatch;

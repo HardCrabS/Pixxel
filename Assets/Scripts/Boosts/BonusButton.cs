@@ -61,10 +61,9 @@ public class BonusButton : MonoBehaviour
     }
     IEnumerator UnlockAfterCountdown()
     {
-        GetComponent<Image>().color = disabledColor;
+        DisableButton();
         yield return new WaitForSeconds(3.5f);
-        interactable = true;
-        GetComponent<Image>().color = Color.white;
+        MakeButtonActive();
     }
     public void SetButtonForGame(Boost boost)
     {
@@ -92,7 +91,7 @@ public class BonusButton : MonoBehaviour
             equipButton = FindObjectOfType<EquipButton>();
         equipButton.currentBonus = myBonus;
         equipButton.bonusSprite = GetComponent<Image>().sprite;
-        GetComponentInParent<BonusManager>().currButtonSelected = this;
+        BonusManager.Instance.currButtonSelected = this;
     }
 
     public void ActivateBonus()
@@ -104,8 +103,8 @@ public class BonusButton : MonoBehaviour
                 concreteBonus.ExecuteBonus();
                 buttonReloadAnim.Play();
                 audioSource.PlayOneShot(activateBoost);
-                interactable = false;
-                GetComponent<Image>().color = disabledColor;
+                BonusManager.Instance.SetAllButtonsInterraction(false);
+                StartCoroutine(WaitForBoostFinish());
             }
         }
         else
@@ -113,11 +112,28 @@ public class BonusButton : MonoBehaviour
             audioSource.PlayOneShot(inactiveBoost);
         }
     }
+    IEnumerator WaitForBoostFinish()
+    {
+        yield return new WaitUntil(() => concreteBonus.IsFinished());
+        BonusManager.Instance.SetAllButtonsInterraction(true);
+    }
+    public void SetInteractable(bool state)
+    {
+        if (gameObject.activeSelf && state == true && !buttonReloadAnim.isPlaying)
+            MakeButtonActive();
+        else
+            DisableButton();
+    }
 
     public void MakeButtonActive()
     {
         GetComponent<Image>().color = Color.white;
         interactable = true;
+    }
+    public void DisableButton()
+    {
+        interactable = false;
+        GetComponent<Image>().color = disabledColor;
     }
     public void EquipBonus()
     {

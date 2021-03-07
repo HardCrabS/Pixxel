@@ -22,7 +22,7 @@ public class BlockRemover : MonoBehaviour
             {
                 Vector2 pos = blocks[randX, randY].transform.position;
                 Destroy(blocks[randX, randY]);
-                blocks[randX, randY] = null;
+                GridA.Instance.allBoxes[randX, randY] = null;
                 GridA.Instance.SpawnBlockParticles(pos);
                 return;
             }

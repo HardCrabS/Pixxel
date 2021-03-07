@@ -27,9 +27,9 @@ public class FlameThrower : BoostBase
 
         if (leadFirePrefab == null)
         {
-            leadFirePrefab = Resources.Load<GameObject>(resourcesFolder + "Flamethrower/Lead Fire");
-            shineParticles = Resources.Load<GameObject>(resourcesFolder + "Flamethrower/Shine Effect");
-            fireClip = Resources.Load<AudioClip>(resourcesFolder + "Flamethrower/sfx_boost_fire");
+            leadFirePrefab = Resources.Load<GameObject>(RECOURSES_FOLDER + "Flamethrower/Lead Fire");
+            shineParticles = Resources.Load<GameObject>(RECOURSES_FOLDER + "Flamethrower/Shine Effect");
+            fireClip = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Flamethrower/sfx_boost_fire");
         }
         leadFirePrefab = Instantiate(leadFirePrefab, new Vector3(firstPos.x, firstPos.y + 0.5f, firstPos.z), Quaternion.Euler(0, 0, -90));
         shineParticles = Instantiate(shineParticles, new Vector3(firstPos.x, firstPos.y + 0.5f, firstPos.z), Quaternion.identity);
@@ -47,6 +47,7 @@ public class FlameThrower : BoostBase
 
             yield return null;
         }
+        finished = true;
     }
 
     void CreateLine()
