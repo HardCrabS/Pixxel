@@ -69,7 +69,8 @@ public class GridA : MonoBehaviour
     public int offset;
     public GameState currState = GameState.move;
 
-    [SerializeField] Transform parent;
+    public Transform boxesCenterPanel;
+    [SerializeField] Transform parentOfAllBoxes;
     public Box currBox;
 
     private const float aspectRatioMultiplier = 9.0f / 16 * 7.5f;
@@ -129,7 +130,7 @@ public class GridA : MonoBehaviour
 
         int startParentX = (8 - width) / 2;
         int startParentY = (8 - hight) / 2;
-        parent.position = new Vector2(startParentX, startParentY);
+        parentOfAllBoxes.position = new Vector2(startParentX, startParentY);
 
         matchFinder = MatchFinder.Instance;
 
@@ -250,7 +251,7 @@ public class GridA : MonoBehaviour
             if (boardLayout[i].tileKind == TileKind.Breakable)
             {
                 GameObject breakable = Instantiate(breakableTilePrefab,
-                    parent.position + new Vector3(boardLayout[i].x, boardLayout[i].y), transform.rotation, parent);
+                    parentOfAllBoxes.position + new Vector3(boardLayout[i].x, boardLayout[i].y), transform.rotation, parentOfAllBoxes);
                 breakableTiles[boardLayout[i].x, boardLayout[i].y] = breakable.GetComponent<BackgroundTile>();
             }
         }
@@ -263,7 +264,7 @@ public class GridA : MonoBehaviour
             if (boardLayout[i].tileKind == TileKind.Locked)
             {
                 GameObject locked = Instantiate(lockTilePrefab,
-                    parent.position + new Vector3(boardLayout[i].x, boardLayout[i].y), transform.rotation, parent);
+                    parentOfAllBoxes.position + new Vector3(boardLayout[i].x, boardLayout[i].y), transform.rotation, parentOfAllBoxes);
                 lockedTiles[boardLayout[i].x, boardLayout[i].y] = locked.GetComponent<BackgroundTile>();
             }
         }
@@ -275,7 +276,7 @@ public class GridA : MonoBehaviour
             if (boardLayout[i].tileKind == TileKind.Bomb)
             {
                 Vector2 tempPos = new Vector3(boardLayout[i].x, boardLayout[i].y);
-                GameObject bomb = Instantiate(bombTilePrefab, parent.position + new Vector3(boardLayout[i].x, boardLayout[i].y), transform.rotation, parent);
+                GameObject bomb = Instantiate(bombTilePrefab, parentOfAllBoxes.position + new Vector3(boardLayout[i].x, boardLayout[i].y), transform.rotation, parentOfAllBoxes);
                 bombTiles[boardLayout[i].x, boardLayout[i].y] = bomb.GetComponent<BombTile>();
                 bomb.GetComponent<Box>().column = (int)tempPos.y;
                 bomb.GetComponent<Box>().row = (int)tempPos.x;
@@ -311,7 +312,7 @@ public class GridA : MonoBehaviour
 
     private void SpawnNormalBlock(int x, int y, Vector2 tempPos, int index)
     {
-        GameObject go = Instantiate(boxPrefabs[index], tempPos, transform.rotation, parent);
+        GameObject go = Instantiate(boxPrefabs[index], tempPos, transform.rotation, parentOfAllBoxes);
         go.GetComponent<Box>().column = y;
         go.GetComponent<Box>().row = x;
         allBoxes[x, y] = go;
@@ -390,7 +391,7 @@ public class GridA : MonoBehaviour
             DestroyBombTile(column, row);
 
             GameObject particle = Instantiate(blockDestroyParticle,
-                allBoxes[column, row].transform.localPosition + parent.position, transform.rotation);
+                allBoxes[column, row].transform.localPosition + parentOfAllBoxes.position, transform.rotation);
             Destroy(particle, 0.5f);
             CheckBomb();
             AddPointsForMatchedBlock();
@@ -497,7 +498,7 @@ public class GridA : MonoBehaviour
                     && box.column + dir.y >= 0 && box.column + dir.y < hight)
                 {
                     GameObject particle1 = Instantiate(blockDestroyParticle,
-                        box.transform.localPosition + parent.position + new Vector3(dir.x, dir.y), transform.rotation);
+                        box.transform.localPosition + parentOfAllBoxes.position + new Vector3(dir.x, dir.y), transform.rotation);
                     Destroy(particle1, 0.5f);
                     /*if (bombTiles[box.row + dir.x, box.column + dir.y])
                     {
@@ -514,7 +515,7 @@ public class GridA : MonoBehaviour
             StartCoroutine(camShake.Shake(0.07f, 0.04f));
 
             GameObject particle = Instantiate(blockDestroyParticle,
-                box.transform.localPosition + parent.position, transform.rotation);
+                box.transform.localPosition + parentOfAllBoxes.position, transform.rotation);
             BlockDestroyedSFX();
             Destroy(particle, 0.5f);
             Destroy(box.gameObject);
@@ -652,7 +653,7 @@ public class GridA : MonoBehaviour
                     if (bombChance <= bombSpawnChance)
                     {
                         Vector2 tempPos = new Vector2(x, y + offset);
-                        GameObject bomb = Instantiate(bombTilePrefab, parent.position + new Vector3(tempPos.x, tempPos.y), transform.rotation, parent);
+                        GameObject bomb = Instantiate(bombTilePrefab, parentOfAllBoxes.position + new Vector3(tempPos.x, tempPos.y), transform.rotation, parentOfAllBoxes);
                         bombTiles[x, y] = bomb.GetComponent<BombTile>();
                         bomb.GetComponent<Box>().column = y;
                         bomb.GetComponent<Box>().row = x;
@@ -668,7 +669,7 @@ public class GridA : MonoBehaviour
                     GameObject box = Instantiate(boxPrefabs[randIndex], tempPos, transform.rotation);
                     box.GetComponent<Box>().row = x;
                     box.GetComponent<Box>().column = y;
-                    box.transform.SetParent(parent);
+                    box.transform.SetParent(parentOfAllBoxes);
                     allBoxes[x, y] = box;
                 }
             }

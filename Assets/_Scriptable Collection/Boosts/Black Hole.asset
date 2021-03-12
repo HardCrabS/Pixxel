@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8abc8e5141157d4ab28d2b53044d165, type: 3}
+  m_Name: Black Hole
+  m_EditorClassIdentifier: 
+  reward: 2
+  id: Black Hole
+  description: "Blocks in the center of the playfield are sucked into a black hole
+    and\r the points are gained."
+  cost: 35
+  descrlevel1: 15% of blocks gone.
+  descrlevel4: 30% of blocks gone.
+  descrlevel7: 50% of blocks gone.
+  descrlevel10: 70% of blocks gone.
+  costAndReload:
+  - {x: 0, y: 5}
+  - {x: 10, y: 50}
+  - {x: 20, y: 40}
+  - {x: 30, y: 30}
+  - {x: 40, y: 20}
+  - {x: 50, y: 10}
+  - {x: 60, y: 9}
+  - {x: 70, y: 7}
+  - {x: 80, y: 5}
+  - {x: 90, y: 1}
+  upgradeSprites:
+  - {fileID: 21300000, guid: b85eb6b1c77dd0a4e95c0c5a391ba333, type: 3}
+  - {fileID: 21300000, guid: dc01739c23f91744086fa7539311dfcd, type: 3}
+  - {fileID: 21300000, guid: e4082b77f0368884abc131a1d6812f7e, type: 3}
+  - {fileID: 21300000, guid: 158283fe3dc4f8741b8d980792169ec8, type: 3}
+  boostTypeString: BlackHole

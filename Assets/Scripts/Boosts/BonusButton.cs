@@ -78,8 +78,6 @@ public class BonusButton : MonoBehaviour
             Debug.LogError("No boostInfo found in button, assign it in the inspector");
             return;
         }
-        int level = GameData.gameData.GetBoostLevel(boostInfo.id);
-
         BoostBase myBonus = GetComponent<BoostBase>();
 
         ClickOnBoost.Instance.ChangeBoostText(boostInfo);
