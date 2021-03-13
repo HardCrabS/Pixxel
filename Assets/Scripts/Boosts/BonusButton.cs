@@ -16,10 +16,13 @@ public class BonusButton : MonoBehaviour
     Animation buttonReloadAnim;
     AudioSource audioSource;
     BoostBase concreteBonus;
+    Image boostImage;
+    float boostReloadDeltaPerMove;
     bool interactable = false;
 
     void Start()
     {
+        boostImage = GetComponent<Image>();
         if (isGameButton)
         {
             bool slotUnlocked = GameData.gameData == null ? false : GameData.gameData.saveData.slotsForBoostsUnlocked[buttonIndex];
@@ -28,19 +31,20 @@ public class BonusButton : MonoBehaviour
                 if (boostInfo != null)
                 {
                     audioSource = GetComponent<AudioSource>();
-                    GetComponent<Image>().color = disabledColor;
-                    GetComponent<Image>().sprite = BonusManager.GetBoostImage(boostInfo);
-                    buttonReloadAnim = GetComponent<Animation>();
+                    boostImage.color = disabledColor;
+                    boostImage.sprite = BonusManager.GetBoostImage(boostInfo);
+                    //buttonReloadAnim = GetComponent<Animation>();
 
                     int boostLevel = GameData.gameData.GetBoostLevel(boostInfo.id);
                     Type boostType = Type.GetType(boostInfo.BoostTypeString);
                     concreteBonus = gameObject.AddComponent(boostType) as BoostBase;
                     concreteBonus.SetBoostLevel(boostLevel);
 
-                    foreach (AnimationState state in buttonReloadAnim)
+                    /*foreach (AnimationState state in buttonReloadAnim)
                     {
                         state.speed = 1 / boostInfo.GetReloadSpeed(boostLevel);
-                    }
+                    }*/
+                    boostReloadDeltaPerMove = 1 / boostInfo.GetReloadSpeed(boostLevel);
                     StartCoroutine(UnlockAfterCountdown());
                 }
                 else
@@ -63,7 +67,7 @@ public class BonusButton : MonoBehaviour
     {
         DisableButton();
         yield return new WaitForSeconds(3.5f);
-        MakeButtonActive();
+        ActivateButton();
     }
     public void SetButtonForGame(Boost boost)
     {
@@ -73,7 +77,7 @@ public class BonusButton : MonoBehaviour
     EquipButton equipButton;
     public void GetBoostInfo()
     {
-        if(boostInfo == null)
+        if (boostInfo == null)
         {
             Debug.LogError("No boostInfo found in button, assign it in the inspector");
             return;
@@ -88,7 +92,7 @@ public class BonusButton : MonoBehaviour
         if (equipButton == null)
             equipButton = FindObjectOfType<EquipButton>();
         equipButton.currentBonus = myBonus;
-        equipButton.bonusSprite = GetComponent<Image>().sprite;
+        equipButton.bonusSprite = boostImage.sprite;
         BonusManager.Instance.currButtonSelected = this;
     }
 
@@ -99,7 +103,10 @@ public class BonusButton : MonoBehaviour
             if (concreteBonus != null)
             {
                 concreteBonus.ExecuteBonus();
-                buttonReloadAnim.Play();
+                //buttonReloadAnim.Play();
+                boostImage.fillAmount = 0;
+                EndGameManager.Instance.onMatchedBlock += FillReloadImage;
+
                 audioSource.PlayOneShot(activateBoost);
                 BonusManager.Instance.SetAllButtonsInterraction(false);
                 StartCoroutine(WaitForBoostFinish());
@@ -110,6 +117,15 @@ public class BonusButton : MonoBehaviour
             audioSource.PlayOneShot(inactiveBoost);
         }
     }
+    void FillReloadImage()
+    {
+        boostImage.fillAmount += boostReloadDeltaPerMove;
+        if (boostImage.fillAmount >= 1)
+        {
+            ActivateButton();
+            EndGameManager.Instance.onMatchedBlock -= FillReloadImage;
+        }
+    }
     IEnumerator WaitForBoostFinish()
     {
         yield return new WaitUntil(() => concreteBonus.IsFinished());
@@ -117,21 +133,21 @@ public class BonusButton : MonoBehaviour
     }
     public void SetInteractable(bool state)
     {
-        if (gameObject.activeSelf && state == true && !buttonReloadAnim.isPlaying)
-            MakeButtonActive();
+        if (gameObject.activeSelf && state == true && boostImage.fillAmount >= 1)
+            ActivateButton();
         else
             DisableButton();
     }
 
-    public void MakeButtonActive()
+    public void ActivateButton()
     {
-        GetComponent<Image>().color = Color.white;
+        boostImage.color = Color.white;
         interactable = true;
     }
     public void DisableButton()
     {
         interactable = false;
-        GetComponent<Image>().color = disabledColor;
+        boostImage.color = disabledColor;
     }
     public void EquipBonus()
     {

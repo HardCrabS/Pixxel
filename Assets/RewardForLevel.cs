@@ -18,6 +18,7 @@ public class RewardForLevel : MonoBehaviour
 {
     [SerializeField] GameObject rewardEarned;
     [SerializeField] GameObject fireworksVFX;
+    [SerializeField] GameObject itemAddedPart;
 
     [SerializeField] Reward[] rewards;
 
@@ -54,7 +55,7 @@ public class RewardForLevel : MonoBehaviour
     {
         if(levelAchieved > rewards.Length) { return; }
         rewardEarned.GetComponent<Text>().text = "New Level!";
-        rewards[levelAchieved - 1].ApplyReward(); //-1 cuz array elements start with 0 index
+        rewards[levelAchieved - 1].ApplyReward(); //-1 because array elements start with 0 index
 
         SetRewardPanel(rewards[levelAchieved - 1].rewards);
 
@@ -101,7 +102,15 @@ public class RewardForLevel : MonoBehaviour
         rewardDescrText.text = "<color=yellow>New " + rewards[0].reward
     + "</color>\n" + rewards[0].id + "\n\n";
     }
-
+    public void SpawnParticles()   //show particles on rewards screen
+    {
+        for(int i = 0; i < scrollContainer.allObjects.Count; i++)
+        {
+            var part = Instantiate(itemAddedPart, scrollContainer.allObjects[i].transform);
+            part.transform.localScale *= 2;
+            Destroy(part, 1);
+        }
+    }
     GameObject SpawnRewardImage(Sprite rewSprite, RewardTemplate reward)
     {
         var rew = new GameObject();

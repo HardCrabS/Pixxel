@@ -19,6 +19,7 @@ public class ShopController : MonoBehaviour
     [SerializeField] Color buyColor;
     [SerializeField] Color greenColor;
     [SerializeField] ProfileHandler profileHandler;
+    [SerializeField] GameObject buyPart;
 
     [Header("Welcome Screen")]
     [SerializeField] Color welcomeSectionColor;
@@ -75,8 +76,6 @@ public class ShopController : MonoBehaviour
 
     const string SECTION_NAME_DOTS = "<size=120><color=blue>- - - - - - - - - - -</color></size>";
     const string LOCKED = "<color=red>- LOCKED -</color>";
-    const string UNLOCKED_IN_SHOP = "Unlocked by purchasing in shop! ";
-    const string UNLOCKED_BY_RANK = "Unlocked by reaching Player Rank ";
 
     const string BANNERS_LOCATION = "Sprites/UI images/Banners/";
     const string TRINKETS_LOCATION = "Sprites/UI images/Trinkets/";
@@ -360,7 +359,7 @@ public class ShopController : MonoBehaviour
             SetBuyInfo();
             buyButton.onClick.AddListener(delegate ()
             {
-                if (!TryBuyItem(worlds[index])) return;
+                if (!TryBuyItem(worlds[index], worldPanel)) return;
                 ActivateSoldOutText(worldPanel, 0);
 
                 itemDescription.text += SequentialText.ColorString("\nSUCCESS! THE WORLD IS UNLOCKED!", buyColor);
@@ -435,7 +434,7 @@ public class ShopController : MonoBehaviour
             SetBuyInfo();
             buyButton.onClick.AddListener(delegate ()
             {
-                if (!TryBuyItem(boostInfos[index])) return;
+                if (!TryBuyItem(boostInfos[index], boostPanel)) return;
                 ActivateSoldOutText(boostPanel, 1);
 
                 itemDescription.text += SequentialText.ColorString("\nSUCCESS! EQUIP BOOST IN A WORLD SELECT MENU!", buyColor);
@@ -499,7 +498,7 @@ public class ShopController : MonoBehaviour
             SetBuyInfo();
             buyButton.onClick.AddListener(delegate ()
             {
-                if (!TryBuyItem(trinkets[index])) return;
+                if (!TryBuyItem(trinkets[index], trinketObj)) return;
                 HandleEquipButton(false, () => SetAvatarEquipButton(trinkets[index]));
                 GameObject lockGameObject = trinketObj.GetChild(0).gameObject; //lock image
                 Destroy(lockGameObject);
@@ -574,7 +573,7 @@ public class ShopController : MonoBehaviour
             SetBuyInfo();
             buyButton.onClick.AddListener(delegate ()
             {
-                if (!TryBuyItem(titles[index])) return;
+                if (!TryBuyItem(titles[index], titlePanel)) return;
                 HandleEquipButton(false, () => SetTitleEquipButton(titles[index]));
                 GameObject lockGameObject = titlePanel.GetChild(1).gameObject; //lock image
                 Destroy(lockGameObject);
@@ -648,7 +647,7 @@ public class ShopController : MonoBehaviour
             SetBuyInfo();
             buyButton.onClick.AddListener(delegate ()
             {
-                if (!TryBuyItem(banners[index])) return;
+                if (!TryBuyItem(banners[index], bannerPanel)) return;
                 HandleEquipButton(false, () => SetBannerEquipButton(banners[index]));
                 GameObject lockGameObject = bannerPanel.GetChild(0).gameObject; //lock image
                 Destroy(lockGameObject);
@@ -739,7 +738,7 @@ public class ShopController : MonoBehaviour
             });
         }
     }
-    bool TryBuyItem(RewardTemplate rewardItem)
+    bool TryBuyItem(RewardTemplate rewardItem, Transform itemTransform)
     {
         buyButton.onClick.RemoveAllListeners();
         string id = rewardItem.id;
@@ -802,6 +801,9 @@ public class ShopController : MonoBehaviour
         costText.transform.parent.gameObject.SetActive(false);
 
         SetEquipButtonColor();
+        var part = Instantiate(buyPart, itemTransform.position, transform.rotation, itemTransform);
+        part.transform.localScale *= 0.5f;
+        Destroy(part, 1);
         return true;
     }
     void ActivateSoldOutText(Transform panel, int soldOutChildIndex)

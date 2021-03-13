@@ -4,6 +4,7 @@ public class LevelUp : MonoBehaviour
 {
     [SerializeField] BonusManager bonusManager;
     [SerializeField] EquipButton equipButton;
+    [SerializeField] GameObject upgradePart;
     [SerializeField] AudioClip boostUpgradeSFX;
     [SerializeField] AudioClip boostUpgradeError;
 
@@ -28,6 +29,10 @@ public class LevelUp : MonoBehaviour
             ClickOnBoost.Instance.ChangeBoostText(boostInfo);
             bonusManager.UpdateBoostSprites(boostInfo.id, level);
             equipButton.UpdateEquipedBoosts(boostInfo);
+
+            var part = Instantiate(upgradePart, bonus.transform);
+            part.transform.localScale *= 2;
+            Destroy(part, 1);
 
             audioSource.PlayOneShot(boostUpgradeSFX);
         }
