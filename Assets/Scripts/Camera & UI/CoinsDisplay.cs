@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CoinsDisplay : MonoBehaviour 
+public class CoinsDisplay : MonoBehaviour
 {
     [SerializeField] int coinsToAdd = 1;
     [SerializeField] AudioClip coinSFX;
@@ -22,7 +22,7 @@ public class CoinsDisplay : MonoBehaviour
     {
         Instance = this;
     }
-	void Start () 
+    void Start()
     {
         coins = SaveSystem.LoadCoinsAmount();
         coinsAtStartOfLevel = coins;
@@ -41,11 +41,12 @@ public class CoinsDisplay : MonoBehaviour
     public void RandomizeCoin()
     {
         int randNumber = Random.Range(0, 100);
-        if(randNumber < currChance)
+        if (randNumber < currChance)
         {
             if (Time.time > lastTimeCoinSoundPlayed + coinSoundAtATime)
             {
-                audioSource.PlayOneShot(coinSFX);
+                if (audioSource)
+                    audioSource.PlayOneShot(coinSFX);
                 lastTimeCoinSoundPlayed = Time.time;
             }
             AddCoins();
@@ -73,7 +74,7 @@ public class CoinsDisplay : MonoBehaviour
         coins -= amount;
         UpdateText();
     }
-	
+
     public int GetCoins()
     {
         return coins;

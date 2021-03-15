@@ -5,8 +5,7 @@ using UnityEngine;
 public class LevelGoal
 {
     public int numberNeeded;
-    public int numberCollected = 0;
-    public Sprite goalSprite;
+    [HideInInspector] public int numberCollected = 0;
     public string matchTag;
 }
 
@@ -90,6 +89,7 @@ public class GoalManager : MonoBehaviour
                     gamedata.saveData.trinketIds.Add(trinketId);
                     levelTemplates.RemoveAt(i);
                 }
+                break; //only 1 task with same goal at a time
             }
         }
 

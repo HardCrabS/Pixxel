@@ -8,7 +8,7 @@ public abstract class BoostBase : MonoBehaviour
     protected bool finished = false;
     protected AudioSource audioSource;
 
-    protected const string RECOURSES_FOLDER = "Sprites/BoostSprites/";
+    protected const string RESOURCES_FOLDER = "Sprites/BoostSprites/";
 
     public virtual void Start()
     {

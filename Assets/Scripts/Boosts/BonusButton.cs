@@ -13,7 +13,6 @@ public class BonusButton : MonoBehaviour
     public AudioClip activateBoost;
     public AudioClip inactiveBoost;
 
-    Animation buttonReloadAnim;
     AudioSource audioSource;
     BoostBase concreteBonus;
     Image boostImage;
@@ -33,17 +32,12 @@ public class BonusButton : MonoBehaviour
                     audioSource = GetComponent<AudioSource>();
                     boostImage.color = disabledColor;
                     boostImage.sprite = BonusManager.GetBoostImage(boostInfo);
-                    //buttonReloadAnim = GetComponent<Animation>();
 
                     int boostLevel = GameData.gameData.GetBoostLevel(boostInfo.id);
                     Type boostType = Type.GetType(boostInfo.BoostTypeString);
                     concreteBonus = gameObject.AddComponent(boostType) as BoostBase;
                     concreteBonus.SetBoostLevel(boostLevel);
 
-                    /*foreach (AnimationState state in buttonReloadAnim)
-                    {
-                        state.speed = 1 / boostInfo.GetReloadSpeed(boostLevel);
-                    }*/
                     boostReloadDeltaPerMove = 1 / boostInfo.GetReloadSpeed(boostLevel);
                     StartCoroutine(UnlockAfterCountdown());
                 }
@@ -103,7 +97,6 @@ public class BonusButton : MonoBehaviour
             if (concreteBonus != null)
             {
                 concreteBonus.ExecuteBonus();
-                //buttonReloadAnim.Play();
                 boostImage.fillAmount = 0;
                 EndGameManager.Instance.onMatchedBlock += FillReloadImage;
 
@@ -156,6 +149,7 @@ public class BonusButton : MonoBehaviour
         BoostBase bonusToEquip = levelUp.bonus;
         if (bonusToEquip != null)
         {
+            BonusManager.Instance.CheckIfEquipedInOtherSlot(buttonIndex, boostInfo.id);
             GetComponent<Image>().sprite = BonusManager.GetBoostImage(boostInfo);
             GetComponent<AudioSource>().Play();
 

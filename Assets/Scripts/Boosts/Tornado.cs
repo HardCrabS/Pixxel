@@ -39,11 +39,11 @@ public class Tornado : BoostBase
         if (grid == null)
         {
             grid = GridA.Instance;
-            tornadoPrefab = Resources.Load<GameObject>(RECOURSES_FOLDER + FOLDER_NAME + "Tornado");
-            fogPrefab = Resources.Load<GameObject>(RECOURSES_FOLDER + FOLDER_NAME + "Fog");
-            blurCanvas = Resources.Load<GameObject>(RECOURSES_FOLDER + FOLDER_NAME + "Blur Blocks Canvas");
+            tornadoPrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Tornado");
+            fogPrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Fog");
+            blurCanvas = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Blur Blocks Canvas");
 
-            tornadoSFX = Resources.Load<AudioClip>(RECOURSES_FOLDER + FOLDER_NAME + "sfx_boost_tornado2");
+            tornadoSFX = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_tornado2");
         }
     }
     void SpawnBlur()

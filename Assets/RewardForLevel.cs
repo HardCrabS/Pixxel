@@ -26,7 +26,7 @@ public class RewardForLevel : MonoBehaviour
     [SerializeField] Slider xpSlider;
     [SerializeField] Text XPText;
     [SerializeField] Text coinsText;
-    [SerializeField] ScrollWithButtons scrollContainer;
+    [SerializeField] Transform scrollContainer;
 
     [Header("Reward Sprites")]
     [SerializeField] Text rewardDescrText;
@@ -96,17 +96,21 @@ public class RewardForLevel : MonoBehaviour
             {
                 go = SpawnRewardImage(rewards[i].GetRewardSprite(), rewards[i]);          
             }
-            scrollContainer.AddObject(go);
+            //scrollContainer.AddObject(go);
         }
-        scrollContainer.MoveToFirstObject();
+        if (scrollContainer.childCount <= 3)
+            scrollContainer.GetComponent<HorizontalLayoutGroup>().spacing = 120;
+        else
+            scrollContainer.GetComponent<HorizontalLayoutGroup>().spacing = 50;
+        //scrollContainer.MoveToFirstObject();
         rewardDescrText.text = "<color=yellow>New " + rewards[0].reward
-    + "</color>\n" + rewards[0].id + "\n\n";
+                + "</color>\n" + rewards[0].id + "\n\n";
     }
     public void SpawnParticles()   //show particles on rewards screen
     {
-        for(int i = 0; i < scrollContainer.allObjects.Count; i++)
+        foreach(Transform child in scrollContainer)
         {
-            var part = Instantiate(itemAddedPart, scrollContainer.allObjects[i].transform);
+            var part = Instantiate(itemAddedPart, child);
             part.transform.localScale *= 2;
             Destroy(part, 1);
         }
@@ -148,7 +152,7 @@ public class RewardForLevel : MonoBehaviour
     {
         var button = spawnedRew.AddComponent<Button>();
         button.onClick.AddListener(delegate () { SetRewardDescriptionText(reward); });
-        button.interactable = false;
+        //button.interactable = false;
         var colors = button.colors;
         colors.disabledColor = Color.white;
         button.colors = colors;

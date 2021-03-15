@@ -3,26 +3,32 @@ using UnityEngine;
 
 public class FrozenTower : BoostBase
 {
-    private int columnsToDestroy = 1;
-    private float timeBetwColumnsFreeze = 0.2f;
-    private Sprite frozenBlock;
-    private GameObject freezeParticle;
+    int columnsToDestroy = 1;
+    float timeBetwColumnsFreeze = 0.2f;
+    float timeBetwBlocksFreeze = 0.1f;
+    float ballSpeed = 0.25f;
+
+    Sprite frozenBlock;
+    GameObject frozenBallPrefab, destroyVFX;
     AudioClip iceStart, iceFreeze, iceBreak;
 
     GridA grid;
     int[] randColumns;
+
+    const string FOLDER_NAME = "Frozen Tower/";
 
     public override void ExecuteBonus()
     {
         if (frozenBlock == null)
         {
             grid = GridA.Instance;
-            frozenBlock = Resources.Load<Sprite>(RECOURSES_FOLDER + "Frozen Tower/Frozen Block");
-            freezeParticle = Resources.Load<GameObject>(RECOURSES_FOLDER + "Frozen Tower/Freeze Particle");
+            frozenBlock = Resources.Load<Sprite>(RESOURCES_FOLDER + FOLDER_NAME + "Frozen Block");
+            frozenBallPrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Frozen ball");
+            destroyVFX = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Frozen Destroyed VFX");
 
-            iceStart = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Frozen Tower/sfx_boost_icestart");
-            iceFreeze = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Frozen Tower/sfx_boost_icefreeze");
-            iceBreak = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Frozen Tower/sfx_boost_icebreak");
+            iceStart = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_icestart");
+            iceFreeze = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_icefreeze");
+            iceBreak = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_icebreak");
         }
         randColumns = new int[columnsToDestroy];
         StartCoroutine(FreezeAllColumns());
@@ -41,33 +47,53 @@ public class FrozenTower : BoostBase
             while (IsTheSame(randColumns, randColumns[j], j));
 
             audioSource.PlayOneShot(iceStart);
-            GameObject go = Instantiate(freezeParticle, new Vector2(randColumns[j], 0), Quaternion.EulerAngles(-90, 0, 0));
-            Destroy(go, 10);
+            //GameObject go = Instantiate(frozenBall, new Vector2(randColumns[j], 0), Quaternion.EulerAngles(-90, 0, 0));
+            GameObject frozenBallClone = Instantiate(frozenBallPrefab, new Vector2(randColumns[j], 8), transform.rotation);
+            StartCoroutine(MoveFrozenBall(frozenBallClone.transform, new Vector2(randColumns[j], 1.2f)));
+            Destroy(frozenBallClone, 10);
             StartCoroutine(FreezeBlockColumn(randColumns[j]));
             yield return new WaitForSeconds(timeBetwColumnsFreeze);
         }
     }
+    IEnumerator MoveFrozenBall(Transform ball, Vector2 target)
+    {
+        float t = 0;
 
+        while (t < 1)
+        {
+            t += ballSpeed * Time.deltaTime;
+            ball.position = Vector3.Lerp(ball.position, target, t);
+            yield return null;
+        }
+    }
     IEnumerator FreezeBlockColumn(int column)
     {
-        for (int i = 0; i < grid.hight; i++)
+        for (int i = grid.hight - 1; i >= 0; i--)
         {
-            if (grid.allBoxes[column, i] != null)
+            GameObject box = grid.allBoxes[column, i];
+            if (box != null)
             {
-                grid.allBoxes[column, i].GetComponent<SpriteRenderer>().sprite = frozenBlock;
+                if (box.GetComponent<BombTile>())
+                {
+                    box.GetComponentInChildren<Canvas>().enabled = false;
+                    Destroy(box.GetComponentInChildren<ParticleSystem>());
+                }
+                box.GetComponent<SpriteRenderer>().sprite = frozenBlock;
                 audioSource.PlayOneShot(iceFreeze);
             }
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(timeBetwBlocksFreeze);
         }
     }
 
     IEnumerator DestroyAllBlockColumns()
     {
-        yield return new WaitForSeconds(timeBetwColumnsFreeze * columnsToDestroy + 8 * 0.4f);
+        yield return new WaitForSeconds(timeBetwColumnsFreeze * columnsToDestroy + 8 * timeBetwBlocksFreeze);
         for (int j = 0; j < columnsToDestroy; j++)
         {
             for (int i = 0; i < grid.hight; i++)
             {
+                var part = Instantiate(destroyVFX, new Vector2(randColumns[j], i), transform.rotation);
+                Destroy(part, 2);
                 Destroy(grid.allBoxes[randColumns[j], i]);
             }
         }

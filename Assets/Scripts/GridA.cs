@@ -324,40 +324,40 @@ public class GridA : MonoBehaviour
         blankSpaces[x, y] = blank;
     }
 
-    bool MatchesAt(int column, int row, GameObject box)
+    bool MatchesAt(int row, int column, GameObject box)
     {
-        if (column > 1 && row > 1)
+        if (row > 1 && column > 1)
         {
-            if (allBoxes[column - 1, row] && allBoxes[column - 2, row])
+            if (allBoxes[row - 1, column] && allBoxes[row - 2, column])
             {
-                if (allBoxes[column - 1, row].CompareTag(box.tag) && allBoxes[column - 2, row].CompareTag(box.tag))
+                if (allBoxes[row - 1, column].CompareTag(box.tag) && allBoxes[row - 2, column].CompareTag(box.tag))
                 {
                     return true;
                 }
             }
-            if (allBoxes[column, row - 1] && allBoxes[column, row - 2])
+            if (allBoxes[row, column - 1] && allBoxes[row, column - 2])
             {
-                if (allBoxes[column, row - 1].CompareTag(box.tag) && allBoxes[column, row - 2].CompareTag(box.tag))
-                {
-                    return true;
-                }
-            }
-        }
-        else if (column <= 1 && row > 1)
-        {
-            if (allBoxes[column, row - 1] && allBoxes[column, row - 2])
-            {
-                if (allBoxes[column, row - 1].CompareTag(box.tag) && allBoxes[column, row - 2].CompareTag(box.tag))
+                if (allBoxes[row, column - 1].CompareTag(box.tag) && allBoxes[row, column - 2].CompareTag(box.tag))
                 {
                     return true;
                 }
             }
         }
-        if (column > 1 && row <= 1)
+        else if (row <= 1 && column > 1)
         {
-            if (allBoxes[column - 1, row] && allBoxes[column - 2, row])
+            if (allBoxes[row, column - 1] && allBoxes[row, column - 2])
             {
-                if (allBoxes[column - 1, row].CompareTag(box.tag) && allBoxes[column - 2, row].CompareTag(box.tag))
+                if (allBoxes[row, column - 1].CompareTag(box.tag) && allBoxes[row, column - 2].CompareTag(box.tag))
+                {
+                    return true;
+                }
+            }
+        }
+        if (row > 1 && column <= 1)
+        {
+            if (allBoxes[row - 1, column] && allBoxes[row - 2, column])
+            {
+                if (allBoxes[row - 1, column].CompareTag(box.tag) && allBoxes[row - 2, column].CompareTag(box.tag))
                 {
                     return true;
                 }
@@ -366,80 +366,80 @@ public class GridA : MonoBehaviour
         return false;
     }
 
-    private void DestroyMatched(int column, int row)
+    private void DestroyMatched(int row, int column)
     {
-        if (allBoxes[column, row] != null && allBoxes[column, row].GetComponent<Box>().isMatched)
+        if (allBoxes[row, column] != null && allBoxes[row, column].GetComponent<Box>().isMatched)
         {
             if (onGoldRushMatch != null)
             {
-                onGoldRushMatch(column, row);
+                onGoldRushMatch(row, column);
                 return;
             }
 
             if (GoalManager.Instance != null)
             {
-                GoalManager.Instance.CompareGoal(allBoxes[column, row].tag);
+                GoalManager.Instance.CompareGoal(allBoxes[row, column].tag);
             }
-            if (breakableTiles[column, row] != null)
+            if (breakableTiles[row, column] != null)
             {
-                breakableTiles[column, row].TakeDamage();
+                breakableTiles[row, column].TakeDamage();
             }
-            if (lockedTiles[column, row] != null)
+            if (lockedTiles[row, column] != null)
             {
-                lockedTiles[column, row].TakeDamage();
+                lockedTiles[row, column].TakeDamage();
             }
-            DestroyBombTile(column, row);
+            DestroyBombTile(row, column);
 
             GameObject particle = Instantiate(blockDestroyParticle,
-                allBoxes[column, row].transform.localPosition + parentOfAllBoxes.position, transform.rotation);
+                allBoxes[row, column].transform.localPosition + parentOfAllBoxes.position, transform.rotation);
             Destroy(particle, 0.5f);
             CheckBomb();
-            AddPointsForMatchedBlock();
+            AddXPandScorePoints();
 
-            Destroy(allBoxes[column, row]);
-            matchFinder.currentMatches.Remove(allBoxes[column, row]);
-            allBoxes[column, row] = null;
+            Destroy(allBoxes[row, column]);
+            matchFinder.currentMatches.Remove(allBoxes[row, column]);
+            allBoxes[row, column] = null;
             currBox = null;
             boxDestroyed = true;
         }
     }
 
-    void DestroyBombTile(int column, int row)
+    void DestroyBombTile(int row, int column)
     {
-        if (column > 0)
-        {
-            if (bombTiles[column - 1, row])
-            {
-                bombTiles[column - 1, row].DeleteBombByMatch();
-                bombTiles[column - 1, row] = null;
-                allBoxes[column - 1, row] = null;
-            }
-        }
-        if (column < width - 1)
-        {
-            if (bombTiles[column + 1, row])
-            {
-                bombTiles[column + 1, row].DeleteBombByMatch();
-                bombTiles[column + 1, row] = null;
-                allBoxes[column + 1, row] = null;
-            }
-        }
         if (row > 0)
         {
-            if (bombTiles[column, row - 1])
+            if (bombTiles[row - 1, column])
             {
-                bombTiles[column, row - 1].DeleteBombByMatch();
-                bombTiles[column, row - 1] = null;
-                allBoxes[column, row - 1] = null;
+                bombTiles[row - 1, column].DeleteBombByMatch();
+                bombTiles[row - 1, column] = null;
+                allBoxes[row - 1, column] = null;
             }
         }
-        if (row < hight - 1)
+        if (row < width - 1)
         {
-            if (bombTiles[column, row + 1])
+            if (bombTiles[row + 1, column])
             {
-                bombTiles[column, row + 1].DeleteBombByMatch();
-                bombTiles[column, row + 1] = null;
-                allBoxes[column, row + 1] = null;
+                bombTiles[row + 1, column].DeleteBombByMatch();
+                bombTiles[row + 1, column] = null;
+                allBoxes[row + 1, column] = null;
+            }
+        }
+        if (column > 0)
+        {
+            if (bombTiles[row, column - 1])
+            {
+                bombTiles[row, column - 1].DeleteBombByMatch();
+                bombTiles[row, column - 1] = null;
+                allBoxes[row, column - 1] = null;
+            }
+        }
+        if (column < hight - 1)
+        {
+            if (bombTiles[row, column + 1])
+            {
+                bombTiles[row, column + 1].DeleteBombByMatch();
+                bombTiles[row, column + 1] = null;
+                allBoxes[row, column + 1] = null;
             }
         }
     }
@@ -452,14 +452,20 @@ public class GridA : MonoBehaviour
             {
                 if (currBox.isMatched)
                 {
+                    DestroyBombTile(currBox.row, currBox.column);
                     currBox.isMatched = false;
                     StartCoroutine(FiredUpBlock(currBox));
                 }
-                else if (currBox.neighborBox != null && currBox.neighborBox.GetComponent<Box>().isMatched)
+                else
                 {
-                    currBox.neighborBox.GetComponent<Box>().isMatched = false;
-                    currBox.neighborBox.GetComponent<SpriteRenderer>().color = Color.red;
-                    StartCoroutine(FiredUpBlock(currBox.neighborBox.GetComponent<Box>()));
+                    if (currBox.neighborBox != null && currBox.neighborBox.GetComponent<Box>().isMatched)
+                    {
+                        Box neighbor = currBox.neighborBox.GetComponent<Box>();
+                        DestroyBombTile(neighbor.row, neighbor.column);
+                        neighbor.isMatched = false;
+                        neighbor.GetComponent<SpriteRenderer>().color = Color.red;
+                        StartCoroutine(FiredUpBlock(neighbor));
+                    }
                 }
             }
         }
@@ -469,12 +475,14 @@ public class GridA : MonoBehaviour
             {
                 if (currBox.isMatched)
                 {
+                    DestroyBombTile(currBox.row, currBox.column);
                     currBox.isMatched = false;
                     currBox.GetComponent<SpriteRenderer>().color = Color.blue;
                     StartCoroutine(DestroyAllSameColor(currBox.tag, currBox));
                 }
                 else if (currBox.neighborBox != null && currBox.neighborBox.GetComponent<Box>().isMatched)
                 {
+                    DestroyBombTile(currBox.neighborBox.GetComponent<Box>().row, currBox.neighborBox.GetComponent<Box>().column);
                     currBox.neighborBox.GetComponent<Box>().isMatched = false;
                     currBox.neighborBox.GetComponent<SpriteRenderer>().color = Color.red;
                     StartCoroutine(DestroyAllSameColor(currBox.neighborBox.tag, currBox.neighborBox.GetComponent<Box>()));
@@ -500,11 +508,6 @@ public class GridA : MonoBehaviour
                     GameObject particle1 = Instantiate(blockDestroyParticle,
                         box.transform.localPosition + parentOfAllBoxes.position + new Vector3(dir.x, dir.y), transform.rotation);
                     Destroy(particle1, 0.5f);
-                    /*if (bombTiles[box.row + dir.x, box.column + dir.y])
-                    {
-                        bombTiles[box.row + dir.x, box.column + dir.y].DeleteBombByMatch();//no need to delete 2 times
-                        bombTiles[box.row + dir.x, box.column + dir.y] = null;
-                    }*/
                     Destroy(allBoxes[box.row + dir.x, box.column + dir.y]);
                     bombTiles[box.row + dir.x, box.column + dir.y] = null;
                     allBoxes[box.row + dir.x, box.column + dir.y] = null;
@@ -552,14 +555,16 @@ public class GridA : MonoBehaviour
         StartCoroutine(MoveBoxesDown());
     }
 
-    public void FlameThrower(int j, int i)
+    public void DestroyBlockAtPosition(int j, int i)
     {
         if (allBoxes[j, i] != null)
         {
-            Destroy(allBoxes[j, i]);
+            SpawnBlockParticles(allBoxes[j, i].transform.localPosition);
             BlockDestroyedSFX();
-            GameObject particle = Instantiate(blockDestroyParticle, allBoxes[j, i].transform.localPosition, transform.rotation);
-            Destroy(particle, 0.5f);
+            Destroy(allBoxes[j, i]);
+            allBoxes[j, i] = null;
+            bombTiles[j, i] = null;
+
             AddXPandScorePoints();
         }
     }
@@ -567,17 +572,6 @@ public class GridA : MonoBehaviour
     {
         GameObject particle = Instantiate(blockDestroyParticle, pos, transform.rotation);
         Destroy(particle, 0.5f);
-    }
-    void AddPointsForMatchedBlock()
-    {
-        if (matchFinder.currentMatches.Count == 0)
-        {
-            AddXPandScorePoints();
-        }
-        else
-        {
-            AddXPandScorePoints();
-        }
     }
     void AddXPandScorePoints()
     {
@@ -712,11 +706,11 @@ public class GridA : MonoBehaviour
         currState = GameState.move;
     }
 
-    private void SwitchPieces(int column, int row, Vector2 direction)
+    private void SwitchPieces(int row, int column, Vector2 direction)
     {
-        GameObject holder = allBoxes[column + (int)direction.x, row + (int)direction.y];
-        allBoxes[column + (int)direction.x, row + (int)direction.y] = allBoxes[column, row];
-        allBoxes[column, row] = holder;
+        GameObject holder = allBoxes[row + (int)direction.x, column + (int)direction.y];
+        allBoxes[row + (int)direction.x, column + (int)direction.y] = allBoxes[row, column];
+        allBoxes[row, column] = holder;
     }
 
     public bool CheckForMatches()
@@ -755,15 +749,15 @@ public class GridA : MonoBehaviour
         }
         return false;
     }
-    public bool SwitchAndCheck(int column, int row, Vector2 direction)
+    public bool SwitchAndCheck(int row, int column, Vector2 direction)
     {
-        SwitchPieces(column, row, direction);
+        SwitchPieces(row, column, direction);
         if (CheckForMatches())
         {
-            SwitchPieces(column, row, direction);
+            SwitchPieces(row, column, direction);
             return true;
         }
-        SwitchPieces(column, row, direction);
+        SwitchPieces(row, column, direction);
         return false;
     }
 

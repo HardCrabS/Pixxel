@@ -49,15 +49,15 @@ public class FireFist : BoostBase
         }
         if (punchPanel == null)
         {
-            punchPanel = Resources.Load<GameObject>(RECOURSES_FOLDER + FOLDER_NAME + "Punch Time Panel");
-            fistPrefab = Resources.Load<GameObject>(RECOURSES_FOLDER + FOLDER_NAME + "Fist");
-            punchParticle = Resources.Load<GameObject>(RECOURSES_FOLDER + FOLDER_NAME + "Punch Particle");
-            selectHand = Resources.Load<GameObject>(RECOURSES_FOLDER + FOLDER_NAME + "Select_Hand");
+            punchPanel = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Punch Time Panel");
+            fistPrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Fist");
+            punchParticle = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Punch Particle");
+            selectHand = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Select_Hand");
 
-            sfxStart = Resources.Load<AudioClip>(RECOURSES_FOLDER + FOLDER_NAME + "sfx_boosts_blackh");
-            selectBoxSFX = Resources.Load<AudioClip>(RECOURSES_FOLDER + FOLDER_NAME + "sfx_boost_ironf_1");
-            fistFadingIn = Resources.Load<AudioClip>(RECOURSES_FOLDER + FOLDER_NAME + "sfx_boost_ironf_2");
-            fistHit = Resources.Load<AudioClip>(RECOURSES_FOLDER + FOLDER_NAME + "sfx_boost_ironf_3");
+            sfxStart = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boosts_blackh");
+            selectBoxSFX = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_ironf_1");
+            fistFadingIn = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_ironf_2");
+            fistHit = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_ironf_3");
         }
 
         startTime = timeToBonusLast;
@@ -120,10 +120,17 @@ public class FireFist : BoostBase
 
     IEnumerator MoveFistToTarget(GameObject fist, Vector2 target)
     {
+        float currFistSpeed = fistSpeed * 0.5f;
+        float totalDistance = Vector3.Distance(fist.transform.position, target);
+        float acceleratedFistDistance = totalDistance * 0.6f;
         while (true)
         {
-            fist.transform.position = Vector2.MoveTowards(fist.transform.position, target, fistSpeed * Time.deltaTime);
-
+            fist.transform.position = Vector2.MoveTowards(fist.transform.position, target, currFistSpeed * Time.deltaTime);
+            
+            if(Vector3.Distance(fist.transform.position, target) < acceleratedFistDistance)
+            {
+                currFistSpeed = fistSpeed * 2;
+            }
             if (fist.transform.position == (Vector3)target)
             {
                 audioSource.PlayOneShot(fistHit);

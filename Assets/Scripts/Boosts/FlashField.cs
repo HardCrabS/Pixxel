@@ -12,9 +12,9 @@ public class FlashField : BoostBase
     {
         if (lightning == null)
         {
-            lightning = Resources.Load<GameObject>(RECOURSES_FOLDER + "Flash Field/Lightning");
-            flashStart = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Flash Field/sfx_boost_flashf");
-            flashStrike = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Flash Field/sfx_boost_flashf1");
+            lightning = Resources.Load<GameObject>(RESOURCES_FOLDER + "Flash Field/Lightning");
+            flashStart = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Flash Field/sfx_boost_flashf");
+            flashStrike = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Flash Field/sfx_boost_flashf1");
         }
         audioSource.PlayOneShot(flashStart);
         StartCoroutine(MakeAllFiredUp());

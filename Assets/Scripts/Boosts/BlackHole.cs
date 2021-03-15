@@ -25,8 +25,8 @@ public class BlackHole : BoostBase
     {
         if (barrierPrefab == null)
         {
-            barrierPrefab = Resources.Load<GameObject>(RECOURSES_FOLDER + FOLDER_NAME + "Barrier");
-            blackHolePrefab = Resources.Load<GameObject>(RECOURSES_FOLDER + FOLDER_NAME + "Black Hole");
+            barrierPrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Barrier");
+            blackHolePrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Black Hole");
         }
     }
     IEnumerator BarrierFadeAlpha(float targetAlpha, float alphaSpeed = 1f)

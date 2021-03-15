@@ -90,9 +90,11 @@ public class GameData : MonoBehaviour
         saveData.boostLevels.Add(id, 1);
         Save();
     }
-    public int GetBoostLevel(string boostName)
+    public int GetBoostLevel(string boostId)
     {
-        return saveData.boostLevels.ContainsKey(boostName) ? saveData.boostLevels[boostName] : 1;
+        if (string.IsNullOrEmpty(boostId)) return 1;
+
+        return saveData.boostLevels.ContainsKey(boostId) ? saveData.boostLevels[boostId] : 1;
     }
     public void UnlockTrinket(string id)
     {
@@ -213,6 +215,7 @@ public class GameData : MonoBehaviour
             File.Delete(path);
         }
         PlayerPrefs.DeleteAll();
+        SaveSystem.SaveCoinsAmount(0);
         gameData = null;
 
         AudioController.Instance.SetCurrentClip(null);

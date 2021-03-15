@@ -13,8 +13,8 @@ public class Switcheroo : BoostBase
     {
         if (clip == null)
         {
-            clip = Resources.Load<AnimationClip>(RECOURSES_FOLDER + "Switcheroo/Switch Anim");
-            boxComeIn = Resources.Load<AudioClip>(RECOURSES_FOLDER + "Switcheroo/sfx_game_heartgain");
+            clip = Resources.Load<AnimationClip>(RESOURCES_FOLDER + "Switcheroo/Switch Anim");
+            boxComeIn = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Switcheroo/sfx_game_heartgain");
         }
 
         string finalTag;    //all picked boxes will switch to it
