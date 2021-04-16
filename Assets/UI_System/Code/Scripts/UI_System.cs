@@ -59,6 +59,8 @@ public class UI_System : MonoBehaviour
     {
         if (aScreen)
         {
+            if (currentScreen == aScreen) return;
+
             if (currentScreen)
             {
                 currentScreen.CloseScreen();

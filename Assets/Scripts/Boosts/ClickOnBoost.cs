@@ -50,6 +50,6 @@ public class ClickOnBoost : MonoBehaviour
             descriptionText.text = boost.descrlevel10;
         }
 
-        currStatsText.text = "Cooldown: " + SequentialText.ColorString(boost.GetReloadSpeed(boostLevel) + "s", darkRed);
+        currStatsText.text = "Cooldown: " + SequentialText.ColorString(boost.GetMovesToReload(boostLevel) + "s", darkRed);
     }
 }

@@ -15,8 +15,8 @@ public class MSS_ScaleChange : MonoBehaviour
 
     private void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
-        StartHeight = rectTransform.sizeDelta;
+        //rectTransform = GetComponent<RectTransform>();
+        //StartHeight = rectTransform.sizeDelta;
         if (Smoothness != 0)
             Smoothness = 10 / Smoothness;
         else
@@ -24,7 +24,7 @@ public class MSS_ScaleChange : MonoBehaviour
         if (Mode == mode.Random)
             Freq = Random.Range(Freq, FreqMax + 1);
     }
-    void Update()
+    /*void Update()
     {
         if (Mode != mode.Range)
             if (!Smoothing)
@@ -45,5 +45,5 @@ public class MSS_ScaleChange : MonoBehaviour
             else
                 rectTransform.sizeDelta = Vector3.Lerp(rectTransform.sizeDelta, Avarage, Smoothness * Time.deltaTime);
         }
-    }
+    }*/
 }

@@ -5,6 +5,7 @@ public class MSS_SpectrumManager : MonoBehaviour
     public bool UseListener;
     public AudioSource AudioSource;
     public int Resolution = 9;
+    public Vector3 scaleEffectMultiplier = new Vector3(0, 50, 0);
     public static float[] SpectrumData;
 
     void Awake()
@@ -17,12 +18,13 @@ public class MSS_SpectrumManager : MonoBehaviour
     }
     void Start()
     {
-        if(AudioController.Instance == null)
+        /*if(AudioController.Instance == null)
         {
             GameObject canvas = GetComponentInParent<Canvas>().gameObject;
             canvas.SetActive(false);
-        }
-        AudioSource = AudioController.Instance.gameObject.GetComponent<AudioSource>();
+        }*/
+        if (AudioController.Instance != null)
+            AudioSource = AudioController.Instance.gameObject.GetComponent<AudioSource>();
         SpectrumData = new float[(int)Mathf.Pow(2,Resolution)];
     }
 

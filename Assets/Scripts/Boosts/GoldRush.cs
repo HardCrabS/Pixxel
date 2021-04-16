@@ -59,18 +59,19 @@ public class GoldRush : BoostBase
     {
         audioSource.PlayOneShot(goldTapped);
     }
-    void ChangeSpriteOnMatch(int column, int row)
+    void ChangeSpriteOnMatch(int row, int column)
     {
         audioSource.PlayOneShot(turnGold);
-        grid.allBoxes[column, row].GetComponent<SpriteRenderer>().sprite = goldenRockSprite;
-        grid.allBoxes[column, row].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-        var goldenRock = grid.allBoxes[column, row].AddComponent<GoldenRock>();
+        grid.allBoxes[row, column].GetComponent<SpriteRenderer>().sprite = goldenRockSprite;
+        grid.allBoxes[row, column].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        var goldenRock = grid.allBoxes[row, column].AddComponent<GoldenRock>();
         goldenRock.paticleCoin = particleCoin;
-        goldenRock.SetValues(column, row);
+        goldenRock.SetValues(row, column);
         goldenRock.goldRush = this;
-        Destroy(grid.allBoxes[column, row].GetComponent<Box>());
-        grid.allBoxes[column, row] = null;
-        grid.SetBlankSpace(column, row, true);
+        Destroy(grid.allBoxes[row, column].GetComponent<Box>());
+        grid.allBoxes[row, column] = null;
+        grid.bombTiles[row, column] = null;
+        grid.SetBlankSpace(row, column, true);
     }
     public override void SetBoostLevel(int lvl)
     {

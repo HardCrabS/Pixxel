@@ -5,6 +5,11 @@ using UnityEngine.UI;
 public class BombTile : MonoBehaviour
 {
     [SerializeField] int counter = 3;
+    [SerializeField] float bombPulsateMultipliyer = 1.3f;
+    [SerializeField] Color middleExplodeColor;
+    [SerializeField] Color finalCountColor;
+    [SerializeField] GameObject finalCountSprite;
+
     [SerializeField] GameObject explosionVFX;
     [SerializeField] AudioClip bombExploadeSFX;
     Text timerText;
@@ -14,7 +19,8 @@ public class BombTile : MonoBehaviour
         timerText = GetComponentInChildren<Text>();
         timerText.text = counter.ToString();
 
-        EndGameManager.Instance.onMatchedBlock += DecreaseBombCounter;
+        if (EndGameManager.Instance)
+            EndGameManager.Instance.onMatchedBlock += DecreaseBombCounter;
     }
 
     IEnumerator ExplodeBomb()
@@ -53,15 +59,24 @@ public class BombTile : MonoBehaviour
         {
             StartCoroutine(ExplodeBomb());
         }
+        ChangeTimerColor();
         if (timerText != null)
             timerText.text = counter.ToString();
+        GetComponent<Animator>().speed *= bombPulsateMultipliyer;
     }
-    public void DeleteBombByMatch()
+    void ChangeTimerColor()
     {
-        Destroy(gameObject);
+        if (counter == 2)
+            timerText.color = middleExplodeColor;
+        else if (counter == 1)
+        {
+            timerText.color = finalCountColor;
+            finalCountSprite.SetActive(true);
+        }
     }
     private void OnDestroy()
     {
-        EndGameManager.Instance.onMatchedBlock -= DecreaseBombCounter;
+        if (EndGameManager.Instance)
+            EndGameManager.Instance.onMatchedBlock -= DecreaseBombCounter;
     }
 }

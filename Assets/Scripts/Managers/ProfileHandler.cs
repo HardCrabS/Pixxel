@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ProfileHandler : MonoBehaviour
 {
     [SerializeField] LevelSlider levelSlider;
     [SerializeField] Text profileLevelText;
 
-    [SerializeField] Text rewardNextLevel;
+    [SerializeField] TextMeshProUGUI rewardNextLevel;
     [SerializeField] Image rewardImage;
 
     [SerializeField] Text playerName;
@@ -97,8 +98,16 @@ public class ProfileHandler : MonoBehaviour
         else
         {
             var reward = FindObjectOfType<RewardForLevel>().GetReward(nextLevel);
-            rewardNextLevel.text = reward.reward.ToString() + ": " + reward.id;
-            Sprite rewardSprite = reward.GetRewardSprite();
+            Sprite rewardSprite = null;
+            if (reward != null)
+            {
+                rewardNextLevel.text = reward.reward.ToString() + ": " + reward.id;
+                rewardSprite = reward.GetRewardSprite();
+            }
+            else
+            {
+                rewardNextLevel.text = "No rewards :(";
+            }
             if (rewardSprite != null)
             {
                 rewardImage.sprite = rewardSprite;

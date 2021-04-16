@@ -2,17 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CoinsDisplay : MonoBehaviour
 {
-    [SerializeField] int coinsToAdd = 1;
+    [SerializeField] int coinsPerBlock = 1;
+    [Range(0, 100f)] [SerializeField] float startCoinDropChance = 20;
+    [SerializeField] float chanceIncremPerRank = 0.2f;
+
     [SerializeField] AudioClip coinSFX;
-    Text coinsText;
-    private int coins;
-    private int currChance = 20;
-    private int coinsAtStartOfLevel;
-    private float coinSoundAtATime = 0.1f;
-    private float lastTimeCoinSoundPlayed = 0;
+
+    [Header("References")]
+    [SerializeField] Text coinsText;
+    [SerializeField] TextMeshProUGUI currCoinsEarnedText; //for ingame testing. TODO remove
+
+    int coins;
+    float currChance;
+    int coinsAtStartOfLevel;
+    int coinsEarnedSinceStart = 0;
+    float coinSoundAtATime = 0.1f;
+    float lastTimeCoinSoundPlayed = 0;
 
     AudioSource audioSource;
 
@@ -26,22 +35,32 @@ public class CoinsDisplay : MonoBehaviour
     {
         coins = SaveSystem.LoadCoinsAmount();
         coinsAtStartOfLevel = coins;
-        coinsText = GetComponent<Text>();
+        currChance = startCoinDropChance;
+        //coinsText = GetComponent<Text>();
         coinsText.text = coins.ToString();
         audioSource = GetComponent<AudioSource>();
+
+        if (AudioController.Instance && audioSource)
+        {
+            audioSource.volume = AudioController.Instance.SFXVolume * 0.5f;
+            AudioController.Instance.onSFXVolumeChange += ChangeSFXVolume;
+        }
+        UpdateText();
     }
 
     void UpdateText()
     {
         if (coinsText == null) return;
         coinsText.text = coins.ToString();
+        if (currCoinsEarnedText)
+            currCoinsEarnedText.text = "coins:\n" + coinsEarnedSinceStart;
         SaveSystem.SaveCoinsAmount(coins);
     }
 
     public void RandomizeCoin()
     {
-        int randNumber = Random.Range(0, 100);
-        if (randNumber < currChance)
+        float randChance = Random.Range(0, 100f);
+        if (randChance < currChance)
         {
             if (Time.time > lastTimeCoinSoundPlayed + coinSoundAtATime)
             {
@@ -54,33 +73,30 @@ public class CoinsDisplay : MonoBehaviour
         }
     }
 
-    public void IncreaseCoinDropChance(int amount)
+    public void IncreaseCoinDropChance(int amount = 0)
     {
-        currChance += amount;
+        currChance += amount == 0 ? chanceIncremPerRank : amount;
     }
-
     public void AddCoinsAmount(int value)
     {
         coins += value;
+        coinsEarnedSinceStart += value;
         UpdateText();
     }
-
     private void AddCoins()
     {
-        coins += coinsToAdd;
+        coins += coinsPerBlock;
+        coinsEarnedSinceStart += coinsPerBlock;
     }
     public void DecreaseCoins(int amount)
     {
         coins -= amount;
         UpdateText();
     }
-
-    public int GetCoins()
+    public int GetCoins() => coins;
+    public int EarnedCoinsSinceStart() => coins - coinsAtStartOfLevel;
+    void ChangeSFXVolume(float volume)
     {
-        return coins;
-    }
-    public int EarnedCoinsSinceStart()
-    {
-        return coins - coinsAtStartOfLevel;
+        audioSource.volume = volume * 0.5f;
     }
 }

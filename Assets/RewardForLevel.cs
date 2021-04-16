@@ -65,7 +65,7 @@ public class RewardForLevel : MonoBehaviour
 
     public RewardTemplate GetReward(int level)
     {
-        return rewards[level - 1].rewards[0];
+        return level - 1 < rewards.Length ? rewards[level - 1].rewards[0] : null;
     }
 
     void LaunchFireworks()

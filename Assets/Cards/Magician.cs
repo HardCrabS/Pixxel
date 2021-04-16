@@ -24,8 +24,7 @@ public class Magician : MonoBehaviour
             {
                 if (grid.allBoxes[i, j] != null && grid.allBoxes[i, j].GetComponent<BombTile>())
                 {
-                    Destroy(grid.allBoxes[i, j]);
-                    grid.allBoxes[i, j] = null;
+                    grid.DestroyBlockAtPosition(i, j);
                 }
             }
         }

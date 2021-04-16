@@ -37,7 +37,6 @@ public class GridA : MonoBehaviour
 {
     [Header("Prefabs")]
     public GameObject[] boxPrefabs;
-    [SerializeField] GameObject blockDestroyParticle;
     [SerializeField] GameObject breakableTilePrefab;
     [SerializeField] GameObject bombTilePrefab;
     [SerializeField] GameObject lockTilePrefab;
@@ -64,6 +63,7 @@ public class GridA : MonoBehaviour
     [SerializeField] LevelTemplate tutorialTemplate;
     [SerializeField] TileType[] boardLayout;
     public GameObject[,] allBoxes;
+    [SerializeField] float gridCreateDelay = 3.5f;
     public int width = 8;
     public int hight = 8;
     public int offset;
@@ -81,7 +81,7 @@ public class GridA : MonoBehaviour
     MatchFinder matchFinder;
     LevelTemplate template;
     AudioSource audioSource;
-    int bombSpawnChance;
+    public int bombSpawnChance { private set; get; }
     bool boxDestroyed = false; //to check if sfx need to be played
 
     public string tempTagForTrinket;
@@ -133,21 +133,21 @@ public class GridA : MonoBehaviour
         parentOfAllBoxes.position = new Vector2(startParentX, startParentY);
 
         matchFinder = MatchFinder.Instance;
-
-        float sfxVolumeMultiplier = PlayerPrefsController.GetMasterSFXVolume();
         audioSource = GetComponent<AudioSource>();
-        audioSource.volume = sfxVolumeMultiplier;
+
+        if (AudioController.Instance)
+        {
+            float sfxVolume = AudioController.Instance.SFXVolume;
+            audioSource.volume = sfxVolume;
+            AudioController.Instance.onSFXVolumeChange += ChangeSFXVolume;
+        }
 
         if (CheckForTutorial())
         {
             return;
         }
-        StartCoroutine(CreateGridDelayed(3.5f));
+        StartCoroutine(CreateGridDelayed(gridCreateDelay));
         //CreateGrid();
-    }
-    public void IncreaseBombSpawnChance(int value)
-    {
-        bombSpawnChance += value;
     }
     IEnumerator CreateGridDelayed(float delay)
     {
@@ -233,6 +233,7 @@ public class GridA : MonoBehaviour
         crosshair.position = new Vector2(x, y);
     }
 
+    #region generate_tiles
     void GenerateBlankSpaces()
     {
         for (int i = 0; i < boardLayout.Length; i++)
@@ -285,6 +286,7 @@ public class GridA : MonoBehaviour
             }
         }
     }
+    #endregion
     void CreateGrid()
     {
         GenerateBlankSpaces();
@@ -390,56 +392,42 @@ public class GridA : MonoBehaviour
             }
             DestroyBombTile(row, column);
 
-            GameObject particle = Instantiate(blockDestroyParticle,
-                allBoxes[row, column].transform.localPosition + parentOfAllBoxes.position, transform.rotation);
-            Destroy(particle, 0.5f);
             CheckBomb();
-            AddXPandScorePoints();
+            DestroyBlockAtPosition(row, column);
 
-            Destroy(allBoxes[row, column]);
             matchFinder.currentMatches.Remove(allBoxes[row, column]);
-            allBoxes[row, column] = null;
             currBox = null;
             boxDestroyed = true;
         }
     }
-
     void DestroyBombTile(int row, int column)
     {
         if (row > 0)
         {
             if (bombTiles[row - 1, column])
             {
-                bombTiles[row - 1, column].DeleteBombByMatch();
-                bombTiles[row - 1, column] = null;
-                allBoxes[row - 1, column] = null;
+                DestroyBlockAtPosition(row - 1, column);
             }
         }
         if (row < width - 1)
         {
             if (bombTiles[row + 1, column])
             {
-                bombTiles[row + 1, column].DeleteBombByMatch();
-                bombTiles[row + 1, column] = null;
-                allBoxes[row + 1, column] = null;
+                DestroyBlockAtPosition(row + 1, column);
             }
         }
         if (column > 0)
         {
             if (bombTiles[row, column - 1])
             {
-                bombTiles[row, column - 1].DeleteBombByMatch();
-                bombTiles[row, column - 1] = null;
-                allBoxes[row, column - 1] = null;
+                DestroyBlockAtPosition(row, column - 1);
             }
         }
         if (column < hight - 1)
         {
             if (bombTiles[row, column + 1])
             {
-                bombTiles[row, column + 1].DeleteBombByMatch();
-                bombTiles[row, column + 1] = null;
-                allBoxes[row, column + 1] = null;
+                DestroyBlockAtPosition(row, column + 1);
             }
         }
     }
@@ -505,25 +493,14 @@ public class GridA : MonoBehaviour
                 if (box.row + dir.x >= 0 && box.row + dir.x < width
                     && box.column + dir.y >= 0 && box.column + dir.y < hight)
                 {
-                    GameObject particle1 = Instantiate(blockDestroyParticle,
-                        box.transform.localPosition + parentOfAllBoxes.position + new Vector3(dir.x, dir.y), transform.rotation);
-                    Destroy(particle1, 0.5f);
-                    Destroy(allBoxes[box.row + dir.x, box.column + dir.y]);
-                    bombTiles[box.row + dir.x, box.column + dir.y] = null;
-                    allBoxes[box.row + dir.x, box.column + dir.y] = null;
-                    AddXPandScorePoints();
+                    DestroyBlockAtPosition(box.row + dir.x, box.column + dir.y);
                 }
             }
             var camShake = Camera.main.GetComponent<CameraShake>();
             StartCoroutine(camShake.Shake(0.07f, 0.04f));
 
-            GameObject particle = Instantiate(blockDestroyParticle,
-                box.transform.localPosition + parentOfAllBoxes.position, transform.rotation);
+            DestroyBlockAtPosition(box.row, box.column);
             BlockDestroyedSFX();
-            Destroy(particle, 0.5f);
-            Destroy(box.gameObject);
-            allBoxes[box.row, box.column] = null;
-            bombTiles[box.row, box.column] = null;
         }
         Destroy(fireClone);
         Destroy(smokeClone);
@@ -544,46 +521,27 @@ public class GridA : MonoBehaviour
                 yield return new WaitForSeconds(.1f);
                 if (go != null)
                 {
+                    Box boxToDestroy = go.GetComponent<Box>();
+                    DestroyBlockAtPosition(boxToDestroy.row, boxToDestroy.column);
                     BlockDestroyedSFX();
-                    GameObject particle = Instantiate(blockDestroyParticle, go.transform.localPosition, transform.rotation);
-                    Destroy(particle, 0.5f);
-                    Destroy(go);
-                    AddXPandScorePoints();
                 }
             }
         }
         StartCoroutine(MoveBoxesDown());
     }
 
-    public void DestroyBlockAtPosition(int j, int i)
+    public void DestroyBlockAtPosition(int row, int column)
     {
-        if (allBoxes[j, i] != null)
+        if (allBoxes[row, column] != null)
         {
-            SpawnBlockParticles(allBoxes[j, i].transform.localPosition);
-            BlockDestroyedSFX();
-            Destroy(allBoxes[j, i]);
-            allBoxes[j, i] = null;
-            bombTiles[j, i] = null;
+            DynamicBlockSpriteDestruction(row, column);
+            //BlockDestroyedSFX();  //sound is played once after all matched blocks are destroyed
+
+            allBoxes[row, column] = null;
+            bombTiles[row, column] = null;
 
             AddXPandScorePoints();
         }
-    }
-    public void SpawnBlockParticles(Vector2 pos)
-    {
-        GameObject particle = Instantiate(blockDestroyParticle, pos, transform.rotation);
-        Destroy(particle, 0.5f);
-    }
-    void AddXPandScorePoints()
-    {
-        if (Score.Instance == null || LevelSlider.Instance == null) return;
-        Score.Instance.AddPoints(scorePointsToAddperBox);
-        LevelSlider.Instance.AddXPtoLevel(pointsXPforLevel);
-        CoinsDisplay.Instance.RandomizeCoin();
-    }
-
-    public void SetXPpointsPerBoxByProcent(float procent)
-    {
-        pointsXPforLevel *= procent;
     }
 
     public void DestroyAllMatches()
@@ -851,6 +809,48 @@ public class GridA : MonoBehaviour
         }
     }
 
+    #region add_game_params
+    public void IncreaseBombSpawnChance(int value)
+    {
+        bombSpawnChance += value;
+    }
+    void AddXPandScorePoints()
+    {
+        if (Score.Instance == null || LevelSlider.Instance == null) return;
+        Score.Instance.AddPoints(scorePointsToAddperBox);
+        LevelSlider.Instance.AddXPtoLevel(pointsXPforLevel);
+        CoinsDisplay.Instance.RandomizeCoin();
+    }
+    public void SetXPpointsPerBoxByProcent(float procent)
+    {
+        pointsXPforLevel *= procent;
+    }
+    #endregion
+    #region VFX
+    private void DynamicBlockSpriteDestruction(int row, int column)
+    {
+        var explodable = allBoxes[row, column].GetComponent<Explodable>();
+        if (!explodable)
+        {
+            Destroy(allBoxes[row, column]);
+            return;
+        }
+
+        explodable.explode();
+        ExplosionForce ef = ExplosionForce.Instance;
+        ef.doExplosion(allBoxes[row, column].transform.position);
+    }
+    /*public void SpawnBlockParticles(Vector2 pos)
+    {
+        GameObject particle = Instantiate(blockDestroyParticle, pos, transform.rotation);
+        Destroy(particle, 0.5f);
+    }*/
+    #endregion
+    #region SFX
+    void ChangeSFXVolume(float volume)
+    {
+        audioSource.volume = volume;
+    }
     void BlockDestroyedSFX()
     {
         audioSource.PlayOneShot(blockDestroySFX);
@@ -863,4 +863,5 @@ public class GridA : MonoBehaviour
     {
         audioSource.PlayOneShot(swipeBoxesSFX);
     }
+    #endregion
 }

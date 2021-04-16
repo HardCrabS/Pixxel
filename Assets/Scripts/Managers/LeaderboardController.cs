@@ -123,7 +123,7 @@ public class LeaderboardController : MonoBehaviour
         }
         else if (playerArrow.parent == _scorePanel.transform)
         {
-            playerArrow.parent = null;
+            playerArrow.SetParent(null, false);
             playerArrow.position = Vector3.zero;
         }
         User user = allUsers[index];
@@ -145,7 +145,7 @@ public class LeaderboardController : MonoBehaviour
 
     private void SetPlayerArrow(GameObject scorePanelClone) //arrow points to player score
     {
-        playerArrow.SetParent(scorePanelClone.transform);
+        playerArrow.SetParent(scorePanelClone.transform, false);
         playerArrow.GetComponent<RectTransform>().SetAsFirstSibling();
     }
 }

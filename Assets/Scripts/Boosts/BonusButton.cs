@@ -30,6 +30,11 @@ public class BonusButton : MonoBehaviour
                 if (boostInfo != null)
                 {
                     audioSource = GetComponent<AudioSource>();
+                    if (AudioController.Instance)  
+                    {
+                        AudioController.Instance.onSFXVolumeChange += ChangeButtonVolume;   //change volume if sfx volume slider changed
+                        audioSource.volume = AudioController.Instance.SFXVolume;
+                    }
                     boostImage.color = disabledColor;
                     boostImage.sprite = BonusManager.GetBoostImage(boostInfo);
 
@@ -38,7 +43,7 @@ public class BonusButton : MonoBehaviour
                     concreteBonus = gameObject.AddComponent(boostType) as BoostBase;
                     concreteBonus.SetBoostLevel(boostLevel);
 
-                    boostReloadDeltaPerMove = 1 / boostInfo.GetReloadSpeed(boostLevel);
+                    boostReloadDeltaPerMove = 1 / boostInfo.GetMovesToReload(boostLevel);
                     StartCoroutine(UnlockAfterCountdown());
                 }
                 else
@@ -56,6 +61,10 @@ public class BonusButton : MonoBehaviour
                 gameObject.AddComponent<Shadow>().effectDistance = new Vector2(10, -10);
             }
         }
+    }
+    void ChangeButtonVolume(float volume)
+    {
+        audioSource.volume = volume;
     }
     IEnumerator UnlockAfterCountdown()
     {
@@ -145,11 +154,12 @@ public class BonusButton : MonoBehaviour
     public void EquipBonus()
     {
         LevelUp levelUp = FindObjectOfType<LevelUp>();
-        Boost boostInfo = levelUp.boostInfo;
+        boostInfo = levelUp.boostInfo;
         BoostBase bonusToEquip = levelUp.bonus;
         if (bonusToEquip != null)
         {
             BonusManager.Instance.CheckIfEquipedInOtherSlot(buttonIndex, boostInfo.id);
+            GetComponent<Image>().color = new Color(1, 1, 1, 1);
             GetComponent<Image>().sprite = BonusManager.GetBoostImage(boostInfo);
             GetComponent<AudioSource>().Play();
 

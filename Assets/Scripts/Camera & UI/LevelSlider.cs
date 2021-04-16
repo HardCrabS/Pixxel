@@ -6,12 +6,10 @@ using UnityEngine.UI;
 
 public class LevelSlider : MonoBehaviour
 {
-    [SerializeField] int addDropCoinChance = 3;
-    [SerializeField] RewardForLevel levelRewarder;
     [SerializeField] Text rankText;
     [SerializeField] Text nameText;
+    [SerializeField] Slider levelSlider;
 
-    Slider levelSlider;
     int currentLevel = 1;
     int currentSaveBorder = 20;
     float xpMultiplier = 1;
@@ -46,7 +44,9 @@ public class LevelSlider : MonoBehaviour
             nameText.text = "|\t" + name + "\t|";
 
             string bannerPath = GameData.gameData.saveData.playerInfo.bannerPath;
-            GetComponentInParent<Image>().sprite = Resources.Load<Sprite>(bannerPath); //Load banner
+            var bannerImage = GetComponent<Image>();
+            if (bannerImage)
+                bannerImage.sprite = Resources.Load<Sprite>(bannerPath); //Load banner
         }
         initLevel = currentLevel;
         initXPValue = levelSlider.value;
@@ -64,7 +64,7 @@ public class LevelSlider : MonoBehaviour
         if (levelSlider.value >= levelSlider.maxValue)
         {
             currentLevel++;
-            levelRewarder.CheckForReward(currentLevel);
+            RewardForLevel.Instance.CheckForReward(currentLevel);
             UpdateLevelText(currentLevel);
 
             GameData.gameData.saveData.currentLevel = currentLevel;
@@ -75,7 +75,7 @@ public class LevelSlider : MonoBehaviour
             currentSaveBorder = 20;
             GameData.gameData.saveData.maxXPforLevelUp = levelSlider.maxValue;
             GameData.Save();
-            CoinsDisplay.Instance.IncreaseCoinDropChance(addDropCoinChance);
+            CoinsDisplay.Instance.IncreaseCoinDropChance();
         }
         if (levelSlider.value > currentSaveBorder)
         {
@@ -116,7 +116,7 @@ public class LevelSlider : MonoBehaviour
 
     public void LoadLevelSlider()
     {
-        levelSlider = GetComponent<Slider>();
+        //levelSlider = GetComponent<Slider>();
         if (GameData.gameData != null)
         {
             currentLevel = GameData.gameData.saveData.currentLevel;

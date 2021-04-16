@@ -15,7 +15,7 @@ public class Boost : RewardTemplate
     [SerializeField] Sprite[] upgradeSprites;
     [SerializeField] string boostTypeString;
     public int GetUpgradeCost(int boostLevel) => boostLevel < costAndReload.Length ? (int)costAndReload[boostLevel].x : -1;
-    public float GetReloadSpeed(int boostLevel) => boostLevel - 1 < costAndReload.Length ? (int)costAndReload[boostLevel - 1].y : 60;
+    public float GetMovesToReload(int boostLevel) => boostLevel - 1 < costAndReload.Length ? (int)costAndReload[boostLevel - 1].y : 60;
     public Sprite[] UpgradeSprites { get { return upgradeSprites; } }
     public string BoostTypeString { get { return boostTypeString; } }
 

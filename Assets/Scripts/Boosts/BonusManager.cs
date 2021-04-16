@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,10 +7,12 @@ using UnityEngine.UI;
 public class BonusManager : MonoBehaviour
 {
     [SerializeField] bool isBoostScreen;
+    [SerializeField] Transform selectionGlow;
     [SerializeField] Boost[] allBoostInfos;
     [SerializeField] Sprite[] boostFrames = new Sprite[4];
-    [SerializeField] Image[] boostPanels;
     [SerializeField] EquipButton equipButton; //main equip buttons manager
+    public Sprite lockedFrame;
+    public Image[] boostPanels;
 
     public BonusButton currButtonSelected;
 
@@ -22,23 +25,9 @@ public class BonusManager : MonoBehaviour
         if (Instance == null) Instance = this;
 
         bonusButtons = GetComponentsInChildren<BonusButton>();
-        if (!isBoostScreen)
+        if (isBoostScreen)
         {
-            for (int i = 0; i < bonusButtons.Length; i++)
-            {
-                string equipedBoostId = GameData.gameData.saveData.equipedBoosts[bonusButtons[i].buttonIndex];
-                if (GameData.gameData.saveData.slotsForBoostsUnlocked[i])
-                {
-                    bonusButtons[i].SetButtonForGame(GetBoostWithId(equipedBoostId));
-
-                    int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(equipedBoostId));
-                    boostPanels[i].sprite = boostFrames[spriteIndex];
-                }
-            }
-        }
-        else
-        {
-            for (int i = 0; i < bonusButtons.Length; i++)
+            for (int i = 0; i < bonusButtons.Length; i++)   //loop through all boosts in boost screen
             {
                 string boostId = bonusButtons[i].boostInfo.id;
                 bool isUnlocked = GameData.gameData.saveData.boostIds.Contains(boostId);
@@ -46,21 +35,43 @@ public class BonusManager : MonoBehaviour
                 {
                     bonusButtons[i].transform.GetChild(0).gameObject.SetActive(false);  //lock image
                     int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(boostId));
-                    boostPanels[i].sprite = boostFrames[spriteIndex];
+                    //boostPanels[i].sprite = boostFrames[spriteIndex];
                     Boost boostInfo = bonusButtons[i].boostInfo;
                     if (boostInfo != null && spriteIndex < boostInfo.UpgradeSprites.Length)
                     {
                         bonusButtons[i].GetComponent<Image>().sprite = boostInfo.UpgradeSprites[spriteIndex];
                     }
                     bonusButtons[i].gameObject.AddComponent<DragBoost>();
+                    int index = i;
+                    bonusButtons[i].GetComponent<Button>().onClick.AddListener(() => SetSelectionGlowPos(bonusButtons[index].transform));
                 }
                 else
                 {
                     bonusButtons[i].GetComponent<Button>().interactable = false;
-                    boostPanels[i].sprite = boostFrames[0];
+                    //boostPanels[i].sprite = lockedFrame;
                 }
             }
         }
+        else
+        {
+            for (int i = 0; i < bonusButtons.Length; i++)   //loop through selected boosts in game
+            {
+                string equipedBoostId = GameData.gameData.saveData.equipedBoosts[bonusButtons[i].buttonIndex];
+                if (GameData.gameData.saveData.slotsForBoostsUnlocked[i])
+                {
+                    bonusButtons[i].SetButtonForGame(GetBoostWithId(equipedBoostId));
+                    SetBoostFrame(equipedBoostId, i);
+                }
+                else
+                {
+                    boostPanels[i].sprite = lockedFrame;
+                }
+            }
+        }
+    }
+    void SetSelectionGlowPos(Transform boostTransform)
+    {
+        selectionGlow.position = boostTransform.position;
     }
     public void SetAllButtonsInterraction(bool state)
     {
@@ -77,28 +88,46 @@ public class BonusManager : MonoBehaviour
             if (i == buttonIndex) continue;
             string equipedBoostId = GameData.gameData.saveData.equipedBoosts[i];  //get id of equiped boost
 
-            if(string.Compare(equipedBoostId, boostId) == 0)    //found equipped button with same boost id
+            if (string.Compare(equipedBoostId, boostId) == 0)    //found equipped button with same boost id
             {
                 GameData.gameData.saveData.equipedBoosts[i] = null;
-                equipButton.equipeButtons[i].GetComponent<Image>().sprite = null;
+                equipButton.equipeButtons[i].GetComponent<Image>().color = new Color(1, 1, 1, 0);
+
+                boostPanels[i].sprite = boostFrames[0];
             }
         }
+
+        SetBoostFrame(boostId, buttonIndex); //set frame image
     }
-    public Sprite[] GetEquipedBoosts()
+    public Tuple<Sprite, Sprite>[] GetEquipedBoostSprites()
     {
-        Sprite[] boostSprites = new Sprite[3];
+        Tuple<Sprite, Sprite>[] boostSpritesAndFrames = new Tuple<Sprite, Sprite>[3];
+        //Sprite[] boostSprites = new Sprite[3];
         for (int i = 0; i < GameData.gameData.saveData.equipedBoosts.Count; i++)  //check every equiped slot
         {
             string equipedBoostId = GameData.gameData.saveData.equipedBoosts[i];  //get id of equiped boost
 
             int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(equipedBoostId));//sprite according to boost level
             Boost boostInfo = GetBoostWithId(equipedBoostId);
+            Sprite boostFrame = GetBoostFrame(equipedBoostId);
             if (boostInfo != null && spriteIndex < boostInfo.UpgradeSprites.Length)
             {
-                boostSprites[i] = boostInfo.UpgradeSprites[spriteIndex];
+                Tuple<Sprite, Sprite> sprites = new Tuple<Sprite, Sprite>(boostInfo.UpgradeSprites[spriteIndex], boostFrame);
+                boostSpritesAndFrames[i] = sprites;
             }
         }
-        return boostSprites;
+        return boostSpritesAndFrames;
+    }
+    public Boost[] GetEquipedBoostInfos()
+    {
+        int boostCount = GameData.gameData.saveData.equipedBoosts.Count;
+        Boost[] boostInfos = new Boost[boostCount];
+        for (int i = 0; i < boostCount; i++)  //check every equiped slot
+        {
+            string equipedBoostId = GameData.gameData.saveData.equipedBoosts[i];  //get id of equiped boost
+            boostInfos[i] = GetBoostWithId(equipedBoostId);
+        }
+        return boostInfos;
     }
     Boost GetBoostWithId(string id)
     {
@@ -134,7 +163,16 @@ public class BonusManager : MonoBehaviour
             currButtonSelected.GetComponent<Image>().sprite = boostInfo.UpgradeSprites[index];
         }
     }
-
+    public void SetBoostFrame(string boostId, int buttonIndex)
+    {
+        int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(boostId));
+        boostPanels[buttonIndex].sprite = boostFrames[spriteIndex];
+    }
+    public Sprite GetBoostFrame(string boostId)
+    {
+        int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(boostId));
+        return boostFrames[spriteIndex];
+    }
     public static Sprite GetBoostImage(Boost boostInfo)
     {
         if (boostInfo != null)

@@ -30,16 +30,20 @@ public class OptionsController : MonoBehaviour
             AudioController.Instance.Pause();
         ScrollBackground.Instance.StopScrolling();
         GridA.Instance.currState = GameState.wait;
+        Time.timeScale = 0;
     }
-
     public void Resume()
     {
         if (AudioController.Instance)
             AudioController.Instance.Resume();
         ScrollBackground.Instance.ResumeScrolling();
         GridA.Instance.currState = GameState.move;
+        Time.timeScale = 1;
     }
-
+    public void NotifySFXVolumeSubs()
+    {
+        AudioController.Instance.NotifyForVolumeChange();
+    }
     public void SaveSettings()
     {
         PlayerPrefsController.SetMasterVolume(volumeSlider.value);

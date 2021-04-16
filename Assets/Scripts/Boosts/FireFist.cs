@@ -40,7 +40,7 @@ public class FireFist : BoostBase
     {
         grid = GridA.Instance;
         if (cameraShake == null)
-            Camera.main.GetComponent<CameraShake>();
+            cameraShake = Camera.main.GetComponent<CameraShake>();
         grid.currState = GameState.wait;
 
         if (scrollBackground != null)
@@ -134,7 +134,7 @@ public class FireFist : BoostBase
             if (fist.transform.position == (Vector3)target)
             {
                 audioSource.PlayOneShot(fistHit);
-                StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(.1f, .15f));
+                StartCoroutine(cameraShake.Shake(.1f, .15f));
                 OnPunch(target);
                 GameObject particle = Instantiate(punchParticle, target, transform.rotation);
                 Destroy(particle, 0.8f);
@@ -150,8 +150,7 @@ public class FireFist : BoostBase
     {
         if (grid.allBoxes[(int)target.x, (int)target.y] == null)
             return;
-        Destroy(grid.allBoxes[(int)target.x, (int)target.y]);
-        grid.allBoxes[(int)target.x, (int)target.y] = null;
+        grid.DestroyBlockAtPosition((int)target.x, (int)target.y);
     }
 
     private void MakePunchedFiredUp(Vector2 target)
@@ -166,7 +165,7 @@ public class FireFist : BoostBase
         if (grid.allBoxes[(int)target.x, (int)target.y] == null)
             return;
 
-        Destroy(grid.allBoxes[(int)target.x, (int)target.y]);
+        grid.DestroyBlockAtPosition((int)target.x, (int)target.y);
         foreach (Vector2 dir in directions)
         {
             StartCoroutine(DestroyLineOfBlocks(target, dir));
@@ -181,9 +180,7 @@ public class FireFist : BoostBase
 
         while (grid.allBoxes[x, y] != null)
         {
-            Destroy(grid.allBoxes[x, y]);
-            grid.allBoxes[x, y] = null;
-            grid.SpawnBlockParticles(new Vector2(x, y));
+            grid.DestroyBlockAtPosition(x, y);
 
             x += (int)(dir.x);
             y += (int)(dir.y);
@@ -260,7 +257,7 @@ public class FireFist : BoostBase
             {
                 if (grid.allBoxes[i, j] != null)
                 {
-                    grid.allBoxes[i, j].GetComponent<Box>().blockClicked = ClickOnBlock;
+                    grid.allBoxes[i, j].GetComponent<Box>().blockClicked += ClickOnBlock;
                 }
             }
         }

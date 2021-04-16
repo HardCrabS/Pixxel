@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioController : MonoBehaviour 
+public class AudioController : MonoBehaviour
 {
     public static AudioController Instance { get; private set; }
 
+    public delegate void OnSFXVolumeChange(float volume);
+    public event OnSFXVolumeChange onSFXVolumeChange;
+
+    public float SFXVolume { private set; get; }
+
     AudioSource audioSource;
-	void Awake () 
+    void Awake()
     {
         if (Instance != null)
         {
@@ -19,14 +24,20 @@ public class AudioController : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = PlayerPrefsController.GetMasterVolume();
-	}
+        SFXVolume = PlayerPrefsController.GetMasterSFXVolume();
+    }
+    public void NotifyForVolumeChange()
+    {
+        float sfxVolumeMultiplier = PlayerPrefsController.GetMasterSFXVolume();
+        onSFXVolumeChange?.Invoke(sfxVolumeMultiplier);
+    }
     public void PlayClipOneShot(AudioClip clip)
     {
         audioSource.PlayOneShot(clip);
     }
     public void SetCurrentClip(AudioClip clip, float delay = 0)
     {
-        if(clip == audioSource.clip && audioSource.isPlaying) { return; }
+        if (clip == audioSource.clip && audioSource.isPlaying) { return; }
 
         audioSource.Stop();
         audioSource.clip = clip;

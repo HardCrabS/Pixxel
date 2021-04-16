@@ -20,10 +20,7 @@ public class BlockRemover : MonoBehaviour
             int randY = Random.Range(0, blocks.GetLength(1));
             if (blocks[randX, randY] != null)
             {
-                Vector2 pos = blocks[randX, randY].transform.position;
-                Destroy(blocks[randX, randY]);
-                GridA.Instance.allBoxes[randX, randY] = null;
-                GridA.Instance.SpawnBlockParticles(pos);
+                GridA.Instance.DestroyBlockAtPosition(randX, randY);
                 return;
             }
         }

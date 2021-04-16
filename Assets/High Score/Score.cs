@@ -1,15 +1,17 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
     [SerializeField] Text bestScoreText;
+    [SerializeField] TextMeshProUGUI bombChanceText;
     [SerializeField]
     int[] scoreWorldLevels = new int[]  //default
         {
-            300, 500, 700, 1500 
+            300, 500, 700, 1500
         };//score needed for each world Level
-    Text textScore;
+    TextMeshProUGUI textScore;
     int currentScore = 0;
     int currWorldLevel = 0;
 
@@ -25,17 +27,18 @@ public class Score : MonoBehaviour
     }
     void Start()
     {
-        textScore = GetComponent<Text>();
+        textScore = GetComponent<TextMeshProUGUI>();
         if (LevelSettingsKeeper.settingsKeeper != null)
             scoreWorldLevels = LevelSettingsKeeper.settingsKeeper.worldInfo.ScoreWorldLevels;
         UpdateScore();
+        bombChanceText.text = GridA.Instance.bombSpawnChance + "\nlv: " + (currWorldLevel + 1);
     }
 
     void UpdateScore()
     {
         if (textScore == null) return;
         textScore.text = currentScore.ToString();
-        if (currentScore > bestScore)
+        if (bestScoreText != null && currentScore > bestScore)
         {
             bestScoreText.text = currentScore.ToString();
             GameData.gameData.saveData.worldBestScores[worldId] = currentScore;
@@ -46,6 +49,7 @@ public class Score : MonoBehaviour
             currWorldLevel++;
             GridA.Instance.IncreaseBombSpawnChance(2);
             CoinsDisplay.Instance.IncreaseCoinDropChance(2);
+            bombChanceText.text = GridA.Instance.bombSpawnChance + "\nlv: " + (currWorldLevel + 1);
         }
     }
 

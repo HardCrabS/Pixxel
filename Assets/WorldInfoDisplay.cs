@@ -70,5 +70,6 @@ public class WorldInfoDisplay : MonoBehaviour
     void LoadWorld()
     {
         FindObjectOfType<SceneLoader>().LoadConcreteWorld(worldInformation.id, worldInformation.Song, worldInformation.MusicStartDelay);
+        AudioController.Instance.Pause();
     }
 }

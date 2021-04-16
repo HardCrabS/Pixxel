@@ -8,6 +8,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] UI_System uiSystem;
     [SerializeField] GameObject visualizerCanvas;
     [SerializeField] GameObject tutorialCanvas;
+    [SerializeField] GameObject[] objectsToTurnOff;
     [SerializeField] GameObject logo;
     [SerializeField] SequentialText text;
     [SerializeField] Dialogue[] helloDialogues;
@@ -25,8 +26,9 @@ public class Tutorial : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
         {
-            logo.SetActive(false);
-            visualizerCanvas.SetActive(false);
+            SetObjectsState(false);
+            //logo.SetActive(false);
+            //visualizerCanvas.SetActive(false);
             gameUI = uiSystem.m_StartScreen;
             uiSystem.m_StartScreen = tutorialCanvas.GetComponent<UI_Screen>();
             //uiSystem.m_Fader = fadeImage;
@@ -68,14 +70,22 @@ public class Tutorial : MonoBehaviour
         //gameCanvas.SetActive(true);
         //UI_System.Instance.m_StartScreen.gameObject.SetActive(true);
         uiSystem.SwitchScreens(gameUI);
-        visualizerCanvas.SetActive(true);
-        logo.SetActive(true);
+        //visualizerCanvas.SetActive(true);
+        //logo.SetActive(true);
+        SetObjectsState(true);
 
         PlayerPrefs.SetInt("TUTORIAL", 1);
         glitcher.SetBombExplodeParameters();
 
         Destroy(gameObject);
         Destroy(tutorialCanvas);
+    }
+    void SetObjectsState(bool state)
+    {
+        foreach (GameObject obj in objectsToTurnOff)
+        {
+            obj.SetActive(state);
+        }
     }
     IEnumerator PlayDialogues(Dialogue[] dialogues)
     {

@@ -23,7 +23,7 @@ public class Box : MonoBehaviour
     public GameObject neighborBox;
 
     public delegate void OnClick(int x, int y);
-    public OnClick blockClicked;
+    public event OnClick blockClicked;
 
     void Start()
     {
@@ -39,7 +39,9 @@ public class Box : MonoBehaviour
         {
             if (isMatched)
             {
-                GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+                var spriteRenderer = GetComponent<SpriteRenderer>();
+                if (spriteRenderer)
+                    GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
             }
             targetX = row;
             targetY = column;
