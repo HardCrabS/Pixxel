@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class LevelSlider : MonoBehaviour
 {
     [SerializeField] Text rankText;
     [SerializeField] Text nameText;
     [SerializeField] Slider levelSlider;
+    [SerializeField] TextMeshProUGUI xpDebugText; //for debugging gained xp TODO remove
 
     int currentLevel = 1;
     int currentSaveBorder = 20;
@@ -16,6 +16,7 @@ public class LevelSlider : MonoBehaviour
 
     int initLevel;
     float initXPValue;
+    float xpEarned = 0;
 
     public static LevelSlider Instance;
 
@@ -61,6 +62,11 @@ public class LevelSlider : MonoBehaviour
     {
         if (levelSlider == null) return;
         levelSlider.value += amount * xpMultiplier;
+        if(xpDebugText != null)
+        {
+            xpEarned += amount * xpMultiplier;
+            xpDebugText.text = "xp: " + xpEarned + "\nxp ->lv: " + levelSlider.maxValue;
+        }
         if (levelSlider.value >= levelSlider.maxValue)
         {
             currentLevel++;
@@ -104,7 +110,7 @@ public class LevelSlider : MonoBehaviour
     {
         return (int)(levelSlider.maxValue - levelSlider.value);
     }
-
+    public float GetTotalEarnedXP() => xpEarned;
     public void SetXPMultiplier(float multiplier)
     {
         xpMultiplier = multiplier;

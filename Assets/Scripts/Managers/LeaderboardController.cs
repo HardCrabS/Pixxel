@@ -56,7 +56,7 @@ public class LeaderboardController : MonoBehaviour
 
         string playerId = SystemInfo.deviceUniqueIdentifier;
         playerIndex = GetPlayerIndex(allUsers, playerId);
-        //playerIndex = 10;
+
         if (playerIndex >= 0 && playerArrow == null)
             playerArrow = Instantiate(playerArrowPrefab, Vector3.zero, playerArrowPrefab.transform.rotation).transform;
         Scroll.InitData(Count, playerIndex);

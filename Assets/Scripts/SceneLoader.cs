@@ -13,6 +13,10 @@ public class SceneLoader : MonoBehaviour
     {
         GameData.gameData.UnlockAllBoosts();  // FOR TEST.
     }
+    public void CallUnlockAllWorlds()
+    {
+        GameData.gameData.UnlockAllWorlds();  // FOR TEST.
+    }
     public void LoadNextScene()
     {
         int currScene = SceneManager.GetActiveScene().buildIndex;

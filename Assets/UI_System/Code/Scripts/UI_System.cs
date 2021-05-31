@@ -11,6 +11,7 @@ public class UI_System : MonoBehaviour
     public UI_Screen m_StartScreen;
 
     [Header("System Events")]
+    public UnityEvent onSystemStart = new UnityEvent();
     public UnityEvent onSwitchedScreen = new UnityEvent();
 
     [Header("Fader Properties")]
@@ -38,6 +39,9 @@ public class UI_System : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (onSystemStart != null)
+            onSystemStart.Invoke();
+
         screens = GetComponentsInChildren<UI_Screen>(true);
         InitializeScreens();
 

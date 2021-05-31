@@ -16,7 +16,7 @@ public class FireFist : BoostBase
     private GameObject selectHand;
     private Text timeText;
     GridA grid;
-    ScrollBackground scrollBackground;
+    ScrollBackground[] scrollBackgrounds;
     CameraShake cameraShake;
     AudioClip sfxStart, selectBoxSFX, fistFadingIn, fistHit;
 
@@ -33,7 +33,7 @@ public class FireFist : BoostBase
         base.Start();
 
         clickedBlocks = new List<Vector2>();
-        scrollBackground = ScrollBackground.Instance;
+        scrollBackgrounds = FindObjectsOfType<ScrollBackground>();
     }
 
     public override void ExecuteBonus()
@@ -43,10 +43,10 @@ public class FireFist : BoostBase
             cameraShake = Camera.main.GetComponent<CameraShake>();
         grid.currState = GameState.wait;
 
-        if (scrollBackground != null)
+        /*foreach(var bg in scrollBackgrounds)
         {
-            scrollBackground.StopScrolling();
-        }
+            bg.StopScrolling();
+        }*/
         if (punchPanel == null)
         {
             punchPanel = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Punch Time Panel");
@@ -71,7 +71,7 @@ public class FireFist : BoostBase
     void SpawnFist(Vector2 blockPos)
     {
         float width = grid.width;
- 
+
         Vector2 spawnPos = Vector2.zero;
 
         if (blockPos.x > width - blockPos.x) // closer to the right
@@ -126,8 +126,8 @@ public class FireFist : BoostBase
         while (true)
         {
             fist.transform.position = Vector2.MoveTowards(fist.transform.position, target, currFistSpeed * Time.deltaTime);
-            
-            if(Vector3.Distance(fist.transform.position, target) < acceleratedFistDistance)
+
+            if (Vector3.Distance(fist.transform.position, target) < acceleratedFistDistance)
             {
                 currFistSpeed = fistSpeed * 2;
             }
@@ -148,9 +148,8 @@ public class FireFist : BoostBase
 
     private void DestroyPunchedBlock(Vector2 target)
     {
-        if (grid.allBoxes[(int)target.x, (int)target.y] == null)
-            return;
-        grid.DestroyBlockAtPosition((int)target.x, (int)target.y);
+        if (grid.allBoxes[(int)target.x, (int)target.y] != null)
+            grid.DestroyBlockAtPosition((int)target.x, (int)target.y);
     }
 
     private void MakePunchedFiredUp(Vector2 target)
@@ -215,9 +214,10 @@ public class FireFist : BoostBase
             else
             {
                 timeText.text = "0.00";
-                if (scrollBackground != null)
-                    scrollBackground.ResumeScrolling();
-
+                /*foreach (var bg in scrollBackgrounds)
+                {
+                    bg.ResumeScrolling();
+                }*/
                 if (totalClicksMade < maxClicks)
                 {
                     for (int i = totalClicksMade; i < maxClicks; i++) // fill unclicked blocks with random

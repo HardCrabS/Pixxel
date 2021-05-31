@@ -40,7 +40,7 @@ public class FlashField : BoostBase
         GameObject go = Instantiate(lightning, pos, transform.rotation);
         StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.1f, 0.2f));
         Destroy(go, 0.4f);
-        StartCoroutine(grid.FiredUpBlock(box));
+        grid.SetBlockFiredUp(box);
     }
     public override void SetBoostLevel(int lvl)
     {
@@ -48,19 +48,19 @@ public class FlashField : BoostBase
         grid = GridA.Instance;
         if(lvl <= 3)
         {
-            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.05f);
+            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.05f);//5% of all blocks
         }
         else if(lvl <= 6)
         {
-            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.1f);
+            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.1f);//10% of all blocks
         }
         else if(lvl <= 9)
         {
-            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.15f);
+            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.15f);//15% of all blocks
         }
         else
         {
-            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.2f);
+            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.2f);//20% of all blocks
         }
     }
 }

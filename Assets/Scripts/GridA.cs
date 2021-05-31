@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public enum BlockTags
@@ -55,9 +56,18 @@ public class GridA : MonoBehaviour
     [SerializeField] AudioClip deadLock1;
     [SerializeField] AudioClip deadLock2;
 
+    [Header("Special blocks")]
+    [SerializeField] Material firedUpMat;
+    [SerializeField] Material warpedMat;
+
     [Header("Add for match")]
     [SerializeField] int scorePointsToAddperBox = 10;
     [SerializeField] float pointsXPforLevel = 1;
+
+    [Header("Combo")]
+    [SerializeField] GameObject comboGraphics;
+    [SerializeField] TextMeshProUGUI comboPreviousText;
+    [SerializeField] TextMeshProUGUI comboCurrentText;
 
     [Header("Grid Settings")]
     [SerializeField] LevelTemplate tutorialTemplate;
@@ -74,6 +84,8 @@ public class GridA : MonoBehaviour
     public Box currBox;
 
     private const float aspectRatioMultiplier = 9.0f / 16 * 7.5f;
+
+    private int scoreStreak = 1;
     public bool[,] blankSpaces;
     private BackgroundTile[,] breakableTiles;
     public BackgroundTile[,] lockedTiles;
@@ -392,6 +404,16 @@ public class GridA : MonoBehaviour
             }
             DestroyBombTile(row, column);
 
+            Box matchedBox = allBoxes[row, column].GetComponent<Box>();
+            if (matchedBox.FiredUp)
+            {
+                StartCoroutine(FiredUpBlock(matchedBox));
+            }
+            else if(matchedBox.Warped)
+            {
+                StartCoroutine(DestroyAllSameColor(matchedBox.tag));
+            }
+
             CheckBomb();
             DestroyBlockAtPosition(row, column);
 
@@ -441,8 +463,8 @@ public class GridA : MonoBehaviour
                 if (currBox.isMatched)
                 {
                     DestroyBombTile(currBox.row, currBox.column);
-                    currBox.isMatched = false;
-                    StartCoroutine(FiredUpBlock(currBox));
+                    SetBlockFiredUp(currBox);
+                    currBox.GetComponent<SpriteRenderer>().color = Color.white;
                 }
                 else
                 {
@@ -450,9 +472,8 @@ public class GridA : MonoBehaviour
                     {
                         Box neighbor = currBox.neighborBox.GetComponent<Box>();
                         DestroyBombTile(neighbor.row, neighbor.column);
-                        neighbor.isMatched = false;
-                        neighbor.GetComponent<SpriteRenderer>().color = Color.red;
-                        StartCoroutine(FiredUpBlock(neighbor));
+                        SetBlockFiredUp(neighbor);
+                        neighbor.GetComponent<SpriteRenderer>().color = Color.white;
                     }
                 }
             }
@@ -464,28 +485,27 @@ public class GridA : MonoBehaviour
                 if (currBox.isMatched)
                 {
                     DestroyBombTile(currBox.row, currBox.column);
-                    currBox.isMatched = false;
-                    currBox.GetComponent<SpriteRenderer>().color = Color.blue;
-                    StartCoroutine(DestroyAllSameColor(currBox.tag, currBox));
+                    SetBlockWarped(currBox);
+                    currBox.GetComponent<SpriteRenderer>().color = Color.white;
                 }
                 else if (currBox.neighborBox != null && currBox.neighborBox.GetComponent<Box>().isMatched)
                 {
-                    DestroyBombTile(currBox.neighborBox.GetComponent<Box>().row, currBox.neighborBox.GetComponent<Box>().column);
-                    currBox.neighborBox.GetComponent<Box>().isMatched = false;
-                    currBox.neighborBox.GetComponent<SpriteRenderer>().color = Color.red;
-                    StartCoroutine(DestroyAllSameColor(currBox.neighborBox.tag, currBox.neighborBox.GetComponent<Box>()));
+                    Box neighbor = currBox.neighborBox.GetComponent<Box>();
+                    DestroyBombTile(neighbor.row, neighbor.column);
+                    SetBlockWarped(neighbor);
+                    neighbor.GetComponent<SpriteRenderer>().color = Color.white;
                 }
             }
         }
     }
-
     public IEnumerator FiredUpBlock(Box box)
     {
-        GameObject smokeClone = Instantiate(smoke, box.gameObject.transform.position, smoke.transform.rotation, box.transform);
-        GameObject fireClone = Instantiate(fire, box.gameObject.transform.position, transform.rotation, box.transform);
-        box.GetComponent<SpriteRenderer>().color = Color.red;
-        audioSource.PlayOneShot(firedUpSFX);
-        yield return new WaitForSeconds(2f);
+        //GameObject smokeClone = Instantiate(smoke, box.gameObject.transform.position, smoke.transform.rotation, box.transform);
+        //GameObject fireClone = Instantiate(fire, box.gameObject.transform.position, transform.rotation, box.transform);
+        //box.GetComponent<SpriteRenderer>().color = Color.red;
+        //audioSource.PlayOneShot(firedUpSFX);
+        //float fireAnimTime = fireClone.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Length;
+        yield return null;
         if (box != null)
         {
             foreach (Vector2Int dir in directions)
@@ -502,18 +522,27 @@ public class GridA : MonoBehaviour
             DestroyBlockAtPosition(box.row, box.column);
             BlockDestroyedSFX();
         }
-        Destroy(fireClone);
-        Destroy(smokeClone);
+        //Destroy(fireClone);
+        //Destroy(smokeClone);
 
         StartCoroutine(MoveBoxesDown());
     }
-
-    public IEnumerator DestroyAllSameColor(string boxTag, Box box = null)
+    public void SetBlockFiredUp(Box box)
     {
-        if (box != null)
-            Instantiate(warpedPart, box.gameObject.transform.position, transform.rotation, box.transform);
+        box.isMatched = false;
+        box.FiredUp = true;
+        FiredUpVFX(box);
+    }    
+    public void SetBlockWarped(Box box)
+    {
+        box.isMatched = false;
+        box.Warped = true;
+        WarpBoxVFX(box);
+    }
+    public IEnumerator DestroyAllSameColor(string boxTag, float delay = 2)
+    {
         audioSource.PlayOneShot(warpedSFX);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(delay);
         foreach (GameObject go in allBoxes)
         {
             if (go != null && go.CompareTag(boxTag))
@@ -602,7 +631,7 @@ public class GridA : MonoBehaviour
                 if (allBoxes[x, y] == null && !blankSpaces[x, y])
                 {
                     int bombChance = Random.Range(0, 100);
-                    if (bombChance <= bombSpawnChance)
+                    if (bombChance < bombSpawnChance)
                     {
                         Vector2 tempPos = new Vector2(x, y + offset);
                         GameObject bomb = Instantiate(bombTilePrefab, parentOfAllBoxes.position + new Vector3(tempPos.x, tempPos.y), transform.rotation, parentOfAllBoxes);
@@ -643,6 +672,7 @@ public class GridA : MonoBehaviour
         return false;
     }
 
+    float timeUntilStreakReset = 3;
     private IEnumerator FillBoard()
     {
         RespawnBoxes();
@@ -651,9 +681,12 @@ public class GridA : MonoBehaviour
         while (MatchesOnBoard())
         {
             yield return new WaitForSeconds(.5f);
+
             DestroyAllMatches();
         }
+
         matchFinder.currentMatches.Clear();
+        currBox = null;
         yield return new WaitForSeconds(.5f);
         if (IsDeadlocked())
         {
@@ -817,7 +850,7 @@ public class GridA : MonoBehaviour
     void AddXPandScorePoints()
     {
         if (Score.Instance == null || LevelSlider.Instance == null) return;
-        Score.Instance.AddPoints(scorePointsToAddperBox);
+        Score.Instance.AddPoints(scorePointsToAddperBox * scoreStreak);
         LevelSlider.Instance.AddXPtoLevel(pointsXPforLevel);
         CoinsDisplay.Instance.RandomizeCoin();
     }
@@ -840,11 +873,19 @@ public class GridA : MonoBehaviour
         ExplosionForce ef = ExplosionForce.Instance;
         ef.doExplosion(allBoxes[row, column].transform.position);
     }
-    /*public void SpawnBlockParticles(Vector2 pos)
+    void FiredUpVFX(Box box)
     {
-        GameObject particle = Instantiate(blockDestroyParticle, pos, transform.rotation);
-        Destroy(particle, 0.5f);
-    }*/
+        box.GetComponent<SpriteRenderer>().material = firedUpMat;
+        Instantiate(smoke, box.gameObject.transform.position, smoke.transform.rotation, box.transform);
+        Instantiate(fire, box.gameObject.transform.position, transform.rotation, box.transform);
+        audioSource.PlayOneShot(firedUpSFX);
+    }
+    void WarpBoxVFX(Box box)
+    {
+        box.GetComponent<SpriteRenderer>().material = warpedMat;
+        Instantiate(warpedPart, box.gameObject.transform.position, transform.rotation, box.transform);
+        audioSource.PlayOneShot(warpedSFX);
+    }
     #endregion
     #region SFX
     void ChangeSFXVolume(float volume)

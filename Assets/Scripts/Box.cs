@@ -10,13 +10,17 @@ public class Box : MonoBehaviour
     public bool isMatched = false;
     public int row;
     public int column;
+    public int targetX;
+    public string boxName;
+    public int targetY;
+
     int prevColumn;
     int prevRow;
-    public int targetX;
-    public int targetY;
     float finalAngle;
     float swipeResist = .5f;
-    public string boxName;
+
+    public bool FiredUp { get; set; } = false;
+    public bool Warped { get; set; } = false;
 
     GridA grid;
     MatchFinder matchFinder;
@@ -117,6 +121,18 @@ public class Box : MonoBehaviour
         neighborBox = grid.allBoxes[row + (int)direction.x, column + (int)direction.y];
         prevRow = row;
         prevColumn = column;
+
+        if(Warped)
+        {
+            grid.StartCoroutine(grid.DestroyAllSameColor(neighborBox.tag, 0));
+            grid.DestroyBlockAtPosition(row, column);
+        }
+        if(neighborBox != null && neighborBox.GetComponent<Box>().Warped)
+        {
+            grid.StartCoroutine(grid.DestroyAllSameColor(gameObject.tag, 0));
+            Box neighbor = neighborBox.GetComponent<Box>();
+            grid.DestroyBlockAtPosition(neighbor.row, neighbor.column);
+        }
 
         if (grid.lockedTiles[row, column] == null
             && grid.lockedTiles[row + (int)direction.x, column + (int)direction.y] == null)

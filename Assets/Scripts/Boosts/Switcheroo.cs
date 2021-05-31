@@ -88,11 +88,11 @@ public class Switcheroo : BoostBase
         }
         else if(lvl >= 7 && lvl <= 9)
         {
-            AddRandomTagsToList(2);
+            AddRandomTagsToList(1);
         }
         else if(lvl == 10)
         {
-            AddRandomTagsToList(3);
+            AddRandomTagsToList(2);
         }
     }
 }

@@ -100,6 +100,8 @@ public class MatchFinder : MonoBehaviour
                 }
             }
         }
+        ComboManager.Instance.CheckCombo();
+
         if (currentMatches.Count > 0 && currentMatches.Count <= 3)
         {
             grid.tempTagForTrinket = currentMatches[0].tag;

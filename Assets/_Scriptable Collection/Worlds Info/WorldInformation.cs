@@ -13,6 +13,14 @@ public class WorldInformation : RewardTemplate
     [SerializeField] int[] scoreWorldLevels = new int[10];
     [SerializeField] LevelTemplate[] trinketTemplates;
 
+    [Header("Game UI")]
+    [SerializeField] Material scoreTextMaterial;
+    [SerializeField] GameObject backgroundCanvas;
+    [SerializeField] Sprite blocksPanelSprite;
+    [SerializeField] Color blocksPanelColor;
+    [SerializeField] Color blocksPanelGlowColor;
+    [SerializeField] Color visualizerColor;
+
     [Header("World Select Info")]
     [SerializeField] string worldStyle;
     [SerializeField] string musicTitle;
@@ -31,6 +39,12 @@ public class WorldInformation : RewardTemplate
     public GameObject[] Boxes { get { return boxes; } }
     public LevelTemplate[] TrinketLevelTemplates { get { return trinketTemplates; } }
     public LevelTemplate LeaderboardLevelTemplate { get { return template; } }
+    public Material ScoreTextMat { get { return scoreTextMaterial; } }
+    public GameObject BackgroundCanvas { get { return backgroundCanvas; } }
+    public Sprite BlocksPanelSprite { get { return blocksPanelSprite; } }
+    public Color BlocksPanelColor { get { return blocksPanelColor; } }
+    public Color BlocksPanelGlowColor { get { return blocksPanelGlowColor; } }
+    public Color VisualizerColor { get { return visualizerColor; } }
 
     public override Sprite GetRewardSprite()
     {

@@ -319,7 +319,6 @@ GameObject:
   - component: {fileID: 2596631352992468508}
   - component: {fileID: 6131535015895388774}
   - component: {fileID: 4217159698884528069}
-  - component: {fileID: 8958170434206330370}
   m_Layer: 5
   m_Name: Lock Image
   m_TagString: Lock
@@ -336,15 +335,15 @@ RectTransform:
   m_GameObject: {fileID: 413733411825523410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -0.2501414, y: 0.19058388, z: 0.19058388}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 224517781233051288}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.4, y: 1.4}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -5.8, y: -3.2}
+  m_SizeDelta: {x: 14, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6131535015895388774
 CanvasRenderer:
@@ -367,14 +366,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.904102, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a59d16474cf0ceb4bb043cd413123685, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f015e5f1818152d4e8852409751d4856, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -384,18 +383,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8958170434206330370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413733411825523410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 5.04, y: -7.59}
-  m_UseGraphicAlpha: 1

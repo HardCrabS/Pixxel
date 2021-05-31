@@ -123,6 +123,17 @@ public class GameData : MonoBehaviour
         saveData.slotsForBoostsUnlocked[2] = true;
         Save();
     }
+    public void UnlockAllWorlds()
+    {
+        var allWorlds = CollectionController.Instance.worlds;
+        for (int i = 0; i < allWorlds.Length; i++)
+        {
+            saveData.worldIds.Add(allWorlds[i].id);
+            if (!saveData.worldBestScores.ContainsKey(allWorlds[i].id))
+                saveData.worldBestScores.Add(allWorlds[i].id, 0);
+        }
+        Save();
+    }
     public void UnlockTitle(string id)
     {
         if (saveData.titleIds.Contains(id)) return;

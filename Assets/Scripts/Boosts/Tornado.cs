@@ -230,10 +230,10 @@ public class Tornado : BoostBase
                     int randWarpedChance = Random.Range(0, 100);
                     if (randWarpedChance < warpedChance)
                     {
-                        StartCoroutine(grid.DestroyAllSameColor(box.gameObject.tag, box));
+                        grid.SetBlockWarped(box);
                     }
                     else
-                        StartCoroutine(grid.FiredUpBlock(box));
+                        grid.SetBlockFiredUp(box);
                 }
                 tryCounter++;
             }

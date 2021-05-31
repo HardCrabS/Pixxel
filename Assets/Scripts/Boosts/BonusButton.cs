@@ -19,6 +19,8 @@ public class BonusButton : MonoBehaviour
     float boostReloadDeltaPerMove;
     bool interactable = false;
 
+    const string LOCK_TAG = "Lock";
+
     void Start()
     {
         boostImage = GetComponent<Image>();
@@ -27,12 +29,19 @@ public class BonusButton : MonoBehaviour
             bool slotUnlocked = GameData.gameData == null ? false : GameData.gameData.saveData.slotsForBoostsUnlocked[buttonIndex];
             if (slotUnlocked)
             {
+                //disable lock image
+                GameObject lockObj = CollectionController.GetChildWithTag(transform, LOCK_TAG);
+                if (lockObj != null)
+                    lockObj.SetActive(false);
+
+                //if boost was picked 
                 if (boostInfo != null)
                 {
                     audioSource = GetComponent<AudioSource>();
                     if (AudioController.Instance)  
                     {
-                        AudioController.Instance.onSFXVolumeChange += ChangeButtonVolume;   //change volume if sfx volume slider changed
+                        //change volume if sfx volume slider changed
+                        AudioController.Instance.onSFXVolumeChange += ChangeButtonVolume;   
                         audioSource.volume = AudioController.Instance.SFXVolume;
                     }
                     boostImage.color = disabledColor;
@@ -48,17 +57,16 @@ public class BonusButton : MonoBehaviour
                 }
                 else
                 {
-                    gameObject.SetActive(false); //hide bonus button if wasnt picked
+                    //hide bonus button with its lock if wasnt picked
+                    gameObject.SetActive(false); 
                 }
             }
             else
             {
-                Button button = GetComponent<Button>(); //set lock image if panel is locked
-                button.interactable = false;
-                var colors = button.colors;
-                colors.disabledColor = Color.white;
-                button.colors = colors;
-                gameObject.AddComponent<Shadow>().effectDistance = new Vector2(10, -10);
+                //disable button for locked boost button
+                GetComponent<Button>().interactable = false;
+                //disable boost graphics
+                GetComponent<Image>().enabled = false;
             }
         }
     }

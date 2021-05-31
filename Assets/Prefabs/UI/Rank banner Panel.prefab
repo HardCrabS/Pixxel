@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 2798302763328912041}
   - component: {fileID: 2390877728082592015}
   - component: {fileID: 8248428392782884686}
+  - component: {fileID: 8077891335437178199}
   m_Layer: 5
   m_Name: Rank banner Panel
   m_TagString: Untagged
@@ -102,7 +103,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2830513689065896419}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.57607, y: 0.57607, z: 0.57607}
   m_Children:
@@ -187,6 +188,23 @@ MonoBehaviour:
   rankText: {fileID: 2799098502227470527}
   nameText: {fileID: 2798316957129302269}
   levelSlider: {fileID: 2800063673570297709}
+  xpDebugText: {fileID: 0}
+--- !u!114 &8077891335437178199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2830513689065896419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee158225ee1e59f4791627785501d950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shaderTypes: 0
+  normalStrenght: 5
+  normalSmoothing: 1
+  computingNormal: 0
 --- !u!1 &2830692034969319731
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +254,7 @@ GameObject:
   - component: {fileID: 2617652528744357663}
   - component: {fileID: 2619527500985301499}
   - component: {fileID: 2798316957129302269}
-  - component: {fileID: 2799191313768924913}
+  - component: {fileID: 315804754926378528}
   m_Layer: 5
   m_Name: Name Text
   m_TagString: Untagged
@@ -260,7 +278,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 12, y: 3}
+  m_AnchoredPosition: {x: 12, y: -5}
   m_SizeDelta: {x: 995.8, y: 180.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2619527500985301499
@@ -304,8 +322,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '|    TomasBob69    |'
---- !u!114 &2799191313768924913
+  m_Text: TomasBob69
+--- !u!114 &315804754926378528
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -314,12 +332,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2830925802336155579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 15, y: -15}
-  m_UseGraphicAlpha: 1
+  m_EffectDistance: {x: 10, y: 10}
+  m_UseGraphicAlpha: 0
 --- !u!1 &2830946020429425825
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +349,7 @@ GameObject:
   - component: {fileID: 2616948680316701267}
   - component: {fileID: 2619698243400462847}
   - component: {fileID: 2798999994489674747}
-  - component: {fileID: 2799840709429944087}
+  - component: {fileID: 5379090556657363471}
   m_Layer: 5
   m_Name: CoinsText
   m_TagString: Untagged
@@ -403,7 +421,7 @@ MonoBehaviour:
   m_Text: '68,000
 
 '
---- !u!114 &2799840709429944087
+--- !u!114 &5379090556657363471
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -412,11 +430,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2830946020429425825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 15, y: -15}
+  m_EffectDistance: {x: 10, y: 10}
   m_UseGraphicAlpha: 1
 --- !u!1 &2831028451812393229
 GameObject:
@@ -517,6 +535,7 @@ GameObject:
   - component: {fileID: 2832088588794413966}
   - component: {fileID: 2832088588794413960}
   - component: {fileID: 2832088588794413961}
+  - component: {fileID: 854121724820201363}
   m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
@@ -581,6 +600,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &854121724820201363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2832088588794413967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee158225ee1e59f4791627785501d950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shaderTypes: 0
+  normalStrenght: 5
+  normalSmoothing: 1
+  computingNormal: 0
 --- !u!1 &2832088589919153718
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,7 +738,7 @@ GameObject:
   - component: {fileID: 2616786219651656701}
   - component: {fileID: 2618849958494630565}
   - component: {fileID: 2799098502227470527}
-  - component: {fileID: 2799737835031123121}
+  - component: {fileID: 2537313005137280490}
   m_Layer: 5
   m_Name: Rank Text
   m_TagString: Untagged
@@ -718,7 +753,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2832242245913628007}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children: []
@@ -727,7 +762,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -503, y: 2.9999132}
+  m_AnchoredPosition: {x: -503, y: -4}
   m_SizeDelta: {x: 579.7, y: 180.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2618849958494630565
@@ -772,7 +807,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Rank 17
---- !u!114 &2799737835031123121
+--- !u!114 &2537313005137280490
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -781,9 +816,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2832242245913628007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 15, y: -15}
+  m_EffectDistance: {x: 10, y: 10}
   m_UseGraphicAlpha: 1

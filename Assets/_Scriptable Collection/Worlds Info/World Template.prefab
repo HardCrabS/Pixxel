@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5185522867792515040}
   - component: {fileID: 6173213679326634231}
   - component: {fileID: 3220087493869312506}
-  - component: {fileID: 6460510808008594563}
   m_Layer: 5
   m_Name: Lock Image
   m_TagString: Lock
@@ -28,15 +27,15 @@ RectTransform:
   m_GameObject: {fileID: 4261102503999091595}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -0.28868818, y: 0.21995285, z: 0.21995285}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6516184875816784906}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.4, y: 1.4}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -8.6, y: -8.7}
+  m_SizeDelta: {x: 14, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6173213679326634231
 CanvasRenderer:
@@ -59,14 +58,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.90588236, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a59d16474cf0ceb4bb043cd413123685, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f015e5f1818152d4e8852409751d4856, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -76,21 +75,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6460510808008594563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4261102503999091595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 5.04, y: -7.59}
-  m_UseGraphicAlpha: 1
 --- !u!1 &5836837630151082066
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,7 +215,7 @@ RectTransform:
   m_GameObject: {fileID: 6516184875816784907}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
   - {fileID: 2674857396450198043}
   - {fileID: 5185522867792515040}

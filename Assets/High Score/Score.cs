@@ -68,7 +68,8 @@ public class Score : MonoBehaviour
         if (LevelSettingsKeeper.settingsKeeper == null) return;
         worldId = LevelSettingsKeeper.settingsKeeper.worldInfo.id;
         bestScore = GameData.gameData.saveData.worldBestScores[worldId];
-        bestScoreText.text = bestScore.ToString();
+        if (bestScoreText)
+            bestScoreText.text = bestScore.ToString();
     }
 
     public int GetCurrentScore() => currentScore;

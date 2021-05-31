@@ -28,7 +28,7 @@ public class OptionsController : MonoBehaviour
     {
         if (AudioController.Instance)
             AudioController.Instance.Pause();
-        ScrollBackground.Instance.StopScrolling();
+        //ScrollBackground.Instance.StopScrolling();
         GridA.Instance.currState = GameState.wait;
         Time.timeScale = 0;
     }
@@ -36,7 +36,7 @@ public class OptionsController : MonoBehaviour
     {
         if (AudioController.Instance)
             AudioController.Instance.Resume();
-        ScrollBackground.Instance.ResumeScrolling();
+        //ScrollBackground.Instance.ResumeScrolling();
         GridA.Instance.currState = GameState.move;
         Time.timeScale = 1;
     }

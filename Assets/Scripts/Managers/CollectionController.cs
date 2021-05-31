@@ -448,7 +448,7 @@ public class CollectionController : MonoBehaviour
             }
         }
     }
-    GameObject GetChildWithTag(Transform parent, string tag)
+    public static GameObject GetChildWithTag(Transform parent, string tag)
     {
         foreach (Transform child in parent)
         {
