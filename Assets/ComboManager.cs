@@ -62,15 +62,21 @@ public class ComboManager : MonoBehaviour
         {
             currCombo++;
             if (currCombo % 5 == 0) //display only 5s combos
-                SetComboText(currCombo);
+                StartCoroutine(SetComboText(currCombo));
         }
     }
 
-    void SetComboText(int currCombo)
+    IEnumerator SetComboText(int currCombo)
     {
         comboPreviousText.text = (currCombo - 1).ToString();
         comboCurrentText.text = currCombo.ToString();
         comboGraphics.SetActive(true);
         comboGraphics.GetComponent<Animator>().Play("Base Layer.Combo Counter", 0, 0);
+        yield return null;
+        //float animTime = comboGraphics.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Length;
+        //yield return new WaitForSeconds(animTime);
+        //numberOfCombos--;
+        //if (numberOfCombos == 0)    //no animation is playing
+        //    comboGraphics.SetActive(false);
     }
 }

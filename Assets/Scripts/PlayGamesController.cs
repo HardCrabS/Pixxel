@@ -56,7 +56,7 @@ public class PlayGamesController : MonoBehaviour
     {
         if (!GameData.gameData.isAuthentificated)
         {
-            _ = AuthenticateUser();
+            AuthenticateUser();
         }
         string playerId = SystemInfo.deviceUniqueIdentifier;
 
