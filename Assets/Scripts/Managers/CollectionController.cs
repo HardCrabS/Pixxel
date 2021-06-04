@@ -90,6 +90,9 @@ public class CollectionController : MonoBehaviour
         //ClearContainer(worldsContainer);
         var worldsUnlocked = GameData.gameData.saveData.worldIds;
 
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
         for (int i = 0; i < worlds.Length; i++)
         {
             string worldName = worlds[i].id;
@@ -113,6 +116,9 @@ public class CollectionController : MonoBehaviour
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(worldSelectionGlow, worldPanel.position); });
         }
+        //spawn 2 empty objects at the end to make scroll offset
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
     }
     void OnWorldClicked(string description, int index, bool isUnlocked)
     {
@@ -200,6 +206,10 @@ public class CollectionController : MonoBehaviour
         //ClearContainer(trinketsContainer);
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
 
+        //spawn 3 empty objects at the beggining to make scroll offset (3 for 3 rows)
+        for(int i = 0; i < 3; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), trinketsContainer);
+
         for (int j = 0; j < trinkets.Length; j++)
         {
             var trinket = Instantiate(trinketTemplate, trinketsContainer).transform;
@@ -223,6 +233,9 @@ public class CollectionController : MonoBehaviour
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(trinketSelectionGlow, trinket.position); });
         }
+        //spawn 3 empty objects at the end to make scroll offset (3 for 3 rows)
+        for (int i = 0; i < 3; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), trinketsContainer);
     }
     void OnTrinketClicked(string description, int index, bool isUnlocked)
     {
