@@ -65,7 +65,9 @@ public class WorldInfoDisplay : MonoBehaviour
 
     void SetLoadButton()
     {
-        GOButton.GetComponent<Button>().onClick.AddListener(LoadWorld);
+        var goButton = GOButton.GetComponent<Button>();
+        goButton.onClick.RemoveListener(LoadWorld);
+        goButton.onClick.AddListener(LoadWorld);
     }
     void LoadWorld()
     {
