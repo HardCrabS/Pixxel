@@ -122,18 +122,6 @@ public class Box : MonoBehaviour
         prevRow = row;
         prevColumn = column;
 
-        if(Warped)
-        {
-            grid.StartCoroutine(grid.DestroyAllSameColor(neighborBox.tag, 0));
-            grid.DestroyBlockAtPosition(row, column);
-        }
-        if(neighborBox != null && neighborBox.GetComponent<Box>().Warped)
-        {
-            grid.StartCoroutine(grid.DestroyAllSameColor(gameObject.tag, 0));
-            Box neighbor = neighborBox.GetComponent<Box>();
-            grid.DestroyBlockAtPosition(neighbor.row, neighbor.column);
-        }
-
         if (grid.lockedTiles[row, column] == null
             && grid.lockedTiles[row + (int)direction.x, column + (int)direction.y] == null)
         {

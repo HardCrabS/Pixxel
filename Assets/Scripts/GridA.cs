@@ -64,11 +64,6 @@ public class GridA : MonoBehaviour
     [SerializeField] int scorePointsToAddperBox = 10;
     [SerializeField] float pointsXPforLevel = 1;
 
-    [Header("Combo")]
-    [SerializeField] GameObject comboGraphics;
-    [SerializeField] TextMeshProUGUI comboPreviousText;
-    [SerializeField] TextMeshProUGUI comboCurrentText;
-
     [Header("Grid Settings")]
     [SerializeField] LevelTemplate tutorialTemplate;
     [SerializeField] TileType[] boardLayout;
@@ -500,11 +495,6 @@ public class GridA : MonoBehaviour
     }
     public IEnumerator FiredUpBlock(Box box)
     {
-        //GameObject smokeClone = Instantiate(smoke, box.gameObject.transform.position, smoke.transform.rotation, box.transform);
-        //GameObject fireClone = Instantiate(fire, box.gameObject.transform.position, transform.rotation, box.transform);
-        //box.GetComponent<SpriteRenderer>().color = Color.red;
-        //audioSource.PlayOneShot(firedUpSFX);
-        //float fireAnimTime = fireClone.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Length;
         yield return null;
         if (box != null)
         {
@@ -522,8 +512,6 @@ public class GridA : MonoBehaviour
             DestroyBlockAtPosition(box.row, box.column);
             BlockDestroyedSFX();
         }
-        //Destroy(fireClone);
-        //Destroy(smokeClone);
 
         StartCoroutine(MoveBoxesDown());
     }
@@ -542,6 +530,17 @@ public class GridA : MonoBehaviour
     public IEnumerator DestroyAllSameColor(string boxTag, float delay = 2)
     {
         audioSource.PlayOneShot(warpedSFX);
+        foreach (GameObject go in allBoxes)
+        {
+            if (go != null && go.CompareTag(boxTag))
+            {
+                if (go != null)
+                {
+                    //mark all blocks with the same tag 
+                    go.GetComponent<SpriteRenderer>().color = Color.gray;
+                }
+            }
+        }
         yield return new WaitForSeconds(delay);
         foreach (GameObject go in allBoxes)
         {
