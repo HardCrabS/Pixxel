@@ -11,6 +11,7 @@ public class WorldInfoDisplay : MonoBehaviour
     [SerializeField] Text musicInfoText;
     [SerializeField] Text worldStyleText;
     [SerializeField] Image worldBackgroundImage;
+    [SerializeField] Image[] blockImages;
 
     [Header("Trinkets")]
     [SerializeField] GameObject trinketsInfo;
@@ -54,15 +55,30 @@ public class WorldInfoDisplay : MonoBehaviour
             infoPanel.SetActive(true);
             worldBackgroundImage.sprite = worldInfo.BackgroundSprite;
             worldName.text = worldInfo.id.ToUpper();
+            SetBlockSprites(worldInfo);
             worldStyleText.text = worldInfo.Style;
-            musicInfoText.text = "Music\n" + "\"" + worldInfo.MusicTitle + "\"\n" + "By " + worldInfo.MusicCreator;
+            musicInfoText.text = worldInfo.MusicCreator + " - " + worldInfo.MusicTitle;
             LevelSettingsKeeper.settingsKeeper.worldInfo = worldInfo;
             trinketsInfo.SetActive(false);
             leaderboardInfo.SetActive(true);
             SetLoadButton();
         }
     }
-
+    void SetBlockSprites(WorldInformation worldInfo)
+    {
+        var allBlocks = worldInfo.Boxes;
+        int i = 0;
+        for (; i < allBlocks.Length; i++)
+        {
+            blockImages[i].gameObject.SetActive(true);
+            blockImages[i].sprite = allBlocks[i].GetComponent<SpriteRenderer>().sprite;
+        }
+        for (; i < blockImages.Length; i++)
+        {
+            //turn off left images
+            blockImages[i].gameObject.SetActive(false);
+        }
+    }
     void SetLoadButton()
     {
         var goButton = GOButton.GetComponent<Button>();

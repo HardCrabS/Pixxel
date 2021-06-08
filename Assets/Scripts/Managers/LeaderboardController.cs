@@ -39,7 +39,11 @@ public class LeaderboardController : MonoBehaviour
             firstPlacePanel.SetScorePanel(noInternet, null, null, noInternet);
             return;
         }
+        string loadingStr = "Loading...";
+        firstPlacePanel.SetScorePanel(loadingStr, null, null, loadingStr);
         loadingPanel.SetActive(true);
+        //enable loading circle on panel
+        loadingPanel.transform.GetChild(0).gameObject.SetActive(true);
 
         string worldName = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City"
             : LevelSettingsKeeper.settingsKeeper.worldInfo.id;
@@ -49,6 +53,8 @@ public class LeaderboardController : MonoBehaviour
         if (allUsers == null || allUsers.Length == 0)
         {
             firstPlacePanel.SetScorePanel("No players found in Database");
+            //disable loading circle on panel
+            loadingPanel.transform.GetChild(0).gameObject.SetActive(false);
             return;
         }
         Array.Reverse(allUsers);
