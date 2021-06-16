@@ -90,7 +90,7 @@ public class LeaderboardController : MonoBehaviour
     public void ShowPlayerPos()
     {
         loadingPanel.SetActive(true);
-        string playerId = SystemInfo.deviceUniqueIdentifier;
+        //string playerId = SystemInfo.deviceUniqueIdentifier;
         //playerIndex = GetPlayerIndex(allUsers, playerId);
         //playerIndex = 10;
         Scroll.InitData(Count, playerIndex);
@@ -146,7 +146,7 @@ public class LeaderboardController : MonoBehaviour
 
     int OnHeightItem(int index)
     {
-        return 25;
+        return 25;//height of leaderboard panel
     }
 
     private void SetPlayerArrow(GameObject scorePanelClone) //arrow points to player score

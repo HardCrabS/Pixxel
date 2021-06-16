@@ -70,7 +70,23 @@ public class AudioController : MonoBehaviour
         }
         return aSource;
     }
+    public void StartFade(float duration, float targetVolume)
+    {
+        StartCoroutine(StartFadeCo(duration, targetVolume));
+    }
+    IEnumerator StartFadeCo(float duration, float targetVolume)
+    {
+        float currentTime = 0;
+        float start = audioSource.volume;
 
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(start, targetVolume, currentTime / duration);
+            yield return null;
+        }
+        yield break;
+    }
     public void Pause()
     {
         audioSource.Pause();

@@ -42,6 +42,10 @@ public class LivesManager : MonoBehaviour
             EndGameManager.Instance.GameOver();
             Destroy(this);
         }
+        else if(Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            StartCoroutine(DecreaseHeart());
+        }
     }
 #endif
     public IEnumerator DecreaseHeart()
