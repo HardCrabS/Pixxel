@@ -32,7 +32,6 @@ public class BombTile : MonoBehaviour
         GameObject go = Instantiate(explosionVFX, transform.position, transform.rotation);
         AudioController.Instance.PlayNewClip(bombExploadeSFX);
         Destroy(go, 0.5f);
-        ShakeCamera();
         yield return new WaitForSeconds(0.3f);
 
         Box box = GetComponent<Box>();
@@ -41,11 +40,6 @@ public class BombTile : MonoBehaviour
         Destroy(gameObject);
         GridA.Instance.allBoxes[row, column] = null;
         GridA.Instance.bombTiles[row, column] = null;
-    }
-    void ShakeCamera()
-    {
-        var camShake = Camera.main.GetComponent<CameraShake>();
-        StartCoroutine(camShake.Shake(0.1f, 0.05f));
     }
     public void DecreaseBombCounter()
     {

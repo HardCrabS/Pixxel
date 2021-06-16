@@ -508,7 +508,7 @@ public class GridA : MonoBehaviour
                 }
             }
             var camShake = Camera.main.GetComponent<CameraShake>();
-            StartCoroutine(camShake.Shake(0.07f, 0.04f));
+            camShake.ShakeCam(0.07f, 0.3f);
 
             DestroyBlockAtPosition(box.row, box.column);
             BlockDestroyedSFX();
@@ -793,7 +793,7 @@ public class GridA : MonoBehaviour
         audioSource.PlayOneShot(deadLock1);
         handlingDeadlock = true;
         currState = GameState.wait;
-        StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.2f, 0.2f));
+        Camera.main.GetComponent<CameraShake>().ShakeCam(0.2f, 1f);
         BlocksBlackAndWhite();
         audioSource.PlayOneShot(deadLock2);
         StartCoroutine(DeadlockMoveBoxesDown());
