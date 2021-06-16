@@ -4296,9 +4296,9 @@ Material:
     - _Alpha: 1
     - _AlphaCutoffValue: 0.25
     - _AlphaOutlineBlend: 1
-    - _AlphaOutlineGlow: 5
-    - _AlphaOutlineMinAlpha: 0
-    - _AlphaOutlinePower: 1
+    - _AlphaOutlineGlow: 37.2
+    - _AlphaOutlineMinAlpha: 0.717
+    - _AlphaOutlinePower: 2.29
     - _AlphaRoundThreshold: 0.5
     - _BillboardY: 0
     - _BlurHD: 0
@@ -4382,12 +4382,12 @@ Material:
     - _OnlyInnerOutline: 0
     - _OnlyOutline: 0
     - _Outline8Directions: 0
-    - _OutlineAlpha: 1
+    - _OutlineAlpha: 0.932
     - _OutlineDistortAmount: 0.5
     - _OutlineDistortTexXSpeed: 5
     - _OutlineDistortTexYSpeed: 5
     - _OutlineDistortToggle: 0
-    - _OutlineGlow: 1.5
+    - _OutlineGlow: 51.2
     - _OutlineIsPixel: 0
     - _OutlinePixelWidth: 1
     - _OutlineTexGrey: 0
@@ -4432,7 +4432,7 @@ Material:
     - _ZWrite: 0
     - _ZoomUvAmount: 0.5
     m_Colors:
-    - _AlphaOutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _AlphaOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorChangeNewCol: {r: 1, g: 1, b: 0, a: 1}
     - _ColorChangeNewCol2: {r: 1, g: 1, b: 0, a: 1}
@@ -5492,6 +5492,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BG Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8942378604169179543, guid: df0f64038da39a24f91158e71030ef7a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -19.382996
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0f64038da39a24f91158e71030ef7a, type: 3}
 --- !u!1 &1126483768079761018 stripped
@@ -5560,6 +5565,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2555367467373574642}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1248971898417822037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248971898417822036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1249086380886866022 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1407942415533756, guid: 05258ff2bef935a4ca9d7b90cdd277ef,
@@ -5618,6 +5638,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1382429234538430, guid: 05258ff2bef935a4ca9d7b90cdd277ef, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575210035922830, guid: 05258ff2bef935a4ca9d7b90cdd277ef, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -5960,6 +5984,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 81.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1370209156529701414, guid: 05258ff2bef935a4ca9d7b90cdd277ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2534523085759995981, guid: 05258ff2bef935a4ca9d7b90cdd277ef,
         type: 3}

@@ -373,6 +373,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439e8aec24a09bc42a440f98aba7055b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destination: {x: 0, y: 0}
+  duration: 1
+  timeBeforeStart: 1
+  timeBeforeRestart: 1
 --- !u!1 &5525585328609923619
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,13 +389,14 @@ GameObject:
   - component: {fileID: 8959857023692979550}
   - component: {fileID: 8772906780911996124}
   - component: {fileID: 4685466528120877896}
+  - component: {fileID: 3664001138437538369}
   m_Layer: 5
   m_Name: CloseRed Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4121889939897425473
 RectTransform:
   m_ObjectHideFlags: 0
@@ -408,8 +413,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -0.00068267016, y: 1438}
-  m_SizeDelta: {x: 48, y: 60}
+  m_AnchoredPosition: {x: -0.00073242, y: 697.1}
+  m_SizeDelta: {x: 48, y: 194.00185}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8959857023692979550
 CanvasRenderer:
@@ -431,7 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 38a914dcd316a2844bd85a48597d0247, type: 2}
+  m_Material: {fileID: 2100000, guid: 1794e46a599505a4383dd325d38f8451, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -463,6 +468,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scrollSpeed: 0.03
   acceleration: 0
+--- !u!114 &3664001138437538369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5525585328609923619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf4ca9c0d1192f4e8ec282478f070fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  propertyName: _HologramBlend
+  startValue: 0
+  endValue: 1
+  loopBackAndForth: 1
+  durationInSec: 20
+  timeToWait: 1
 --- !u!1 &7146115372879038442
 GameObject:
   m_ObjectHideFlags: 0
