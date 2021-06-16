@@ -2,13 +2,19 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class CameraShake : MonoBehaviour 
+public class CameraShake : MonoBehaviour
 {
     public void ShakeCam(float duration, float magnitude, int vibrato = 30)
     {
-        transform.DOShakePosition(duration, magnitude, vibrato);
+        StartCoroutine(ShakeAndRestorePos(duration, magnitude, vibrato));
     }
-	/*public IEnumerator Shake(float duration, float magnitude)
+
+    IEnumerator ShakeAndRestorePos(float duration, float magnitude, int vibrato)
+    {
+        yield return transform.DOShakePosition(duration, magnitude, vibrato).WaitForCompletion();
+        transform.localPosition = Vector3.zero;
+    }
+    /*public IEnumerator Shake(float duration, float magnitude)
     {
         Vector2 originalPos = transform.localPosition;
 
