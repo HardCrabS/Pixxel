@@ -127,7 +127,7 @@ public class LeaderboardController : MonoBehaviour
         {
             SetPlayerArrow(_scorePanel);
         }
-        else if (playerArrow.parent == _scorePanel.transform)
+        else if (playerArrow && playerArrow.parent == _scorePanel.transform)
         {
             playerArrow.SetParent(null, false);
             playerArrow.position = Vector3.zero;

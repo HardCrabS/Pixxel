@@ -841,6 +841,7 @@ public class GridA : MonoBehaviour
 
     public void TurnBlocksOff()
     {
+        if (allBoxes == null) return;
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < hight; j++)
