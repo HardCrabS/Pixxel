@@ -12,6 +12,14 @@ public class FadeBetweenLayers : MonoBehaviour
     void Start()
     {
         if (layers.Length <= 1) return;
+        for (int i = 0; i < layers.Length; i++)
+        {
+            if(layers[i] == null)
+            {
+                Debug.LogError("Image component was null on gameObject: " + gameObject.name);
+                return;
+            }
+        }
         SortBySiblingIndex(layers);
         SetLayersColor();
         StartCoroutine(FadeLayers());
@@ -55,8 +63,8 @@ public class FadeBetweenLayers : MonoBehaviour
     {
         for (int i = 0; i < arr.Length; i++)
         {
-            for (int j = 0; j < arr.Length; j++)
-            {
+            for (int j = i + 1; j < arr.Length; j++)
+            { 
                 if(arr[j].transform.GetSiblingIndex() > arr[i].transform.GetSiblingIndex())
                 {
                     var temp = arr[j];
