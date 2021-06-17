@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: 22Synthwave Tree 52
   m_Shader: {fileID: 4800000, guid: a36b7719ff0465b42ab1407d67672c5f, type: 3}
-  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA WIND_ON _ALPHABLEND_ON _GLOSSYREFLECTIONS_OFF
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA GRADIENT2COL_ON WIND_ON _ALPHABLEND_ON _GLOSSYREFLECTIONS_OFF
     _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -25,7 +25,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ColorRampTex:
-        m_Texture: {fileID: 2800000, guid: 279657edc397ece4b8029c727adf6ddc, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3073d583d113108478c64e721d24d2ff, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ColorRampTexGradient:
@@ -71,7 +71,7 @@ Material:
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: e838b8c0ad87ca743a43ab6fedabe9b7, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 1.3207829, y: 0}
+        m_Offset: {x: 1.6403775, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -119,12 +119,12 @@ Material:
     - _ClipUvLeft: 0
     - _ClipUvRight: 0
     - _ClipUvUp: 0
-    - _ColorChangeLuminosity: 0
-    - _ColorChangeTolerance: 0.25
+    - _ColorChangeLuminosity: 1
+    - _ColorChangeTolerance: 1
     - _ColorChangeTolerance2: 0.25
     - _ColorChangeTolerance3: 0.25
     - _ColorRampBlend: 1
-    - _ColorRampLuminosity: 0
+    - _ColorRampLuminosity: 0.79
     - _ColorRampOutline: 0
     - _ColorSwapBlend: 1
     - _ColorSwapBlueLuminosity: 0.5
@@ -177,9 +177,9 @@ Material:
     - _HologramStripesAmount: 0.1
     - _HologramStripesSpeed: 4.5
     - _HologramUnmodAmount: 0
-    - _HsvBright: 1
-    - _HsvSaturation: 1
-    - _HsvShift: 180
+    - _HsvBright: 2
+    - _HsvSaturation: 2
+    - _HsvShift: 360
     - _InnerOutlineAlpha: 1
     - _InnerOutlineGlow: 4
     - _InnerOutlineThickness: 1
@@ -257,10 +257,10 @@ Material:
     m_Colors:
     - _AlphaOutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorChangeNewCol: {r: 1, g: 1, b: 0, a: 1}
+    - _ColorChangeNewCol: {r: 0.1792453, g: 0.1792453, b: 0, a: 1}
     - _ColorChangeNewCol2: {r: 1, g: 1, b: 0, a: 1}
     - _ColorChangeNewCol3: {r: 1, g: 1, b: 0, a: 1}
-    - _ColorChangeTarget: {r: 1, g: 0, b: 0, a: 1}
+    - _ColorChangeTarget: {r: 0, g: 0, b: 0, a: 1}
     - _ColorChangeTarget2: {r: 1, g: 0, b: 0, a: 1}
     - _ColorChangeTarget3: {r: 1, g: 0, b: 0, a: 1}
     - _ColorSwapBlue: {r: 1, g: 1, b: 1, a: 1}
@@ -269,7 +269,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FadeBurnColor: {r: 1, g: 1, b: 0, a: 1}
     - _GlowColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GradBotLeftCol: {r: 0, g: 0, b: 1, a: 1}
+    - _GradBotLeftCol: {r: 1, g: 0, b: 0.7920542, a: 1}
     - _GradBotRightCol: {r: 0, g: 0, b: 1, a: 1}
     - _GradTopLeftCol: {r: 1, g: 0, b: 0, a: 1}
     - _GradTopRightCol: {r: 1, g: 0, b: 0, a: 1}
