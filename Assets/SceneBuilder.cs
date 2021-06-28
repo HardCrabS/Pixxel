@@ -38,8 +38,17 @@ public class SceneBuilder : MonoBehaviour
         Color panelGlowColor = settingsKeeper.worldInfo.BlocksPanelGlowColor;
         SetBlocksPanel(panelSprite, panelColor, panelGlowColor);
 
-        Color visualizerColor = settingsKeeper.worldInfo.VisualizerColor;
-        visualizer.SetColor(visualizerColor);
+        Material visualizerMaterial = settingsKeeper.worldInfo.VisualizerMaterial;
+        if (visualizerMaterial)
+        {
+            visualizer.SetMaterial(visualizerMaterial);
+        }
+        else
+        {
+            //set color if no visualizer material provided
+            Color visualizerColor = settingsKeeper.worldInfo.VisualizerColor;
+            visualizer.SetColor(visualizerColor);
+        }
     }
     void SpawnBGCanvas(GameObject bgCanvas)
     {

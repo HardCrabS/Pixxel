@@ -83,4 +83,14 @@ public class SetVisualizer : MonoBehaviour
             child.GetComponent<Image>().color = color;
         }
     }
+    public void SetMaterial(Material mat)
+    {
+        foreach (RectTransform child in transform)
+        {
+            Image image = child.GetComponent<Image>();
+            image.sprite = null;//remove default sprite
+            image.material = mat;
+            image.color = Color.white;
+        }
+    }
 }
