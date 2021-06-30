@@ -144,6 +144,10 @@ MonoBehaviour:
   duration: 30
   timeBeforeStart: 2.5
   timeBeforeRestart: 35
+  durationDeviationPercent: 0
+  upperYOffset: 0
+  lowerYOffset: 0
+  destinationIsRelative: 0
 --- !u!1 &702647711751691921
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,6 +705,10 @@ MonoBehaviour:
   duration: 90
   timeBeforeStart: 2
   timeBeforeRestart: 18
+  durationDeviationPercent: 0
+  upperYOffset: 0
+  lowerYOffset: 0
+  destinationIsRelative: 0
 --- !u!1 &4029712990934606699
 GameObject:
   m_ObjectHideFlags: 0
@@ -845,6 +853,10 @@ MonoBehaviour:
   duration: 18
   timeBeforeStart: 5
   timeBeforeRestart: 35
+  durationDeviationPercent: 0
+  upperYOffset: 0
+  lowerYOffset: 0
+  destinationIsRelative: 0
 --- !u!1 &4696606520942929757
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,6 +964,10 @@ MonoBehaviour:
   duration: 130
   timeBeforeStart: 1
   timeBeforeRestart: 25
+  durationDeviationPercent: 0
+  upperYOffset: 0
+  lowerYOffset: 0
+  destinationIsRelative: 0
 --- !u!1 &4717610182133254846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,6 +1075,10 @@ MonoBehaviour:
   duration: 150
   timeBeforeStart: 0
   timeBeforeRestart: 5
+  durationDeviationPercent: 0
+  upperYOffset: 0
+  lowerYOffset: 0
+  destinationIsRelative: 0
 --- !u!1 &4775067112908564113
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,7 +1190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.990566, g: 0.7242346, b: 0.7752662, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1203,6 +1223,10 @@ MonoBehaviour:
   duration: 8
   timeBeforeStart: 12
   timeBeforeRestart: 20
+  durationDeviationPercent: 0
+  upperYOffset: 0
+  lowerYOffset: 0
+  destinationIsRelative: 0
 --- !u!1 &5299706764115449599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1438,8 +1462,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 452.2, y: -638.7}
-  m_SizeDelta: {x: 15.92234, y: 15.92234}
+  m_AnchoredPosition: {x: -535, y: -67}
+  m_SizeDelta: {x: 211.25494, y: 211.25494}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1175467998800257215
 SpriteRenderer:
@@ -1513,7 +1537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.509434, g: 0.26673195, b: 0.35430482, a: 1}
+  m_Color: {r: 1, g: 0.504717, b: 0.6205493, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1542,10 +1566,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439e8aec24a09bc42a440f98aba7055b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: -436, y: -645}
+  destination: {x: 565, y: -67}
   duration: 41
   timeBeforeStart: 16
   timeBeforeRestart: 12
+  durationDeviationPercent: 30
+  upperYOffset: 600
+  lowerYOffset: -500
+  destinationIsRelative: 1
 --- !u!1 &7146115372879038442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1780,6 +1808,10 @@ MonoBehaviour:
   duration: 40
   timeBeforeStart: 16
   timeBeforeRestart: 12
+  durationDeviationPercent: 0
+  upperYOffset: 0
+  lowerYOffset: 0
+  destinationIsRelative: 0
 --- !u!1 &7725751231124616675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1924,6 +1956,10 @@ MonoBehaviour:
   duration: 35
   timeBeforeStart: 25
   timeBeforeRestart: 40
+  durationDeviationPercent: 0
+  upperYOffset: 0
+  lowerYOffset: 0
+  destinationIsRelative: 0
 --- !u!1 &8321489649788996045
 GameObject:
   m_ObjectHideFlags: 0
@@ -2031,6 +2067,10 @@ MonoBehaviour:
   duration: 1
   timeBeforeStart: 1
   timeBeforeRestart: 1
+  durationDeviationPercent: 0
+  upperYOffset: 0
+  lowerYOffset: 0
+  destinationIsRelative: 0
 --- !u!1 &8704350078003186641
 GameObject:
   m_ObjectHideFlags: 0
@@ -2067,7 +2107,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 460, y: 570}
+  m_AnchoredPosition: {x: -453, y: 570}
   m_SizeDelta: {x: 34.03073, y: 34.03073}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3652336210623822185
@@ -2171,10 +2211,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439e8aec24a09bc42a440f98aba7055b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: -467, y: 570}
+  destination: {x: 438, y: 570}
   duration: 35
   timeBeforeStart: 26
   timeBeforeRestart: 35
+  durationDeviationPercent: 30
+  upperYOffset: 0
+  lowerYOffset: -1000
+  destinationIsRelative: 1
 --- !u!1 &8782265373686851485
 GameObject:
   m_ObjectHideFlags: 0
@@ -2211,7 +2255,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 427, y: -274}
+  m_AnchoredPosition: {x: -463, y: -274}
   m_SizeDelta: {x: 34.03073, y: 34.03073}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &7213291175997713546
@@ -2315,10 +2359,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439e8aec24a09bc42a440f98aba7055b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: -451, y: -274}
+  destination: {x: 467, y: -274}
   duration: 30
   timeBeforeStart: 2.5
   timeBeforeRestart: 35
+  durationDeviationPercent: 25
+  upperYOffset: 800
+  lowerYOffset: -300
+  destinationIsRelative: 0
 --- !u!1 &8817786524679457078
 GameObject:
   m_ObjectHideFlags: 0
