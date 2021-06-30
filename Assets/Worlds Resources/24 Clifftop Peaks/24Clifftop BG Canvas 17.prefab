@@ -31,7 +31,7 @@ RectTransform:
   m_LocalScale: {x: 3, y: 3, z: 2}
   m_Children: []
   m_Father: {fileID: 6125911393446556168}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547f6801d217c3b46a2dfd6b09f37eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 0.03
+  scrollSpeed: 0.02
   acceleration: 0
 --- !u!1 &2878799361667683064
 GameObject:
@@ -212,7 +212,7 @@ RectTransform:
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_Children: []
   m_Father: {fileID: 6125911393446556168}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -284,13 +284,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {x: -906, y: 1068}
-  duration: 15
+  duration: 40
   timeBeforeStart: 0
-  timeBeforeRestart: 4
-  durationDeviationPercent: 0
+  timeBeforeRestart: 6
+  durationDeviationPercent: 20
   upperYOffset: 0
-  lowerYOffset: 0
-  destinationIsRelative: 0
+  lowerYOffset: -400
+  destinationIsRelative: 1
 --- !u!1 &4696606520942929757
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,7 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547f6801d217c3b46a2dfd6b09f37eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 0.03
+  scrollSpeed: 0.01
   acceleration: 0
 --- !u!1 &4717610182133254846
 GameObject:
@@ -413,7 +413,7 @@ RectTransform:
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 6125911393446556168}
-  m_RootOrder: 6
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -485,13 +485,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {x: -731, y: 1373}
-  duration: 20
-  timeBeforeStart: 2
-  timeBeforeRestart: 1
-  durationDeviationPercent: 0
-  upperYOffset: 0
+  duration: 60
+  timeBeforeStart: 12
+  timeBeforeRestart: 6
+  durationDeviationPercent: 15
+  upperYOffset: -500
   lowerYOffset: 0
-  destinationIsRelative: 0
+  destinationIsRelative: 1
 --- !u!1 &5525585328609923619
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547f6801d217c3b46a2dfd6b09f37eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 0.03
+  scrollSpeed: 0.02
   acceleration: 0
 --- !u!1 &7146115372879038442
 GameObject:
@@ -613,7 +613,7 @@ RectTransform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 6125911393446556168}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -670,7 +670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547f6801d217c3b46a2dfd6b09f37eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 0.02
+  scrollSpeed: 0.015
   acceleration: 0
 --- !u!1 &8453582355521185030
 GameObject:
@@ -705,7 +705,7 @@ RectTransform:
   m_LocalScale: {x: 2.2408965, y: 2.2408965, z: 2.2408965}
   m_Children: []
   m_Father: {fileID: 6125911393446556168}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -837,10 +837,10 @@ MonoBehaviour:
   destination: {x: -1046, y: 549}
   duration: 5
   timeBeforeStart: 3
-  timeBeforeRestart: 65
-  durationDeviationPercent: 0
+  timeBeforeRestart: 90
+  durationDeviationPercent: 30
   upperYOffset: 0
-  lowerYOffset: -600
+  lowerYOffset: -900
   destinationIsRelative: 0
 --- !u!1 &8817786524679457078
 GameObject:
@@ -874,11 +874,11 @@ RectTransform:
   m_Children:
   - {fileID: 7831092177840896941}
   - {fileID: 5338096980897732824}
+  - {fileID: 6633736903057356633}
   - {fileID: 8051382680915437432}
   - {fileID: 6922470352501144921}
   - {fileID: 5276417356660486695}
   - {fileID: 9215218846895186435}
-  - {fileID: 6633736903057356633}
   - {fileID: 4121889939897425473}
   m_Father: {fileID: 0}
   m_RootOrder: 0
