@@ -14,6 +14,8 @@ public class EndGameManager : MonoBehaviour
 
     public static EndGameManager Instance;
 
+    bool gameIsOver = false;
+
     void Awake()
     {
         Instance = this;
@@ -37,8 +39,9 @@ public class EndGameManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (gameIsOver) return;//avoid multiple calls of GameOver
         StartCoroutine(GameOverDelayed());
-
+        gameIsOver = true;
     }
 
     IEnumerator GameOverDelayed()

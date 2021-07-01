@@ -405,7 +405,7 @@ public class GridA : MonoBehaviour
             {
                 StartCoroutine(FiredUpBlock(matchedBox));
             }
-            else if(matchedBox.Warped)
+            else if (matchedBox.Warped)
             {
                 StartCoroutine(DestroyAllSameColor(matchedBox.tag));
             }
@@ -521,7 +521,7 @@ public class GridA : MonoBehaviour
         box.isMatched = false;
         box.FiredUp = true;
         FiredUpVFX(box);
-    }    
+    }
     public void SetBlockWarped(Box box)
     {
         box.isMatched = false;
@@ -904,7 +904,8 @@ public class GridA : MonoBehaviour
     #region SFX
     void ChangeSFXVolume(float volume)
     {
-        audioSource.volume = volume;
+        if (audioSource)
+            audioSource.volume = volume;
     }
     void BlockDestroyedSFX()
     {
