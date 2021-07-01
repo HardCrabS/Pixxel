@@ -523,6 +523,7 @@ public class GridA : MonoBehaviour
     }    
     public void SetBlockWarped(Box box)
     {
+        box.gameObject.tag = "Untagged";
         box.isMatched = false;
         box.Warped = true;
         WarpBoxVFX(box);
