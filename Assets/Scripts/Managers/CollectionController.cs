@@ -44,9 +44,9 @@ public class CollectionController : MonoBehaviour
     [SerializeField] Banner[] banners;
 
     const string LOCK_TAG = "Lock";
-    const string SECTION_NAME_DOTS = "<size=120><color=blue>- - - - - - - - - - -</color></size>";
-    const string LOCKED = "<color=red>- LOCKED -</color>";
-    const string UNLOCKED_IN_SHOP = "Unlocked by purchasing in shop! ";
+    const string SECTION_NAME_DOTS = "<size=120><color=black>- - - - - - - - - - -</color></size>";
+    const string LOCKED = "<color=#ff0048>- LOCKED -</color>";
+    const string UNLOCKED_IN_SHOP = "Unlocked by purchasing in Shop ";
     const string UNLOCKED_BY_RANK = "Unlocked by reaching Player Rank ";
 
     const string BANNERS_LOCATION = "Sprites/UI images/Banners/";
@@ -80,8 +80,8 @@ public class CollectionController : MonoBehaviour
     {
         var worldsUnlocked = GameData.gameData.saveData.worldIds;
         unlockNumber.text = "<size=400>" + worldsUnlocked.Count
-            + "</size>/" + worlds.Length + "\n<color=blue>UNLOCKED</color>";
-        sectionName.text = "<color=lime>WORLDS</color>\n" + SECTION_NAME_DOTS;
+            + "</size>/" + worlds.Length + "\n<color=black>OWNED</color>";
+        sectionName.text = "<color=#ff0048>WORLDS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         equipButton.gameObject.SetActive(false);
     }
@@ -101,7 +101,8 @@ public class CollectionController : MonoBehaviour
             Image image = worldPanel.GetComponent<Image>();
             image.sprite = worlds[i].GetRewardSprite();
             Button button = worldPanel.GetComponent<Button>();
-            string descr = SequentialText.ColorString("<size=410>" + worldName + "</size>", Color.green);
+            Color myColor = new Color(1, 0, 0.282f);
+            string descr = SequentialText.ColorString("<size=310>" + worldName + "</size>", myColor);
             int index = i;
 
             if (!worldsUnlocked.Contains(worldName))
@@ -141,8 +142,8 @@ public class CollectionController : MonoBehaviour
     {
         var boostsUnlocked = GameData.gameData.saveData.boostIds;
         unlockNumber.text = "<size=400>" + boostsUnlocked.Count
-            + "</size>/" + boostInfos.Length + "\n<color=blue>UNLOCKED</color>";
-        sectionName.text = "<color=red>BOOSTS</color>\n" + SECTION_NAME_DOTS;
+            + "</size>/" + boostInfos.Length + "\n<color=black>OWNED</color>";
+        sectionName.text = "<color=#ff0048>BOOSTS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         equipButton.gameObject.SetActive(false);
     }
@@ -164,7 +165,7 @@ public class CollectionController : MonoBehaviour
 
             string title = boost.id;
             Button button = boostPanel.GetComponent<Button>();
-            string descr = "<color=red><size=450>" + title + "</size></color>";
+            string descr = "<color=#ff0048><size=320>" + title + "</size></color>";
             int index = i;
             if (!boostsUnlocked.Contains(boost.id))
             {
@@ -198,8 +199,8 @@ public class CollectionController : MonoBehaviour
     {
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
         unlockNumber.text = "<size=400>" + trinketsUnlocked.Count
-            + "</size>/" + trinkets.Length + "\n<color=blue>UNLOCKED</color>";
-        sectionName.text = "<color=blue>TRINKETS</color>\n" + SECTION_NAME_DOTS;
+            + "</size>/" + trinkets.Length + "\n<color=black>OWNED</color>";
+        sectionName.text = "<color=#ff0048>TRINKETS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         equipButton.gameObject.SetActive(false);
     }
@@ -220,7 +221,7 @@ public class CollectionController : MonoBehaviour
             image.sprite = trinkets[j].trinketSprite;
             Button button = trinket.GetComponent<Button>();
             string trinkName = trinkets[j].id;
-            string descr = "<color=orange><size=420>" + trinkName + "</size></color>";
+            string descr = "<color=#ff0048><size=320>" + trinkName + "</size></color>";
 
             int index = j;
             if (!trinketsUnlocked.Contains(trinkets[j].id))
@@ -254,11 +255,11 @@ public class CollectionController : MonoBehaviour
             Text buttoText = equipButton.GetComponentInChildren<Text>();
             if (trinkets[index].trinketSprite == profileHandler.GetCurrAvatar())  //set button text if avatar is equiped or not
             {
-                buttoText.text = "Equiped!";
+                buttoText.text = "EQUIPPED";
             }
             else
             {
-                buttoText.text = "Equip!";
+                buttoText.text = "EQUIP";
             }
             Button button = equipButton.GetComponent<Button>();
             button.onClick.AddListener(delegate () { SetAvatarEquipButton(trinkets[index].trinketSprite); });
@@ -276,8 +277,8 @@ public class CollectionController : MonoBehaviour
     {
         var titlesUnlocked = GameData.gameData.saveData.titleIds;
         unlockNumber.text = "<size=400>" + titlesUnlocked.Count
-            + "</size>/" + titles.Length + "\n<color=blue>UNLOCKED</color>";
-        sectionName.text = "<color=orange>TITLES</color>\n" + SECTION_NAME_DOTS;
+            + "</size>/" + titles.Length + "\n<color=black>OWNED</color>";
+        sectionName.text = "<color=#ff0048>TITLES</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         equipButton.gameObject.SetActive(false);
     }
@@ -293,7 +294,7 @@ public class CollectionController : MonoBehaviour
             titlePanel.gameObject.name = title;
             titlePanel.GetComponentInChildren<Text>().text = title;
             Button button = titlePanel.GetComponent<Button>();
-            string descr = "<color=orange><size=450>" + title + "</size></color>";
+            string descr = "<color=#ff0048><size=320>" + title + "</size></color>";
             int index = i;
             if (!titlesUnlocked.Contains(title))
             {
@@ -326,12 +327,12 @@ public class CollectionController : MonoBehaviour
             Text buttoText = equipButton.GetComponentInChildren<Text>();
             if (title == profileHandler.GetCurrentTitle())  //set button text if title is equiped or not
             {
-                buttoText.text = "Equiped!";
+                buttoText.text = "EQUIPPED";
             }
             else
             {
                 equipButton.onClick.AddListener(delegate () { SetTitleEquipButton(title); });
-                buttoText.text = "Equip!";
+                buttoText.text = "EQUIP";
             }
         }
 
@@ -348,8 +349,8 @@ public class CollectionController : MonoBehaviour
     {
         var bannersUnlocked = GameData.gameData.saveData.bannerIds;
         unlockNumber.text = "<size=400>" + bannersUnlocked.Count
-            + "</size>/" + banners.Length + "\n<color=blue>UNLOCKED</color>";
-        sectionName.text = "<color=red>BANNERS</color>\n" + SECTION_NAME_DOTS;
+            + "</size>/" + banners.Length + "\n<color=black>OWNED</color>";
+        sectionName.text = "<color=#ff0048>BANNERS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         equipButton.gameObject.SetActive(false);
     }
@@ -366,7 +367,7 @@ public class CollectionController : MonoBehaviour
             image.sprite = banners[i].Sprite;
             Button button = bannerPanel.GetComponent<Button>();
             string bannerName = banners[i].id;
-            string descr = "<color=orange><size=450>" + bannerName + "</size></color>";
+            string descr = "<color=#ff0048><size=320>" + bannerName + "</size></color>";
             int index = i;
             if (!bannersUnlocked.Contains(bannerName))
             {
@@ -400,11 +401,11 @@ public class CollectionController : MonoBehaviour
             Text buttoText = equipButton.GetComponentInChildren<Text>();
             if (banners[index].Sprite == profileHandler.GetCurrentBanner())  //set button text if banner is equiped or not
             {
-                buttoText.text = "Equiped!";
+                buttoText.text = "EQUIPPED";
             }
             else
             {
-                buttoText.text = "Equip!";
+                buttoText.text = "EQUIP";
             }
             Button button = equipButton.GetComponent<Button>();
             button.onClick.AddListener(delegate () { SetBannerEquipButton(index); });
@@ -464,8 +465,8 @@ public class CollectionController : MonoBehaviour
                 child.GetComponent<Image>().material = null;
                 child.GetComponent<Button>().onClick.AddListener(delegate ()
                 {
-                    itemDescription.text = "<color=orange><size=450>" + reward.id + "</size></color>"
-                    + "\n<size=250>" + reward.description + "</size>";
+                    itemDescription.text = "<color=#ff0048><size=450>" + reward.id + "</size></color>"
+                    + "\n<size=200>" + reward.description + "</size>";
                 });
                 break;
             }
