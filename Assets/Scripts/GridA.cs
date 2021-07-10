@@ -722,8 +722,8 @@ public class GridA : MonoBehaviour
         if (IsDeadlocked())
         {
             Debug.Log("Is deadlocked");
-            HandleDeadlock();
-            EndGameManager.Instance.GameOver();
+            if (HandleDeadlock() == 1)
+                EndGameManager.Instance.GameOver();
             yield break;
         }
         currState = GameState.move;
@@ -813,14 +813,14 @@ public class GridA : MonoBehaviour
     }
 
     bool handlingDeadlock = false;
-    void HandleDeadlock()
+    int HandleDeadlock()
     {
         if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
         {
             currState = GameState.move;
-            return; //if first time playing
+            return 0; //if first time playing
         }
-        if (handlingDeadlock) return;
+        if (handlingDeadlock) return 0;
 
         audioSource.PlayOneShot(deadLock1);
         handlingDeadlock = true;
@@ -829,6 +829,7 @@ public class GridA : MonoBehaviour
         BlocksBlackAndWhite();
         audioSource.PlayOneShot(deadLock2);
         StartCoroutine(DeadlockMoveBoxesDown());
+        return 1;
     }
     public void BlocksBlackAndWhite()
     {

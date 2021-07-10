@@ -225,6 +225,8 @@ public class GameData : MonoBehaviour
         {
             File.Delete(path);
         }
+        ProfileHandler.Instance.ResetBanner();
+        ProfileHandler.Instance.ResetAvatar();
         PlayerPrefs.DeleteAll();
         SaveSystem.SaveCoinsAmount(0);
         gameData = null;
