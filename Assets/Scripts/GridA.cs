@@ -572,6 +572,18 @@ public class GridA : MonoBehaviour
             AddXPandScorePoints();
         }
     }
+    //destroys block without blockFX
+    public void DestroyBlockNoFX(int row, int column)
+    {
+        if (allBoxes[row, column] != null)
+        {
+            Destroy(allBoxes[row, column]);
+            allBoxes[row, column] = null;
+            bombTiles[row, column] = null;
+
+            AddXPandScorePoints();
+        }
+    }
 
     public void DestroyAllMatches()
     {
