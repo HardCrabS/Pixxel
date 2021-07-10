@@ -298,7 +298,9 @@ public class ShopController : MonoBehaviour
         lastClaim = Convert.ToDateTime(lastClaimStr);
 
         TimeSpan nextClaim = lastClaim.AddHours(6).Subtract(DateTime.Now);
-        timeUntilSaleText.text = "New deals in " + nextClaim.Hours + ":" + nextClaim.Minutes + " my friends!";
+        Color timeColor = new Color(1, 0, 0,015f);
+        string time = SequentialText.ColorString(nextClaim.Hours + ":" + nextClaim.Minutes, timeColor);
+        timeUntilSaleText.text = "New deals in " + time + " my friends!";
     }
     IEnumerator PressButtonDelayed(Button button)
     {
