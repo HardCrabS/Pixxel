@@ -524,6 +524,7 @@ public class GridA : MonoBehaviour
     }
     public void SetBlockWarped(Box box)
     {
+        box.gameObject.tag = "Untagged";
         box.isMatched = false;
         box.Warped = true;
         WarpBoxVFX(box);
@@ -566,6 +567,18 @@ public class GridA : MonoBehaviour
             DynamicBlockSpriteDestruction(row, column);
             //BlockDestroyedSFX();  //sound is played once after all matched blocks are destroyed
 
+            allBoxes[row, column] = null;
+            bombTiles[row, column] = null;
+
+            AddXPandScorePoints();
+        }
+    }
+    //destroys block without blockFX
+    public void DestroyBlockNoFX(int row, int column)
+    {
+        if (allBoxes[row, column] != null)
+        {
+            Destroy(allBoxes[row, column]);
             allBoxes[row, column] = null;
             bombTiles[row, column] = null;
 

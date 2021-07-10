@@ -20,6 +20,7 @@ public class WorldInformation : RewardTemplate
     [SerializeField] Color blocksPanelColor;
     [SerializeField] Color blocksPanelGlowColor;
     [SerializeField] Color visualizerColor;
+    [SerializeField] Material visualizerMaterial;
 
     [Header("World Select Info")]
     [SerializeField] string worldStyle;
@@ -45,6 +46,7 @@ public class WorldInformation : RewardTemplate
     public Color BlocksPanelColor { get { return blocksPanelColor; } }
     public Color BlocksPanelGlowColor { get { return blocksPanelGlowColor; } }
     public Color VisualizerColor { get { return visualizerColor; } }
+    public Material VisualizerMaterial { get { return visualizerMaterial; } }
 
     public override Sprite GetRewardSprite()
     {

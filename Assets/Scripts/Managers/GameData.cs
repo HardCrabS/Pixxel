@@ -26,7 +26,7 @@ public class SaveData
     };
     public Dictionary<string, int> boostLevels = new Dictionary<string, int>()
     {
-        { "Magic Potion", 1 }   //unlocked by default
+        { "Sink Hole", 1 }   //unlocked by default
     };
     public Dictionary<string, int> trinketsProgress = new Dictionary<string, int>();
 
