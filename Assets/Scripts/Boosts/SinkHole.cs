@@ -20,7 +20,7 @@ public class SinkHole : BoostBase
     IEnumerator SinkAllBlocks()
     {
         audioSource.PlayOneShot(sinkShakeSFX, 0.5f);
-        StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(1f, 0.2f));
+        Camera.main.GetComponent<CameraShake>().ShakeCam(1f, 0.2f);
         yield return new WaitForSeconds(0.8f);
 
         var boxes = LevelSettingsKeeper.settingsKeeper.worldInfo.Boxes;
