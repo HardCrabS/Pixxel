@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class EndGameManager : MonoBehaviour
 {
     [SerializeField] Text bestScoreText;
+    [SerializeField] CanvasGroup visualizerCanvasGroup;
     [SerializeField] UnityEvent onGameOver;
 
     public delegate void MyDelegate();
@@ -38,22 +39,41 @@ public class EndGameManager : MonoBehaviour
 
     public void GameOver()
     {
-        if (gameIsOver) return;
+        if (gameIsOver) return;//avoid multiple calls of GameOver
+        StartCoroutine(GameOverDelayed());
+        gameIsOver = true;
+    }
+
+    IEnumerator GameOverDelayed()
+    {
+        GridA.Instance.TurnBlocksOff();//disable block movement by player
+        AudioController.Instance.StartFade(2, 0);//fade out music
+
+        yield return new WaitForSeconds(1);
+        while (GridA.Instance.MoovingOrMatchingOnBoard())
+        {
+            yield return new WaitForSeconds(.5f);
+        }
         string worldId = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City"
             : LevelSettingsKeeper.settingsKeeper.worldInfo.id;
 
         PlayGamesController.PostToLeaderboard(worldId);
 
         LeaderboardController.Instance.SetLeaderboard();
-        StartCoroutine(GameOverDelayed());
         GridA.Instance.currState = GameState.wait;
-        GridA.Instance.TurnBlocksOff();
+        GridA.Instance.BlocksBlackAndWhite();
+        StartCoroutine(GridA.Instance.DeadlockMoveBoxesDown());
         onGameOver.Invoke();
-    }
-
-    IEnumerator GameOverDelayed()
-    {
-        yield return new WaitForSeconds(2);
+        StartCoroutine(CanvasGroupFadeOut(visualizerCanvasGroup, 1));
         bestScoreText.text = Score.Instance.GetCurrentScore() + "";
+    }
+    IEnumerator CanvasGroupFadeOut(CanvasGroup canvasGroup, float duration)
+    {
+        float value = 0.1f / duration;
+        while(canvasGroup.alpha > 0)
+        {
+            canvasGroup.alpha -= value;
+            yield return new WaitForSeconds(value);
+        }
     }
 }

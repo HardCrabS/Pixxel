@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MagicianGame : MonoBehaviour 
 {
@@ -15,6 +13,6 @@ public class MagicianGame : MonoBehaviour
     public void ShakeCamera()
     {
         var camShake = Camera.main.GetComponent<CameraShake>();
-        StartCoroutine(camShake.Shake(0.1f, 0.1f));
+        camShake.ShakeCam(0.1f, 0.7f);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -404,7 +405,7 @@ public class GridA : MonoBehaviour
             {
                 StartCoroutine(FiredUpBlock(matchedBox));
             }
-            else if(matchedBox.Warped)
+            else if (matchedBox.Warped)
             {
                 StartCoroutine(DestroyAllSameColor(matchedBox.tag));
             }
@@ -507,7 +508,7 @@ public class GridA : MonoBehaviour
                 }
             }
             var camShake = Camera.main.GetComponent<CameraShake>();
-            StartCoroutine(camShake.Shake(0.07f, 0.04f));
+            camShake.ShakeCam(0.07f, 0.3f);
 
             DestroyBlockAtPosition(box.row, box.column);
             BlockDestroyedSFX();
@@ -520,7 +521,7 @@ public class GridA : MonoBehaviour
         box.isMatched = false;
         box.FiredUp = true;
         FiredUpVFX(box);
-    }    
+    }
     public void SetBlockWarped(Box box)
     {
         box.gameObject.tag = "Untagged";
@@ -668,8 +669,27 @@ public class GridA : MonoBehaviour
             }
         }
     }
+    //check if block is null meaning it will be respawned and moved down
+    //also if any block is moving atm, meaning it might make a match later
+    //also if any block is matched atm
+    public bool MoovingOrMatchingOnBoard()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < hight; y++)
+            {
+                if (allBoxes[x, y] == null) return true;
 
-    private bool MatchesOnBoard()
+                var boxComp = allBoxes[x, y].GetComponent<Box>();
+                if (boxComp.Mooving || boxComp.isMatched)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;//grid is completely static
+    }
+    public bool MatchesOnBoard()
     {
         for (int x = 0; x < width; x++)
         {
@@ -684,7 +704,6 @@ public class GridA : MonoBehaviour
         return false;
     }
 
-    float timeUntilStreakReset = 3;
     private IEnumerator FillBoard()
     {
         RespawnBoxes();
@@ -704,6 +723,7 @@ public class GridA : MonoBehaviour
         {
             Debug.Log("Is deadlocked");
             HandleDeadlock();
+            EndGameManager.Instance.GameOver();
             yield break;
         }
         currState = GameState.move;
@@ -805,7 +825,13 @@ public class GridA : MonoBehaviour
         audioSource.PlayOneShot(deadLock1);
         handlingDeadlock = true;
         currState = GameState.wait;
-        StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.2f, 0.2f));
+        Camera.main.GetComponent<CameraShake>().ShakeCam(0.2f, 1f);
+        BlocksBlackAndWhite();
+        audioSource.PlayOneShot(deadLock2);
+        StartCoroutine(DeadlockMoveBoxesDown());
+    }
+    public void BlocksBlackAndWhite()
+    {
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < hight; y++)
@@ -816,13 +842,20 @@ public class GridA : MonoBehaviour
                 }
             }
         }
-        audioSource.PlayOneShot(deadLock2);
-        StartCoroutine(DeadlockMoveBoxesDown());
-        EndGameManager.Instance.GameOver();
     }
-
-    IEnumerator DeadlockMoveBoxesDown()
+    public IEnumerator DeadlockMoveBoxesDown()
     {
+        for (int y = 0; y < width; y++)
+        {
+            for (int x = 0; x < hight; x++)
+            {
+                if (allBoxes[x, y] != null)
+                {
+                    //shake box
+                    allBoxes[x, y].transform.DOShakePosition(0.5f, 0.3f);
+                }
+            }
+        }
         yield return new WaitForSeconds(0.5f);
         for (int y = 0; y < width; y++)
         {
@@ -838,8 +871,10 @@ public class GridA : MonoBehaviour
         }
     }
 
+    //turns off block colliders so they can't be moved by player
     public void TurnBlocksOff()
     {
+        if (allBoxes == null) return;
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < hight; j++)
@@ -902,7 +937,8 @@ public class GridA : MonoBehaviour
     #region SFX
     void ChangeSFXVolume(float volume)
     {
-        audioSource.volume = volume;
+        if (audioSource)
+            audioSource.volume = volume;
     }
     void BlockDestroyedSFX()
     {
