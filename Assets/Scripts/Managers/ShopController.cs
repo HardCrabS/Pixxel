@@ -22,6 +22,7 @@ public class ShopController : MonoBehaviour
     [SerializeField] GameObject buyPart;
 
     [Header("Welcome Screen")]
+    [SerializeField] Text timeUntilSaleText;
     [SerializeField] Color welcomeSectionColor;
     [SerializeField] GameObject welcomeScreen;
     [SerializeField] Button saleItemButton1;
@@ -104,7 +105,7 @@ public class ShopController : MonoBehaviour
             lastClaim = Convert.ToDateTime(lastClaimStr);
         }
 
-        if (DateTime.Now.CompareTo(lastClaim.AddHours(12)) < 0)
+        if (DateTime.Now.CompareTo(lastClaim.AddHours(6)) < 0)
         {
             return false;
         }
@@ -137,7 +138,7 @@ public class ShopController : MonoBehaviour
     #region Welcome
     void SetItemsForSale()
     {
-        if (TimeHasPassed())    //new sale every 12 hours
+        if (TimeHasPassed())    //new sale every 6 hours
         {
             firstPickedSaleItem = PickRandomItemForSale();
             secondPickedSaleItem = PickRandomItemForSale(firstPickedSaleItem);
@@ -178,6 +179,8 @@ public class ShopController : MonoBehaviour
 
         SetSaleItemUI(ref saleItemButton1, firstPickedSaleItem, sale1);
         SetSaleItemUI(ref saleItemButton2, secondPickedSaleItem, sale2);
+
+        UpdateTimeUntilSaleText();
     }
     int GetRandomSale()
     {
@@ -239,23 +242,6 @@ public class ShopController : MonoBehaviour
         }
         else
             return pickedReward;
-        /*if (AmountOfBoughtItems(rewardType) == allBuyableItems[rewardType].Length) // all items purchased
-        {
-            return null;
-        }
-        else
-        {
-            RewardTemplate pickedReward;
-            do
-            {
-                RewardTemplate[] rewards = allBuyableItems[rewardType];
-                int randIndex = UnityEngine.Random.Range(0, rewards.Length);
-                pickedReward = rewards[randIndex];
-            }
-            while (pickedReward == reward || GameData.IsItemCollected(pickedReward));
-
-            return pickedReward;
-        }*/
     }
     public void GetOfferButton()
     {
@@ -304,6 +290,15 @@ public class ShopController : MonoBehaviour
                 break;
             }
         }
+    }
+    void UpdateTimeUntilSaleText()
+    {
+        string lastClaimStr = GameData.gameData.saveData.lastTimeSaleClaimed;
+        DateTime lastClaim;
+        lastClaim = Convert.ToDateTime(lastClaimStr);
+
+        TimeSpan nextClaim = lastClaim.AddHours(6).Subtract(DateTime.Now);
+        timeUntilSaleText.text = "New deals in " + nextClaim.Hours + ":" + nextClaim.Minutes + " my friends!";
     }
     IEnumerator PressButtonDelayed(Button button)
     {
