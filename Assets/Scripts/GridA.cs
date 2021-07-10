@@ -656,7 +656,26 @@ public class GridA : MonoBehaviour
             }
         }
     }
+    //check if block is null meaning it will be respawned and moved down
+    //also if any block is moving atm, meaning it might make a match later
+    //also if any block is matched atm
+    public bool MoovingOrMatchingOnBoard()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < hight; y++)
+            {
+                if (allBoxes[x, y] == null) return true;
 
+                var boxComp = allBoxes[x, y].GetComponent<Box>();
+                if (boxComp.Mooving || boxComp.isMatched)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;//grid is completely static
+    }
     public bool MatchesOnBoard()
     {
         for (int x = 0; x < width; x++)
@@ -839,6 +858,7 @@ public class GridA : MonoBehaviour
         }
     }
 
+    //turns off block colliders so they can't be moved by player
     public void TurnBlocksOff()
     {
         if (allBoxes == null) return;
