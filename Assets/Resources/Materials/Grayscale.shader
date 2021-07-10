@@ -5,6 +5,11 @@ Shader "Unlit/GreyScale" {
 		_MainTex("Texture", 2D) = "white" { }
 	}
 		SubShader{
+		Tags {"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
+		LOD 100
+
+		ZWrite Off
+		Blend SrcAlpha OneMinusSrcAlpha
 			Pass {
 
 		CGPROGRAM
