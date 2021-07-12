@@ -2255,7 +2255,6 @@ MonoBehaviour:
   titleText: {fileID: 1393399340}
   descriptionText: {fileID: 1230167661}
   cardImage: {fileID: 1921988463}
-  cardRevealClip: {fileID: 0}
   cardButtons:
   - {fileID: 376215816}
   - {fileID: 1420241007}
@@ -26275,7 +26274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1459391278
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28382,6 +28381,7 @@ MonoBehaviour:
   greenColor: {r: 0, g: 0.8, b: 0.07450981, a: 1}
   profileHandler: {fileID: 1006949124}
   buyPart: {fileID: 6818713493623266187, guid: 440812bd78e75ec43ad4d67e905a6e3c, type: 3}
+  timeUntilSaleText: {fileID: 1784037044}
   welcomeSectionColor: {r: 0.5529412, g: 0.3254902, b: 0.9254902, a: 1}
   welcomeScreen: {fileID: 1459391277}
   saleItemButton1: {fileID: 1969342910}
@@ -36963,6 +36963,11 @@ PrefabInstance:
     - target: {fileID: 4144423364765896, guid: 153dbcb222635a544a28498f1aa1251e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114685767601952718, guid: 153dbcb222635a544a28498f1aa1251e,
+        type: 3}
+      propertyPath: saveData.boostIds.Array.data[0]
+      value: Sink Hole
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 153dbcb222635a544a28498f1aa1251e, type: 3}

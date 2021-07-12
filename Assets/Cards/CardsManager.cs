@@ -1,17 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CardsManager : MonoBehaviour 
 {
-    [SerializeField] GameObject exclamationBubble; //shows if card card unclaimed
+    [SerializeField] GameObject exclamationBubble; //shows if card unclaimed
     [SerializeField] GameObject cardPanel;
     [SerializeField] GameObject earnedCardPanel;
     [SerializeField] Text titleText;
     [SerializeField] Text descriptionText;
     [SerializeField] Image cardImage;
-    [SerializeField] AudioClip cardRevealClip;
 
     [SerializeField] Button[] cardButtons;
     [SerializeField] CardSet[] cardSets;
@@ -26,20 +26,24 @@ public class CardsManager : MonoBehaviour
 
     private void Start()
     {
-        System.DateTime lastClaim;
+        DateTime lastClaim;
         if (string.IsNullOrEmpty(GameData.gameData.saveData.nextPossibleCardClaime))
         {
-            lastClaim = System.DateTime.Now;
+            lastClaim = DateTime.Now;
         }
         else
         {
-            lastClaim = System.Convert.ToDateTime(GameData.gameData.saveData.nextPossibleCardClaime);
+            lastClaim = Convert.ToDateTime(GameData.gameData.saveData.nextPossibleCardClaime);
         }
 
-        if (System.DateTime.Now.CompareTo(lastClaim) >= 0)
+        if (DateTime.Now.CompareTo(lastClaim) >= 0)
         {
+            lastClaim = new DateTime(2017, 2, 20);
+            GameData.gameData.UpdateCardClaim(lastClaim, null);//remove last claimed card
             exclamationBubble.SetActive(true);
         }
+        else
+            exclamationBubble.SetActive(false);
     }
 
     void SetCardSets()
@@ -87,7 +91,7 @@ public class CardsManager : MonoBehaviour
     public void DisplayCardsInSet(int cardSetIndex)
     {
         Card[] cardsInSet = cardSets[cardSetIndex].CardsInSet;
-        int randIndex = Random.Range(0, cardsInSet.Length);
+        int randIndex = UnityEngine.Random.Range(0, cardsInSet.Length);
         DisplayCardInfo(cardsInSet[randIndex]);
         GameData.gameData.UpdateCardClaim(System.DateTime.Now.AddHours(12), cardsInSet[randIndex].CardType);
         cardButtons[cardSetIndex].GetComponent<SpriteChanger>().SetSprite(cardsInSet[randIndex].Sprite);
