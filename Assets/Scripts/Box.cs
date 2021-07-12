@@ -1,22 +1,21 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Box : MonoBehaviour
 {
     Vector3 firstMousePos;
     Vector3 finalMousePos;
     public Box mainMatch;
-    public bool isMatched = false;
-    public int row;
-    public int column;
+    public bool isMatched { get; private set; }
+    public int row { get; private set; }
+    public int column { get; private set; }
     public int targetX;
     public string boxName;
     public int targetY;
 
     int prevColumn;
     int prevRow;
-    float finalAngle;
     float swipeResist = .5f;
 
     public bool FiredUp { get; set; } = false;
@@ -34,54 +33,41 @@ public class Box : MonoBehaviour
         grid = GridA.Instance;
         matchFinder = MatchFinder.Instance;
         blockClicked += grid.CrosshairToBlock;
-        StartCoroutine(MainBlockLogic());
     }
 
-    public IEnumerator MainBlockLogic()
+    public void UpdatePos(int row = -1, int column = -1, bool moveBoxInPosition = false)
     {
-        while (true)
+        if (row != -1)
+            this.row = row;
+        if (column != -1)
         {
-            if (isMatched)
-            {
-                var spriteRenderer = GetComponent<SpriteRenderer>();
-                if (spriteRenderer)
-                    GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-            }
-            targetX = row;
-            targetY = column;
-            if (Mathf.Abs(targetX - transform.localPosition.x) > 0.1f)
-            {
-                transform.localPosition = Vector2.Lerp(transform.localPosition, new Vector2(targetX, transform.localPosition.y), 0.4f);
-                if (grid.allBoxes[row, column] != this.gameObject)
-                {
-                    grid.allBoxes[row, column] = this.gameObject;
-                }
-                matchFinder.FindAllMatches();
-            }
-            else
-            {
-                transform.localPosition = new Vector2(targetX, transform.localPosition.y);
-                grid.allBoxes[row, column] = this.gameObject;
-            }
-            if (Mathf.Abs(targetY - transform.localPosition.y) > 0.1f)
-            {
-                transform.localPosition = Vector2.Lerp(transform.localPosition, new Vector2(transform.localPosition.x, targetY), 0.4f);
-                if (grid.allBoxes[row, column] != this.gameObject)
-                {
-                    grid.allBoxes[row, column] = this.gameObject;
-                }
-                matchFinder.FindAllMatches();
-            }
-            else
-            {
-                transform.localPosition = new Vector2(transform.localPosition.x, targetY);
-                grid.allBoxes[row, column] = this.gameObject;
-            }
+            this.column = column;
+        }
+        if (moveBoxInPosition)
+            StartCoroutine(MoveBoxInPosition());
+    }
+    IEnumerator MoveBoxInPosition()
+    {
+        GridA.Instance.allBoxes[row, column] = this.gameObject;
+        GridA.Instance.bombTiles[row, column] = gameObject.GetComponent<BombTile>();
 
-            yield return null;
+        //move toward target
+        Vector2 targetPosition = new Vector2(row, column);
+        yield return transform.DOLocalMove(targetPosition, 0.15f).WaitForCompletion();
+
+        matchFinder.FindAllMatches();
+        ReturnBoxes();
+    }
+    public void SetMatched(bool matched)
+    {
+        isMatched = matched;
+        if (isMatched)
+        {
+            var spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer)
+                GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
         }
     }
-
     void OnMouseDown()
     {
         if (grid.currState == GameState.move)
@@ -90,7 +76,6 @@ public class Box : MonoBehaviour
         }
         blockClicked?.Invoke(row, column);
     }
-
     void OnMouseUp()
     {
         if (grid.currState == GameState.move)
@@ -105,8 +90,11 @@ public class Box : MonoBehaviour
         if (Mathf.Abs(finalMousePos.y - firstMousePos.y) > swipeResist || Mathf.Abs(finalMousePos.x - firstMousePos.x) > swipeResist)
         {
             grid.currState = GameState.wait;
-            finalAngle = Mathf.Atan2(finalMousePos.y - firstMousePos.y, finalMousePos.x - firstMousePos.x) * 180 / Mathf.PI;
-            SwipeBox();
+            float finalAngle = Mathf.Atan2(finalMousePos.y - firstMousePos.y, finalMousePos.x - firstMousePos.x) * 180 / Mathf.PI;
+
+            Vector2Int swipeDirection = GetSwipeDirection(finalAngle);
+            if (swipeDirection != Vector2Int.zero)
+                SwipeBoxesActual(swipeDirection);
 
             grid.currBox = this;
         }
@@ -115,28 +103,20 @@ public class Box : MonoBehaviour
             grid.currState = GameState.move;
         }
     }
-
-    void SwipeBoxesActual(Vector2 direction)
+    void SwipeBoxesActual(Vector2Int direction)
     {
-        neighborBox = grid.allBoxes[row + (int)direction.x, column + (int)direction.y];
+        GridA.Instance.SwipeBoxesSFX();
+        neighborBox = grid.allBoxes[row + direction.x, column + direction.y];
         prevRow = row;
         prevColumn = column;
 
-        if (grid.lockedTiles[row, column] == null
-            && grid.lockedTiles[row + (int)direction.x, column + (int)direction.y] == null)
+        //if (grid.lockedTiles[row, column] == null
+        //   && grid.lockedTiles[row + direction.x, column + direction.y] == null)
+        if (neighborBox != null)
         {
-            if (neighborBox != null)
-            {
-                neighborBox.GetComponent<Box>().row += -1 * (int)direction.x;
-                neighborBox.GetComponent<Box>().column += -1 * (int)direction.y;
-                row += (int)direction.x;
-                column += (int)direction.y;
-                StartCoroutine(ReturnBoxes());
-            }
-            else
-            {
-                grid.currState = GameState.move;
-            }
+            var neighborBoxComp = neighborBox.GetComponent<Box>();
+            UpdatePos(neighborBoxComp.row, neighborBoxComp.column, true);
+            neighborBoxComp.UpdatePos(prevRow, prevColumn, true);
         }
         else
         {
@@ -144,57 +124,44 @@ public class Box : MonoBehaviour
         }
     }
 
-    void SwipeBox()
+    Vector2Int GetSwipeDirection(float finalAngle)
     {
-        GridA.Instance.SwipeBoxesSFX();
         if (finalAngle <= 45 && finalAngle >= -45 && row < grid.width - 1) //right swipe
         {
-            SwipeBoxesActual(Vector2.right);
+            return Vector2Int.right;
         }
         else if (finalAngle >= -135 && finalAngle <= -45 && column > 0) //down swipe
         {
-            SwipeBoxesActual(Vector2.down);
+            return Vector2Int.down;
         }
         else if ((finalAngle >= 135 || finalAngle <= -135) && row > 0) //left swipe
         {
-            SwipeBoxesActual(Vector2.left);
+            return Vector2Int.left;
         }
         else if (finalAngle <= 135 && finalAngle >= 45 && column < grid.hight - 1) //up swipe
         {
-            SwipeBoxesActual(Vector2.up);
+            return Vector2Int.up;
         }
         else
             grid.currState = GameState.move;
+        return Vector2Int.zero;
     }
 
-    IEnumerator ReturnBoxes()
+    void ReturnBoxes()
     {
-        yield return new WaitForSeconds(0.3f);
         if (neighborBox != null)
         {
             if (!isMatched && !neighborBox.GetComponent<Box>().isMatched)
             {
                 GridA.Instance.ReturnBoxesSFX();
-                neighborBox.GetComponent<Box>().column = column;
-                neighborBox.GetComponent<Box>().row = row;
-                column = prevColumn;
-                row = prevRow;
-                yield return new WaitForSeconds(.5f);
+                neighborBox.GetComponent<Box>().UpdatePos(row, column, true);
+                UpdatePos(prevRow, prevColumn, true);
+
                 grid.currBox = null;
                 grid.currState = GameState.move;
             }
             else
             {
-                if (GetComponent<BombTile>())
-                {
-                    grid.bombTiles[row, column] = grid.bombTiles[prevRow, prevColumn];
-                    grid.bombTiles[prevRow, prevColumn] = null;
-                }
-                else if (neighborBox.GetComponent<BombTile>())
-                {
-                    grid.bombTiles[prevRow, prevColumn] = grid.bombTiles[row, column];
-                    grid.bombTiles[row, column] = null;
-                }
                 grid.DestroyAllMatches();
 
                 EndGameManager.Instance.CallOnMatchDelegate();
@@ -205,27 +172,13 @@ public class Box : MonoBehaviour
     public void MoveBoxDown()
     {
         StopAllCoroutines();
-        StartCoroutine(MoveDown());
+        transform.DOLocalMove(transform.localPosition + Vector3.down * 30, 1f);
     }
-    IEnumerator MoveDown()
-    {
-        float smoothTime = 0.3f;
-        Vector3 velocity = Vector3.zero;
-        Vector3 targetPos = new Vector3(transform.position.x, transform.position.y - 30, transform.position.z);
-
-        while (transform.position != targetPos)
-        {
-            transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, smoothTime);
-            yield return null;
-        }
-    }
-
     public void ChangeBoxPosition(int _row, int _column)
     {
         prevRow = row;
         prevColumn = column;
-        row = _row;
-        column = _column;
+        UpdatePos(_row, _column);
     }
     //switcheroo boost
     void ChangeBlockSprite(string tag)

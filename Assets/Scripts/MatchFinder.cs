@@ -20,111 +20,22 @@ public class MatchFinder : MonoBehaviour
 
     public void FindAllMatches()
     {
-        StartCoroutine(FindAllMatchesCoroutine());
-    }
-
-    private IEnumerator FindAllMatchesCoroutine()
-    {
-        yield return new WaitForSeconds(.2f);
         for (int x = 0; x < grid.width; x++)
         {
             for (int y = 0; y < grid.hight; y++)
             {
                 GameObject currentBox = grid.allBoxes[x, y];
-                if (grid.allBoxes[x, y] != null)
+                if (currentBox == null) continue;
+
+                // left and right
+                if (x > 0 && x < grid.width - 1)
                 {
-                    // left and right
-                    if (x > 0 && x < grid.width - 1)
-                    {
-                        GameObject leftBox = grid.allBoxes[x - 1, y];
-                        GameObject rightBox = grid.allBoxes[x + 1, y];
-                        if (leftBox && rightBox)
-                        {
-                            bool leftRightSameTag = leftBox.tag == currentBox.tag && rightBox.tag == currentBox.tag;
-                            bool warpedBlockMatch = (leftBox.tag == currentBox.tag || leftBox.GetComponent<Box>().Warped)
-                                && (rightBox.tag == currentBox.tag || rightBox.GetComponent<Box>().Warped)
-                                || (currentBox.GetComponent<Box>().Warped && (leftBox.tag == rightBox.tag));
-                            if (leftRightSameTag || warpedBlockMatch)
-                            {
-                                if(warpedBlockMatch)
-                                {
-                                    //set warped block tag as nearby matched blocks
-                                    if(leftBox.GetComponent<Box>().Warped)
-                                        leftBox.tag = rightBox.tag;
-                                    else if (currentBox.GetComponent<Box>().Warped)
-                                        currentBox.tag = rightBox.tag;
-                                    else if (rightBox.GetComponent<Box>().Warped)
-                                        rightBox.tag = currentBox.tag;
-                                }
-                                if (!currentMatches.Contains(rightBox))
-                                {
-                                    currentMatches.Add(rightBox);
-                                }
-                                Box curr = currentBox.GetComponent<Box>();
-                                rightBox.GetComponent<Box>().isMatched = true;
-                                rightBox.GetComponent<Box>().mainMatch = curr;
-                                if (!currentMatches.Contains(leftBox))
-                                {
-                                    currentMatches.Add(leftBox);
-                                }
-                                leftBox.GetComponent<Box>().isMatched = true;
-                                leftBox.GetComponent<Box>().mainMatch = curr;
-                                if (!currentMatches.Contains(currentBox))
-                                {
-                                    currentMatches.Add(currentBox);
-                                }
-                                currentBox.GetComponent<Box>().isMatched = true;
-                                if (currentBox.GetComponent<Box>().mainMatch == null)
-                                    currentBox.GetComponent<Box>().mainMatch = curr;
-                            }
-                        }
-                    }
-                    // up and down
-                    if (y > 0 && y < grid.hight - 1)
-                    {
-                        GameObject upBox = grid.allBoxes[x, y - 1];
-                        GameObject downBox = grid.allBoxes[x, y + 1];
-                        if (upBox && downBox)
-                        {
-                            bool upDownSameTag = upBox.tag == currentBox.tag && downBox.tag == currentBox.tag;
-                            bool warpedBlockMatch = (upBox.tag == currentBox.tag || upBox.GetComponent<Box>().Warped)
-                                && (downBox.tag == currentBox.tag || downBox.GetComponent<Box>().Warped)
-                                || (currentBox.GetComponent<Box>().Warped && (upBox.tag == downBox.tag));
-                            if (upDownSameTag || warpedBlockMatch)
-                            {
-                                if (warpedBlockMatch)
-                                {
-                                    //set warped block tag as nearby matched blocks
-                                    if (downBox.GetComponent<Box>().Warped)
-                                        downBox.tag = currentBox.tag;
-                                    else if (currentBox.GetComponent<Box>().Warped)
-                                        currentBox.tag = downBox.tag;
-                                    else if (upBox.GetComponent<Box>().Warped)
-                                        upBox.tag = currentBox.tag;
-                                }
-                                if (!currentMatches.Contains(upBox))
-                                {
-                                    currentMatches.Add(upBox);
-                                }
-                                Box curr = currentBox.GetComponent<Box>();
-                                upBox.GetComponent<Box>().isMatched = true;
-                                upBox.GetComponent<Box>().mainMatch = curr;
-                                if (!currentMatches.Contains(downBox))
-                                {
-                                    currentMatches.Add(downBox);
-                                }
-                                downBox.GetComponent<Box>().mainMatch = curr;
-                                downBox.GetComponent<Box>().isMatched = true;
-                                if (!currentMatches.Contains(currentBox))
-                                {
-                                    currentMatches.Add(currentBox);
-                                }
-                                currentBox.GetComponent<Box>().isMatched = true;
-                                if (currentBox.GetComponent<Box>().mainMatch == null)
-                                    currentBox.GetComponent<Box>().mainMatch = curr;
-                            }
-                        }
-                    }
+                    CheckNearbyBlocks(x, y, Vector2Int.right);
+                }
+                // up and down
+                if (y > 0 && y < grid.hight - 1)
+                {
+                    CheckNearbyBlocks(x, y, Vector2Int.up);
                 }
             }
         }
@@ -134,6 +45,64 @@ public class MatchFinder : MonoBehaviour
         {
             grid.tempTagForTrinket = currentMatches[0].tag;
             currentMatches.Clear();
+        }
+    }
+
+    void CheckNearbyBlocks(int x, int y, Vector2Int dirOfBlocks)
+    {
+        GameObject currentBox = grid.allBoxes[x, y];
+        GameObject rightOrUpBox = grid.allBoxes[x + dirOfBlocks.x, y + dirOfBlocks.y];
+        GameObject leftOrDownBox = grid.allBoxes[x - dirOfBlocks.x, y - dirOfBlocks.y];
+        if (leftOrDownBox && rightOrUpBox)
+        {
+            bool leftDownSameTag = leftOrDownBox.CompareTag(currentBox.tag);
+            bool leftDownWarped = leftOrDownBox.GetComponent<Box>().Warped;
+
+            bool rightUpSameTag = rightOrUpBox.CompareTag(currentBox.tag);
+            bool rightUpWarped = rightOrUpBox.GetComponent<Box>().Warped;
+
+            bool leftDownSameAsRightUp = leftOrDownBox.CompareTag(rightOrUpBox.tag);
+            bool currWarped = currentBox.GetComponent<Box>().Warped;
+
+            bool nearbySameTag = leftDownSameTag && rightUpSameTag;
+            bool warpedBlockMatch = (leftDownSameTag || leftDownWarped) && (rightUpSameTag || rightUpWarped)
+                || (currWarped && leftDownSameAsRightUp);
+            if (nearbySameTag || warpedBlockMatch)
+            {
+                if (warpedBlockMatch)
+                {
+                    //set warped block tag as nearby matched blocks
+                    if (leftOrDownBox.GetComponent<Box>().Warped)
+                        leftOrDownBox.tag = rightOrUpBox.tag;
+                    else if (currentBox.GetComponent<Box>().Warped)
+                        currentBox.tag = rightOrUpBox.tag;
+                    else if (rightOrUpBox.GetComponent<Box>().Warped)
+                        rightOrUpBox.tag = currentBox.tag;
+                }
+                Box curr = currentBox.GetComponent<Box>();
+
+                if (!currentMatches.Contains(rightOrUpBox))
+                {
+                    currentMatches.Add(rightOrUpBox);
+                }
+                rightOrUpBox.GetComponent<Box>().SetMatched(true);
+                rightOrUpBox.GetComponent<Box>().mainMatch = curr;
+
+                if (!currentMatches.Contains(leftOrDownBox))
+                {
+                    currentMatches.Add(leftOrDownBox);
+                }
+                leftOrDownBox.GetComponent<Box>().SetMatched(true);
+                leftOrDownBox.GetComponent<Box>().mainMatch = curr;
+
+                if (!currentMatches.Contains(currentBox))
+                {
+                    currentMatches.Add(currentBox);
+                }
+                curr.SetMatched(true);
+                if (curr.mainMatch == null)
+                    curr.mainMatch = curr;
+            }
         }
     }
 }
