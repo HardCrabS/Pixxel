@@ -17,7 +17,7 @@ public class WorldSprite : MonoBehaviour
     void Start()
     {
         bool isUnlocked = true;
-        if (worldInformation != null)
+        if (worldInformation != null && GameData.gameData != null)
             isUnlocked = GameData.gameData.saveData.worldIds.Contains(worldInformation.id);
         if (worldInformation == null || !isUnlocked)
         {
