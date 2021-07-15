@@ -399,16 +399,6 @@ public class GridA : MonoBehaviour
             }
             DestroyBombTile(row, column);
 
-            Box matchedBox = allBoxes[row, column].GetComponent<Box>();
-            if (matchedBox.FiredUp)
-            {
-                StartCoroutine(FiredUpBlock(matchedBox));
-            }
-            else if (matchedBox.Warped)
-            {
-                StartCoroutine(DestroyAllSameColor(matchedBox.tag));
-            }
-
             CheckBomb();
             DestroyBlockAtPosition(row, column);
 
@@ -493,9 +483,8 @@ public class GridA : MonoBehaviour
             }
         }
     }
-    public IEnumerator FiredUpBlock(Box box)
+    void FiredUpBlock(Box box)
     {
-        yield return null;
         if (box != null)
         {
             foreach (Vector2Int dir in directions)
@@ -509,8 +498,8 @@ public class GridA : MonoBehaviour
             var camShake = Camera.main.GetComponent<CameraShake>();
             StartCoroutine(camShake.Shake(0.07f, 0.04f));
 
-            DestroyBlockAtPosition(box.row, box.column);
             BlockDestroyedSFX();
+            DestroyBlockAtPosition(box.row, box.column);
         }
 
         StartCoroutine(MoveBoxesDown());
@@ -562,6 +551,18 @@ public class GridA : MonoBehaviour
     {
         if (allBoxes[row, column] != null)
         {
+            Box block = allBoxes[row, column].GetComponent<Box>();
+            if (block.FiredUp)
+            {
+                block.FiredUp = false;
+                FiredUpBlock(block);
+            }
+            else if (block.Warped)
+            {
+                block.Warped = false;
+                StartCoroutine(DestroyAllSameColor(block.tag));
+            }
+
             DynamicBlockSpriteDestruction(row, column);
             //BlockDestroyedSFX();  //sound is played once after all matched blocks are destroyed
 
@@ -601,7 +602,7 @@ public class GridA : MonoBehaviour
             {
                 if (allBoxes[x, y] == null)
                     nullCount++;
-                else if(nullCount > 0)
+                else if (nullCount > 0)
                 {
                     Box boxComp = allBoxes[x, y].GetComponent<Box>();
                     boxComp.UpdatePos(column: y - nullCount, moveBoxInPosition: true);
@@ -625,7 +626,7 @@ public class GridA : MonoBehaviour
                 {
                     Vector2 tempPos = new Vector2(x, y + offset);
 
-                    //try spawning bomb at position
+                    //try spawning bomb
                     int bombChance = Random.Range(0, 100);
                     if (bombChance < bombSpawnChance)
                     {
@@ -814,7 +815,7 @@ public class GridA : MonoBehaviour
         }
     }
 
-    public void TurnBlocksOff()
+    /*public void TurnBlocksOff()
     {
         for (int i = 0; i < width; i++)
         {
@@ -828,7 +829,7 @@ public class GridA : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
     #region add_game_params
     public void IncreaseBombSpawnChance(int value)
@@ -850,6 +851,8 @@ public class GridA : MonoBehaviour
     #region VFX
     private void DynamicBlockSpriteDestruction(int row, int column)
     {
+        if (allBoxes[row, column] == null) return;
+
         var explodable = allBoxes[row, column].GetComponent<Explodable>();
         if (!explodable)
         {

@@ -89,7 +89,7 @@ public class Box : MonoBehaviour
     {
         if (Mathf.Abs(finalMousePos.y - firstMousePos.y) > swipeResist || Mathf.Abs(finalMousePos.x - firstMousePos.x) > swipeResist)
         {
-            grid.currState = GameState.wait;
+            //grid.currState = GameState.wait;
             float finalAngle = Mathf.Atan2(finalMousePos.y - firstMousePos.y, finalMousePos.x - firstMousePos.x) * 180 / Mathf.PI;
 
             Vector2Int swipeDirection = GetSwipeDirection(finalAngle);
@@ -100,7 +100,7 @@ public class Box : MonoBehaviour
         }
         else
         {
-            grid.currState = GameState.move;
+            //grid.currState = GameState.move;
         }
     }
     void SwipeBoxesActual(Vector2Int direction)
@@ -120,7 +120,7 @@ public class Box : MonoBehaviour
         }
         else
         {
-            grid.currState = GameState.move;
+            //grid.currState = GameState.move;
         }
     }
 
@@ -142,8 +142,8 @@ public class Box : MonoBehaviour
         {
             return Vector2Int.up;
         }
-        else
-            grid.currState = GameState.move;
+       /* else
+            grid.currState = GameState.move;*/
         return Vector2Int.zero;
     }
 
@@ -158,7 +158,7 @@ public class Box : MonoBehaviour
                 UpdatePos(prevRow, prevColumn, true);
 
                 grid.currBox = null;
-                grid.currState = GameState.move;
+                //grid.currState = GameState.move;
             }
             else
             {

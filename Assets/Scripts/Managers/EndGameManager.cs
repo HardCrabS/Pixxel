@@ -47,7 +47,7 @@ public class EndGameManager : MonoBehaviour
         LeaderboardController.Instance.SetLeaderboard();
         StartCoroutine(GameOverDelayed());
         GridA.Instance.currState = GameState.wait;
-        GridA.Instance.TurnBlocksOff();
+       // GridA.Instance.TurnBlocksOff();
         onGameOver.Invoke();
     }
 
