@@ -1,6 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+public enum CollectionSection
+{
+    World,
+    Boost,
+    Trinket,
+    Title,
+    Banner
+}
 public class CollectionController : MonoBehaviour
 {
     public static CollectionController Instance;
@@ -43,6 +51,8 @@ public class CollectionController : MonoBehaviour
     [SerializeField] Transform bannerSelectionGlow;
     [SerializeField] Banner[] banners;
 
+    CollectionSection currCollectionSection;
+
     const string LOCK_TAG = "Lock";
     const string SECTION_NAME_DOTS = "<size=120><color=blue>- - - - - - - - - - -</color></size>";
     const string LOCKED = "<color=red>- LOCKED -</color>";
@@ -78,6 +88,9 @@ public class CollectionController : MonoBehaviour
     #region World
     public void SetWorldCollectionTexts()   //called on section toggles event
     {
+        if (currCollectionSection == CollectionSection.World) return;
+
+        currCollectionSection = CollectionSection.World;
         var worldsUnlocked = GameData.gameData.saveData.worldIds;
         unlockNumber.text = "<size=400>" + worldsUnlocked.Count
             + "</size>/" + worlds.Length + "\n<color=blue>UNLOCKED</color>";
@@ -139,6 +152,9 @@ public class CollectionController : MonoBehaviour
     #region Boost
     public void SetBoostCollectionTexts()   //called on section toggles event
     {
+        if (currCollectionSection == CollectionSection.Boost) return;
+
+        currCollectionSection = CollectionSection.Boost;
         var boostsUnlocked = GameData.gameData.saveData.boostIds;
         unlockNumber.text = "<size=400>" + boostsUnlocked.Count
             + "</size>/" + boostInfos.Length + "\n<color=blue>UNLOCKED</color>";
@@ -196,6 +212,9 @@ public class CollectionController : MonoBehaviour
     #region Trinket
     public void SetTrinketCollectionTexts()
     {
+        if (currCollectionSection == CollectionSection.Trinket) return;
+
+        currCollectionSection = CollectionSection.Trinket;
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
         unlockNumber.text = "<size=400>" + trinketsUnlocked.Count
             + "</size>/" + trinkets.Length + "\n<color=blue>UNLOCKED</color>";
@@ -274,6 +293,9 @@ public class CollectionController : MonoBehaviour
     #region Title
     public void SetTitleCollectionTexts()
     {
+        if (currCollectionSection == CollectionSection.Title) return;
+
+        currCollectionSection = CollectionSection.Title;
         var titlesUnlocked = GameData.gameData.saveData.titleIds;
         unlockNumber.text = "<size=400>" + titlesUnlocked.Count
             + "</size>/" + titles.Length + "\n<color=blue>UNLOCKED</color>";
@@ -346,6 +368,9 @@ public class CollectionController : MonoBehaviour
     #region Banner
     public void SetBannerCollectionTexts()
     {
+        if (currCollectionSection == CollectionSection.Banner) return;
+
+        currCollectionSection = CollectionSection.Banner;
         var bannersUnlocked = GameData.gameData.saveData.bannerIds;
         unlockNumber.text = "<size=400>" + bannersUnlocked.Count
             + "</size>/" + banners.Length + "\n<color=blue>UNLOCKED</color>";

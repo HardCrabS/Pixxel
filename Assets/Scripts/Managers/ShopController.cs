@@ -69,6 +69,8 @@ public class ShopController : MonoBehaviour
     [SerializeField] Toggle titleTogle;
     [SerializeField] Toggle bannerTogle;
 
+    CollectionSection currCollectionSection;
+
     RewardTemplate currChosenSaleItem;
     RewardTemplate firstPickedSaleItem, secondPickedSaleItem;
     int sale1, sale2;
@@ -90,6 +92,7 @@ public class ShopController : MonoBehaviour
         SetTrinkets();
         SetTitles();
         SetBanners();
+        OpenShop();
     }
     bool TimeHasPassed()
     {
@@ -318,6 +321,9 @@ public class ShopController : MonoBehaviour
     #region World
     public void SetWorldShopTexts()   //called on section toggles event
     {
+        if (currCollectionSection == CollectionSection.World) return;
+
+        currCollectionSection = CollectionSection.World;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.World)
             + "</size>/" + worlds.Length + "\n<color=blue>BOUGHT</color>";
         sectionName.text = SequentialText.ColorString("WORLDS\n", greenColor) + SECTION_NAME_DOTS;
@@ -388,6 +394,9 @@ public class ShopController : MonoBehaviour
     #region Boost
     public void SetBoostShopTexts()   //called on section toggles event
     {
+        if (currCollectionSection == CollectionSection.Boost) return;
+
+        currCollectionSection = CollectionSection.Boost;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Boost)
             + "</size>/" + boostInfos.Length + "\n<color=blue>BOUGHT</color>";
         sectionName.text = "<color=red>BOOSTS</color>\n" + SECTION_NAME_DOTS;
@@ -463,6 +472,9 @@ public class ShopController : MonoBehaviour
     #region Trinket
     public void SetTrinketShopTexts()
     {
+        if (currCollectionSection == CollectionSection.Trinket) return;
+
+        currCollectionSection = CollectionSection.Trinket;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Trinket)
             + "</size>/" + trinkets.Length + "\n<color=blue>BOUGHT</color>";
         sectionName.text = "<color=blue>TRINKETS</color>\n" + SECTION_NAME_DOTS;
@@ -543,6 +555,9 @@ public class ShopController : MonoBehaviour
     #region Title
     public void SetTitleShopTexts()
     {
+        if (currCollectionSection == CollectionSection.Title) return;
+
+        currCollectionSection = CollectionSection.Title;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Title)
             + "</size>/" + titles.Length + "\n<color=blue>BOUGHT</color>";
         sectionName.text = "<color=orange>TITLES</color>\n" + SECTION_NAME_DOTS;
@@ -619,6 +634,9 @@ public class ShopController : MonoBehaviour
     #region Banner
     public void SetBannerShopTexts()
     {
+        if (currCollectionSection == CollectionSection.Banner) return;
+
+        currCollectionSection = CollectionSection.Banner;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Banner)
             + "</size>/" + banners.Length + "\n<color=blue>BOUGHT</color>";
         sectionName.text = SequentialText.ColorString("BANNERS\n", welcomeSectionColor) + SECTION_NAME_DOTS;
