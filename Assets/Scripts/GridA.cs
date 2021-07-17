@@ -439,9 +439,51 @@ public class GridA : MonoBehaviour
         }
     }
 
+    int CountMatchedWithBox(Box box)
+    {
+        int matchedCounter = 1;
+        Vector2Int[] fourDirections = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
+
+        foreach (var dir in fourDirections)
+        {
+            Box nextBoxToCheck = box;
+
+            while (nextBoxToCheck != null)
+            {
+                //check if next box is ouside of range
+                bool isInWidthBoundaries = nextBoxToCheck.row + dir.x >= 0 && nextBoxToCheck.row + dir.x < width;
+                bool isInHeightBoundaries = nextBoxToCheck.column + dir.y >= 0 && nextBoxToCheck.column + dir.y < hight;
+                if (isInWidthBoundaries && isInHeightBoundaries)
+                {
+                    //get next box
+                    var nextBoxGO = allBoxes[nextBoxToCheck.row + dir.x, nextBoxToCheck.column + dir.y];
+                    if (nextBoxGO)
+                    {
+                        nextBoxToCheck = nextBoxGO.GetComponent<Box>();
+                        //next box is same tag and is matched
+                        if (nextBoxToCheck.gameObject.CompareTag(box.gameObject.tag) && nextBoxToCheck.isMatched)
+                        {
+                            //increment counter and proceed to next box
+                            matchedCounter++;
+                            continue;
+                        }
+                    }
+                }
+                //stop looking for boxes in current direction
+                break;
+            }
+        }
+        return matchedCounter;
+    }
     void CheckBomb()
     {
-        if (matchFinder.currentMatches.Count == 4 || matchFinder.currentMatches.Count == 7)
+        //if (matchFinder.currentMatches.Count == 4 || matchFinder.currentMatches.Count == 7)
+        if (currBox == null) return;
+
+        int matchedCount = currBox.isMatched ? CountMatchedWithBox(currBox) 
+            : CountMatchedWithBox(currBox.neighborBox.GetComponent<Box>());
+
+        if (matchedCount == 4)
         {
             if (currBox != null)
             {
@@ -463,7 +505,7 @@ public class GridA : MonoBehaviour
                 }
             }
         }
-        else if (matchFinder.currentMatches.Count == 5)
+        else if (matchedCount == 5)
         {
             if (currBox != null)
             {
@@ -755,7 +797,7 @@ public class GridA : MonoBehaviour
             {
                 if (allBoxes[x, y] != null)
                 {
-                    if(allBoxes[x, y].GetComponent<GoldenRock>())//gold rock can be tapped and destroyed by player
+                    if (allBoxes[x, y].GetComponent<GoldenRock>())//gold rock can be tapped and destroyed by player
                         return false;
                     if (x < width - 1)
                     {
