@@ -595,22 +595,28 @@ public class GridA : MonoBehaviour
 
     public IEnumerator MoveBoxesDown()
     {
-        int nullCount = 0;
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < hight; y++)
             {
-                if (allBoxes[x, y] == null)
-                    nullCount++;
-                else if (nullCount > 0)
+                if (allBoxes[x, y] == null && !blankSpaces[x, y])//this position needs a block
                 {
-                    Box boxComp = allBoxes[x, y].GetComponent<Box>();
-                    boxComp.UpdatePos(column: y - nullCount, moveBoxInPosition: true);
-                    allBoxes[x, y] = null;
-                    bombTiles[x, y] = null;
+                    //find first above block that is not null
+                    for (int k = y + 1; k < hight; k++)
+                    {
+                        if (allBoxes[x, k] != null)
+                        {
+                            Box boxComp = allBoxes[x, k].GetComponent<Box>();
+                            //move it to the null position below
+                            boxComp.UpdatePos(column: y, moveBoxInPosition: true);
+                            //set to null current position
+                            allBoxes[x, k] = null;
+                            bombTiles[x, k] = null;
+                            break;
+                        }
+                    }
                 }
             }
-            nullCount = 0;
         }
         yield return new WaitForSeconds(0.4f);
         StartCoroutine(FillBoard());
@@ -749,6 +755,8 @@ public class GridA : MonoBehaviour
             {
                 if (allBoxes[x, y] != null)
                 {
+                    if(allBoxes[x, y].GetComponent<GoldenRock>())//gold rock can be tapped and destroyed by player
+                        return false;
                     if (x < width - 1)
                     {
                         if (SwitchAndCheck(x, y, Vector2.right))

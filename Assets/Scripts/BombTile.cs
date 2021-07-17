@@ -50,7 +50,8 @@ public class BombTile : MonoBehaviour
     }
     public void DecreaseBombCounter()
     {
-        StartCoroutine(DecreaseCounterDelayed());
+        if (LivesManager.Instance.BombCounterState == BombCounterState.ticking)
+            StartCoroutine(DecreaseCounterDelayed());
     }
     IEnumerator DecreaseCounterDelayed()
     {
