@@ -175,14 +175,12 @@ public class DatabaseManager : MonoBehaviour
 
     public static async Task<User> UserAlreadyInDatabase(string id)
     {
-        bool foundUser = false;
         User user = null;
 
         await FirebaseDatabase.DefaultInstance.GetReference("users/" + id).GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)
             {
-                foundUser = true;
                 Debug.LogError("Failed to access database");
             }
             else if (task.IsCompleted)
@@ -190,13 +188,11 @@ public class DatabaseManager : MonoBehaviour
                 DataSnapshot snapshot = task.Result;
                 if (snapshot.Exists)
                 {
-                    foundUser = true;
                     user = JsonUtility.FromJson<User>(snapshot.GetRawJsonValue());
                 }
             }
         });
         return user;
-        //return foundUser;
     }
 }
 

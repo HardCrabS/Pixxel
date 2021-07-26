@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.Events;
+using System.Collections;
+using System;
 
 public class PlayGamesController : MonoBehaviour
 {
@@ -11,10 +13,43 @@ public class PlayGamesController : MonoBehaviour
     {
         if (!GameData.gameData.isAuthentificated)
         {
-            WaitForAuthenticate();
+            StartCoroutine(checkInternetConnection((isConnected) =>
+            {
+                if (isConnected)
+                {
+                    WaitForAuthenticate();
+                }
+                else
+                {
+                    if (GameData.gameData.saveData.playerInfo == null)
+                    {
+                        GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+                        GameData.Save();
+                    }
+                }
+            }));
         }
     }
-
+    public static IEnumerator checkInternetConnection(Action<bool> action)
+    {
+        if (Application.internetReachability == NetworkReachability.NotReachable)//wifi isn't turned on
+        {
+            action(false);
+        }
+        else
+        {
+            WWW www = new WWW("http://google.com");
+            yield return www;
+            if (www.error != null)
+            {
+                action(false);
+            }
+            else
+            {
+                action(true);
+            }
+        }
+    }
     private async void WaitForAuthenticate()
     {
         await AuthenticateUser();
@@ -23,33 +58,22 @@ public class PlayGamesController : MonoBehaviour
 
     static async Task AuthenticateUser()
     {
-        if (ShareController.CheckForInternetConnection())
-        {
-            string playerId = SystemInfo.deviceUniqueIdentifier;
-            Task<User> userTask = DatabaseManager.UserAlreadyInDatabase(playerId);
-            User userInDatabase = await userTask;
+        string playerId = SystemInfo.deviceUniqueIdentifier;
+        Task<User> userTask = DatabaseManager.UserAlreadyInDatabase(playerId);
+        User userInDatabase = await userTask;
 
-            if (userInDatabase == null)
-            {
-                string playerName = "Soldier";
-                DatabaseManager.WriteNewUser(playerId, playerName, "Noobe", "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
-                GameData.gameData.saveData.playerInfo = new User(playerId, playerName, "Noobe", "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
-                GameData.Save();
-            }
-            else
-            {
-                GameData.gameData.saveData.playerInfo = userInDatabase;
-            }
-            GameData.gameData.isAuthentificated = true;
+        if (userInDatabase == null)
+        {
+            string playerName = "Soldier";
+            DatabaseManager.WriteNewUser(playerId, playerName, "Noobe", "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+            GameData.gameData.saveData.playerInfo = new User(playerId, playerName, "Noobe", "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+            GameData.Save();
         }
         else
         {
-            if (GameData.gameData.saveData.playerInfo == null)
-            {
-                GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
-                GameData.Save();
-            }
+            GameData.gameData.saveData.playerInfo = userInDatabase;
         }
+        GameData.gameData.isAuthentificated = true;
     }
 
     public static void PostToLeaderboard(string worldId)

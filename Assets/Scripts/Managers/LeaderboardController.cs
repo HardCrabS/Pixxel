@@ -33,12 +33,22 @@ public class LeaderboardController : MonoBehaviour
     }
     public async void SetLeaderboard()
     {
-        if (!ShareController.CheckForInternetConnection())
+        StartCoroutine(PlayGamesController.checkInternetConnection(async (isConnected) =>
         {
-            string noInternet = "Oops! Internet connection is missing!";
-            firstPlacePanel.SetScorePanel(noInternet, null, null, noInternet);
-            return;
-        }
+            if (isConnected)
+            {
+                await GetUsersAndCreatePanels();
+            }
+            else
+            {
+                string noInternet = "Oops! Internet connection is missing!";
+                firstPlacePanel.SetScorePanel(noInternet, null, null, noInternet);
+            }
+        }));
+    }
+
+    private async System.Threading.Tasks.Task GetUsersAndCreatePanels()
+    {
         string loadingStr = "Loading...";
         firstPlacePanel.SetScorePanel(loadingStr, null, null, loadingStr);
         loadingPanel.SetActive(true);
@@ -72,6 +82,7 @@ public class LeaderboardController : MonoBehaviour
             loadingPanel.SetActive(false);
         SetFirstPlace();
     }
+
     IEnumerator MoveUpAndDown()
     {
         int topIndex = Mathf.Clamp(playerIndex - 10, 0, Count + 1);
