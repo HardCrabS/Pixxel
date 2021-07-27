@@ -1095,34 +1095,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6818377469693177640}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 6818377469802008599}
         m_TargetAssemblyTypeName: 
         m_MethodName: UpdateWorldDisplayBoosts
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1145,9 +1121,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+        m_TargetAssemblyTypeName: UI_System, Assembly-CSharp
+        m_MethodName: GoToPreviousScreen
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1668,7 +1644,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGameButton: 0
   relatedFrame: {fileID: 6818377467918099463}
-  boostInfo: {fileID: 11400000, guid: 02ade19a7876afb48b17703e4e6dc5d1, type: 2}
+  boostInfo: {fileID: 0}
   buttonIndex: 0
   disabledColor: {r: 0, g: 0, b: 0, a: 0}
   activateBoost: {fileID: 0}
@@ -3599,7 +3575,7 @@ MonoBehaviour:
   selectionGlow: {fileID: 5438187462737194633}
   allBoostInfos:
   - {fileID: 11400000, guid: 26e0b360c84458a4b89c1a40788fb40e, type: 2}
-  - {fileID: 11400000, guid: 02ade19a7876afb48b17703e4e6dc5d1, type: 2}
+  - {fileID: 11400000, guid: c4238456996c647448752224b0bf9a95, type: 2}
   - {fileID: 11400000, guid: b2589c7c7fc12374a8492a0d073cc404, type: 2}
   - {fileID: 11400000, guid: 1c95670d714786d4abf0c8554eb8dd0d, type: 2}
   - {fileID: 11400000, guid: 1d90d7bc2ea7a9749b907821cfa05cd8, type: 2}
@@ -5964,9 +5940,11 @@ GameObject:
   - component: {fileID: 6818377469693177641}
   - component: {fileID: 6818377469693177644}
   - component: {fileID: 6818377469693177643}
-  - component: {fileID: 6818377469693177642}
   - component: {fileID: 6818377469693177646}
   - component: {fileID: 6818377469693177645}
+  - component: {fileID: 389581003}
+  - component: {fileID: 389581004}
+  - component: {fileID: 389581002}
   m_Layer: 5
   m_Name: Boost sub-menu 1
   m_TagString: Untagged
@@ -6039,21 +6017,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6818377469693177642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6818377469693177640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 2, y: -2}
-  m_UseGraphicAlpha: 1
 --- !u!223 &6818377469693177646
 Canvas:
   m_ObjectHideFlags: 0
@@ -6092,6 +6055,56 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &389581003
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818377469693177640}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!95 &389581004
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818377469693177640}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 318a939194063a643bfd7f4ea4f0315a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &389581002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818377469693177640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 416ff92229ff37e4c95d069b4b8c937d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StartSelectable: {fileID: 0}
+  onScreenStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onScreenClose:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6818377469697638032
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,7 +43,7 @@ public class BlockFragmentsTracker : MonoBehaviour
         potentialFragmentsCount++;
         if(potentialFragmentsCount > fragmentsToScreenShake)
         {
-            StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.1f, 0.2f));
+            Camera.main.GetComponent<CameraShake>().ShakeCam(0.1f, 0.2f);
             potentialFragmentsCount = 0;
         }
         yield return new WaitForSeconds(1f);
