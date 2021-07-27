@@ -75,8 +75,8 @@ public class ShopController : MonoBehaviour
     int sale1, sale2;
     Dictionary<LevelReward, RewardTemplate[]> allBuyableItems;
 
-    const string SECTION_NAME_DOTS = "<size=120><color=blue>- - - - - - - - - - -</color></size>";
-    const string LOCKED = "<color=red>- LOCKED -</color>";
+    const string SECTION_NAME_DOTS = "<size=120><color=black>- - - - - - - - - - -</color></size>";
+    const string LOCKED = "<color=#ff0048>- LOCKED -</color>";
 
     const string BANNERS_LOCATION = "Sprites/UI images/Banners/";
     const string TRINKETS_LOCATION = "Sprites/UI images/Trinkets/";
@@ -316,8 +316,9 @@ public class ShopController : MonoBehaviour
     public void SetWorldShopTexts()   //called on section toggles event
     {
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.World)
-            + "</size>/" + worlds.Length + "\n<color=blue>BOUGHT</color>";
-        sectionName.text = SequentialText.ColorString("WORLDS\n", greenColor) + SECTION_NAME_DOTS;
+            + "</size>/" + worlds.Length + "\n<color=black>BOUGHT</color>";
+        Color myColor = new Color(1, 0, 0.282f);
+        sectionName.text = SequentialText.ColorString("WORLDS\n", myColor) + SECTION_NAME_DOTS;
         itemDescription.text = "";
         SetUIElementsActiveness(false, false, false);
     }
@@ -335,7 +336,8 @@ public class ShopController : MonoBehaviour
             worldPanel.gameObject.name = worlds[i].id;
             worldPanel.GetComponent<Image>().sprite = worlds[i].GetRewardSprite();
             Button button = worldPanel.GetComponent<Button>();
-            string descr = SequentialText.ColorString("<size=410>" + worldName + "</size>", buyColor);
+            Color myColor = new Color(1, 0, 0.282f);
+            string descr = SequentialText.ColorString("<size=410>" + worldName + "</size>", myColor);
             int index = i;
 
             if (!worldsUnlocked.Contains(worlds[i].id))
@@ -386,8 +388,8 @@ public class ShopController : MonoBehaviour
     public void SetBoostShopTexts()   //called on section toggles event
     {
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Boost)
-            + "</size>/" + boostInfos.Length + "\n<color=blue>BOUGHT</color>";
-        sectionName.text = "<color=red>BOOSTS</color>\n" + SECTION_NAME_DOTS;
+            + "</size>/" + boostInfos.Length + "\n<color=black>BOUGHT</color>";
+        sectionName.text = "<color=#ff0048>BOOSTS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         SetUIElementsActiveness(false, false, false);
     }
@@ -408,7 +410,7 @@ public class ShopController : MonoBehaviour
 
             string title = boost.id;
             Button button = boostPanel.GetComponent<Button>();
-            string descr = "<color=red><size=450>" + title + "</size></color>";
+            string descr = "<color=#ff0048><size=450>" + title + "</size></color>";
             int index = i;
             if (!boostsUnlocked.Contains(boost.id))
             {
@@ -461,8 +463,8 @@ public class ShopController : MonoBehaviour
     public void SetTrinketShopTexts()
     {
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Trinket)
-            + "</size>/" + trinkets.Length + "\n<color=blue>BOUGHT</color>";
-        sectionName.text = "<color=blue>TRINKETS</color>\n" + SECTION_NAME_DOTS;
+            + "</size>/" + trinkets.Length + "\n<color=black>BOUGHT</color>";
+        sectionName.text = "<color=#ff0048>TRINKETS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         SetUIElementsActiveness(false, false, false);
     }
@@ -480,7 +482,8 @@ public class ShopController : MonoBehaviour
             trinket.GetComponent<Image>().sprite = trinkets[j].trinketSprite;
             Button button = trinket.GetComponent<Button>();
             string trinkName = trinkets[j].id;
-            string descr = SequentialText.ColorString("<size=420>" + trinkName + "</size>", buyColor);
+            Color myColor = new Color(1, 0, 0.282f);
+            string descr = SequentialText.ColorString("<size=420>" + trinkName + "</size>", myColor);
 
             int index = j;
             if (!trinketsUnlocked.Contains(trinkets[j].id))
@@ -541,8 +544,8 @@ public class ShopController : MonoBehaviour
     public void SetTitleShopTexts()
     {
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Title)
-            + "</size>/" + titles.Length + "\n<color=blue>BOUGHT</color>";
-        sectionName.text = "<color=orange>TITLES</color>\n" + SECTION_NAME_DOTS;
+            + "</size>/" + titles.Length + "\n<color=black>BOUGHT</color>";
+        sectionName.text = "<color=#ff0048>TITLES</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         SetUIElementsActiveness(false, false, false);
     }
@@ -557,7 +560,7 @@ public class ShopController : MonoBehaviour
             string title = titles[i].id.ToString();
             titlePanel.GetComponentInChildren<Text>().text = title;
             Button button = titlePanel.GetComponent<Button>();
-            string descr = "<color=orange><size=450>" + title + "</size></color>";
+            string descr = "<color=#ff0048><size=450>" + title + "</size></color>";
             int index = i;
             if (!titlesUnlocked.Contains(title))
             {
@@ -617,8 +620,9 @@ public class ShopController : MonoBehaviour
     public void SetBannerShopTexts()
     {
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Banner)
-            + "</size>/" + banners.Length + "\n<color=blue>BOUGHT</color>";
-        sectionName.text = SequentialText.ColorString("BANNERS\n", welcomeSectionColor) + SECTION_NAME_DOTS;
+            + "</size>/" + banners.Length + "\n<color=black>BOUGHT</color>";
+        Color myColor = new Color(1, 0, 0.282f);
+        sectionName.text = SequentialText.ColorString("BANNERS\n", myColor) + SECTION_NAME_DOTS;
         itemDescription.text = "";
         SetUIElementsActiveness(false, false, false);
     }
@@ -633,7 +637,7 @@ public class ShopController : MonoBehaviour
             bannerPanel.GetComponent<Image>().sprite = banners[i].Sprite;
             Button button = bannerPanel.GetComponent<Button>();
             string bannerName = banners[i].id;
-            string descr = "<color=orange><size=450>" + bannerName + "</size></color>";
+            string descr = "<color=#ff0048><size=450>" + bannerName + "</size></color>";
             int index = i;
             if (!bannersUnlocked.Contains(bannerName))
             {
@@ -770,21 +774,21 @@ public class ShopController : MonoBehaviour
                     GameData.gameData.UnlockWorld(id);
                     CollectionController.Instance.SetWorlds();
                     unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.World)
-            + "</size>/" + worlds.Length + "\n<color=blue>BOUGHT</color>";
+            + "</size>/" + worlds.Length + "\n<color=black>BOUGHT</color>";
                     break;
                 }
             case LevelReward.Boost:
                 {
                     GameData.gameData.UnlockBoost(id);
                     unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Boost)
-            + "</size>/" + boostInfos.Length + "\n<color=blue>BOUGHT</color>";
+            + "</size>/" + boostInfos.Length + "\n<color=black>BOUGHT</color>";
                     break;
                 }
             case LevelReward.Trinket:
                 {
                     GameData.gameData.UnlockTrinket(id);
                     unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Trinket)
-            + "</size>/" + trinkets.Length + "\n<color=blue>BOUGHT</color>";
+            + "</size>/" + trinkets.Length + "\n<color=black>BOUGHT</color>";
                     buyButton.onClick.AddListener(delegate () { SetAvatarEquipButton(rewardItem); });
                     break;
                 }
@@ -792,7 +796,7 @@ public class ShopController : MonoBehaviour
                 {
                     GameData.gameData.UnlockTitle(id);
                     unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Title)
-            + "</size>/" + titles.Length + "\n<color=blue>BOUGHT</color>";
+            + "</size>/" + titles.Length + "\n<color=black>BOUGHT</color>";
                     buyButton.onClick.AddListener(delegate () { SetTitleEquipButton(rewardItem); });
                     break;
                 }
@@ -800,7 +804,7 @@ public class ShopController : MonoBehaviour
                 {
                     GameData.gameData.UnlockBanner(id);
                     unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Banner)
-            + "</size>/" + banners.Length + "\n<color=blue>BOUGHT</color>";
+            + "</size>/" + banners.Length + "\n<color=black>BOUGHT</color>";
                     buyButton.onClick.AddListener(delegate () { SetBannerEquipButton(rewardItem); });
                     break;
                 }
