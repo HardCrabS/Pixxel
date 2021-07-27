@@ -134,7 +134,7 @@ public class FireFist : BoostBase
             if (fist.transform.position == (Vector3)target)
             {
                 audioSource.PlayOneShot(fistHit);
-                StartCoroutine(cameraShake.Shake(.1f, .15f));
+                cameraShake.ShakeCam(.1f, .9f);
                 OnPunch(target);
                 GameObject particle = Instantiate(punchParticle, target, transform.rotation);
                 Destroy(particle, 0.8f);

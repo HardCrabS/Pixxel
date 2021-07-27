@@ -23,6 +23,14 @@ public class ProfileHandler : MonoBehaviour
 
     string currTitle;
 
+    public static ProfileHandler Instance;
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
     void Start()
     {
         SetSlider();
@@ -59,9 +67,21 @@ public class ProfileHandler : MonoBehaviour
     {
         bannerImage.sprite = banner;
     }
+    public void ResetBanner()
+    {
+        string bannerPath = CollectionController.Instance.BANNERS_LOCATION + "DefaultBanner";
+        GameData.gameData.ChangeBanner(bannerPath);
+        bannerImage.sprite = Resources.Load<Sprite>(bannerPath);
+    }
     public void UpdateAvatar(Sprite avatar)
     {
         avatarImage.sprite = avatar;
+    }
+    public void ResetAvatar()
+    {
+        string avatarPath = CollectionController.Instance.TRINKETS_LOCATION + "DefaultAvatar";
+        GameData.gameData.ChangeAvatar(avatarPath);
+        avatarImage.sprite = Resources.Load<Sprite>(avatarPath);
     }
     public string GetCurrentTitle()
     {

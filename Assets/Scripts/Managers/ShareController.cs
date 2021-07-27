@@ -85,7 +85,7 @@ public class ShareController : MonoBehaviour
             fbText.text = "Oops! No internet connection found!";
             return;
         }
-        //if (DayPassed(fbText, fbButton, GameData.gameData.saveData.lastFacebookShare)) { return; };
+
         GameData.gameData.saveData.nextPossibleFacebookShare = (DateTime.Now).ToString();
         GameData.Save();
 

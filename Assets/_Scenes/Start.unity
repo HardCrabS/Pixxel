@@ -2541,7 +2541,6 @@ MonoBehaviour:
   titleText: {fileID: 1393399340}
   descriptionText: {fileID: 1230167661}
   cardImage: {fileID: 1921988463}
-  cardRevealClip: {fileID: 0}
   cardButtons:
   - {fileID: 376215816}
   - {fileID: 1420241007}
@@ -2713,18 +2712,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c97d73056a0cf7744b66da33c8afd8a0, type: 3}
-    m_FontSize: 200
+    m_FontSize: 208
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 200
+    m_MaxSize: 219
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: EQUIPE!
+  m_Text: EQUIP!
 --- !u!222 &141860948
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9508,6 +9507,7 @@ GameObject:
   - component: {fileID: 567122567}
   - component: {fileID: 567122570}
   - component: {fileID: 567122571}
+  - component: {fileID: 567122572}
   m_Layer: 5
   m_Name: Play Button
   m_TagString: Untagged
@@ -9672,6 +9672,24 @@ MonoBehaviour:
   normalStrenght: 5
   normalSmoothing: 1
   computingNormal: 0
+--- !u!114 &567122572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567122565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf4ca9c0d1192f4e8ec282478f070fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  propertyName: _ShineLocation
+  startValue: 0
+  endValue: 1
+  loopBackAndForth: 1
+  durationInSec: 1
+  timeToWait: 1
 --- !u!1 &575724554
 GameObject:
   m_ObjectHideFlags: 0
@@ -13330,7 +13348,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 1, g: 0, b: 0.29411766, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -21481,7 +21499,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0063629, y: 12.2}
+  m_AnchoredPosition: {x: 0.0063629, y: 5}
   m_SizeDelta: {x: 1111, y: 344.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1240042415
@@ -23491,8 +23509,8 @@ Material:
     - _HologramStripesSpeed: 4.5
     - _HologramUnmodAmount: 0
     - _HsvBright: 1
-    - _HsvSaturation: 1
-    - _HsvShift: 180
+    - _HsvSaturation: 2
+    - _HsvShift: 21
     - _InnerOutlineAlpha: 1
     - _InnerOutlineGlow: 4
     - _InnerOutlineThickness: 1
@@ -23542,7 +23560,7 @@ Material:
     - _ShakeUvX: 1.5
     - _ShakeUvY: 1
     - _ShineGlow: 1
-    - _ShineLocation: 0.5
+    - _ShineLocation: 0
     - _ShineRotate: 0
     - _ShineWidth: 0.1
     - _TextureScrollXSpeed: -2.02
@@ -23742,7 +23760,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fd5ca38f68582424d9767649e8501e08, type: 3}
   boostInfos:
   - {fileID: 11400000, guid: 26e0b360c84458a4b89c1a40788fb40e, type: 2}
-  - {fileID: 11400000, guid: 02ade19a7876afb48b17703e4e6dc5d1, type: 2}
+  - {fileID: 11400000, guid: c4238456996c647448752224b0bf9a95, type: 2}
   - {fileID: 11400000, guid: b2589c7c7fc12374a8492a0d073cc404, type: 2}
   - {fileID: 11400000, guid: a93885d3ef4f3f14e9b129a4361225d3, type: 2}
   - {fileID: 11400000, guid: 75bfbc4f88d25b44e805946e58b9e34a, type: 2}
@@ -29567,6 +29585,7 @@ MonoBehaviour:
   greenColor: {r: 0, g: 0, b: 0, a: 0}
   profileHandler: {fileID: 1006949124}
   buyPart: {fileID: 6818713493623266187, guid: 440812bd78e75ec43ad4d67e905a6e3c, type: 3}
+  timeUntilSaleText: {fileID: 1784037044}
   welcomeSectionColor: {r: 0.5529412, g: 0.3254902, b: 0.9254902, a: 1}
   welcomeScreen: {fileID: 1459391277}
   saleItemButton1: {fileID: 1969342910}
@@ -29605,7 +29624,7 @@ MonoBehaviour:
   boostInfos:
   - {fileID: 11400000, guid: 75bfbc4f88d25b44e805946e58b9e34a, type: 2}
   - {fileID: 11400000, guid: 1d90d7bc2ea7a9749b907821cfa05cd8, type: 2}
-  - {fileID: 11400000, guid: 02ade19a7876afb48b17703e4e6dc5d1, type: 2}
+  - {fileID: 11400000, guid: c4238456996c647448752224b0bf9a95, type: 2}
   trinketsContainer: {fileID: 1982885814}
   trinketSelectionGlow: {fileID: 1515560551}
   trinketTemplate: {fileID: 1005160419522664, guid: 71c5a85155b4ffa40ac245f3537c1c5f,
@@ -38458,6 +38477,11 @@ PrefabInstance:
     - target: {fileID: 4144423364765896, guid: 153dbcb222635a544a28498f1aa1251e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114685767601952718, guid: 153dbcb222635a544a28498f1aa1251e,
+        type: 3}
+      propertyPath: saveData.boostIds.Array.data[0]
+      value: Sink Hole
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 153dbcb222635a544a28498f1aa1251e, type: 3}

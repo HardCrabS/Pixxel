@@ -21,6 +21,7 @@ public class Box : MonoBehaviour
 
     public bool FiredUp { get; set; } = false;
     public bool Warped { get; set; } = false;
+    public bool Mooving { get; set; } = false;
 
     GridA grid;
     MatchFinder matchFinder;
@@ -34,10 +35,10 @@ public class Box : MonoBehaviour
         grid = GridA.Instance;
         matchFinder = MatchFinder.Instance;
         blockClicked += grid.CrosshairToBlock;
-        StartCoroutine(MainBlockLogic());
+        StartCoroutine(MoveBoxInPosition());
     }
 
-    public IEnumerator MainBlockLogic()
+    public IEnumerator MoveBoxInPosition()
     {
         while (true)
         {
@@ -77,6 +78,9 @@ public class Box : MonoBehaviour
                 transform.localPosition = new Vector2(transform.localPosition.x, targetY);
                 grid.allBoxes[row, column] = this.gameObject;
             }
+            //check if box is mooving on X or Y
+            Mooving = Mathf.Abs(targetX - transform.localPosition.x) > 0.1f
+                || Mathf.Abs(targetY - transform.localPosition.y) > 0.1f;
 
             yield return null;
         }

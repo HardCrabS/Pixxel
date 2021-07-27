@@ -43,14 +43,14 @@ public class CollectionController : MonoBehaviour
     [SerializeField] Transform bannerSelectionGlow;
     [SerializeField] Banner[] banners;
 
+    public readonly string BANNERS_LOCATION = "Sprites/UI images/Banners/";
+    public readonly string TRINKETS_LOCATION = "Sprites/UI images/Trinkets/";
+
     const string LOCK_TAG = "Lock";
     const string SECTION_NAME_DOTS = "<size=120><color=black>- - - - - - - - - - -</color></size>";
     const string LOCKED = "<color=#ff0048>- LOCKED -</color>";
     const string UNLOCKED_IN_SHOP = "Unlocked by purchasing in Shop ";
     const string UNLOCKED_BY_RANK = "Unlocked by reaching Player Rank ";
-
-    const string BANNERS_LOCATION = "Sprites/UI images/Banners/";
-    const string TRINKETS_LOCATION = "Sprites/UI images/Trinkets/";
 
     void Awake()
     {

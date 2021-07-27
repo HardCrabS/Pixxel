@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Tornado : BoostBase
 {
@@ -14,9 +15,9 @@ public class Tornado : BoostBase
     int warpedBoxesChance = 0;
 
     List<GameObject> movingBoxes;
-    GameObject fog, blur;
+    GameObject blurAndFog;
 
-    GameObject tornadoPrefab, fogPrefab, blurCanvas;
+    GameObject tornadoPrefab, blurAndFogCanvas;
     AudioClip tornadoSFX;
 
     GridA grid;
@@ -28,8 +29,7 @@ public class Tornado : BoostBase
         GetResources();
 
         audioSource.PlayOneShot(tornadoSFX);
-        SpawnBlur();
-        SpawnFog();
+        SpawnFogAndBlur();
         StartCoroutine(MoveTornadoAround());
         StartCoroutine(SwitchBoxesPeriodically());
     }
@@ -40,48 +40,23 @@ public class Tornado : BoostBase
         {
             grid = GridA.Instance;
             tornadoPrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Tornado");
-            fogPrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Fog");
-            blurCanvas = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Blur Blocks Canvas");
+            blurAndFogCanvas = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Blur Blocks Canvas");
 
             tornadoSFX = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_tornado2");
         }
     }
-    void SpawnBlur()
+    void SpawnFogAndBlur()
     {
-        blur = Instantiate(blurCanvas);
-        StartCoroutine(BlurFade(0, 2));
+        blurAndFog = Instantiate(blurAndFogCanvas);
+        blurAndFog.GetComponent<Canvas>().worldCamera = Camera.main;
+        //set fog alpha to 0 before fading in
+        blurAndFog.transform.GetChild(1).GetComponent<Image>().material.SetFloat("_Color", 0);
+        StartCoroutine(FadeCanvas(1, 1f));
     }
-    IEnumerator BlurFade(float startValue, float targetBlurValue, float blurSpeed = 0.5f)
+    IEnumerator FadeCanvas(float targetValue, float duration)
     {
-        var mat = blur.GetComponentInChildren<Image>().material;
-        mat.SetFloat("_Size", startValue);
-        float t = 0;
-        while (t < 1)
-        {
-            t += blurSpeed * Time.deltaTime;
-            float blurValue = Mathf.Lerp(mat.color.a, targetBlurValue, t);
-            mat.SetFloat("_Size", blurValue);
-            yield return null;
-        }
-    }
-    void SpawnFog()
-    {
-        fog = Instantiate(fogPrefab, fogPrefab.transform.position, transform.rotation);
-        Destroy(fog, boostTime + 1);
-        fog.GetComponent<MeshRenderer>().material.color = new Color(1, 1, 1, 0);
-        StartCoroutine(FogFadeAlpha(1, 0.1f));
-    }
-    IEnumerator FogFadeAlpha(float targetAlpha, float alphaSpeed = 1f)
-    {
-        var mat = fog.GetComponent<MeshRenderer>().material;
-        float t = 0;
-        while (t < 1)
-        {
-            t += alphaSpeed * Time.deltaTime;
-            float alpha = Mathf.Lerp(mat.color.a, targetAlpha, t);
-            mat.color = new Color(1f, 1f, 1f, alpha);
-            yield return null;
-        }
+        blurAndFog.transform.GetChild(0).GetComponent<Image>().material.DOFade(targetValue, duration);
+        yield return blurAndFog.transform.GetChild(1).GetComponent<Image>().material.DOFade(targetValue, duration).WaitForCompletion();
     }
     IEnumerator MoveTornadoAround()
     {
@@ -110,9 +85,9 @@ public class Tornado : BoostBase
         int rand = Random.Range(0, 2);
         Vector2 finish = new Vector2(rand == 0 ? -3 : grid.width + 3, Random.Range(1, 8));
         StartCoroutine(MoveTo(tornado, finish, tornadoSpeed + 5));
-        StartCoroutine(FogFadeAlpha(0));
-        yield return StartCoroutine(BlurFade(2, 0, 0.5f));
-        Destroy(blur);
+
+        yield return StartCoroutine(FadeCanvas(0, 1f));
+        Destroy(blurAndFog);
     }
     IEnumerator SwitchBoxesPeriodically()
     {
@@ -158,6 +133,7 @@ public class Tornado : BoostBase
 
     IEnumerator SwitchBoxPositions(int x1, int y1, int x2, int y2)
     {
+        //Debug.Break();
         GameObject box1, box2;
         box1 = grid.allBoxes[x1, y1];
         box2 = grid.allBoxes[x2, y2];
@@ -177,8 +153,10 @@ public class Tornado : BoostBase
         boxComp1.enabled = false;   //turn off box snapping to it's row and column
         boxComp2.enabled = false;
 
-        StartCoroutine(MoveTo(box1.transform, box2.transform.position, boxMoveSpeed));
-        yield return StartCoroutine(MoveTo(box2.transform, box1.transform.position, boxMoveSpeed));
+        box1.transform.DOLocalMove(box2.transform.position, boxMoveSpeed);
+        yield return box2.transform.DOLocalMove(box1.transform.position, boxMoveSpeed).WaitForCompletion();
+        //StartCoroutine(MoveTo(box1.transform, box2.transform.position, boxMoveSpeed));
+        //yield return StartCoroutine(MoveTo(box2.transform, box1.transform.position, boxMoveSpeed));
         if (boxComp1)
             boxComp1.enabled = true;
         if (boxComp2)
@@ -194,7 +172,7 @@ public class Tornado : BoostBase
         while (t < 1)
         {
             if (obj == null) yield break;
-            t += Time.deltaTime * boxMoveSpeed;
+            t += Time.deltaTime * speed;
             obj.position = Vector3.Lerp(obj.position, targetPos, t);
             yield return null;
         }
