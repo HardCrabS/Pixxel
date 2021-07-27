@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum BombCounterState
+{
+    ticking,
+    waiting
+}
 public class LivesManager : MonoBehaviour
 {
     [SerializeField] AudioClip heartLost;
@@ -11,6 +16,8 @@ public class LivesManager : MonoBehaviour
 
     [SerializeField] Image[] hearts;
     [SerializeField] Color lostHeartColor;
+
+    public BombCounterState BombCounterState { get; set; }
 
     public delegate void ZeroHearts();
     public event ZeroHearts savePlayer;
@@ -26,6 +33,7 @@ public class LivesManager : MonoBehaviour
     }
     void Start()
     {
+        BombCounterState = BombCounterState.ticking;
         totalLives = hearts.Length;
         audioSource = GetComponent<AudioSource>();
     }

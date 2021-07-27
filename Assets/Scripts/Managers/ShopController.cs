@@ -70,6 +70,8 @@ public class ShopController : MonoBehaviour
     [SerializeField] Toggle titleTogle;
     [SerializeField] Toggle bannerTogle;
 
+    CollectionSection currCollectionSection = CollectionSection.None;
+
     RewardTemplate currChosenSaleItem;
     RewardTemplate firstPickedSaleItem, secondPickedSaleItem;
     int sale1, sale2;
@@ -86,11 +88,12 @@ public class ShopController : MonoBehaviour
         FillBuyableItemsDict();
         costText.transform.parent.gameObject.SetActive(false);
         SetItemsForSale();
-        SetWorlds();
-        SetBoosts();
-        SetTrinkets();
-        SetTitles();
-        SetBanners();
+        //SetWorlds();
+        //SetBoosts();
+        //SetTrinkets();
+        //SetTitles();
+        //SetBanners();
+        OpenShop();
     }
     bool TimeHasPassed()
     {
@@ -315,6 +318,9 @@ public class ShopController : MonoBehaviour
     #region World
     public void SetWorldShopTexts()   //called on section toggles event
     {
+        if (currCollectionSection == CollectionSection.World) return;
+        SetWorlds();
+        currCollectionSection = CollectionSection.World;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.World)
             + "</size>/" + worlds.Length + "\n<color=black>BOUGHT</color>";
         Color myColor = new Color(1, 0, 0.282f);
@@ -324,6 +330,7 @@ public class ShopController : MonoBehaviour
     }
     public void SetWorlds()
     {
+        if (worldsContainer.childCount > 3) return;
         var worldsUnlocked = GameData.gameData.saveData.worldIds;
 
         //spawn 2 empty objects at the beggining to make scroll offset
@@ -387,6 +394,9 @@ public class ShopController : MonoBehaviour
     #region Boost
     public void SetBoostShopTexts()   //called on section toggles event
     {
+        if (currCollectionSection == CollectionSection.Boost) return;
+        SetBoosts();
+        currCollectionSection = CollectionSection.Boost;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Boost)
             + "</size>/" + boostInfos.Length + "\n<color=black>BOUGHT</color>";
         sectionName.text = "<color=#ff0048>BOOSTS</color>\n" + SECTION_NAME_DOTS;
@@ -395,6 +405,7 @@ public class ShopController : MonoBehaviour
     }
     void SetBoosts()
     {
+        if (boostsContainer.childCount > 3) return;
         var boostsUnlocked = GameData.gameData.saveData.boostIds;
 
         for (int i = 0; i < boostInfos.Length; i++)
@@ -462,6 +473,9 @@ public class ShopController : MonoBehaviour
     #region Trinket
     public void SetTrinketShopTexts()
     {
+        if (currCollectionSection == CollectionSection.Trinket) return;
+        SetTrinkets();
+        currCollectionSection = CollectionSection.Trinket;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Trinket)
             + "</size>/" + trinkets.Length + "\n<color=black>BOUGHT</color>";
         sectionName.text = "<color=#ff0048>TRINKETS</color>\n" + SECTION_NAME_DOTS;
@@ -470,6 +484,7 @@ public class ShopController : MonoBehaviour
     }
     void SetTrinkets()
     {
+        if (trinketsContainer.childCount > 3) return;
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
 
         //spawn 3 empty objects at the beggining to make scroll offset (3 for 3 rows)
@@ -543,6 +558,9 @@ public class ShopController : MonoBehaviour
     #region Title
     public void SetTitleShopTexts()
     {
+        if (currCollectionSection == CollectionSection.Title) return;
+        SetTitles();
+        currCollectionSection = CollectionSection.Title;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Title)
             + "</size>/" + titles.Length + "\n<color=black>BOUGHT</color>";
         sectionName.text = "<color=#ff0048>TITLES</color>\n" + SECTION_NAME_DOTS;
@@ -551,6 +569,7 @@ public class ShopController : MonoBehaviour
     }
     void SetTitles()
     {
+        if (titlesContainer.childCount > 3) return;
         var titlesUnlocked = GameData.gameData.saveData.titleIds;
 
         for (int i = 0; i < titles.Length; i++)
@@ -619,6 +638,9 @@ public class ShopController : MonoBehaviour
     #region Banner
     public void SetBannerShopTexts()
     {
+        if (currCollectionSection == CollectionSection.Banner) return;
+        SetBanners();
+        currCollectionSection = CollectionSection.Banner;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Banner)
             + "</size>/" + banners.Length + "\n<color=black>BOUGHT</color>";
         Color myColor = new Color(1, 0, 0.282f);
@@ -628,6 +650,7 @@ public class ShopController : MonoBehaviour
     }
     void SetBanners()
     {
+        if (bannersContainer.childCount > 3) return;
         var bannersUnlocked = GameData.gameData.saveData.bannerIds;
 
         for (int i = 0; i < banners.Length; i++)
@@ -772,7 +795,7 @@ public class ShopController : MonoBehaviour
             case LevelReward.World:
                 {
                     GameData.gameData.UnlockWorld(id);
-                    CollectionController.Instance.SetWorlds();
+                    CollectionController.Instance.ResetWorlds();
                     unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.World)
             + "</size>/" + worlds.Length + "\n<color=black>BOUGHT</color>";
                     break;

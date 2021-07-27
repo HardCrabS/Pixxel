@@ -1,6 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+public enum CollectionSection
+{
+    World,
+    Boost,
+    Trinket,
+    Title,
+    Banner,
+    None
+}
 public class CollectionController : MonoBehaviour
 {
     public static CollectionController Instance;
@@ -43,8 +52,11 @@ public class CollectionController : MonoBehaviour
     [SerializeField] Transform bannerSelectionGlow;
     [SerializeField] Banner[] banners;
 
+
+    CollectionSection currCollectionSection = CollectionSection.None;
     public readonly string BANNERS_LOCATION = "Sprites/UI images/Banners/";
     public readonly string TRINKETS_LOCATION = "Sprites/UI images/Trinkets/";
+
 
     const string LOCK_TAG = "Lock";
     const string SECTION_NAME_DOTS = "<size=120><color=black>- - - - - - - - - - -</color></size>";
@@ -62,22 +74,26 @@ public class CollectionController : MonoBehaviour
 
     void Start()
     {
-        SetWorlds();
-        SetTitles();
-        SetBanners();
-        SetTrinkets();
-        SetBoosts();
+        SetWorldCollectionTexts();
+        //SetTitles();
+        //SetBanners();
+        //SetTrinkets();
+        //SetBoosts();
     }
-    void ClearContainer(Transform container)
+    void ClearContainer(Transform container, Transform exception = null)
     {
         foreach (Transform child in container)
         {
-            Destroy(child.gameObject);
+            if (child != exception)
+                Destroy(child.gameObject);
         }
     }
     #region World
     public void SetWorldCollectionTexts()   //called on section toggles event
     {
+        if (currCollectionSection == CollectionSection.World) return;
+        SetWorlds();
+        currCollectionSection = CollectionSection.World;
         var worldsUnlocked = GameData.gameData.saveData.worldIds;
         unlockNumber.text = "<size=400>" + worldsUnlocked.Count
             + "</size>/" + worlds.Length + "\n<color=black>OWNED</color>";
@@ -85,8 +101,9 @@ public class CollectionController : MonoBehaviour
         itemDescription.text = "";
         equipButton.gameObject.SetActive(false);
     }
-    public void SetWorlds()
+    void SetWorlds()
     {
+        if (worldsContainer.childCount > 3) return;
         //ClearContainer(worldsContainer);
         var worldsUnlocked = GameData.gameData.saveData.worldIds;
 
@@ -136,10 +153,19 @@ public class CollectionController : MonoBehaviour
         }
         itemDescription.text = description;
     }
+    public void ResetWorlds()
+    {
+        if (worldsContainer.childCount < 3) return;//it was not set once
+        ClearContainer(worldsContainer, worldSelectionGlow);
+        SetWorlds();
+    }
     #endregion
     #region Boost
     public void SetBoostCollectionTexts()   //called on section toggles event
     {
+        if (currCollectionSection == CollectionSection.Boost) return;
+        SetBoosts();
+        currCollectionSection = CollectionSection.Boost;
         var boostsUnlocked = GameData.gameData.saveData.boostIds;
         unlockNumber.text = "<size=400>" + boostsUnlocked.Count
             + "</size>/" + boostInfos.Length + "\n<color=black>OWNED</color>";
@@ -149,6 +175,7 @@ public class CollectionController : MonoBehaviour
     }
     public void SetBoosts()
     {
+        if (boostsContainer.childCount > 3) return;
         //ClearContainer(boostsContainer);
         var boostsUnlocked = GameData.gameData.saveData.boostIds;
 
@@ -197,6 +224,9 @@ public class CollectionController : MonoBehaviour
     #region Trinket
     public void SetTrinketCollectionTexts()
     {
+        if (currCollectionSection == CollectionSection.Trinket) return;
+        SetTrinkets();
+        currCollectionSection = CollectionSection.Trinket;
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
         unlockNumber.text = "<size=400>" + trinketsUnlocked.Count
             + "</size>/" + trinkets.Length + "\n<color=black>OWNED</color>";
@@ -206,6 +236,7 @@ public class CollectionController : MonoBehaviour
     }
     public void SetTrinkets()
     {
+        if (trinketsContainer.childCount > 3) return;
         //ClearContainer(trinketsContainer);
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
 
@@ -275,6 +306,9 @@ public class CollectionController : MonoBehaviour
     #region Title
     public void SetTitleCollectionTexts()
     {
+        if (currCollectionSection == CollectionSection.Title) return;
+        SetTitles();
+        currCollectionSection = CollectionSection.Title;
         var titlesUnlocked = GameData.gameData.saveData.titleIds;
         unlockNumber.text = "<size=400>" + titlesUnlocked.Count
             + "</size>/" + titles.Length + "\n<color=black>OWNED</color>";
@@ -284,6 +318,7 @@ public class CollectionController : MonoBehaviour
     }
     public void SetTitles()
     {
+        if (titlesContainer.childCount > 3) return;
         //ClearContainer(titlesContainer);
         var titlesUnlocked = GameData.gameData.saveData.titleIds;
 
@@ -347,6 +382,9 @@ public class CollectionController : MonoBehaviour
     #region Banner
     public void SetBannerCollectionTexts()
     {
+        if (currCollectionSection == CollectionSection.Banner) return;
+        SetBanners();
+        currCollectionSection = CollectionSection.Banner;
         var bannersUnlocked = GameData.gameData.saveData.bannerIds;
         unlockNumber.text = "<size=400>" + bannersUnlocked.Count
             + "</size>/" + banners.Length + "\n<color=black>OWNED</color>";
@@ -356,6 +394,7 @@ public class CollectionController : MonoBehaviour
     }
     public void SetBanners()
     {
+        if (bannersContainer.childCount > 3) return;
         //ClearContainer(bannersContainer);
         var bannersUnlocked = GameData.gameData.saveData.bannerIds;
 

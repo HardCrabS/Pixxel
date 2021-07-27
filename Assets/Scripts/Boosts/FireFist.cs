@@ -16,14 +16,13 @@ public class FireFist : BoostBase
     private GameObject selectHand;
     private Text timeText;
     GridA grid;
-    ScrollBackground[] scrollBackgrounds;
     CameraShake cameraShake;
     AudioClip sfxStart, selectBoxSFX, fistFadingIn, fistHit;
 
-    List<Vector2> clickedBlocks;
+    List<Box> clickedBlocks;
     private int totalClicksMade = 0;
 
-    delegate void OnFistPunch(Vector2 target);
+    delegate void OnFistPunch(Vector2Int target);
     OnFistPunch OnPunch;
 
     const string FOLDER_NAME = "Fire Fist/";
@@ -32,8 +31,7 @@ public class FireFist : BoostBase
     {
         base.Start();
 
-        clickedBlocks = new List<Vector2>();
-        scrollBackgrounds = FindObjectsOfType<ScrollBackground>();
+        clickedBlocks = new List<Box>();
     }
 
     public override void ExecuteBonus()
@@ -43,10 +41,6 @@ public class FireFist : BoostBase
             cameraShake = Camera.main.GetComponent<CameraShake>();
         grid.currState = GameState.wait;
 
-        /*foreach(var bg in scrollBackgrounds)
-        {
-            bg.StopScrolling();
-        }*/
         if (punchPanel == null)
         {
             punchPanel = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Punch Time Panel");
@@ -68,75 +62,81 @@ public class FireFist : BoostBase
         AssignBlockDelegates();
     }
 
-    void SpawnFist(Vector2 blockPos)
+    void SpawnFist(Box box)
     {
         float width = grid.width;
 
         Vector2 spawnPos = Vector2.zero;
 
-        if (blockPos.x > width - blockPos.x) // closer to the right
+        if (box.row > width - box.row) //block is closer to the right
         {
             int random = Random.Range(0, 100);
             if (random < 33)
             {
-                spawnPos = new Vector2(width + 2, blockPos.y + 4);
+                spawnPos = new Vector2(width + 2, box.column + 4);
             }
             else if (random < 66)
             {
-                spawnPos = new Vector2(width + 2, blockPos.y + 1);
+                spawnPos = new Vector2(width + 2, box.column + 1);
             }
             else if (random < 100)
             {
-                spawnPos = new Vector2(width + 2, blockPos.y - 5);
+                spawnPos = new Vector2(width + 2, box.column - 5);
             }
         }
-        else // closer to left
+        else //block is closer to the left
         {
             int random = Random.Range(0, 100);
             if (random < 33)
             {
-                spawnPos = new Vector2(-2, blockPos.y + 4);
+                spawnPos = new Vector2(-2, box.column + 4);
             }
             else if (random < 66)
             {
-                spawnPos = new Vector2(-2, blockPos.y + 1);
+                spawnPos = new Vector2(-2, box.column + 1);
             }
             else if (random < 100)
             {
-                spawnPos = new Vector2(-2, blockPos.y - 5);
+                spawnPos = new Vector2(-2, box.column - 5);
             }
         }
 
         GameObject fist = Instantiate(fistPrefab, spawnPos, transform.rotation);
 
-        Vector3 diff = blockPos - (Vector2)fist.transform.position;
+        Vector3 diff = box.transform.position - fist.transform.position;
         diff.Normalize();
         float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
         fist.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
 
-        StartCoroutine(MoveFistToTarget(fist, blockPos));
+        StartCoroutine(MoveFistToTarget(fist, box.transform));
         audioSource.PlayOneShot(fistFadingIn, audioSource.volume - 0.4f);
     }
 
-    IEnumerator MoveFistToTarget(GameObject fist, Vector2 target)
+    IEnumerator MoveFistToTarget(GameObject fist, Transform target)
     {
         float currFistSpeed = fistSpeed * 0.5f;
-        float totalDistance = Vector3.Distance(fist.transform.position, target);
+        float totalDistance = Vector3.Distance(fist.transform.position, target.position);
         float acceleratedFistDistance = totalDistance * 0.6f;
+        Vector2 lastTargetPosition = target.position;
         while (true)
         {
-            fist.transform.position = Vector2.MoveTowards(fist.transform.position, target, currFistSpeed * Time.deltaTime);
+            if (target != null)
+            {
+                //save target last position, so if target destroyed fist will move to it's last position
+                lastTargetPosition = target.position;
+            }
+            fist.transform.position = Vector2.MoveTowards(fist.transform.position, lastTargetPosition, currFistSpeed * Time.deltaTime);
 
-            if (Vector3.Distance(fist.transform.position, target) < acceleratedFistDistance)
+            if (Vector3.Distance(fist.transform.position, lastTargetPosition) < acceleratedFistDistance)
             {
                 currFistSpeed = fistSpeed * 2;
             }
-            if (fist.transform.position == (Vector3)target)
+            if (fist.transform.position == (Vector3)lastTargetPosition)
             {
                 audioSource.PlayOneShot(fistHit);
                 cameraShake.ShakeCam(.1f, .9f);
-                OnPunch(target);
-                GameObject particle = Instantiate(punchParticle, target, transform.rotation);
+                OnPunch(Vector2Int.RoundToInt(lastTargetPosition));
+                GameObject particle = Instantiate(punchParticle, lastTargetPosition, transform.rotation);
                 Destroy(particle, 0.8f);
                 Destroy(fist);
                 yield break;
@@ -146,25 +146,28 @@ public class FireFist : BoostBase
         }
     }
 
-    private void DestroyPunchedBlock(Vector2 target)
+    private void DestroyPunchedBlock(Vector2Int target)
     {
-        if (grid.allBoxes[(int)target.x, (int)target.y] != null)
-            grid.DestroyBlockAtPosition((int)target.x, (int)target.y);
+        if (grid.allBoxes[target.x, target.y] != null)
+            grid.DestroyBlockAtPosition(target.x, target.y);
     }
 
-    private void MakePunchedFiredUp(Vector2 target)
+    private void MakePunchedFiredUp(Vector2Int target)
     {
-        if (grid.allBoxes[(int)target.x, (int)target.y] != null)
-            StartCoroutine(grid.FiredUpBlock(grid.allBoxes[(int)target.x, (int)target.y].GetComponent<Box>()));
+        if (grid.allBoxes[target.x, target.y] != null)
+        {
+            grid.allBoxes[target.x, target.y].GetComponent<Box>().FiredUp = true;
+            grid.DestroyBlockAtPosition(target.x, target.y);
+        }
     }
 
     Vector2[] directions = new Vector2[] { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
-    private void DestroyAllInCross(Vector2 target)
+    private void DestroyAllInCross(Vector2Int target)
     {
-        if (grid.allBoxes[(int)target.x, (int)target.y] == null)
+        if (grid.allBoxes[target.x, target.y] == null)
             return;
 
-        grid.DestroyBlockAtPosition((int)target.x, (int)target.y);
+        grid.DestroyBlockAtPosition(target.x, target.y);
         foreach (Vector2 dir in directions)
         {
             StartCoroutine(DestroyLineOfBlocks(target, dir));
@@ -228,11 +231,11 @@ public class FireFist : BoostBase
                             randX = Random.Range(0, grid.width);
                             randY = Random.Range(0, grid.hight);
                         }
-                        while (clickedBlocks.Contains(new Vector2(randX, randY)));
-                        clickedBlocks.Add(new Vector2(randX, randY));
+                        while (clickedBlocks.Contains(grid.allBoxes[randX, randY].GetComponent<Box>()));
+                        clickedBlocks.Add(grid.allBoxes[randX, randY].GetComponent<Box>());
                     }
                 }
-                for (int i = 0; i < clickedBlocks.Count; i++) // destroy clicked blocks
+                for (int i = 0; i < clickedBlocks.Count; i++) //spawn fist for every clicked block
                 {
                     SpawnFist(clickedBlocks[i]);
                 }
@@ -279,13 +282,14 @@ public class FireFist : BoostBase
 
     void ClickOnBlock(int x, int y)
     {
-        if (totalClicksMade >= maxClicks || clickedBlocks.Contains(new Vector2(x, y)))
+        Box box = grid.allBoxes[x, y].GetComponent<Box>();
+        if (totalClicksMade >= maxClicks || clickedBlocks.Contains(box))
         {
             return;
         }
         audioSource.PlayOneShot(selectBoxSFX);
         totalClicksMade++;
-        clickedBlocks.Add(new Vector2(x, y));
+        clickedBlocks.Add(box);
         grid.allBoxes[x, y].GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
         Instantiate(selectHand, new Vector2(x - 0.8f, y + 0.8f), transform.rotation, grid.allBoxes[x, y].transform);
     }

@@ -52,54 +52,63 @@ public class ShareController : MonoBehaviour
         CheckTime(twText, twButton, GameData.gameData.saveData.nextPossibleTwitterShare);
         CheckTime(fbText, fbButton, GameData.gameData.saveData.nextPossibleFacebookShare);
     }
-
     public void ShareToTW(string linkParameter)
     {
-        if(!CheckForInternetConnection())
+        StartCoroutine(PlayGamesController.checkInternetConnection((isConnected) =>
         {
-            twText.text = "Oops! No internet connection found!";
-            return;
-        }
-        //if (!DayPassed(twText, twButton, GameData.gameData.saveData.lastTwitterShare)) { return; };
-        GameData.gameData.saveData.nextPossibleTwitterShare = DateTime.Now.ToString();
-        GameData.Save();
+            if (isConnected)
+            {
+                //if (!DayPassed(twText, twButton, GameData.gameData.saveData.lastTwitterShare)) { return; };
+                GameData.gameData.saveData.nextPossibleTwitterShare = DateTime.Now.ToString();
+                GameData.Save();
 
-        string nameParameter = "I'm playing this super game for months!";//this is limited in text length 
-        Application.OpenURL(TWITTER_ADDRESS +
-           "?text=" + WWW.EscapeURL(nameParameter + "\n" + descriptionParam + "\n" + "Get the Game:\n" + appStoreLink));
-        if (twWorldId == null)  //check if sharing the first time or not
-        {
-            StartCoroutine(DelayedCoinsReward(twitterReward, twText));
-        }
-        else
-        {
-            StartCoroutine(DelayedWorldReward(twWorldId, twText));
-        }
-        twButton.interactable = false;
+                string nameParameter = "I'm playing this super game for months!";//this is limited in text length 
+                Application.OpenURL(TWITTER_ADDRESS +
+                   "?text=" + WWW.EscapeURL(nameParameter + "\n" + descriptionParam + "\n" + "Get the Game:\n" + appStoreLink));
+                if (twWorldId == null)  //check if sharing the first time or not
+                {
+                    StartCoroutine(DelayedCoinsReward(twitterReward, twText));
+                }
+                else
+                {
+                    StartCoroutine(DelayedWorldReward(twWorldId, twText));
+                }
+                twButton.interactable = false;
+            }
+            else
+            {
+                twText.text = "Oops! No internet connection found!";
+            }
+        }));
     }
 
     public void ShareToFacebook()
     {
-        if (!CheckForInternetConnection())
+        StartCoroutine(PlayGamesController.checkInternetConnection((isConnected) =>
         {
-            fbText.text = "Oops! No internet connection found!";
-            return;
-        }
+            if (isConnected)
+            {
+                //if (DayPassed(fbText, fbButton, GameData.gameData.saveData.lastFacebookShare)) { return; };
+                GameData.gameData.saveData.nextPossibleFacebookShare = (DateTime.Now).ToString();
+                GameData.Save();
 
-        GameData.gameData.saveData.nextPossibleFacebookShare = (DateTime.Now).ToString();
-        GameData.Save();
-
-        string facebookshare = "https://www.facebook.com/sharer/sharer.php?u=" + Uri.EscapeUriString(appStoreLink);
-        Application.OpenURL(facebookshare);
-        if (fbWorldId == null)     //check if sharing the first time or not
-        {
-            StartCoroutine(DelayedCoinsReward(facebookReward, fbText));
-        }
-        else
-        {
-            StartCoroutine(DelayedWorldReward(fbWorldId, fbText));
-        }
-        fbButton.interactable = false;
+                string facebookshare = "https://www.facebook.com/sharer/sharer.php?u=" + Uri.EscapeUriString(appStoreLink);
+                Application.OpenURL(facebookshare);
+                if (fbWorldId == null)     //check if sharing the first time or not
+                {
+                    StartCoroutine(DelayedCoinsReward(facebookReward, fbText));
+                }
+                else
+                {
+                    StartCoroutine(DelayedWorldReward(fbWorldId, fbText));
+                }
+                fbButton.interactable = false;
+            }
+            else
+            {
+                fbText.text = "Oops! No internet connection found!";
+            }
+        }));
     }
 
     IEnumerator DelayedCoinsReward(int amount, Text text)
@@ -134,19 +143,6 @@ public class ShareController : MonoBehaviour
         {
             button.interactable = false;
             text.text = SHARE_SUCCESS;
-        }
-    }
-    public static bool CheckForInternetConnection()
-    {
-        try
-        {
-            using (var client = new System.Net.WebClient())
-            using (client.OpenRead("http://google.com/generate_204"))
-                return true;
-        }
-        catch
-        {
-            return false;
         }
     }
 }
