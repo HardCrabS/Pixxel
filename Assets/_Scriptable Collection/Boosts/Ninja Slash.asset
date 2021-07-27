@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8abc8e5141157d4ab28d2b53044d165, type: 3}
+  m_Name: Ninja Slash
+  m_EditorClassIdentifier: 
+  reward: 2
+  id: Ninja Slash
+  description: A sharp slash destroys lines across the board.
+  cost: 1500
+  descrlevel1: The middle row of blocks are destroyed.
+  descrlevel4: The middle row & a diagonal length of blocks are destroyed.
+  descrlevel7: The middle row & 2 diagonal lengths of blocks are destroyed.
+  descrlevel10: The middle rows & 2 diagonal lengths of blocks are destroyed.
+  costAndReload:
+  - {x: 0, y: 30}
+  - {x: 200, y: 25}
+  - {x: 300, y: 23}
+  - {x: 500, y: 20}
+  - {x: 700, y: 18}
+  - {x: 800, y: 16}
+  - {x: 900, y: 14}
+  - {x: 1000, y: 12}
+  - {x: 1200, y: 11}
+  - {x: 2000, y: 10}
+  upgradeSprites:
+  - {fileID: 21300000, guid: 832b64a64517e144d9b5804e58b13984, type: 3}
+  - {fileID: 21300000, guid: 3d076806aefcf9c4d8e1061aaa10c730, type: 3}
+  - {fileID: 21300000, guid: b83e5391cb938ad42a61d287be1c8852, type: 3}
+  - {fileID: 21300000, guid: abd603bb9644d4d42ae02da250a58688, type: 3}
+  boostTypeString: NinjaSlash
