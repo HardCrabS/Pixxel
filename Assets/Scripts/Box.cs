@@ -20,6 +20,7 @@ public class Box : MonoBehaviour
 
     public bool FiredUp { get; set; } = false;
     public bool Warped { get; set; } = false;
+    public bool Mooving { get; set; } = false;
 
     GridA grid;
     MatchFinder matchFinder;

@@ -38,7 +38,7 @@ public class FlashField : BoostBase
     {
         audioSource.PlayOneShot(flashStrike);
         GameObject go = Instantiate(lightning, pos, transform.rotation);
-        StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.1f, 0.2f));
+        Camera.main.GetComponent<CameraShake>().ShakeCam(0.1f, 1f);
         Destroy(go, 0.4f);
         grid.SetBlockFiredUp(box);
     }

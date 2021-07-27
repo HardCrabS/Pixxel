@@ -75,10 +75,8 @@ public class DailyQuestManager : MonoBehaviour
 
     void Start()
     {
-        if(IsTimeToClaim() || IsUnfinishedQuestLeft())
-        {
-            exclamationBubble.SetActive(true);
-        }
+        bool questActivity = IsTimeToClaim() || IsUnfinishedQuestLeft();
+        exclamationBubble.SetActive(questActivity);
 
         questVariables.Add(QUESTS, questTemplates);
         questVariables.Add("[Occupation]", occupations);

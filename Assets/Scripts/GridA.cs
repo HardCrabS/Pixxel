@@ -1,4 +1,6 @@
-﻿using System.Collections;
+using DG.Tweening;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using DG.Tweening;
 
@@ -538,7 +540,7 @@ public class GridA : MonoBehaviour
                 }
             }
             var camShake = Camera.main.GetComponent<CameraShake>();
-            StartCoroutine(camShake.Shake(0.07f, 0.04f));
+            camShake.ShakeCam(0.07f, 0.3f);
 
             BlockDestroyedSFX();
             DestroyBlockAtPosition(box.row, box.column);
@@ -554,6 +556,7 @@ public class GridA : MonoBehaviour
     }
     public void SetBlockWarped(Box box)
     {
+		box.gameObject.tag = "Untagged";
         box.SetMatched(false);
         box.Warped = true;
         WarpBoxVFX(box);
@@ -608,6 +611,18 @@ public class GridA : MonoBehaviour
             DynamicBlockSpriteDestruction(row, column);
             //BlockDestroyedSFX();  //sound is played once after all matched blocks are destroyed
 
+            allBoxes[row, column] = null;
+            bombTiles[row, column] = null;
+
+            AddXPandScorePoints();
+        }
+    }
+    //destroys block without blockFX
+    public void DestroyBlockNoFX(int row, int column)
+    {
+        if (allBoxes[row, column] != null)
+        {
+            Destroy(allBoxes[row, column]);
             allBoxes[row, column] = null;
             bombTiles[row, column] = null;
 
@@ -695,8 +710,27 @@ public class GridA : MonoBehaviour
             }
         }
     }
+    //check if block is null meaning it will be respawned and moved down
+    //also if any block is moving atm, meaning it might make a match later
+    //also if any block is matched atm
+    public bool MoovingOrMatchingOnBoard()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < hight; y++)
+            {
+                if (allBoxes[x, y] == null) return true;
 
-    private bool MatchesOnBoard()
+                var boxComp = allBoxes[x, y].GetComponent<Box>();
+                if (boxComp.Mooving || boxComp.isMatched)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;//grid is completely static
+    }
+    public bool MatchesOnBoard()
     {
         for (int x = 0; x < width; x++)
         {
@@ -710,6 +744,7 @@ public class GridA : MonoBehaviour
         }
         return false;
     }
+
     private IEnumerator FillBoard()
     {
         RespawnBoxes();
@@ -728,7 +763,8 @@ public class GridA : MonoBehaviour
         if (IsDeadlocked())
         {
             Debug.Log("Is deadlocked");
-            HandleDeadlock();
+            if (HandleDeadlock() == 1)
+                EndGameManager.Instance.GameOver();
             yield break;
         }
         currState = GameState.move;
@@ -820,19 +856,26 @@ public class GridA : MonoBehaviour
     }
 
     bool handlingDeadlock = false;
-    void HandleDeadlock()
+    int HandleDeadlock()
     {
         if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
         {
             currState = GameState.move;
-            return; //if first time playing
+            return 0; //if first time playing
         }
-        if (handlingDeadlock) return;
+        if (handlingDeadlock) return 0;
 
         audioSource.PlayOneShot(deadLock1);
         handlingDeadlock = true;
         currState = GameState.wait;
-        StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.2f, 0.2f));
+        Camera.main.GetComponent<CameraShake>().ShakeCam(0.2f, 1f);
+        BlocksBlackAndWhite();
+        audioSource.PlayOneShot(deadLock2);
+        StartCoroutine(DeadlockMoveBoxesDown());
+        return 1;
+    }
+    public void BlocksBlackAndWhite()
+    {
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < hight; y++)
@@ -843,13 +886,20 @@ public class GridA : MonoBehaviour
                 }
             }
         }
-        audioSource.PlayOneShot(deadLock2);
-        StartCoroutine(DeadlockMoveBoxesDown());
-        EndGameManager.Instance.GameOver();
     }
-
-    IEnumerator DeadlockMoveBoxesDown()
+    public IEnumerator DeadlockMoveBoxesDown()
     {
+        for (int y = 0; y < width; y++)
+        {
+            for (int x = 0; x < hight; x++)
+            {
+                if (allBoxes[x, y] != null)
+                {
+                    //shake box
+                    allBoxes[x, y].transform.DOShakePosition(0.5f, 0.3f);
+                }
+            }
+        }
         yield return new WaitForSeconds(0.5f);
         for (int y = 0; y < width; y++)
         {
@@ -867,6 +917,7 @@ public class GridA : MonoBehaviour
 
     /*public void TurnBlocksOff()
     {
+        if (allBoxes == null) return;
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < hight; j++)
@@ -931,7 +982,8 @@ public class GridA : MonoBehaviour
     #region SFX
     void ChangeSFXVolume(float volume)
     {
-        audioSource.volume = volume;
+        if (audioSource)
+            audioSource.volume = volume;
     }
     void BlockDestroyedSFX()
     {

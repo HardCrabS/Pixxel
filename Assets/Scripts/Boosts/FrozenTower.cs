@@ -98,7 +98,7 @@ public class FrozenTower : BoostBase
             }
         }
         audioSource.PlayOneShot(iceBreak);
-        StartCoroutine(Camera.main.GetComponent<CameraShake>().Shake(0.1f, 0.2f));
+        Camera.main.GetComponent<CameraShake>().ShakeCam(0.1f, 1f);
         StartCoroutine(grid.MoveBoxesDown());
         finished = true;
     }

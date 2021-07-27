@@ -50,6 +50,10 @@ public class LivesManager : MonoBehaviour
             EndGameManager.Instance.GameOver();
             Destroy(this);
         }
+        else if(Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            StartCoroutine(DecreaseHeart());
+        }
     }
 #endif
     public IEnumerator DecreaseHeart()
@@ -69,6 +73,7 @@ public class LivesManager : MonoBehaviour
                 Destroy(this);
             }
         }
+        ShakeCamera(0.1f, 0.3f, 30);
         audioSource.PlayOneShot(heartLost);
         Glitcher.Instance.GlitchOut();
         totalLives--;
@@ -79,7 +84,11 @@ public class LivesManager : MonoBehaviour
             StartCoroutine(PlayLowHealthSFX());
         }
     }
-
+    void ShakeCamera(float duration, float strength, int vibrato)
+    {
+        var camShake = Camera.main.GetComponent<CameraShake>();
+        camShake.ShakeCam(duration, strength, vibrato);
+    }
     void MakeAllHeartsActive()
     {
         audioSource.PlayOneShot(heartGained);

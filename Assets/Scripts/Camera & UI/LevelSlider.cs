@@ -122,7 +122,6 @@ public class LevelSlider : MonoBehaviour
 
     public void LoadLevelSlider()
     {
-        //levelSlider = GetComponent<Slider>();
         if (GameData.gameData != null)
         {
             currentLevel = GameData.gameData.saveData.currentLevel;

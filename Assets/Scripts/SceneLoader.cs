@@ -36,7 +36,7 @@ public class SceneLoader : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
         {
-            SceneManager.LoadSceneAsync("Twilight City");
+            SceneManager.LoadSceneAsync("World");
         }
         else
         {

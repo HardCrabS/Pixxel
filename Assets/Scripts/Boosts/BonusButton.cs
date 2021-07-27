@@ -38,10 +38,10 @@ public class BonusButton : MonoBehaviour
                 if (boostInfo != null)
                 {
                     audioSource = GetComponent<AudioSource>();
-                    if (AudioController.Instance)  
+                    if (AudioController.Instance)
                     {
                         //change volume if sfx volume slider changed
-                        AudioController.Instance.onSFXVolumeChange += ChangeButtonVolume;   
+                        AudioController.Instance.onSFXVolumeChange += ChangeButtonVolume;
                         audioSource.volume = AudioController.Instance.SFXVolume;
                     }
                     boostImage.color = disabledColor;
@@ -58,7 +58,7 @@ public class BonusButton : MonoBehaviour
                 else
                 {
                     //hide bonus button with its lock if wasnt picked
-                    gameObject.SetActive(false); 
+                    gameObject.SetActive(false);
                 }
             }
             else
@@ -72,7 +72,8 @@ public class BonusButton : MonoBehaviour
     }
     void ChangeButtonVolume(float volume)
     {
-        audioSource.volume = volume;
+        if (audioSource)
+            audioSource.volume = volume;
     }
     IEnumerator UnlockAfterCountdown()
     {

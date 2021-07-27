@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Globalization;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,7 +38,8 @@ public class Score : MonoBehaviour
     void UpdateScore()
     {
         if (textScore == null) return;
-        textScore.text = currentScore.ToString();
+        textScore.text = currentScore.ToString("N0", new CultureInfo("en-us"));
+
         if (bestScoreText != null && currentScore > bestScore)
         {
             bestScoreText.text = currentScore.ToString();

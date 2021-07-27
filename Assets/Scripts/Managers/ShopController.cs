@@ -22,6 +22,7 @@ public class ShopController : MonoBehaviour
     [SerializeField] GameObject buyPart;
 
     [Header("Welcome Screen")]
+    [SerializeField] Text timeUntilSaleText;
     [SerializeField] Color welcomeSectionColor;
     [SerializeField] GameObject welcomeScreen;
     [SerializeField] Button saleItemButton1;
@@ -76,8 +77,8 @@ public class ShopController : MonoBehaviour
     int sale1, sale2;
     Dictionary<LevelReward, RewardTemplate[]> allBuyableItems;
 
-    const string SECTION_NAME_DOTS = "<size=120><color=blue>- - - - - - - - - - -</color></size>";
-    const string LOCKED = "<color=red>- LOCKED -</color>";
+    const string SECTION_NAME_DOTS = "<size=120><color=black>- - - - - - - - - - -</color></size>";
+    const string LOCKED = "<color=#ff0048>- LOCKED -</color>";
 
     const string BANNERS_LOCATION = "Sprites/UI images/Banners/";
     const string TRINKETS_LOCATION = "Sprites/UI images/Trinkets/";
@@ -107,7 +108,7 @@ public class ShopController : MonoBehaviour
             lastClaim = Convert.ToDateTime(lastClaimStr);
         }
 
-        if (DateTime.Now.CompareTo(lastClaim.AddHours(12)) < 0)
+        if (DateTime.Now.CompareTo(lastClaim.AddHours(6)) < 0)
         {
             return false;
         }
@@ -140,7 +141,7 @@ public class ShopController : MonoBehaviour
     #region Welcome
     void SetItemsForSale()
     {
-        if (TimeHasPassed())    //new sale every 12 hours
+        if (TimeHasPassed())    //new sale every 6 hours
         {
             firstPickedSaleItem = PickRandomItemForSale();
             secondPickedSaleItem = PickRandomItemForSale(firstPickedSaleItem);
@@ -181,6 +182,8 @@ public class ShopController : MonoBehaviour
 
         SetSaleItemUI(ref saleItemButton1, firstPickedSaleItem, sale1);
         SetSaleItemUI(ref saleItemButton2, secondPickedSaleItem, sale2);
+
+        UpdateTimeUntilSaleText();
     }
     int GetRandomSale()
     {
@@ -242,23 +245,6 @@ public class ShopController : MonoBehaviour
         }
         else
             return pickedReward;
-        /*if (AmountOfBoughtItems(rewardType) == allBuyableItems[rewardType].Length) // all items purchased
-        {
-            return null;
-        }
-        else
-        {
-            RewardTemplate pickedReward;
-            do
-            {
-                RewardTemplate[] rewards = allBuyableItems[rewardType];
-                int randIndex = UnityEngine.Random.Range(0, rewards.Length);
-                pickedReward = rewards[randIndex];
-            }
-            while (pickedReward == reward || GameData.IsItemCollected(pickedReward));
-
-            return pickedReward;
-        }*/
     }
     public void GetOfferButton()
     {
@@ -308,6 +294,17 @@ public class ShopController : MonoBehaviour
             }
         }
     }
+    void UpdateTimeUntilSaleText()
+    {
+        string lastClaimStr = GameData.gameData.saveData.lastTimeSaleClaimed;
+        DateTime lastClaim;
+        lastClaim = Convert.ToDateTime(lastClaimStr);
+
+        TimeSpan nextClaim = lastClaim.AddHours(6).Subtract(DateTime.Now);
+        Color timeColor = new Color(1, 0, 0,015f);
+        string time = SequentialText.ColorString(nextClaim.Hours + ":" + nextClaim.Minutes, timeColor);
+        timeUntilSaleText.text = "New deals in " + time + " my friends!";
+    }
     IEnumerator PressButtonDelayed(Button button)
     {
         yield return new WaitForSeconds(0.01f);
@@ -325,8 +322,9 @@ public class ShopController : MonoBehaviour
         SetWorlds();
         currCollectionSection = CollectionSection.World;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.World)
-            + "</size>/" + worlds.Length + "\n<color=blue>BOUGHT</color>";
-        sectionName.text = SequentialText.ColorString("WORLDS\n", greenColor) + SECTION_NAME_DOTS;
+            + "</size>/" + worlds.Length + "\n<color=black>BOUGHT</color>";
+        Color myColor = new Color(1, 0, 0.282f);
+        sectionName.text = SequentialText.ColorString("WORLDS\n", myColor) + SECTION_NAME_DOTS;
         itemDescription.text = "";
         SetUIElementsActiveness(false, false, false);
     }
@@ -345,7 +343,8 @@ public class ShopController : MonoBehaviour
             worldPanel.gameObject.name = worlds[i].id;
             worldPanel.GetComponent<Image>().sprite = worlds[i].GetRewardSprite();
             Button button = worldPanel.GetComponent<Button>();
-            string descr = SequentialText.ColorString("<size=410>" + worldName + "</size>", buyColor);
+            Color myColor = new Color(1, 0, 0.282f);
+            string descr = SequentialText.ColorString("<size=410>" + worldName + "</size>", myColor);
             int index = i;
 
             if (!worldsUnlocked.Contains(worlds[i].id))
@@ -399,8 +398,8 @@ public class ShopController : MonoBehaviour
         SetBoosts();
         currCollectionSection = CollectionSection.Boost;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Boost)
-            + "</size>/" + boostInfos.Length + "\n<color=blue>BOUGHT</color>";
-        sectionName.text = "<color=red>BOOSTS</color>\n" + SECTION_NAME_DOTS;
+            + "</size>/" + boostInfos.Length + "\n<color=black>BOUGHT</color>";
+        sectionName.text = "<color=#ff0048>BOOSTS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         SetUIElementsActiveness(false, false, false);
     }
@@ -422,7 +421,7 @@ public class ShopController : MonoBehaviour
 
             string title = boost.id;
             Button button = boostPanel.GetComponent<Button>();
-            string descr = "<color=red><size=450>" + title + "</size></color>";
+            string descr = "<color=#ff0048><size=450>" + title + "</size></color>";
             int index = i;
             if (!boostsUnlocked.Contains(boost.id))
             {
@@ -478,8 +477,8 @@ public class ShopController : MonoBehaviour
         SetTrinkets();
         currCollectionSection = CollectionSection.Trinket;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Trinket)
-            + "</size>/" + trinkets.Length + "\n<color=blue>BOUGHT</color>";
-        sectionName.text = "<color=blue>TRINKETS</color>\n" + SECTION_NAME_DOTS;
+            + "</size>/" + trinkets.Length + "\n<color=black>BOUGHT</color>";
+        sectionName.text = "<color=#ff0048>TRINKETS</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         SetUIElementsActiveness(false, false, false);
     }
@@ -498,7 +497,8 @@ public class ShopController : MonoBehaviour
             trinket.GetComponent<Image>().sprite = trinkets[j].trinketSprite;
             Button button = trinket.GetComponent<Button>();
             string trinkName = trinkets[j].id;
-            string descr = SequentialText.ColorString("<size=420>" + trinkName + "</size>", buyColor);
+            Color myColor = new Color(1, 0, 0.282f);
+            string descr = SequentialText.ColorString("<size=420>" + trinkName + "</size>", myColor);
 
             int index = j;
             if (!trinketsUnlocked.Contains(trinkets[j].id))
@@ -562,8 +562,8 @@ public class ShopController : MonoBehaviour
         SetTitles();
         currCollectionSection = CollectionSection.Title;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Title)
-            + "</size>/" + titles.Length + "\n<color=blue>BOUGHT</color>";
-        sectionName.text = "<color=orange>TITLES</color>\n" + SECTION_NAME_DOTS;
+            + "</size>/" + titles.Length + "\n<color=black>BOUGHT</color>";
+        sectionName.text = "<color=#ff0048>TITLES</color>\n" + SECTION_NAME_DOTS;
         itemDescription.text = "";
         SetUIElementsActiveness(false, false, false);
     }
@@ -579,7 +579,7 @@ public class ShopController : MonoBehaviour
             string title = titles[i].id.ToString();
             titlePanel.GetComponentInChildren<Text>().text = title;
             Button button = titlePanel.GetComponent<Button>();
-            string descr = "<color=orange><size=450>" + title + "</size></color>";
+            string descr = "<color=#ff0048><size=450>" + title + "</size></color>";
             int index = i;
             if (!titlesUnlocked.Contains(title))
             {
@@ -642,8 +642,9 @@ public class ShopController : MonoBehaviour
         SetBanners();
         currCollectionSection = CollectionSection.Banner;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Banner)
-            + "</size>/" + banners.Length + "\n<color=blue>BOUGHT</color>";
-        sectionName.text = SequentialText.ColorString("BANNERS\n", welcomeSectionColor) + SECTION_NAME_DOTS;
+            + "</size>/" + banners.Length + "\n<color=black>BOUGHT</color>";
+        Color myColor = new Color(1, 0, 0.282f);
+        sectionName.text = SequentialText.ColorString("BANNERS\n", myColor) + SECTION_NAME_DOTS;
         itemDescription.text = "";
         SetUIElementsActiveness(false, false, false);
     }
@@ -659,7 +660,7 @@ public class ShopController : MonoBehaviour
             bannerPanel.GetComponent<Image>().sprite = banners[i].Sprite;
             Button button = bannerPanel.GetComponent<Button>();
             string bannerName = banners[i].id;
-            string descr = "<color=orange><size=450>" + bannerName + "</size></color>";
+            string descr = "<color=#ff0048><size=450>" + bannerName + "</size></color>";
             int index = i;
             if (!bannersUnlocked.Contains(bannerName))
             {
@@ -796,21 +797,21 @@ public class ShopController : MonoBehaviour
                     GameData.gameData.UnlockWorld(id);
                     CollectionController.Instance.ResetWorlds();
                     unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.World)
-            + "</size>/" + worlds.Length + "\n<color=blue>BOUGHT</color>";
+            + "</size>/" + worlds.Length + "\n<color=black>BOUGHT</color>";
                     break;
                 }
             case LevelReward.Boost:
                 {
                     GameData.gameData.UnlockBoost(id);
                     unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Boost)
-            + "</size>/" + boostInfos.Length + "\n<color=blue>BOUGHT</color>";
+            + "</size>/" + boostInfos.Length + "\n<color=black>BOUGHT</color>";
                     break;
                 }
             case LevelReward.Trinket:
                 {
                     GameData.gameData.UnlockTrinket(id);
                     unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Trinket)
-            + "</size>/" + trinkets.Length + "\n<color=blue>BOUGHT</color>";
+            + "</size>/" + trinkets.Length + "\n<color=black>BOUGHT</color>";
                     buyButton.onClick.AddListener(delegate () { SetAvatarEquipButton(rewardItem); });
                     break;
                 }
@@ -818,7 +819,7 @@ public class ShopController : MonoBehaviour
                 {
                     GameData.gameData.UnlockTitle(id);
                     unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Title)
-            + "</size>/" + titles.Length + "\n<color=blue>BOUGHT</color>";
+            + "</size>/" + titles.Length + "\n<color=black>BOUGHT</color>";
                     buyButton.onClick.AddListener(delegate () { SetTitleEquipButton(rewardItem); });
                     break;
                 }
@@ -826,7 +827,7 @@ public class ShopController : MonoBehaviour
                 {
                     GameData.gameData.UnlockBanner(id);
                     unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Banner)
-            + "</size>/" + banners.Length + "\n<color=blue>BOUGHT</color>";
+            + "</size>/" + banners.Length + "\n<color=black>BOUGHT</color>";
                     buyButton.onClick.AddListener(delegate () { SetBannerEquipButton(rewardItem); });
                     break;
                 }
