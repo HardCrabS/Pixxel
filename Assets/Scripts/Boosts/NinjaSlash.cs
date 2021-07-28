@@ -1,7 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening; //uses fade tween
-using System;
 using UnityEngine.Events;
 
 public class NinjaSlash : BoostBase
@@ -10,7 +10,8 @@ public class NinjaSlash : BoostBase
     AudioClip fireClip;
 
     GridA grid;
-    UnityEvent OnBoostStart = new UnityEvent();
+
+    List<UnityAction> thunderActions = new List<UnityAction>();
 
     const string FOLDER_NAME = "Ninja Slash/";
 
@@ -23,8 +24,7 @@ public class NinjaSlash : BoostBase
 
         GetResources();
 
-        OnBoostStart.Invoke();
-        StartCoroutine(SetBoardAfterBoost());
+        StartCoroutine(RunThunderActions());
 
         audioSource.PlayOneShot(fireClip); //play sound on start
     }
@@ -38,9 +38,19 @@ public class NinjaSlash : BoostBase
         }
     }
 
-    IEnumerator SetBoardAfterBoost()
+    IEnumerator RunThunderActions()
     {
-        yield return new WaitUntil(() => finished);
+        for (int i = 0; i < thunderActions.Count; i++)
+        {
+            thunderActions[i].Invoke();
+            yield return new WaitForSeconds(0.3f);
+        }
+        yield return new WaitForSeconds(0.5f);
+        finished = true;
+        SetBoardAfterBoost();
+    }
+    void SetBoardAfterBoost()
+    {
         StartCoroutine(grid.MoveBoxesDown());
         grid.currState = GameState.move;
     }
@@ -63,10 +73,9 @@ public class NinjaSlash : BoostBase
         GameObject thunder = Instantiate(thunderAnimPrefab, pos, Quaternion.Euler(0, 0, rot));//spawns thunder n position/rot
         thunder.transform.localScale *= scale;
         thunder.GetComponent<SpriteRenderer>().DOFade(1, 0.5f);//fade in
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
         yield return thunder.GetComponent<SpriteRenderer>().DOFade(0, 0.5f).WaitForCompletion();//fade out
         Destroy(thunder);
-        finished = true;//boost finished executing after thunder is destroyed
     }
     void DestroyLineOfBlocks(Vector2Int start, Vector2Int end)
     {
@@ -95,39 +104,24 @@ public class NinjaSlash : BoostBase
     public override void SetBoostLevel(int lvl)
     {
         base.SetBoostLevel(lvl);
-        if(lvl <= 3)
+
+        UnityAction thunderAction = new UnityAction(() => ThunderStrikeLine(new Vector2Int(0, 3), new Vector2Int(7, 3)));
+        thunderActions.Add(thunderAction);
+        //continiously add new actions to avoid repetitiveness
+        if (lvl >= 4)
         {
-            OnBoostStart.AddListener(() => ThunderStrikeLine(new Vector2Int(0, 3), new Vector2Int(7, 3)));
+            UnityAction thunderAction2 = new UnityAction(() => ThunderStrikeLine(new Vector2Int(0, 4), new Vector2Int(7, 4)));
+            thunderActions.Add(thunderAction2);
         }
-        else if (lvl >= 4 && lvl <= 6)
+        if (lvl >= 7)
         {
-            OnBoostStart.AddListener(() =>
-            {
-                ThunderStrikeLine(new Vector2Int(0, 3), new Vector2Int(7, 3));
-                ThunderStrikeLine(new Vector2Int(0, 4), new Vector2Int(7, 4));
-            }
-            );
+            UnityAction thunderAction3 = new UnityAction(() => ThunderStrikeDiagonal(new Vector2Int(0, 0), new Vector2Int(7, 7), 45, 1.3f));
+            thunderActions.Add(thunderAction3);
         }
-        else if (lvl >= 7 && lvl <= 9)
+        if (lvl == 10)
         {
-            OnBoostStart.AddListener(() =>
-            {
-                ThunderStrikeLine(new Vector2Int(0, 3), new Vector2Int(7, 3));
-                ThunderStrikeLine(new Vector2Int(0, 4), new Vector2Int(7, 4));
-                ThunderStrikeDiagonal(new Vector2Int(0, 0), new Vector2Int(7, 7), 45, 1.3f);
-            }
-            );
-        }
-        else if (lvl == 10)
-        {
-            OnBoostStart.AddListener(() =>
-            {
-                ThunderStrikeLine(new Vector2Int(0, 3), new Vector2Int(7, 3));
-                ThunderStrikeLine(new Vector2Int(0, 4), new Vector2Int(7, 4));
-                ThunderStrikeDiagonal(new Vector2Int(0, 0), new Vector2Int(7, 7), 45, 1.3f);
-                ThunderStrikeDiagonal(new Vector2Int(0, 7), new Vector2Int(7, 0), -45, 1.3f);
-            }
-            );
+            UnityAction thunderAction4 = new UnityAction(() => ThunderStrikeDiagonal(new Vector2Int(0, 7), new Vector2Int(7, 0), -45, 1.3f));
+            thunderActions.Add(thunderAction4);
         }
     }
 }
