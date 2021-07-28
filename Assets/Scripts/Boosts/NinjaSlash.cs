@@ -85,7 +85,7 @@ public class NinjaSlash : BoostBase
         int y = start.y;
         int xIncrement = start.x < end.x ? 1 : -1;
         int yIncrement = start.y < end.y ? 1 : -1;
-        for (; x != end.x + 1 && y != end.y + 1; x += xIncrement, y += yIncrement)
+        for (; x != end.x + xIncrement && y != end.y + yIncrement; x += xIncrement, y += yIncrement)
         {
             if (grid.allBoxes[x, y])
                 grid.DestroyBlockAtPosition(x, y);
