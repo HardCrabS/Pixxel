@@ -47,7 +47,7 @@ public class NinjaSlash : BoostBase
             thunderActions[i].Invoke();
 
             audioSource.PlayOneShot(swordSlash); //play sound on start
-            Color myColor = new Color(1, 1, 1, 0.2f);
+            Color myColor = new Color(1, 1, 1, 0.4f);
             StartCoroutine(BlinkBlocksPanel(myColor, 0.1f ));
             Camera.main.GetComponent<CameraShake>().ShakeCam(0.05f, 0.5f);
             yield return new WaitForSeconds(0.3f);
