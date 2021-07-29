@@ -8,6 +8,8 @@ public class NinjaSlash : BoostBase
 {
     GameObject thunderAnimPrefab;
     AudioClip fireClip;
+    AudioClip swordSlash;
+    AudioClip swordSlash2;
 
     GridA grid;
 
@@ -35,6 +37,9 @@ public class NinjaSlash : BoostBase
         {
             thunderAnimPrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "thunderstrikeanim_0 1");
             fireClip = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_fire");
+            swordSlash = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_ninjaslash");
+            swordSlash2 = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_ninjaslash2");
+
         }
     }
 
@@ -43,6 +48,10 @@ public class NinjaSlash : BoostBase
         for (int i = 0; i < thunderActions.Count; i++)
         {
             thunderActions[i].Invoke();
+            audioSource.PlayOneShot(swordSlash); //play sound on start
+            audioSource.PlayOneShot(swordSlash2); //play sound on start
+
+            Camera.main.GetComponent<CameraShake>().ShakeCam(0.1f, 1f);
             yield return new WaitForSeconds(0.3f);
         }
         yield return new WaitForSeconds(0.5f);
