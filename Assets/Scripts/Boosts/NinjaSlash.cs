@@ -32,7 +32,7 @@ public class NinjaSlash : BoostBase
     private void GetResources()
     {
         if (thunderAnimPrefab == null)
-        {
+        {   
             thunderAnimPrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "thunderstrikeanim_0 1");
             fireClip = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_fire");
             swordSlash = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "flaunch");
@@ -45,8 +45,11 @@ public class NinjaSlash : BoostBase
         for (int i = 0; i < thunderActions.Count; i++)
         {
             thunderActions[i].Invoke();
+
             audioSource.PlayOneShot(swordSlash); //play sound on start
-            Camera.main.GetComponent<CameraShake>().ShakeCam(0.1f, 1f);
+            Color myColor = new Color(1, 1, 1, 0.2f);
+            StartCoroutine(BlinkBlocksPanel(myColor, 0.1f ));
+            Camera.main.GetComponent<CameraShake>().ShakeCam(0.05f, 0.5f);
             yield return new WaitForSeconds(0.3f);
         }
         yield return new WaitForSeconds(0.5f);
@@ -70,6 +73,14 @@ public class NinjaSlash : BoostBase
         DestroyDiagonalLineOfBlocks(start, end);
         Vector2 thunderPos = new Vector2((start.x + end.x) * 0.5f, (start.y + end.y) * 0.5f);
         StartCoroutine(SpawnThunder(thunderPos, rot, scale));
+    }
+
+    IEnumerator BlinkBlocksPanel(Color targetColor, float duration)
+    {
+        SpriteRenderer panelSR = GridA.Instance.boxesCenterPanel.GetComponent<SpriteRenderer>();
+        Color initColor = panelSR.color;//store init panel color
+        yield return panelSR.DOColor(targetColor, duration).WaitForCompletion();//wait while color changes
+        yield return panelSR.DOColor(initColor, duration).WaitForCompletion();//change back to init color
     }
 
     IEnumerator SpawnThunder(Vector2 pos, float rot, float scale = 1)
