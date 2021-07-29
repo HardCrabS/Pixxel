@@ -46,7 +46,7 @@ public class EndGameManager : MonoBehaviour
 
     IEnumerator GameOverDelayed()
     {
-        GridA.Instance.TurnBlocksOff();//disable block movement by player
+        //GridA.Instance.TurnBlocksOff();//disable block movement by player
         AudioController.Instance.StartFade(2, 0);//fade out music
 
         yield return new WaitForSeconds(1);

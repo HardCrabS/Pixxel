@@ -30,7 +30,8 @@ public class BombTile : MonoBehaviour
 
         StartCoroutine(LivesManager.Instance.DecreaseHeart());
         GameObject go = Instantiate(explosionVFX, transform.position, transform.rotation);
-        AudioController.Instance.PlayNewClip(bombExploadeSFX);
+        if (AudioController.Instance)
+            AudioController.Instance.PlayNewClip(bombExploadeSFX);
         Destroy(go, 0.5f);
         yield return new WaitForSeconds(0.3f);
 
@@ -43,7 +44,8 @@ public class BombTile : MonoBehaviour
     }
     public void DecreaseBombCounter()
     {
-        StartCoroutine(DecreaseCounterDelayed());
+        if (LivesManager.Instance.BombCounterState == BombCounterState.ticking)
+            StartCoroutine(DecreaseCounterDelayed());
     }
     IEnumerator DecreaseCounterDelayed()
     {

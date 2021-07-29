@@ -24,6 +24,7 @@ public class GoldRush : BoostBase
         }
         timeText.text = "0.00";
         grid.onGoldRushMatch -= ChangeSpriteOnMatch;
+        LivesManager.Instance.BombCounterState = BombCounterState.ticking;//resume bombs counter
         finished = true;
     }
 
@@ -40,6 +41,7 @@ public class GoldRush : BoostBase
             turnGold = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr1");
             goldTapped = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr2");
         }
+        LivesManager.Instance.BombCounterState = BombCounterState.waiting;//stop bombs counters
         startTime = timeToBonusLast;
         grid.onGoldRushMatch += ChangeSpriteOnMatch;
 
@@ -64,10 +66,12 @@ public class GoldRush : BoostBase
         audioSource.PlayOneShot(turnGold);
         grid.allBoxes[row, column].GetComponent<SpriteRenderer>().sprite = goldenRockSprite;
         grid.allBoxes[row, column].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+
         var goldenRock = grid.allBoxes[row, column].AddComponent<GoldenRock>();
         goldenRock.paticleCoin = particleCoin;
         goldenRock.SetValues(row, column);
         goldenRock.goldRush = this;
+
         Destroy(grid.allBoxes[row, column].GetComponent<Box>());
         grid.allBoxes[row, column] = null;
         grid.bombTiles[row, column] = null;

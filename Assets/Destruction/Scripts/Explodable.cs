@@ -59,6 +59,8 @@ public class Explodable : MonoBehaviour
                 }
                 frag.transform.parent = null;
                 frag.SetActive(true);
+                if (BlockFragmentsTracker.Instance)
+                    BlockFragmentsTracker.Instance.EnqueueFragment(frag);
             }
         }
         //if fragments exist destroy the original

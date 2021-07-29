@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class WorldInfoDisplay : MonoBehaviour 
 {
     [Header("Info Panel")]
-    [SerializeField] GameObject infoPanel;
+    [SerializeField] UI_Screen infoPanel;
     [SerializeField] GameObject GOButton;
     [SerializeField] TextMeshProUGUI worldName;
     [SerializeField] Text musicInfoText;
@@ -25,7 +25,7 @@ public class WorldInfoDisplay : MonoBehaviour
     // Use this for initialization
     void Start () 
     {
-        infoPanel.SetActive(false);
+        //infoPanel.SetActive(false);
         leaderboardInfo.SetActive(true);
         trinketsInfo.SetActive(false);
     }
@@ -41,18 +41,11 @@ public class WorldInfoDisplay : MonoBehaviour
         trinketsInfo.SetActive(false);
         leaderboardInfo.SetActive(true);
     }
-
-    public void HideInfoPanel()
-    {
-        infoPanel.SetActive(false);
-    }
-
     public void SetInfoPanel(WorldInformation worldInfo)
     {
         if (worldInfo != null)
         {
             worldInformation = worldInfo;
-            infoPanel.SetActive(true);
             worldBackgroundImage.sprite = worldInfo.BackgroundSprite;
             worldName.text = worldInfo.id.ToUpper();
             SetBlockSprites(worldInfo);
@@ -61,6 +54,7 @@ public class WorldInfoDisplay : MonoBehaviour
             LevelSettingsKeeper.settingsKeeper.worldInfo = worldInfo;
             trinketsInfo.SetActive(false);
             leaderboardInfo.SetActive(true);
+            UI_System.Instance.SwitchScreens(infoPanel);
             SetLoadButton();
         }
     }
