@@ -16,10 +16,10 @@ public class MagicMonolith : BoostBase
             flashStrike = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Magic Monolith/sfx_boost_monolithnoise2");
         }
         audioSource.PlayOneShot(flashStart);
-        StartCoroutine(MakeAllFiredUp());
+        StartCoroutine(MakeAllSpecial());
     }
 
-    IEnumerator MakeAllFiredUp()
+    IEnumerator MakeAllSpecial()
     {
         yield return new WaitForSeconds(1f);
         for (int i = 0; i < blockToMakeSpecial; i++) //Get number of Blocks to make Special
@@ -27,13 +27,13 @@ public class MagicMonolith : BoostBase
             int randX = Random.Range(0, grid.width);
             int randY = Random.Range(0, grid.hight);
             if (grid.allBoxes[randX, randY] != null)
-                MakeBlockFiredUp(grid.allBoxes[randX, randY].GetComponent<Box>(), new Vector2(randX, randY)); //Runs MakeBlockFiredUp Script below on random blocks
+                MakeBlockSpecial(grid.allBoxes[randX, randY].GetComponent<Box>(), new Vector2(randX, randY)); //Runs MakeBlockFiredUp Script below on random blocks
             yield return new WaitForSeconds(0.1f);
         }
         finished = true;
     }
 
-    void MakeBlockFiredUp(Box box, Vector2 pos)
+    void MakeBlockSpecial(Box box, Vector2 pos)
     {
         audioSource.PlayOneShot(flashStrike); //play audio sfx
         GameObject go = Instantiate(magicBarrier, pos, transform.rotation); // make magic barrier
@@ -41,13 +41,17 @@ public class MagicMonolith : BoostBase
         Destroy(go, 0.4f); //destroy instance of magic barrier
 
         int specialBlockChance = Random.Range(0, 100);
-        if (specialBlockChance < 50)
+        if (specialBlockChance < 33)
         {
             grid.SetBlockFiredUp(box);
         }
-        else
+        else if(specialBlockChance < 66)
         {
             grid.SetBlockWarped(box);
+        }
+        else
+        {
+            grid.SetBlockGoldenRock(box);
         }
     }
     public override void SetBoostLevel(int lvl)

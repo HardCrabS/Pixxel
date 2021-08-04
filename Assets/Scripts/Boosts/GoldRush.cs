@@ -57,25 +57,11 @@ public class GoldRush : BoostBase
         StartCoroutine(StartGoldRushTimer());
         audioSource.PlayOneShot(goldStart);
     }
-    public void RockTapped()
-    {
-        audioSource.PlayOneShot(goldTapped);
-    }
     void ChangeSpriteOnMatch(int row, int column)
     {
         audioSource.PlayOneShot(turnGold);
-        grid.allBoxes[row, column].GetComponent<SpriteRenderer>().sprite = goldenRockSprite;
         grid.allBoxes[row, column].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-
-        var goldenRock = grid.allBoxes[row, column].AddComponent<GoldenRock>();
-        goldenRock.paticleCoin = particleCoin;
-        goldenRock.SetValues(row, column);
-        goldenRock.goldRush = this;
-
-        Destroy(grid.allBoxes[row, column].GetComponent<Box>());
-        grid.allBoxes[row, column] = null;
-        grid.bombTiles[row, column] = null;
-        grid.SetBlankSpace(row, column, true);
+        grid.SetBlockGoldenRock(grid.allBoxes[row, column].GetComponent<Box>());
     }
     public override void SetBoostLevel(int lvl)
     {
