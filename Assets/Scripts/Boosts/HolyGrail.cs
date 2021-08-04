@@ -1,23 +1,29 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class HolyGrail : BoostBase
 {
-    int percentOfBombstoDestroy = 50; //set amount of bombs to destroy at 50% - this changes with higher levels
-    Sprite godray;
+    int percentOfBombstoDestroy = 1; //set amount of bombs to destroy - 1, THEN 2,3,4. I CHANGED THIS!
+    GameObject godray;
+    GameObject bombshine; //NEW SHINE FX ON BLOCK
     AudioClip choir;
+    AudioClip bombExplode;
     GridA grid;
 
     public override void ExecuteBonus()
     {
         base.ExecuteBonus();
 
+        // SCRIPT HERE TO CHECK IF BOMBS ON SCREEN, IF SO ACTIVATE BOOST. IF NOT, DONT ACTIVATE BOOST.
         if (grid == null)
         {
             grid = GridA.Instance;
-            godray = Resources.Load<Sprite>(RESOURCES_FOLDER + "Holy Grail/holylightFX");
+            bombshine = Resources.Load<GameObject>(RESOURCES_FOLDER + "Holy Grail/LightCast_96");
+            godray = Resources.Load<GameObject>(RESOURCES_FOLDER + "Holy Grail/holylight");
             choir = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Holy Grail/sfx_boost_holygrail");
+            bombExplode = Resources.Load<AudioClip>("Assets/SFX/InGame/sfx_game_match");
         }
 
         StartCoroutine(SpawnGodray());
@@ -26,9 +32,11 @@ public class HolyGrail : BoostBase
     IEnumerator SpawnGodray()
     {
         Vector2 pos = new Vector2(3.5f, 3.5f);//where to spawn godray
-        //GameObject go = Instantiate(godray, pos, transform.rotation); //spawns godray graphic
+        godray = Instantiate(godray, pos, transform.rotation); //spawns godray graphic
         audioSource.PlayOneShot(choir); //plays choir SFX
+        godray.GetComponent<SpriteRenderer>().DOFade(1, 1); // FADE IN GODRAY
         yield return new WaitForSeconds(1f); //wait 1 second
+        godray.GetComponent<SpriteRenderer>().DOFade(0, 3); //FADE OUT GODRAY
         yield return StartCoroutine(DestroyBombs());//wait until bombs destroyed
         StartCoroutine(grid.MoveBoxesDown());//spawn new blocks and move them down
         finished = true;//boost finished, allow other boost activasion
@@ -36,7 +44,7 @@ public class HolyGrail : BoostBase
 
     IEnumerator DestroyBombs()
     {
-        int bombsToDestroy = (int)(CountTotalBombs() * (percentOfBombstoDestroy * 0.01f));
+        int bombsToDestroy = (percentOfBombstoDestroy);
 
         while (bombsToDestroy > 0 && CountTotalBombs() > 0)
         {
@@ -76,19 +84,19 @@ public class HolyGrail : BoostBase
 
         if (lvl <= 3)
         {
-            percentOfBombstoDestroy = 50; //blows up 50% of bombs
+            percentOfBombstoDestroy = 1; //blows up 50% of bombs
         }
         else if (lvl <= 6)
         {
-            percentOfBombstoDestroy = 60; //blows up 60% of bombs
+            percentOfBombstoDestroy = 2; //blows up 60% of bombs
         }
         else if (lvl <= 9)
         {
-            percentOfBombstoDestroy = 70; //blows up 70% of bombs
+            percentOfBombstoDestroy = 3; //blows up 70% of bombs
         }
         else
         {
-            percentOfBombstoDestroy = 80; //blows up 80% of bombs
+            percentOfBombstoDestroy = 4; //blows up 80% of bombs
         }
     }
 }
