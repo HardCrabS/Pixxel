@@ -5,11 +5,11 @@ using DG.Tweening;
 
 public class HolyGrail : BoostBase
 {
-    int percentOfBombstoDestroy = 1; //set amount of bombs to destroy - 1, THEN 2,3,4. I CHANGED THIS!
+    int percentOfBombstoDestroy = 1; //set amount of bombs to destroy - 1, initially.
     GameObject godray; //godray fx 
     GameObject bombshine; //NEW SHINE FX ON BLOCK
     GameObject fullBurst; //full screen effect
-    AudioClip choir;
+    AudioClip choir; //play choir SFX
 
     GridA grid;
 
@@ -99,19 +99,19 @@ public class HolyGrail : BoostBase
 
         if (lvl <= 3)
         {
-            percentOfBombstoDestroy = 1; //blows up 50% of bombs
+            percentOfBombstoDestroy = 1; //blows up 1 bomb
         }
         else if (lvl <= 6)
         {
-            percentOfBombstoDestroy = 2; //blows up 60% of bombs
+            percentOfBombstoDestroy = 2; //blows up 2 bombs
         }
         else if (lvl <= 9)
         {
-            percentOfBombstoDestroy = 3; //blows up 70% of bombs
+            percentOfBombstoDestroy = 3; //blows up 3 bombs
         }
         else
         {
-            percentOfBombstoDestroy = 4; //blows up 80% of bombs
+            percentOfBombstoDestroy = 4; //blows up 4 bombs
         }
     }
 }
