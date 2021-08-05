@@ -13,17 +13,22 @@ public class MagicMonolith : BoostBase
 
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
+
+        GetResources();
+
+        StartCoroutine(MakeAllSpecial());
+    }
+
+    private void GetResources()
+    {
         if (magicBarrier == null)
         {
             magicBarrier = Resources.Load<GameObject>(RESOURCES_FOLDER + "Magic Monolith/MagicBarrierBlast");
             flashStrike = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Magic Monolith/sfx_boost_monolithnoise2");
             monolith = Resources.Load<GameObject>(RESOURCES_FOLDER + "Magic Monolith/Obelisk_effects_0");
             monostart = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Magic Monolith/sfx_boost_mono1");
-           
         }
-
-        StartCoroutine(MakeAllSpecial());
-
     }
 
     IEnumerator MakeAllSpecial()
@@ -42,7 +47,7 @@ public class MagicMonolith : BoostBase
             int randX = Random.Range(0, grid.width);
             int randY = Random.Range(0, grid.hight);
             if (grid.allBoxes[randX, randY] != null)
-                MakeBlockSpecial(grid.allBoxes[randX, randY].GetComponent<Box>(), new Vector2(randX, randY)); //Runs MakeBlockFiredUp Script below on random blocks
+                MakeBlockSpecial(grid.allBoxes[randX, randY].GetComponent<Box>()); //Runs MakeBlockFiredUp Script below on random blocks
             yield return new WaitForSeconds(0.1f);
         }
 
@@ -52,10 +57,10 @@ public class MagicMonolith : BoostBase
         finished = true;
     }
 
-    void MakeBlockSpecial(Box box, Vector2 pos)
+    void MakeBlockSpecial(Box box)
     {
         audioSource.PlayOneShot(flashStrike); //play audio sfx
-        GameObject go = Instantiate(magicBarrier, pos, transform.rotation); // make magic barrier
+        GameObject go = Instantiate(magicBarrier, box.transform.position, transform.rotation); // make magic barrier
         //Camera.main.GetComponent<CameraShake>().ShakeCam(0.5f, 0.3f); //shake screen effect
         Destroy(go, 2f); //destroy instance of magic barrier
 
