@@ -6,8 +6,9 @@ using DG.Tweening;
 public class HolyGrail : BoostBase
 {
     int percentOfBombstoDestroy = 1; //set amount of bombs to destroy - 1, THEN 2,3,4. I CHANGED THIS!
-    GameObject godray;
+    GameObject godray; //godray fx 
     GameObject bombshine; //NEW SHINE FX ON BLOCK
+    GameObject fullBurst; //full screen effect
     AudioClip choir;
     AudioClip bombExplode;
     GridA grid;
@@ -22,6 +23,7 @@ public class HolyGrail : BoostBase
             grid = GridA.Instance;
             bombshine = Resources.Load<GameObject>(RESOURCES_FOLDER + "Holy Grail/LightCast_96");
             godray = Resources.Load<GameObject>(RESOURCES_FOLDER + "Holy Grail/holylight");
+            fullBurst = Resources.Load<GameObject>(RESOURCES_FOLDER + "Holy Grail/GrailBurstFX");
             choir = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Holy Grail/sfx_boost_holygrail");
             bombExplode = Resources.Load<AudioClip>("Assets/SFX/InGame/sfx_game_match");
         }
@@ -32,12 +34,15 @@ public class HolyGrail : BoostBase
     IEnumerator SpawnGodray()
     {
         Vector2 pos = new Vector2(3.5f, 3.5f);//where to spawn godray
+        Vector2 blockpos = new Vector2(1f, 1f);  //where to spawn block glow FX
         godray = Instantiate(godray, pos, transform.rotation); //spawns godray graphic
         audioSource.PlayOneShot(choir); //plays choir SFX
         godray.GetComponent<SpriteRenderer>().DOFade(1, 1); // FADE IN GODRAY
+        fullBurst = Instantiate(fullBurst, pos, transform.rotation); //plays burst fx
+        bombshine = Instantiate(bombshine, blockpos, transform.rotation); //spawns godray graphic
         yield return new WaitForSeconds(1f); //wait 1 second
         godray.GetComponent<SpriteRenderer>().DOFade(0, 3); //FADE OUT GODRAY
-        yield return StartCoroutine(DestroyBombs());//wait until bombs destroyed
+        yield return StartCoroutine(DestroyBombs());//destroy bombs & wait until bombs destroyed
         StartCoroutine(grid.MoveBoxesDown());//spawn new blocks and move them down
         finished = true;//boost finished, allow other boost activasion
     }
