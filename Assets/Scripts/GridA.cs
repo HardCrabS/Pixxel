@@ -1,6 +1,4 @@
-using DG.Tweening;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using DG.Tweening;
 
@@ -601,7 +599,7 @@ public class GridA : MonoBehaviour
         StartCoroutine(MoveBoxesDown());
     }
 
-    public void DestroyBlockAtPosition(int row, int column)
+    public void DestroyBlockAtPosition(int row, int column, bool playSound = false)
     {
         if (allBoxes[row, column] != null)
         {
@@ -618,7 +616,11 @@ public class GridA : MonoBehaviour
             }
 
             DynamicBlockSpriteDestruction(row, column);
-            //BlockDestroyedSFX();  //sound is played once after all matched blocks are destroyed
+
+            //sound is played once after all matched blocks are destroyed
+            //only play when necessary
+            if (playSound)
+                BlockDestroyedSFX();  
 
             allBoxes[row, column] = null;
             bombTiles[row, column] = null;
