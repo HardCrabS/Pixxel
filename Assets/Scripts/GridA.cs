@@ -61,6 +61,7 @@ public class GridA : MonoBehaviour
     [Header("Special blocks")]
     [SerializeField] Material firedUpMat;
     [SerializeField] Material warpedMat;
+    [SerializeField] GameObject goldenRockPrefab;
 
     [Header("Add for match")]
     [SerializeField] int scorePointsToAddperBox = 10;
@@ -151,10 +152,10 @@ public class GridA : MonoBehaviour
             AudioController.Instance.onSFXVolumeChange += ChangeSFXVolume;
         }
 
-        if (CheckForTutorial())
+        /*if (CheckForTutorial())
         {
             return;
-        }
+        }*/
         StartCoroutine(CreateGridDelayed(gridCreateDelay));
         //CreateGrid();
     }
@@ -547,6 +548,14 @@ public class GridA : MonoBehaviour
         }
 
         StartCoroutine(MoveBoxesDown());
+    }
+    public void SetBlockGoldenRock(Box box)
+    {
+        var goldenRock = Instantiate(goldenRockPrefab, box.transform.position, Quaternion.identity);
+        goldenRock.GetComponent<GoldenRock>().SetValues(box.row, box.column);
+
+        DestroyBlockNoFX(box.row, box.column);
+        SetBlankSpace(box.row, box.column, true);
     }
     public void SetBlockFiredUp(Box box)
     {

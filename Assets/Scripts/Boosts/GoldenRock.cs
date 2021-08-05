@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class GoldenRock : MonoBehaviour
 {
-    int column;
     int row;
+    int column;
     public GameObject paticleCoin;
-    public GoldRush goldRush;
+    public AudioClip tappedClip;
 
-    public GoldenRock(int x, int y)
+    AudioSource audioSource;
+
+    private void Start()
     {
-        column = x;
-        row = y;
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void SetValues(int x, int y)
     {
-        column = x;
-        row = y;
+        row = x;
+        column = y;
     }
     void OnMouseDown()
     {
-        goldRush.RockTapped();
+        audioSource.PlayOneShot(tappedClip);
         GameObject go = Instantiate(paticleCoin, transform.position, transform.rotation);
         Destroy(go, 0.5f);
         Destroy(gameObject, 0.5f);
@@ -31,7 +32,7 @@ public class GoldenRock : MonoBehaviour
         int coins = Random.Range(2, 5);
         CoinsDisplay.Instance.AddCoinsAmount(coins);
 
-        GridA.Instance.SetBlankSpace(column, row, false);
+        GridA.Instance.SetBlankSpace(row, column, false);
         StartCoroutine(GridA.Instance.MoveBoxesDown());
     }
 }
