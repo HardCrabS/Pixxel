@@ -10,7 +10,6 @@ public class HolyGrail : BoostBase
     GameObject bombshine; //NEW SHINE FX ON BLOCK
     GameObject fullBurst; //full screen effect
     AudioClip choir;
-    AudioClip bombExplode;
 
     GridA grid;
 
@@ -18,7 +17,19 @@ public class HolyGrail : BoostBase
     {
         base.ExecuteBonus();
 
-        // SCRIPT HERE TO CHECK IF BOMBS ON SCREEN, IF SO ACTIVATE BOOST. IF NOT, DONT ACTIVATE BOOST.
+        GetResources();
+
+        if(CountTotalBombs() == 0)
+        {
+            finished = true;
+            return;
+        }
+
+        StartCoroutine(SpawnGodray());
+    }
+
+    private void GetResources()
+    {
         if (grid == null)
         {
             grid = GridA.Instance;
@@ -26,10 +37,7 @@ public class HolyGrail : BoostBase
             godray = Resources.Load<GameObject>(RESOURCES_FOLDER + "Holy Grail/holylight");
             fullBurst = Resources.Load<GameObject>(RESOURCES_FOLDER + "Holy Grail/GrailBurstFX");
             choir = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Holy Grail/sfx_boost_holygrail");
-            bombExplode = Resources.Load<AudioClip>("Assets/SFX/InGame/sfx_game_match");
         }
-
-        StartCoroutine(SpawnGodray());
     }
 
     IEnumerator SpawnGodray()
@@ -39,8 +47,9 @@ public class HolyGrail : BoostBase
         godray = Instantiate(godray, pos, transform.rotation); //spawns godray graphic
         audioSource.PlayOneShot(choir); //plays choir SFX
         godray.GetComponent<SpriteRenderer>().DOFade(1, 1); // FADE IN GODRAY
-        fullBurst = Instantiate(fullBurst, pos, transform.rotation); //plays burst fx
-        bombshine = Instantiate(bombshine, blockpos, transform.rotation); //spawns godray graphic
+        GameObject burst = Instantiate(fullBurst, pos, transform.rotation); //plays burst fx
+        Destroy(burst, 3);
+        GameObject bombShine = Instantiate(bombshine, blockpos, transform.rotation); //spawns godray graphic
         yield return new WaitForSeconds(1f); //wait 1 second
         godray.GetComponent<SpriteRenderer>().DOFade(0, 3); //FADE OUT GODRAY
         yield return StartCoroutine(DestroyBombs());//destroy bombs & wait until bombs destroyed
@@ -64,7 +73,7 @@ public class HolyGrail : BoostBase
             {
                 if (grid.bombTiles[i, randColumn])//bomb found
                 {
-                    grid.DestroyBlockAtPosition(i, randColumn);
+                    grid.DestroyBlockAtPosition(i, randColumn, playSound:true);
                     bombsToDestroy--;
                     yield return new WaitForSeconds(0.1f);//wait for time before destroying another bomb
                     break;//exit from loop and continue with another column
