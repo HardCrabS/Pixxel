@@ -3,12 +3,18 @@ using UnityEngine;
 using DG.Tweening; //uses fade tween
 
 
+
 public class Cavemoney : BoostBase
 {
-    int blockToMakeFiredUp = 5;
+    int blockToMakeGolden = 5;
     GameObject caveman;
+   // GameObject burst;
+   // GameObject burstsingle;
     AudioClip cavemanMove;
     GridA grid;
+    Vector3 firstPos;
+    Vector3 currPos;
+    Vector3 target;
 
     public override void ExecuteBonus()
     {
@@ -16,44 +22,55 @@ public class Cavemoney : BoostBase
         {
             caveman = Resources.Load<GameObject>(RESOURCES_FOLDER + "Cavemoney/ugh-sprite_0");
             cavemanMove = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Cavemoney/sfx_boost_caveman_wheels");
+          //  burst = Resources.Load<GameObject>(RESOURCES_FOLDER + "Cavemoney/burst");
+
         }
 
-        caveman.transform.DOMove(new Vector2(-200, 50), 4);
+        GameObject CaveMan = Instantiate(caveman, new Vector2(3.37f, 9.52f), transform.rotation); //spawns caveman at location
+        CaveMan.GetComponent<SpriteRenderer>().DOFade(1, 5); //FADE IN CAVEMAN - DONT WORK
 
+        audioSource.PlayOneShot(cavemanMove); //play squeeky wheels sfx
+        CaveMan.transform.DOMove(new Vector2(3.37f, -7.5f), 8); //moves him downwards in 8 seconds
+        //StartCoroutine(MakeSparks());
+        // GameObject burstsingle = Instantiate(burst, new Vector2(3.59f, -3.51f), transform.rotation); // spawn burst FX
 
-        audioSource.PlayOneShot(cavemanMove);
-        //StartCoroutine(MakeAllFiredUp());
+        StartCoroutine(MakeGoldenRocks());
+        
     }
 
 
 
-
-
-    /*
-    IEnumerator MakeAllFiredUp()
+    IEnumerator MakeGoldenRocks()
     {
-        yield return new WaitForSeconds(1f);
-        for (int i = 0; i < blockToMakeFiredUp; i++)
+        for (int y = grid.hight -1; y >= 0; y--)
         {
-            int randX = Random.Range(0, grid.width);
-            int randY = Random.Range(0, grid.hight);
-            if (grid.allBoxes[randX, randY] != null)
-                MakeBlockFiredUp(grid.allBoxes[randX, randY].GetComponent<Box>(), new Vector2(randX, randY));
-            yield return new WaitForSeconds(1f);
+            for (int x = 3; x < 5; x++)
+            {
+                if (grid.allBoxes[x, y])
+                {
+
+                   // GameObject burstsingle = Instantiate(burst, grid.Box, transform.rotation); // CREATE BURST FX AT BOX
+                    grid.SetBlockGoldenRock(grid.allBoxes[x, y].GetComponent<Box>()); // turns block golden
+                    
+                    yield return new WaitForSeconds(0.2f); //waits 
+                }
+            }
         }
-        finished = true;
+
+        
     }
 
-    void MakeBlockFiredUp(Box box, Vector2 pos)
+
+    void MakeBlockGolden(Box box, Vector2 pos)
     {
-        audioSource.PlayOneShot(flashStrike);
-        GameObject go = Instantiate(lightning, pos, transform.rotation);
+        //audioSource.PlayOneShot(flashStrike);
+       // GameObject go = Instantiate(lightning, pos, transform.rotation);
         Camera.main.GetComponent<CameraShake>().ShakeCam(0.1f, 1f);
-        Destroy(go, 0.4f);
-        grid.SetBlockFiredUp(box);
-    }
-    */
+        //Destroy(go, 0.4f);
 
+        grid.SetBlockGoldenRock(box);
+
+    }
 
 
     public override void SetBoostLevel(int lvl)
@@ -62,19 +79,19 @@ public class Cavemoney : BoostBase
         grid = GridA.Instance;
         if(lvl <= 3)
         {
-            blockToMakeFiredUp = 1;//5% of all blocks
+            blockToMakeGolden = 1;//5% of all blocks
         }
         else if(lvl <= 6)
         {
-            blockToMakeFiredUp = 2;//10% of all blocks
+            blockToMakeGolden = 2;//10% of all blocks
         }
         else if(lvl <= 9)
         {
-            blockToMakeFiredUp = 3;//15% of all blocks
+            blockToMakeGolden = 3;//15% of all blocks
         }
         else
         {
-            blockToMakeFiredUp = 4;//20% of all blocks
+            blockToMakeGolden = 4;//20% of all blocks
         }
     }
 }
