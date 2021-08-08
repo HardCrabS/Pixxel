@@ -81,7 +81,7 @@ public class WorldInfoDisplay : MonoBehaviour
     }
     void LoadWorld()
     {
-        FindObjectOfType<SceneLoader>().LoadConcreteWorld("World", worldInformation.Song, worldInformation.MusicStartDelay);
+        FindObjectOfType<SceneLoader>().LoadConcreteWorld("World", worldInformation.Song, worldInformation.MusicStartDelay, useLoadingPanel:true);
         AudioController.Instance.Pause();
     }
 }

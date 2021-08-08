@@ -11,6 +11,8 @@ public class ShareController : MonoBehaviour
     [SerializeField] Button twButton;
     [SerializeField] Text twText;
 
+    [SerializeField] int coinsRewardForAdVideo = 50;
+
     [SerializeField] int facebookReward = 50;
     [SerializeField] WorldInformation facebookWorldInfo;
 
@@ -52,6 +54,12 @@ public class ShareController : MonoBehaviour
         CheckTime(twText, twButton, GameData.gameData.saveData.nextPossibleTwitterShare);
         CheckTime(fbText, fbButton, GameData.gameData.saveData.nextPossibleFacebookShare);
     }
+
+    public void RewardForAdVideo()
+    {
+        CoinsDisplay.Instance.AddCoinsAmount(coinsRewardForAdVideo);
+    }
+
     public void ShareToTW(string linkParameter)
     {
         StartCoroutine(PlayGamesController.checkInternetConnection((isConnected) =>
