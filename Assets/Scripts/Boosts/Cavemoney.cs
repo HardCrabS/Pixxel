@@ -11,6 +11,7 @@ public class Cavemoney : BoostBase
    // GameObject burst;
    // GameObject burstsingle;
     AudioClip cavemanMove;
+    AudioClip sparkle;
     GridA grid;
     Vector3 firstPos;
     Vector3 currPos;
@@ -22,33 +23,38 @@ public class Cavemoney : BoostBase
         {
             caveman = Resources.Load<GameObject>(RESOURCES_FOLDER + "Cavemoney/ugh-sprite_0");
             cavemanMove = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Cavemoney/sfx_boost_caveman_wheels");
+            sparkle = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Cavemoney/chimes");
 
         }
-        GridA.Instance.currState = GameState.wait;
 
-        float startVolume = PlayerPrefsController.GetMasterVolume(); //gets volume LVL
+        StartCoroutine(MakeGoldenRocks()); 
+        audioSource.PlayOneShot(sparkle); //play chimes sfx
+        StartCoroutine(CavemanBoom());
 
-        AudioController.Instance.StartFade(1, 0); //fades out music
+    }
+
+    IEnumerator CavemanBoom()
+    {
 
         GameObject CaveMan = Instantiate(caveman, new Vector2(3.37f, 9.52f), transform.rotation); //spawns caveman at location
         CaveMan.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0); //set caveman opacity to 0
 
         CaveMan.GetComponent<SpriteRenderer>().DOFade(1, 1); //FADE IN CAVEMAN
 
-
         audioSource.PlayOneShot(cavemanMove); //play squeeky wheels sfx
-        CaveMan.transform.DOMove(new Vector2(3.37f, -7.5f), 8); //moves him downwards in 8 seconds
+        yield return CaveMan.transform.DOMove(new Vector2(3.37f, -7.5f), 8). WaitForCompletion(); //moves him downwards in 8 seconds
 
-        StartCoroutine(MakeGoldenRocks()); 
-        AudioController.Instance.StartFade(1, startVolume); //fade in music 
-        GridA.Instance.currState = GameState.move;
-
+        //yield return CaveMan.GetComponent<SpriteRenderer>().DOMove.WaitForCompletion(); //wait till movement of caveman has finished // 
+        Destroy(CaveMan, 1f); //destroy caveman  //WONT WORK AS DOESNT KNOW CaveMan
     }
-
-
 
     IEnumerator MakeGoldenRocks()
     {
+        GridA.Instance.currState = GameState.wait; //disallows moving of blocks
+
+        float startVolume = PlayerPrefsController.GetMasterVolume(); //gets volume LVL
+        AudioController.Instance.StartFade(0.5f, 0); //fades out music
+
         for (int y = grid.hight -1; y >= 0; y--)
         {
             for (int x = 3; x < 5; x++)
@@ -62,9 +68,12 @@ public class Cavemoney : BoostBase
                     yield return new WaitForSeconds(0.2f); //waits 
                 }
             }
-        }
+        } yield return new WaitForSeconds(1f);
+        //  DESTROY THE OBJECT CaveMan HERE, AFTER HE HAS FINISHED MOVING        <-------------------------------------------------------------------------------------------
+        AudioController.Instance.StartFade(1, startVolume); //fade in music 
+        GridA.Instance.currState = GameState.move;
 
-        
+
     }
 
 
