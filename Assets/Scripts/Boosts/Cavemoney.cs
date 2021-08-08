@@ -22,20 +22,27 @@ public class Cavemoney : BoostBase
         {
             caveman = Resources.Load<GameObject>(RESOURCES_FOLDER + "Cavemoney/ugh-sprite_0");
             cavemanMove = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Cavemoney/sfx_boost_caveman_wheels");
-          //  burst = Resources.Load<GameObject>(RESOURCES_FOLDER + "Cavemoney/burst");
 
         }
+        GridA.Instance.currState = GameState.wait;
+
+        float startVolume = PlayerPrefsController.GetMasterVolume(); //gets volume LVL
+
+        AudioController.Instance.StartFade(1, 0); //fades out music
 
         GameObject CaveMan = Instantiate(caveman, new Vector2(3.37f, 9.52f), transform.rotation); //spawns caveman at location
-        CaveMan.GetComponent<SpriteRenderer>().DOFade(1, 5); //FADE IN CAVEMAN - DONT WORK
+        CaveMan.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0); //set caveman opacity to 0
+
+        CaveMan.GetComponent<SpriteRenderer>().DOFade(1, 1); //FADE IN CAVEMAN
+
 
         audioSource.PlayOneShot(cavemanMove); //play squeeky wheels sfx
         CaveMan.transform.DOMove(new Vector2(3.37f, -7.5f), 8); //moves him downwards in 8 seconds
-        //StartCoroutine(MakeSparks());
-        // GameObject burstsingle = Instantiate(burst, new Vector2(3.59f, -3.51f), transform.rotation); // spawn burst FX
 
-        StartCoroutine(MakeGoldenRocks());
-        
+        StartCoroutine(MakeGoldenRocks()); 
+        AudioController.Instance.StartFade(1, startVolume); //fade in music 
+        GridA.Instance.currState = GameState.move;
+
     }
 
 
