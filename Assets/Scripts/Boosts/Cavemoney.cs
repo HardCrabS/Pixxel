@@ -72,6 +72,8 @@ public class Cavemoney : BoostBase
         //  DESTROY THE OBJECT CaveMan HERE, AFTER HE HAS FINISHED MOVING        <-------------------------------------------------------------------------------------------
         AudioController.Instance.StartFade(1, startVolume); //fade in music 
         GridA.Instance.currState = GameState.move;
+        finished = true;
+
 
 
     }
