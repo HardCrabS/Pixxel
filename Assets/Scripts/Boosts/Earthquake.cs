@@ -15,12 +15,13 @@ public class Earthquake : BoostBase
         if (rocks == null)
         {
             rocks = Resources.Load<GameObject>(RESOURCES_FOLDER + "Flash Field/Lightning");
-            rockburst = Resources.Load<GameObject>(RESOURCES_FOLDER + "Earthquake/explode");
+            rockburst = Resources.Load<GameObject>(RESOURCES_FOLDER + "Earthquake/explosion");
             ShakeSFX = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Earthquake/sfx_boost_earthquakeshake2");
             FiredSFX = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Earthquake/sfx_boost_earthquake_block");
+            grid = GridA.Instance;
         }
         audioSource.PlayOneShot(ShakeSFX);
-        Camera.main.GetComponent<CameraShake>().ShakeCam(1f, 2f);
+        Camera.main.GetComponent<CameraShake>().ShakeCam(2f, 3f);
        // StartCoroutine(DetonateSpecialBlocks());
         StartCoroutine(MakeAllFired());  //STARTS ROUTINE OF MAKING BLOCKS FIRED
 
@@ -35,7 +36,7 @@ public class Earthquake : BoostBase
 
     IEnumerator MakeAllFired()
     {
-        yield return new WaitForSeconds(2f); //wait 2 seconds before continuing
+        yield return new WaitForSeconds(1.5f); //wait 2 seconds before continuing
         for (int i = 0; i < blockToMakeFiredUp; i++) // set which blocks to make fired up
         {
             int randX = Random.Range(0, grid.width);
