@@ -24,15 +24,28 @@ public class Earthquake : BoostBase
         Camera.main.GetComponent<CameraShake>().ShakeCam(2f, 3f);
        // StartCoroutine(DetonateSpecialBlocks());
         StartCoroutine(MakeAllFired());  //STARTS ROUTINE OF MAKING BLOCKS FIRED
-
+        StartCoroutine(DetonateSpecialBlocks());
     }
 
-    /* IEnumerator DetonateSpecialBlocks()
+    IEnumerator DetonateSpecialBlocks()
     {
-        //ACTIVATE ALL SPECIAL BLOCKS HERE
+        foreach (var block in grid.allBoxes)
+        {
+            if (block)
+            {
+                var boxComp = block.GetComponent<Box>();
+                if (boxComp)
+                {
+                    if (boxComp.currState == BoxState.FiredUp || boxComp.currState == BoxState.Warped || boxComp.currState == BoxState.Golden)
+                    {
+                        grid.DestroyBlockAtPosition(boxComp.row, boxComp.column);
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                }
+            }
+        }
+        StartCoroutine(grid.MoveBoxesDown());
     }
-   */
-
 
     IEnumerator MakeAllFired()
     {
@@ -49,8 +62,7 @@ public class Earthquake : BoostBase
     }
 
     void MakeBlockFiredUp(Box box, Vector2 pos)
-    {
-      
+    { 
        GameObject go = Instantiate(rockburst, pos, transform.rotation);
        audioSource.PlayOneShot(FiredSFX);
 
@@ -61,7 +73,7 @@ public class Earthquake : BoostBase
     public override void SetBoostLevel(int lvl)
     {
         base.SetBoostLevel(lvl);
-        grid = GridA.Instance;
+
         if(lvl <= 3)
         {
             blockToMakeFiredUp = 3;
