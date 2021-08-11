@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
+using DG.Tweening; //uses fade tween
+
 
 public class Earthquake : BoostBase
 {
@@ -14,18 +16,45 @@ public class Earthquake : BoostBase
     {
         if (rocks == null)
         {
-            rocks = Resources.Load<GameObject>(RESOURCES_FOLDER + "Flash Field/Lightning");
+            rocks = Resources.Load<GameObject>(RESOURCES_FOLDER + "Earthquake/QuakeDirt");
             rockburst = Resources.Load<GameObject>(RESOURCES_FOLDER + "Earthquake/explosion");
             ShakeSFX = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Earthquake/sfx_boost_earthquakeshake2");
             FiredSFX = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Earthquake/sfx_boost_earthquake_block");
             grid = GridA.Instance;
         }
+
+
         audioSource.PlayOneShot(ShakeSFX);
-        Camera.main.GetComponent<CameraShake>().ShakeCam(2f, 3f);
-       // StartCoroutine(DetonateSpecialBlocks());
+        Camera.main.GetComponent<CameraShake>().ShakeCam(2f, 2f); //shake screen
+
+
+
+        // StartCoroutine(DetonateSpecialBlocks());
+
+        EarthShakes();
+        GridA.Instance.currState = GameState.wait;
         StartCoroutine(MakeAllFired());  //STARTS ROUTINE OF MAKING BLOCKS FIRED
         StartCoroutine(DetonateSpecialBlocks());
     }
+
+    void EarthShakes()  //                                                SHAKE HEERREEE!!
+    {
+
+        Vector2 rock1pos = new Vector2(10f, 8.27f);
+        Vector2 rock2pos = new Vector2(10f, 0f);
+
+        GameObject rock1 = Instantiate(rocks, rock1pos, Quaternion.Euler(0, 0, 180)); //make rocks
+        GameObject rock2 = Instantiate(rocks, rock2pos, transform.rotation); //make rocks
+
+        rock1.transform.DOMove(new Vector2(-3f, 8.27f), 2); //move earthquake to left
+        rock2.transform.DOMove(new Vector2(-3f, 0f), 2); //move earthquake to left
+
+      //  yield return rock1.GetComponent<SpriteRenderer>().DOFade(0, 0.5f).WaitForCompletion();//fade out
+        Destroy(rock1, 3);
+        Destroy(rock2, 3);
+
+    }
+
 
     IEnumerator DetonateSpecialBlocks()
     {
@@ -56,8 +85,9 @@ public class Earthquake : BoostBase
             int randY = Random.Range(0, grid.hight);
             if (grid.allBoxes[randX, randY] != null)
                 MakeBlockFiredUp(grid.allBoxes[randX, randY].GetComponent<Box>(), new Vector2(randX, randY)); //make block fired up
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
         }
+        GridA.Instance.currState = GameState.move;
         finished = true;
     }
 
