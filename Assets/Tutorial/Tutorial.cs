@@ -15,6 +15,11 @@ public class Tutorial : MonoBehaviour
     [SerializeField] GameObject backgroundPrefab;
     [SerializeField] WorldInformation currentWorldInfo;
     [SerializeField] AudioClip intenceMusic;
+    [SerializeField] AudioClip shakeSFX;
+    [SerializeField] AudioClip blocksHereSFX;
+    [SerializeField] AudioClip flashStrike;
+    [SerializeField] AudioClip windSFX;
+
 
     [Header("World select tutorial")]
     [SerializeField] UI_System worldSelectUISystem;
@@ -101,11 +106,14 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator PlayWorldTutorial()
     {
+
+
+
         yield return new WaitForSeconds(1f);
         uiSystem.SwitchScreens(screens[0]);
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(PlayDialogue(login));//ask user to log in
-
+        audioSource.PlayOneShot(windSFX); //play wind sfx
         uiSystem.SwitchScreens(screens[1]);//screen to enter username
         screens[1].GetComponent<UsernameCheck>().onUsernameConfirm
             .AddListener(() =>
@@ -115,6 +123,8 @@ public class Tutorial : MonoBehaviour
             });//open PAM after username is confirmed
 
         yield return new WaitUntil(() => uiSystem.CurrentScreen == screens[0]);//wait until PAM shows
+
+ 
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(PlayDialogue(hello));//greet player speech
@@ -157,15 +167,29 @@ public class Tutorial : MonoBehaviour
     }
 
     IEnumerator MoreBlocksFallIn()
+
+
+
     {
+        GridA Instance;
+       // GridA grid;
+
         yield return new WaitForSeconds(1f);
+        audioSource.PlayOneShot(shakeSFX); //play shake sfx
         Camera.main.GetComponent<CameraShake>().ShakeCam(2, 1);
-        yield return new WaitForSeconds(2f);//wait while camera is shaking
-
-        GridA.Instance.SetDefaultTemplate();//spawn default board 8x8
-
         audioSource.clip = intenceMusic;//play intence music
         audioSource.Play();
+        yield return new WaitForSeconds(2f);//wait while camera is shaking
+
+        audioSource.PlayOneShot(blocksHereSFX); //play SFX when blocks appear
+
+
+
+        GridA.Instance.SetDefaultTemplate();//spawn default board 8x8
+        GridA.Instance.currState = GameState.wait; // disable block swapping
+
+
+
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(PlayDialogue(moreBlocks));//more blocks speech
@@ -173,8 +197,41 @@ public class Tutorial : MonoBehaviour
         yield return audioSource.DOFade(0, 0.5f).WaitForCompletion();//fade out intence music
         AudioController.Instance.SetCurrentClip(currentWorldInfo.Song, fadeIn: true);//fade in world clip music
 
-        mainGameCanvas.SetActive(true);
+        mainGameCanvas.SetActive(true); //start game
+        GridA.Instance.currState = GameState.move; // enable blocks swapping
+
         uiSystem.SwitchScreens(screens[2]);//PAM goes away
+        StartCoroutine(MakeAllFiredUpStart());
+
+
+    }
+
+    IEnumerator MakeAllFiredUpStart()
+    {
+        GridA Instance;
+
+        yield return new WaitForSeconds(0.5f);
+        for (int i = 0; i < 5; i++)
+        {
+            int randX = Random.Range(0, GridA.Instance.width);
+            int randY = Random.Range(0, GridA.Instance.hight);
+            if (GridA.Instance.allBoxes[randX, randY] != null)
+                MakeBlockFiredUp(GridA.Instance.allBoxes[randX, randY].GetComponent<Box>(), new Vector2(randX, randY));
+            yield return new WaitForSeconds(0.4f);
+        }
+
+
+
+    }
+
+    void MakeBlockFiredUp(Box box, Vector2 pos)
+    {
+        GridA Instance;
+
+
+        audioSource.PlayOneShot(flashStrike);
+        Camera.main.GetComponent<CameraShake>().ShakeCam(0.1f, 0.5f);
+        GridA.Instance.SetBlockFiredUp(box);
     }
 
     IEnumerator PlayWorldSelectTutorial()
