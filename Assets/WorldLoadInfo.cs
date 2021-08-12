@@ -9,7 +9,6 @@ public class WorldLoadInfo : ScriptableObject
 
     public AudioClip song;
     public LevelTemplate template;
-    public GameObject[] boxes;
     public int[] scoreWorldLevels = new int[10];
     public LevelTemplate[] trinketTemplates;
 

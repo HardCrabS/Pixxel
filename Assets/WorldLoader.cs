@@ -12,20 +12,19 @@ public class WorldLoader : MonoBehaviour
 
     public WorldLoadInfo loadedWorldInfo { get; private set; }
 
-    public void LoadWorldInfoAsync(string worldId, Action<WorldLoadInfo> action)
+    public void LoadWorldInfoAsync(AssetReference assetReference, Action<WorldLoadInfo> action)
     {
-        StartCoroutine(LoadWorldInfoInternal(worldId, action));
+        StartCoroutine(LoadWorldInfoInternal(assetReference, action));
     }
 
-    IEnumerator LoadWorldInfoInternal(string worldId, Action<WorldLoadInfo> action)
+    IEnumerator LoadWorldInfoInternal(AssetReference assetReference, Action<WorldLoadInfo> action)
     {
         if(_currentSkyboxMaterialOperationHandle.IsValid())
         {
             Addressables.Release(_currentSkyboxMaterialOperationHandle);
         }
 
-        string worldPath = WORLD_LOAD_INFO_PATH + worldId;
-        _currentSkyboxMaterialOperationHandle = Addressables.LoadAssetAsync<WorldLoadInfo>(worldPath);
+        _currentSkyboxMaterialOperationHandle = Addressables.LoadAssetAsync<WorldLoadInfo>(assetReference);
         yield return _currentSkyboxMaterialOperationHandle;
         WorldLoadInfo info = _currentSkyboxMaterialOperationHandle.Result as WorldLoadInfo;
         action.Invoke(info);

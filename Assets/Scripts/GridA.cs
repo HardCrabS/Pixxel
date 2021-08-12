@@ -115,7 +115,7 @@ public class GridA : MonoBehaviour
         if (LevelSettingsKeeper.settingsKeeper != null)
         {
             bombSpawnChance = LevelSettingsKeeper.settingsKeeper.worldInformation.BombSpawnChance;
-            boxPrefabs = LevelSettingsKeeper.settingsKeeper.worldLoadInfo.boxes;
+            boxPrefabs = LevelSettingsKeeper.settingsKeeper.worldInformation.Boxes;
             template = LevelSettingsKeeper.settingsKeeper.worldLoadInfo.template;
             if (template != null)
             {

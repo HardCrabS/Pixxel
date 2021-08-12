@@ -29,7 +29,7 @@ public class WorldInfoDisplay : MonoBehaviour
 
     public static WorldInfoDisplay Instance;
 
-    WorldLoader worldLoader = new WorldLoader();
+    WorldLoader worldLoader;
 
     private void Awake()
     {
@@ -41,6 +41,8 @@ public class WorldInfoDisplay : MonoBehaviour
     // Use this for initialization
     void Start () 
     {
+        worldLoader = gameObject.AddComponent<WorldLoader>();
+
         leaderboardInfo.SetActive(true);
         trinketsInfo.SetActive(false);
     }
@@ -60,9 +62,10 @@ public class WorldInfoDisplay : MonoBehaviour
     {
         if (worldInfo != null)
         {
-            worldLoader.LoadWorldInfoAsync(worldInfo.id, SetWorldLoadInfo);//load world info
+            worldLoader.LoadWorldInfoAsync(worldInfo.worldLoadInfoRef, SetWorldLoadInfo);//load world info
 
             worldInformation = worldInfo;
+            SetBlockSprites();
             worldBackgroundImage.sprite = worldInfo.BackgroundSprite;
             worldName.text = worldInfo.id.ToUpper();
             worldStyleText.text = worldInfo.Style;
@@ -73,18 +76,18 @@ public class WorldInfoDisplay : MonoBehaviour
             SetLoadButton();
         }
     }
-    void SetWorldLoadInfo(WorldLoadInfo worldLoadInfo)
+    void SetWorldLoadInfo(WorldLoadInfo worldLoadInfo)//called when worldInfo is loaded
     {
         this.worldLoadInfo = worldLoadInfo;//save loaded world
 
         //set whoever needs it
-        SetBlockSprites(worldLoadInfo);
+        LeaderboardController.Instance.SetLeaderboard();
         LevelSettingsKeeper.settingsKeeper.worldInformation = worldInformation;
         LevelSettingsKeeper.settingsKeeper.worldLoadInfo = worldLoadInfo;
     }
-    void SetBlockSprites(WorldLoadInfo worldLoadInfo)
+    void SetBlockSprites()
     {
-        var allBlocks = worldLoadInfo.boxes;
+        var allBlocks = worldInformation.Boxes;
         int i = 0;
         for (; i < allBlocks.Length; i++)
         {
