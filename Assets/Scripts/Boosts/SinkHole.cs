@@ -23,7 +23,7 @@ public class SinkHole : BoostBase
         Camera.main.GetComponent<CameraShake>().ShakeCam(1f, 0.2f);
         yield return new WaitForSeconds(0.8f);
 
-        var boxes = LevelSettingsKeeper.settingsKeeper.worldInfo.Boxes;
+        var boxes = LevelSettingsKeeper.settingsKeeper.worldLoadInfo.boxes;
         string tag = boxes[Random.Range(0, boxes.Length)].tag;
         SinkBlocks(tag);//sink all blocks
         yield return new WaitForSeconds(1.1f);//wait while blocks are sinking and being destroyed

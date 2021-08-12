@@ -38,7 +38,7 @@ public class WorldSprite : MonoBehaviour
         }
         else
         {
-            infoDisplay = FindObjectOfType<WorldInfoDisplay>();
+            infoDisplay = WorldInfoDisplay.Instance;
             GetComponent<Button>().onClick.AddListener(OpenWorldInfoPanel);
         }
     }

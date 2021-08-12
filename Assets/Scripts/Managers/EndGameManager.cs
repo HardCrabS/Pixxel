@@ -55,7 +55,7 @@ public class EndGameManager : MonoBehaviour
             yield return new WaitForSeconds(.5f);
         }
         string worldId = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City"
-            : LevelSettingsKeeper.settingsKeeper.worldInfo.id;
+            : LevelSettingsKeeper.settingsKeeper.worldLoadInfo.id;
 
         PlayGamesController.PostToLeaderboard(worldId);
 

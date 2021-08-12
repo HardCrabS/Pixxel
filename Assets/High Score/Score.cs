@@ -30,7 +30,7 @@ public class Score : MonoBehaviour
     {
         textScore = GetComponent<TextMeshProUGUI>();
         if (LevelSettingsKeeper.settingsKeeper != null)
-            scoreWorldLevels = LevelSettingsKeeper.settingsKeeper.worldInfo.ScoreWorldLevels;
+            scoreWorldLevels = LevelSettingsKeeper.settingsKeeper.worldLoadInfo.scoreWorldLevels;
         UpdateScore();
         bombChanceText.text = GridA.Instance.bombSpawnChance + "\nlv: " + (currWorldLevel + 1);
     }
@@ -68,7 +68,7 @@ public class Score : MonoBehaviour
     public void LoadBestScore()
     {
         if (LevelSettingsKeeper.settingsKeeper == null) return;
-        worldId = LevelSettingsKeeper.settingsKeeper.worldInfo.id;
+        worldId = LevelSettingsKeeper.settingsKeeper.worldLoadInfo.id;
         bestScore = GameData.gameData.saveData.worldBestScores[worldId];
         if (bestScoreText)
             bestScoreText.text = bestScore.ToString();
