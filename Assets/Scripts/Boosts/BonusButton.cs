@@ -115,12 +115,15 @@ public class BonusButton : MonoBehaviour
             if (concreteBonus != null)
             {
                 concreteBonus.ExecuteBonus();
-                boostImage.fillAmount = 0;
-                EndGameManager.Instance.onMatchedBlock += FillReloadImage;
+                if (!concreteBonus.IsFinished())//if boost hasn't canceled 
+                {
+                    boostImage.fillAmount = 0;
+                    EndGameManager.Instance.onMatchedBlock += FillReloadImage;
 
-                audioSource.PlayOneShot(activateBoost);
-                BonusManager.Instance.SetAllButtonsInterraction(false);
-                StartCoroutine(WaitForBoostFinish());
+                    audioSource.PlayOneShot(activateBoost);
+                    BonusManager.Instance.SetAllButtonsInterraction(false);
+                    StartCoroutine(WaitForBoostFinish());
+                }
             }
         }
         else
@@ -134,7 +137,6 @@ public class BonusButton : MonoBehaviour
         if (boostImage.fillAmount >= 1)
         {
             ActivateButton();
-            EndGameManager.Instance.onMatchedBlock -= FillReloadImage;
         }
     }
     IEnumerator WaitForBoostFinish()
@@ -152,6 +154,8 @@ public class BonusButton : MonoBehaviour
 
     public void ActivateButton()
     {
+        EndGameManager.Instance.onMatchedBlock -= FillReloadImage;
+        boostImage.fillAmount = 1;
         boostImage.color = Color.white;
         interactable = true;
     }

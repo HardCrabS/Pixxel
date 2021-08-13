@@ -17,9 +17,10 @@ public class ProfileHandler : MonoBehaviour
 
     [SerializeField] Text changedName;
 
-    [Header("Change Avatar")]
-    [SerializeField] GameObject collectionCanvas;
+    [Header("Change Profile Info")]
+    [SerializeField] UI_Screen collectionScreen;
     [SerializeField] Toggle trinketsToggle;
+    [SerializeField] Toggle bannersToggle;
 
     string currTitle;
 
@@ -141,7 +142,12 @@ public class ProfileHandler : MonoBehaviour
 
     public void ActivateTrinketsCollection() //for changing avatar image
     {
-        collectionCanvas.SetActive(true);
+        UI_System.Instance.SwitchScreens(collectionScreen);
         trinketsToggle.isOn = true;
+    }
+    public void ActivateBannersCollection() //for changing banner image
+    {
+        UI_System.Instance.SwitchScreens(collectionScreen);
+        bannersToggle.isOn = true;
     }
 }

@@ -38,7 +38,7 @@ public class WorldSprite : MonoBehaviour
         }
         else
         {
-            infoDisplay = FindObjectOfType<WorldInfoDisplay>();
+            infoDisplay = WorldInfoDisplay.Instance;
             GetComponent<Button>().onClick.AddListener(OpenWorldInfoPanel);
         }
     }
@@ -47,7 +47,6 @@ public class WorldSprite : MonoBehaviour
         if (infoDisplay != null)
         {
             infoDisplay.SetInfoPanel(worldInformation);
-            LeaderboardController.Instance.SetLeaderboard();
         }
     }
 
