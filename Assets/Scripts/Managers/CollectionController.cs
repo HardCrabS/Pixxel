@@ -39,6 +39,8 @@ public class CollectionController : MonoBehaviour
     [SerializeField] Transform trinketButtonContainer;
     [SerializeField] Transform trinketSelectionGlow;
     [SerializeField] GameObject trinketTemplate;
+    [SerializeField] Sprite rankTrinketsSprite;
+    [SerializeField] Sprite shopTrinketsSprite;
     [SerializeField] LevelTemplate[] trinkets;
     [SerializeField] LevelTemplate[] trinketsRank;
     [SerializeField] LevelTemplate[] trinketsShop;
@@ -233,7 +235,8 @@ public class CollectionController : MonoBehaviour
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
         unlockNumber.text = "<size=400>" + trinketsUnlocked.Count
             + "</size>/" + trinkets.Length + "\n<color=black>OWNED</color>";
-        sectionName.text = "<color=#ff0048>TRINKETS</color>\n" + SECTION_NAME_DOTS;
+        sectionName.text = "<color=#ff0048>TRINKETS</color>\n" + SECTION_NAME_DOTS 
+            + SequentialText.SizeString("\n//" + "SELECT ORIGIN", 150);
         itemDescription.text = "";
         equipButton.gameObject.SetActive(false);
     }
@@ -250,11 +253,38 @@ public class CollectionController : MonoBehaviour
     {
         if (trinketButtonContainer.childCount > 3) return;
 
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), trinketButtonContainer);
+
         //spawn world buttons
+        SpawnWorldButtons();
+
+        //spawn rank button
+        Button rankButton = SpawnButton("rank", rankTrinketsSprite);
+        rankButton.onClick.AddListener(() =>
+        {
+            ToggleContainers(showButtons: false);
+            SpawnSetOfTrinkets(trinketsRank, "Rank");
+        });
+
+        //spawn shop button
+        Button shopButton = SpawnButton("shop", shopTrinketsSprite);
+        shopButton.onClick.AddListener(() =>
+        {
+            ToggleContainers(showButtons: false);
+            SpawnSetOfTrinkets(trinketsShop, "Shop");
+        });
 
         //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
         for (int i = 0; i < 2; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), trinketButtonContainer);
+
+        trinketButtonContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 2500;
+    }
+
+    void SpawnWorldButtons()
+    {
         for (int i = 0; i < worlds.Length; i++)
         {
             Button button = SpawnButton(worlds[i].id, worlds[i].GetRewardSprite());
@@ -272,11 +302,9 @@ public class CollectionController : MonoBehaviour
                 SpawnSetOfTrinkets(trinketsToSpawn, worldName);
             });
         }
-        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
-        for (int i = 0; i < 2; i++)
-            Instantiate(new GameObject().AddComponent<RectTransform>(), trinketButtonContainer);
     }
-    void SpawnSetOfTrinkets(LevelTemplate[] trinkets, string worldName)
+
+    void SpawnSetOfTrinkets(LevelTemplate[] trinkets, string setName)
     {
         if (trinketsContainer.childCount > 3)
             ClearContainer(trinketsContainer, trinketSelectionGlow);//clear container from last trinkets
@@ -315,9 +343,11 @@ public class CollectionController : MonoBehaviour
         for (int i = 0; i < 2; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), trinketsContainer);
 
+        trinketsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * trinkets.Length * 30;
+
         unlockNumber.text = "<size=400>" + numberOfUnlocked + "</size>/" + trinkets.Length;
-        sectionName.text = "<color=#ff0048>TRINKETS</color>\n" + SECTION_NAME_DOTS 
-            + SequentialText.SizeString("\n//" + worldName, 170);
+        sectionName.text = "<color=#ff0048>TRINKETS</color>\n" + SECTION_NAME_DOTS
+            + SequentialText.SizeString("\n//" + setName, 170);
         itemDescription.text = "";
     }
     void ToggleContainers(bool showButtons = true)
