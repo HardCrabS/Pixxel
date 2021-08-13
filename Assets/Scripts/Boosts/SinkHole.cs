@@ -53,6 +53,6 @@ public class SinkHole : BoostBase
         Vector3 destination = block.transform.localPosition + Vector3.down * 1f;
         yield return block.transform.DOLocalMove(destination, 1f).WaitForCompletion();
 
-        GridA.Instance.DestroyBlockNoFX(boxComp.row, boxComp.column);//destroy block
+        GridA.Instance.DestroyBlockAtPosition(boxComp.row, boxComp.column, useDestructionFX:false);//destroy block
     }
 }
