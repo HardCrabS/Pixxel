@@ -36,9 +36,12 @@ public class CollectionController : MonoBehaviour
 
     [Header("Trinkets")]
     [SerializeField] Transform trinketsContainer;
+    [SerializeField] Transform trinketButtonContainer;
     [SerializeField] Transform trinketSelectionGlow;
     [SerializeField] GameObject trinketTemplate;
     [SerializeField] LevelTemplate[] trinkets;
+    [SerializeField] LevelTemplate[] trinketsRank;
+    [SerializeField] LevelTemplate[] trinketsShop;
 
     [Header("Titles")]
     [SerializeField] Transform titlesContainer;
@@ -224,7 +227,7 @@ public class CollectionController : MonoBehaviour
     #region Trinket
     public void SetTrinketCollectionTexts()
     {
-        if (currCollectionSection == CollectionSection.Trinket) return;
+        ToggleContainers(showButtons: true);
         SetTrinkets();
         currCollectionSection = CollectionSection.Trinket;
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
@@ -234,14 +237,54 @@ public class CollectionController : MonoBehaviour
         itemDescription.text = "";
         equipButton.gameObject.SetActive(false);
     }
+    Button SpawnButton(string name, Sprite buttonSprite)
+    {
+        Transform worldPanel = Instantiate(worldTemplate, trinketButtonContainer).transform;//button as world button shape
+        worldPanel.gameObject.name = name;
+        Image image = worldPanel.GetComponent<Image>();
+        image.sprite = buttonSprite;
+        Button button = worldPanel.GetComponent<Button>();
+        return button;
+    }
     public void SetTrinkets()
     {
-        if (trinketsContainer.childCount > 3) return;
-        //ClearContainer(trinketsContainer);
-        var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
+        if (trinketButtonContainer.childCount > 3) return;
 
-        //spawn 3 empty objects at the beggining to make scroll offset (3 for 3 rows)
-        for (int i = 0; i < 3; i++)
+        //spawn world buttons
+
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), trinketButtonContainer);
+        for (int i = 0; i < worlds.Length; i++)
+        {
+            Button button = SpawnButton(worlds[i].id, worlds[i].GetRewardSprite());
+            int counter = 0;
+            LevelTemplate[] trinketsToSpawn = new LevelTemplate[10];
+            for (int j = i * 10; j < i * 10 + 10; j++)//loop 10 times starting from world index i*10(10 trinkets for each world)
+            {
+                trinketsToSpawn[counter] = trinkets[j];
+                counter++;
+            }
+            string worldName = worlds[i].id;
+            button.onClick.AddListener(() =>
+            {
+                ToggleContainers(showButtons: false);
+                SpawnSetOfTrinkets(trinketsToSpawn, worldName);
+            });
+        }
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), trinketButtonContainer);
+    }
+    void SpawnSetOfTrinkets(LevelTemplate[] trinkets, string worldName)
+    {
+        if (trinketsContainer.childCount > 3)
+            ClearContainer(trinketsContainer, trinketSelectionGlow);//clear container from last trinkets
+        var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
+        int numberOfUnlocked = 0;
+
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), trinketsContainer);
 
         for (int j = 0; j < trinkets.Length; j++)
@@ -264,12 +307,28 @@ public class CollectionController : MonoBehaviour
             else
             {
                 button.onClick.AddListener(delegate () { OnTrinketClicked(descr, index, true); });
+                numberOfUnlocked++;
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(trinketSelectionGlow, trinket.position); });
         }
-        //spawn 3 empty objects at the end to make scroll offset (3 for 3 rows)
-        for (int i = 0; i < 3; i++)
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), trinketsContainer);
+
+        unlockNumber.text = "<size=400>" + numberOfUnlocked + "</size>/" + trinkets.Length;
+        sectionName.text = "<color=#ff0048>TRINKETS</color>\n" + SECTION_NAME_DOTS 
+            + SequentialText.SizeString("\n//" + worldName, 170);
+        itemDescription.text = "";
+    }
+    void ToggleContainers(bool showButtons = true)
+    {
+        trinketButtonContainer.gameObject.SetActive(showButtons);
+        trinketsContainer.gameObject.SetActive(!showButtons);
+
+        var scrollRect = trinketButtonContainer.GetComponentInParent<ScrollRect>();
+        if (scrollRect)
+            scrollRect.content = showButtons ?
+                (RectTransform)trinketButtonContainer : (RectTransform)trinketsContainer;
     }
     void OnTrinketClicked(string description, int index, bool isUnlocked)
     {
