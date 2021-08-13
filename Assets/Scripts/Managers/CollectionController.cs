@@ -331,16 +331,16 @@ public class CollectionController : MonoBehaviour
             string trinkName = trinkets[j].id;
             string descr = "<color=#ff0048><size=320>" + trinkName + "</size></color>";
 
-            int index = j;
+            LevelTemplate trinketToClick = trinkets[j];
             if (!trinketsUnlocked.Contains(trinkets[j].id))
             {
                 trinket.GetChild(0).gameObject.SetActive(true);  //lock image
                 image.material = blackAndWhiteMat;
-                button.onClick.AddListener(delegate () { OnTrinketClicked(descr, index, false); });
+                button.onClick.AddListener(delegate () { OnTrinketClicked(descr, trinketToClick, false); });
             }
             else
             {
-                button.onClick.AddListener(delegate () { OnTrinketClicked(descr, index, true); });
+                button.onClick.AddListener(delegate () { OnTrinketClicked(descr, trinketToClick, true); });
                 numberOfUnlocked++;
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(trinketSelectionGlow, trinket.position); });
@@ -366,21 +366,21 @@ public class CollectionController : MonoBehaviour
             scrollRect.content = showButtons ?
                 (RectTransform)trinketButtonContainer : (RectTransform)trinketsContainer;
     }
-    void OnTrinketClicked(string description, int index, bool isUnlocked)
+    void OnTrinketClicked(string description, LevelTemplate trinket, bool isUnlocked)
     {
             descriptionImage.gameObject.SetActive(true);
         if (!isUnlocked)
         {
             equipButton.gameObject.SetActive(false);    //button to equip a avatar
-            string unlockRequirement = GetUnlockRequirement(LevelReward.Trinket, trinkets[index].id, UNLOCKED_IN_SHOP, UNLOCKED_BY_RANK);
+            string unlockRequirement = GetUnlockRequirement(LevelReward.Trinket, trinket.id, UNLOCKED_IN_SHOP, UNLOCKED_BY_RANK);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
         else
         {
-            description += "\n" + trinkets[index].description;
+            description += "\n" + trinket.description;
             equipButton.gameObject.SetActive(true);
             Text buttoText = equipButton.GetComponentInChildren<Text>();
-            if (trinkets[index].trinketSprite == profileHandler.GetCurrAvatar())  //set button text if avatar is equiped or not
+            if (trinket.trinketSprite == profileHandler.GetCurrAvatar())  //set button text if avatar is equiped or not
             {
                 buttoText.text = "EQUIPPED";
             }
@@ -389,7 +389,7 @@ public class CollectionController : MonoBehaviour
                 buttoText.text = "EQUIP";
             }
             Button button = equipButton.GetComponent<Button>();
-            button.onClick.AddListener(delegate () { SetAvatarEquipButton(trinkets[index].trinketSprite); });
+            button.onClick.AddListener(delegate () { SetAvatarEquipButton(trinket.trinketSprite); });
         }
         itemDescription.text = description;
     }
