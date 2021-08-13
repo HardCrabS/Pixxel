@@ -17,6 +17,7 @@ public class CollectionController : MonoBehaviour
     [SerializeField] Text sectionName;
     [SerializeField] Text unlockNumber;
     [SerializeField] Text itemDescription;
+    [SerializeField] Image descriptionImage;
     [SerializeField] Button equipButton;
     [SerializeField] Material blackAndWhiteMat;
     [SerializeField] ProfileHandler profileHandler;
@@ -97,6 +98,7 @@ public class CollectionController : MonoBehaviour
     public void SetWorldCollectionTexts()   //called on section toggles event
     {
         if (currCollectionSection == CollectionSection.World) return;
+        descriptionImage.gameObject.SetActive(false);
         SetWorlds();
         currCollectionSection = CollectionSection.World;
         var worldsUnlocked = GameData.gameData.saveData.worldIds;
@@ -147,6 +149,7 @@ public class CollectionController : MonoBehaviour
     }
     void OnWorldClicked(string description, int index, bool isUnlocked)
     {
+            descriptionImage.gameObject.SetActive(true);
         if (!isUnlocked)
         {
             string unlockRequirement = GetUnlockRequirement(LevelReward.World, worlds[index].id, UNLOCKED_IN_SHOP, UNLOCKED_BY_RANK);
@@ -169,6 +172,7 @@ public class CollectionController : MonoBehaviour
     public void SetBoostCollectionTexts()   //called on section toggles event
     {
         if (currCollectionSection == CollectionSection.Boost) return;
+        descriptionImage.gameObject.SetActive(false);
         SetBoosts();
         currCollectionSection = CollectionSection.Boost;
         var boostsUnlocked = GameData.gameData.saveData.boostIds;
@@ -214,6 +218,7 @@ public class CollectionController : MonoBehaviour
     }
     void OnBoostClicked(string description, int index, bool isUnlocked)
     {
+            descriptionImage.gameObject.SetActive(true);
         if (!isUnlocked)
         {
             string unlockRequirement = GetUnlockRequirement(LevelReward.Boost, boostInfos[index].id, UNLOCKED_IN_SHOP, UNLOCKED_BY_RANK);
@@ -231,6 +236,7 @@ public class CollectionController : MonoBehaviour
     {
         ToggleContainers(showButtons: true);
         SetTrinkets();
+        descriptionImage.gameObject.SetActive(false);
         currCollectionSection = CollectionSection.Trinket;
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
         unlockNumber.text = "<size=400>" + trinketsUnlocked.Count
@@ -362,6 +368,7 @@ public class CollectionController : MonoBehaviour
     }
     void OnTrinketClicked(string description, int index, bool isUnlocked)
     {
+            descriptionImage.gameObject.SetActive(true);
         if (!isUnlocked)
         {
             equipButton.gameObject.SetActive(false);    //button to equip a avatar
@@ -396,6 +403,7 @@ public class CollectionController : MonoBehaviour
     public void SetTitleCollectionTexts()
     {
         if (currCollectionSection == CollectionSection.Title) return;
+        descriptionImage.gameObject.SetActive(false);
         SetTitles();
         currCollectionSection = CollectionSection.Title;
         var titlesUnlocked = GameData.gameData.saveData.titleIds;
@@ -438,6 +446,7 @@ public class CollectionController : MonoBehaviour
     }
     void OnTitleClicked(string description, int index, bool isUnlocked)
     {
+            descriptionImage.gameObject.SetActive(true);
         string title = titles[index].id;
         if (!isUnlocked)
         {
@@ -472,6 +481,7 @@ public class CollectionController : MonoBehaviour
     public void SetBannerCollectionTexts()
     {
         if (currCollectionSection == CollectionSection.Banner) return;
+        descriptionImage.gameObject.SetActive(false);
         SetBanners();
         currCollectionSection = CollectionSection.Banner;
         var bannersUnlocked = GameData.gameData.saveData.bannerIds;
@@ -516,6 +526,7 @@ public class CollectionController : MonoBehaviour
     }
     void OnBannerClicked(string description, int index, bool isUnlocked)
     {
+            descriptionImage.gameObject.SetActive(true);
         if (!isUnlocked)
         {
             equipButton.gameObject.SetActive(false);    //button to equip a banner
