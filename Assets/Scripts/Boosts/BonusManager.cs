@@ -86,7 +86,7 @@ public class BonusManager : MonoBehaviour
     {
         foreach (BonusButton button in bonusButtons)
         {
-            if (button != null && !button.BoostIsFinished())
+            if (button.gameObject.activeInHierarchy && !button.BoostIsFinished())
                 return true;
         }
         return false;

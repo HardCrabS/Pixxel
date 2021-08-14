@@ -34,6 +34,7 @@ public class Box : MonoBehaviour
     GridA grid;
     MatchFinder matchFinder;
     public GameObject neighborBox;
+    Coroutine movingCo;
 
     public delegate void OnClick(int x, int y);
     public event OnClick blockClicked;
@@ -55,7 +56,13 @@ public class Box : MonoBehaviour
             this.column = column;
         }
         if (moveBoxInPosition)
-            StartCoroutine(MoveBoxInPosition());
+        {
+            if(movingCo != null)//box is already moving
+            {
+                StopCoroutine(movingCo);//stop current movemnt
+            }
+            movingCo = StartCoroutine(MoveBoxInPosition());
+        }
     }
     IEnumerator MoveBoxInPosition()
     {
