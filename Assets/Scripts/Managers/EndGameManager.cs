@@ -46,26 +46,29 @@ public class EndGameManager : MonoBehaviour
 
     IEnumerator GameOverDelayed()
     {
-        //GridA.Instance.TurnBlocksOff();//disable block movement by player
         AudioController.Instance.StartFade(2, 0);//fade out music
-
-        yield return new WaitForSeconds(1);
-        while (GridA.Instance.MoovingOrMatchingOnBoard())
+        BonusManager.Instance.SetAllButtonsInterraction(false);
+        GridA.Instance.currState = GameState.over;
+        yield return new WaitForSeconds(1);//delay to let player realize the game is over
+        while (GridA.Instance.AcitivityOnBoard() || BonusManager.Instance.BoostIsActivated())
         {
             yield return new WaitForSeconds(.5f);
         }
+        //if boost was activated, disable all boosts again
+        BonusManager.Instance.SetAllButtonsInterraction(false);
+        GridA.Instance.currState = GameState.over;//set grid state again
+
         string worldId = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City"
             : LevelSettingsKeeper.settingsKeeper.worldLoadInfo.id;
 
         PlayGamesController.PostToLeaderboard(worldId);
 
         LeaderboardController.Instance.SetLeaderboard();
-        GridA.Instance.currState = GameState.wait;
         GridA.Instance.BlocksBlackAndWhite();
         StartCoroutine(GridA.Instance.DeadlockMoveBoxesDown());
         onGameOver.Invoke();
         StartCoroutine(CanvasGroupFadeOut(visualizerCanvasGroup, 1));
-        bestScoreText.text = Score.Instance.GetCurrentScore() + "";
+        bestScoreText.text = Score.Instance.GetCurrentScore().ToString();
     }
     IEnumerator CanvasGroupFadeOut(CanvasGroup canvasGroup, float duration)
     {
