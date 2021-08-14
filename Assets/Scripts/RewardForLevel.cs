@@ -20,6 +20,7 @@ public class RewardForLevel : MonoBehaviour
     [SerializeField] GameObject rewardEarned;
     [SerializeField] GameObject fireworksVFX;
     [SerializeField] GameObject itemAddedPart;
+    [SerializeField] GameObject rankUpFX;
 
     [SerializeField] Reward[] rewards;
 
@@ -217,6 +218,10 @@ public class RewardForLevel : MonoBehaviour
             StartCoroutine(AnimateXpText(startXPToFillFrom, earnedXpUntillCurrLevel, durationToFill)); //text to total earned xp on curr rank
             yield return xpSlider.DOValue(xpSlider.maxValue, durationToFill).WaitForCompletion();  //fill bar on max value
 
+            //ShowRankUp(); 
+
+            rankUpFX.SetActive(true); //SET IT ACTIVE
+
             xpSlider.value = 0;
             initLevelXP = 0;
         }
@@ -226,7 +231,17 @@ public class RewardForLevel : MonoBehaviour
         StartCoroutine(AnimateXpText(startXPToFillFrom, earnedXpUntillCurrLevel, durationToFill));
         xpSlider.DOValue(finalXP, durationToFill);
     }
-    IEnumerator AnimateXpText(float start, float end, float time)
+
+   /*void ShowRankUp()
+    {
+        Vector2 spawnPos = new Vector2(19, 318);
+        GameObject go = Instantiate(rankUpFX, spawnPos, transform.rotation); //show RANK UP FX
+
+    }*/
+
+
+
+        IEnumerator AnimateXpText(float start, float end, float time)
     {
         float deltaTime = time / (end - start);
         for (float xp = start; xp < end; xp++)
