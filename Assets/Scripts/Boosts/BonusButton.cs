@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class BonusButton : MonoBehaviour
 {
     [SerializeField] bool isGameButton;
-    public Image relatedFrame;
     public Boost boostInfo;
     public int buttonIndex; // for equip slots
     public Color disabledColor;
@@ -86,7 +85,6 @@ public class BonusButton : MonoBehaviour
         boostInfo = boost;
     }
 
-    EquipButton equipButton;
     public void GetBoostInfo()
     {
         if (boostInfo == null)
@@ -94,17 +92,23 @@ public class BonusButton : MonoBehaviour
             Debug.LogError("No boostInfo found in button, assign it in the inspector");
             return;
         }
+
+        if (GetComponent<EquipButton>())//player clicked on one of 3 equip buttons
+        {
+            //find the same bonus in all bonuses section
+            BonusButton bonusButton = BonusManager.Instance.GetBonusButton(boostInfo.id);
+            //call function from found button
+            bonusButton.GetComponent<Button>().onClick.Invoke();
+            return;
+        }
+
         BoostBase myBonus = GetComponent<BoostBase>();
 
         ClickOnBoost.Instance.ChangeBoostText(boostInfo);
-        LevelUp levelUp = FindObjectOfType<LevelUp>();
+        LevelUp levelUp = LevelUp.Instance;
         levelUp.boostInfo = boostInfo;
         levelUp.bonus = myBonus;
 
-        if (equipButton == null)
-            equipButton = FindObjectOfType<EquipButton>();
-        equipButton.currentBonus = myBonus;
-        equipButton.bonusSprite = boostImage.sprite;
         BonusManager.Instance.currButtonSelected = this;
     }
 
@@ -166,7 +170,7 @@ public class BonusButton : MonoBehaviour
     }
     public void EquipBonus()
     {
-        LevelUp levelUp = FindObjectOfType<LevelUp>();
+        LevelUp levelUp = LevelUp.Instance;
         boostInfo = levelUp.boostInfo;
         BoostBase bonusToEquip = levelUp.bonus;
         if (bonusToEquip != null)

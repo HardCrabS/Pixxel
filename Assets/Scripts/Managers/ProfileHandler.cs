@@ -15,8 +15,6 @@ public class ProfileHandler : MonoBehaviour
     [SerializeField] Text titleText;
     [SerializeField] Image bannerImage;
 
-    [SerializeField] Text changedName;
-
     [Header("Change Profile Info")]
     [SerializeField] UI_Screen collectionScreen;
     [SerializeField] Toggle trinketsToggle;
@@ -48,15 +46,6 @@ public class ProfileHandler : MonoBehaviour
         titleText.text = "\"" + player.titleText + "\"";
         currTitle = player.titleText;
         bannerImage.sprite = Resources.Load<Sprite>(player.bannerPath);
-    }
-
-    public void ChangeName()
-    {
-        string newName = changedName.text;
-        playerName.text = newName;
-        GameData.gameData.saveData.playerInfo.username = newName;
-        GameData.Save();
-        DatabaseManager.ChangeName(newName);
     }
 
     public void UpdateTitle(string title)

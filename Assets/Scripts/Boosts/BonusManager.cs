@@ -129,6 +129,15 @@ public class BonusManager : MonoBehaviour
         }
         return boostInfos;
     }
+    public BonusButton GetBonusButton(string boostId)
+    {
+        foreach (var boostButton in bonusButtons)
+        {
+            if (boostButton.boostInfo.id == boostId)
+                return boostButton;
+        }
+        return null;
+    }
     Boost GetBoostWithId(string id)
     {
         for (int j = 0; j < allBoostInfos.Length; j++)
@@ -152,12 +161,10 @@ public class BonusManager : MonoBehaviour
             return 3;
     }
 
-    public void UpdateBoostSprites(string boostId, int level)
+    public void UpdateBoostSprites(Boost boostInfo, int level)
     {
         int index = ChooseBoostSpriteIndex(level);
-        currButtonSelected.relatedFrame.sprite = boostFrames[index];
 
-        Boost boostInfo = GetBoostWithId(boostId);
         if (index < boostInfo.UpgradeSprites.Length)
         {
             currButtonSelected.GetComponent<Image>().sprite = boostInfo.UpgradeSprites[index];
