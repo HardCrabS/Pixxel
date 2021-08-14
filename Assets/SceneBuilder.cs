@@ -27,18 +27,18 @@ public class SceneBuilder : MonoBehaviour
     {
         if (!settingsKeeper) return;
 
-        Material scoreMaterial = settingsKeeper.worldInfo.ScoreTextMat;
+        Material scoreMaterial = settingsKeeper.worldLoadInfo.scoreTextMaterial;
         SetScoreTextMat(scoreMaterial);
 
-        GameObject bgCanvas = settingsKeeper.worldInfo.BackgroundCanvas;
+        GameObject bgCanvas = settingsKeeper.worldLoadInfo.backgroundCanvas;
         SpawnBGCanvas(bgCanvas);
 
-        Sprite panelSprite = settingsKeeper.worldInfo.BlocksPanelSprite;
-        Color panelColor = settingsKeeper.worldInfo.BlocksPanelColor;
-        Color panelGlowColor = settingsKeeper.worldInfo.BlocksPanelGlowColor;
+        Sprite panelSprite = settingsKeeper.worldLoadInfo.blocksPanelSprite;
+        Color panelColor = settingsKeeper.worldLoadInfo.blocksPanelColor;
+        Color panelGlowColor = settingsKeeper.worldLoadInfo.blocksPanelGlowColor;
         SetBlocksPanel(panelSprite, panelColor, panelGlowColor);
 
-        Material visualizerMaterial = settingsKeeper.worldInfo.VisualizerMaterial;
+        Material visualizerMaterial = settingsKeeper.worldLoadInfo.visualizerMaterial;
         if (visualizerMaterial)
         {
             visualizer.SetMaterial(visualizerMaterial);
@@ -46,7 +46,7 @@ public class SceneBuilder : MonoBehaviour
         else
         {
             //set color if no visualizer material provided
-            Color visualizerColor = settingsKeeper.worldInfo.VisualizerColor;
+            Color visualizerColor = settingsKeeper.worldLoadInfo.visualizerColor;
             visualizer.SetColor(visualizerColor);
         }
     }

@@ -9,6 +9,7 @@ public class LevelSlider : MonoBehaviour
     [SerializeField] Text nameText;
     [SerializeField] Slider levelSlider;
     [SerializeField] TextMeshProUGUI xpDebugText; //for debugging gained xp TODO remove
+    [SerializeField] int incrementForLvlUp = 20;//added to max rank slider value
 
     int currentLevel = 1;
     int currentSaveBorder = 20;
@@ -77,7 +78,7 @@ public class LevelSlider : MonoBehaviour
             GameData.gameData.saveData.levelXP = 0;
 
             levelSlider.value = 0;
-            levelSlider.maxValue += 10;
+            levelSlider.maxValue += incrementForLvlUp;
             currentSaveBorder = 20;
             GameData.gameData.saveData.maxXPforLevelUp = levelSlider.maxValue;
             GameData.Save();

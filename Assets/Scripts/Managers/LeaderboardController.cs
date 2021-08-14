@@ -56,7 +56,7 @@ public class LeaderboardController : MonoBehaviour
         loadingPanel.transform.GetChild(0).gameObject.SetActive(true);
 
         string worldName = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City"
-            : LevelSettingsKeeper.settingsKeeper.worldInfo.id;
+            : LevelSettingsKeeper.settingsKeeper.worldLoadInfo.id;
         var allUsersTask = DatabaseManager.GetAllUsersInfo(worldName);
         allUsers = await allUsersTask;
 

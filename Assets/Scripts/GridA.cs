@@ -15,7 +15,8 @@ public enum BlockTags
 public enum GameState
 {
     move,
-    wait
+    wait,
+    over
 }
 public enum TileKind
 {
@@ -114,9 +115,9 @@ public class GridA : MonoBehaviour
         Instance = this;
         if (LevelSettingsKeeper.settingsKeeper != null)
         {
-            bombSpawnChance = LevelSettingsKeeper.settingsKeeper.worldInfo.BombSpawnChance;
-            boxPrefabs = LevelSettingsKeeper.settingsKeeper.worldInfo.Boxes;
-            template = LevelSettingsKeeper.settingsKeeper.worldInfo.LeaderboardLevelTemplate;
+            bombSpawnChance = LevelSettingsKeeper.settingsKeeper.worldInformation.BombSpawnChance;
+            boxPrefabs = LevelSettingsKeeper.settingsKeeper.worldInformation.Boxes;
+            template = LevelSettingsKeeper.settingsKeeper.worldLoadInfo.template;
             if (template != null)
             {
                 width = template.width;
@@ -549,23 +550,28 @@ public class GridA : MonoBehaviour
     }
     public void SetBlockGoldenRock(Box box)
     {
-        var goldenRock = Instantiate(goldenRockPrefab, box.transform.position, Quaternion.identity);
-        goldenRock.GetComponent<GoldenRock>().SetValues(box.row, box.column);
-
-        DestroyBlockNoFX(box.row, box.column);
-        SetBlankSpace(box.row, box.column, true);
+        box.SetMatched(false);
+        box.SetMatchable(false);
+        box.currState = BoxState.Golden;
+        var goldenRock = box.gameObject.AddComponent<GoldenRock>();
+        goldenRock.SetValues(goldenRockPrefab);
+        goldenRock.OnGoldenRockClicked.AddListener(() =>
+        {
+            DestroyBlockAtPosition(box.row, box.column, useDestructionFX: false);
+            StartCoroutine(GridA.Instance.MoveBoxesDown());
+        });
     }
     public void SetBlockFiredUp(Box box)
     {
         box.SetMatched(false);
-        box.FiredUp = true;
+        box.currState = BoxState.FiredUp;
         FiredUpVFX(box);
     }
     public void SetBlockWarped(Box box)
     {
 		box.gameObject.tag = "Untagged";
         box.SetMatched(false);
-        box.Warped = true;
+        box.currState = BoxState.Warped;
         WarpBoxVFX(box);
     }
     public IEnumerator DestroyAllSameColor(string boxTag, float delay = 2)
@@ -599,41 +605,39 @@ public class GridA : MonoBehaviour
         StartCoroutine(MoveBoxesDown());
     }
 
-    public void DestroyBlockAtPosition(int row, int column, bool playSound = false)
+    public void DestroyBlockAtPosition(int row, int column, bool playSound = false, bool useDestructionFX = true)
     {
         if (allBoxes[row, column] != null)
         {
             Box block = allBoxes[row, column].GetComponent<Box>();
-            if (block.FiredUp)
+            if (block.currState == BoxState.FiredUp)
             {
-                block.FiredUp = false;
+                block.currState = BoxState.Normal;
                 FiredUpBlock(block);
             }
-            else if (block.Warped)
+            else if (block.currState == BoxState.Warped)
             {
-                block.Warped = false;
+                block.currState = BoxState.Normal;
                 StartCoroutine(DestroyAllSameColor(block.tag));
             }
+            else if(block.currState == BoxState.Golden)
+            {
+                block.currState = BoxState.Normal;
+                block.GetComponent<GoldenRock>().DetonateGoldenRock();
+            }
 
-            DynamicBlockSpriteDestruction(row, column);
+            if(useDestructionFX)
+                DynamicBlockSpriteDestruction(row, column);
+            else
+                Destroy(allBoxes[row, column]);
+			
+            //BlockDestroyedSFX();  //sound is played once after all matched blocks are destroyed
 
             //sound is played once after all matched blocks are destroyed
             //only play when necessary
             if (playSound)
                 BlockDestroyedSFX();  
 
-            allBoxes[row, column] = null;
-            bombTiles[row, column] = null;
-
-            AddXPandScorePoints();
-        }
-    }
-    //destroys block without blockFX
-    public void DestroyBlockNoFX(int row, int column)
-    {
-        if (allBoxes[row, column] != null)
-        {
-            Destroy(allBoxes[row, column]);
             allBoxes[row, column] = null;
             bombTiles[row, column] = null;
 
@@ -721,18 +725,19 @@ public class GridA : MonoBehaviour
             }
         }
     }
-    //check if block is null meaning it will be respawned and moved down
-    //also if any block is moving atm, meaning it might make a match later
-    //also if any block is matched atm
-    public bool MoovingOrMatchingOnBoard()
+
+    public bool AcitivityOnBoard()
     {
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < hight; y++)
             {
+                //if block is null meaning it will be respawned and moved down
                 if (allBoxes[x, y] == null) return true;
 
                 var boxComp = allBoxes[x, y].GetComponent<Box>();
+                //if any block is moving atm, meaning it might make a match later
+                //if any block is matched atm
                 if (boxComp.Mooving || boxComp.isMatched)
                 {
                     return true;
@@ -926,23 +931,6 @@ public class GridA : MonoBehaviour
         }
     }
 
-    /*public void TurnBlocksOff()
-    {
-        if (allBoxes == null) return;
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < hight; j++)
-            {
-                if (allBoxes[i, j] != null)
-                {
-                    var collider = allBoxes[i, j].GetComponent<Collider2D>();
-                    if (collider)
-                        Destroy(collider);
-                }
-            }
-        }
-    }*/
-
     #region add_game_params
     public void IncreaseBombSpawnChance(int value)
     {
@@ -954,10 +942,6 @@ public class GridA : MonoBehaviour
         Score.Instance.AddPoints(scorePointsToAddperBox * scoreStreak);
         LevelSlider.Instance.AddXPtoLevel(pointsXPforLevel);
         CoinsDisplay.Instance.RandomizeCoin();
-    }
-    public void SetXPpointsPerBoxByProcent(float procent)
-    {
-        pointsXPforLevel *= procent;
     }
     #endregion
     #region VFX

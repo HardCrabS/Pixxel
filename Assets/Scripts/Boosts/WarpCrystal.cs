@@ -13,6 +13,7 @@ public class WarpCrystal : BoostBase
 
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
         warpedBoxes = new List<GameObject>();
         if (crystalAnimation == null)
         {

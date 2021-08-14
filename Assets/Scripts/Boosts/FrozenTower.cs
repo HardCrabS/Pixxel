@@ -19,6 +19,7 @@ public class FrozenTower : BoostBase
 
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
         if (frozenBlock == null)
         {
             grid = GridA.Instance;

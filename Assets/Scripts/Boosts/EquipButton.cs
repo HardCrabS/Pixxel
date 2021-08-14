@@ -10,8 +10,6 @@ public class EquipButton : MonoBehaviour
     [SerializeField] EquipButton worldDisplayEqupped;
     public Button[] equipeButtons = new Button[3];
     public Image[] equipFrames = new Image[3];
-    public BoostBase currentBonus;
-    public Sprite bonusSprite;
 
     private void Start()
     {
