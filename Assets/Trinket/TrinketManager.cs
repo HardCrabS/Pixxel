@@ -9,13 +9,13 @@ public class TrinketManager : MonoBehaviour
     [SerializeField] TrinketInfo[] trinketInfos;
     [SerializeField] Text trinketsCollectedText;
 
-    public void SetTrinkets(WorldInformation worldInformation)
+    public void SetTrinkets(WorldLoadInfo worldLoadInformation)
     {
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
         int trinketsCollected = trinketsUnlocked.Count;
-        LevelTemplate[] trinketTemplates = worldInformation.TrinketLevelTemplates;
+        LevelTemplate[] trinketTemplates = worldLoadInformation.trinketTemplates;
 
-        SetSprites(worldInformation.TrinketLevelTemplates);
+        SetSprites(worldLoadInformation.trinketTemplates);
 
         for (int i = 0; i < trinketTemplates.Length; i++)
         {

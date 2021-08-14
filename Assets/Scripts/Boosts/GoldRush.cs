@@ -30,17 +30,8 @@ public class GoldRush : BoostBase
 
     public override void ExecuteBonus()
     {
-        if (grid == null)
-        {
-            grid = GridA.Instance;
-            goldenRockSprite = Resources.Load<Sprite>(RESOURCES_FOLDER + "Gold Rush/GoldenRock");
-            particleCoin = Resources.Load<GameObject>(RESOURCES_FOLDER + "Gold Rush/Coins Particle");
-            goldRushPanel = Resources.Load<GameObject>(RESOURCES_FOLDER + "Gold Rush/Gold Rush Panel");
+        GetResources();
 
-            goldStart = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_alert");
-            turnGold = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr1");
-            goldTapped = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr2");
-        }
         LivesManager.Instance.BombCounterState = BombCounterState.waiting;//stop bombs counters
         startTime = timeToBonusLast;
         grid.onGoldRushMatch += ChangeSpriteOnMatch;
@@ -57,25 +48,27 @@ public class GoldRush : BoostBase
         StartCoroutine(StartGoldRushTimer());
         audioSource.PlayOneShot(goldStart);
     }
-    public void RockTapped()
+
+    private void GetResources()
     {
-        audioSource.PlayOneShot(goldTapped);
+        if (grid == null)
+        {
+            grid = GridA.Instance;
+            goldenRockSprite = Resources.Load<Sprite>(RESOURCES_FOLDER + "Gold Rush/GoldenRock");
+            particleCoin = Resources.Load<GameObject>(RESOURCES_FOLDER + "Gold Rush/Coins Particle");
+            goldRushPanel = Resources.Load<GameObject>(RESOURCES_FOLDER + "Gold Rush/Gold Rush Panel");
+
+            goldStart = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_alert");
+            turnGold = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr1");
+            goldTapped = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr2");
+        }
     }
+
     void ChangeSpriteOnMatch(int row, int column)
     {
         audioSource.PlayOneShot(turnGold);
-        grid.allBoxes[row, column].GetComponent<SpriteRenderer>().sprite = goldenRockSprite;
         grid.allBoxes[row, column].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-
-        var goldenRock = grid.allBoxes[row, column].AddComponent<GoldenRock>();
-        goldenRock.paticleCoin = particleCoin;
-        goldenRock.SetValues(row, column);
-        goldenRock.goldRush = this;
-
-        Destroy(grid.allBoxes[row, column].GetComponent<Box>());
-        grid.allBoxes[row, column] = null;
-        grid.bombTiles[row, column] = null;
-        grid.SetBlankSpace(row, column, true);
+        grid.SetBlockGoldenRock(grid.allBoxes[row, column].GetComponent<Box>());
     }
     public override void SetBoostLevel(int lvl)
     {

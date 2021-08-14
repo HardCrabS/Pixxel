@@ -13,6 +13,7 @@ public class ShopController : MonoBehaviour
     [SerializeField] Text unlockNumber;
     [SerializeField] Text itemDescription;
     [SerializeField] Text costText;
+    [SerializeField] Image descriptionImage;
     [SerializeField] TextMeshProUGUI costNoSaleText;
     [SerializeField] Button buyButton;
     [SerializeField] Color equipColor;
@@ -141,6 +142,7 @@ public class ShopController : MonoBehaviour
     #region Welcome
     void SetItemsForSale()
     {
+        descriptionImage.gameObject.SetActive(true);
         if (TimeHasPassed())    //new sale every 6 hours
         {
             firstPickedSaleItem = PickRandomItemForSale();
@@ -319,6 +321,7 @@ public class ShopController : MonoBehaviour
     public void SetWorldShopTexts()   //called on section toggles event
     {
         if (currCollectionSection == CollectionSection.World) return;
+        descriptionImage.gameObject.SetActive(false);
         SetWorlds();
         currCollectionSection = CollectionSection.World;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.World)
@@ -364,6 +367,7 @@ public class ShopController : MonoBehaviour
     }
     void OnWorldClicked(string description, int index, bool isUnlocked, Transform worldPanel = null)
     {
+        descriptionImage.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(true); //buy and equip button
         string initDescr = description;
         if (!isUnlocked)
@@ -395,6 +399,7 @@ public class ShopController : MonoBehaviour
     public void SetBoostShopTexts()   //called on section toggles event
     {
         if (currCollectionSection == CollectionSection.Boost) return;
+        descriptionImage.gameObject.SetActive(false);
         SetBoosts();
         currCollectionSection = CollectionSection.Boost;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Boost)
@@ -443,6 +448,7 @@ public class ShopController : MonoBehaviour
     }
     void OnBoostClicked(string description, int index, bool isUnlocked, Transform boostPanel = null)
     {
+        descriptionImage.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(true); //buy and equip button
         string initDescr = description;
         if (!isUnlocked)
@@ -474,6 +480,7 @@ public class ShopController : MonoBehaviour
     public void SetTrinketShopTexts()
     {
         if (currCollectionSection == CollectionSection.Trinket) return;
+        descriptionImage.gameObject.SetActive(false);
         SetTrinkets();
         currCollectionSection = CollectionSection.Trinket;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Trinket)
@@ -518,6 +525,7 @@ public class ShopController : MonoBehaviour
     }
     void OnTrinketClicked(string description, int index, bool isUnlocked, Transform trinketObj = null)
     {
+        descriptionImage.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(true);
         string initDescr = description;
         if (!isUnlocked)
@@ -559,6 +567,7 @@ public class ShopController : MonoBehaviour
     public void SetTitleShopTexts()
     {
         if (currCollectionSection == CollectionSection.Title) return;
+        descriptionImage.gameObject.SetActive(false);
         SetTitles();
         currCollectionSection = CollectionSection.Title;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Title)
@@ -597,6 +606,7 @@ public class ShopController : MonoBehaviour
     void OnTitleClicked(string description, int index, bool isUnlocked, Transform titlePanel = null)
     {
         string title = titles[index].id;
+        descriptionImage.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(true); //buy and equip button
         string initDescr = description;
         if (!isUnlocked)
@@ -639,6 +649,7 @@ public class ShopController : MonoBehaviour
     public void SetBannerShopTexts()
     {
         if (currCollectionSection == CollectionSection.Banner) return;
+        descriptionImage.gameObject.SetActive(false);
         SetBanners();
         currCollectionSection = CollectionSection.Banner;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Banner)
@@ -676,6 +687,7 @@ public class ShopController : MonoBehaviour
     }
     void OnBannerClicked(string description, int index, bool isUnlocked, Transform bannerPanel = null)
     {
+        descriptionImage.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(true);
         string initDescr = description;
         if (!isUnlocked)

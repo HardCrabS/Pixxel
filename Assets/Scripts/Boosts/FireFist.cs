@@ -156,7 +156,7 @@ public class FireFist : BoostBase
     {
         if (grid.allBoxes[target.x, target.y] != null)
         {
-            grid.allBoxes[target.x, target.y].GetComponent<Box>().FiredUp = true;
+            grid.allBoxes[target.x, target.y].GetComponent<Box>().currState = BoxState.FiredUp;
             grid.DestroyBlockAtPosition(target.x, target.y);
         }
     }
