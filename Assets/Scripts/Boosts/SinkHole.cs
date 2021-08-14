@@ -7,6 +7,8 @@ public class SinkHole : BoostBase
     AudioClip sinkShakeSFX, sinkDipSFX;
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
+
         if (sinkShakeSFX == null)
         {
             sinkShakeSFX = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Sinkhole/SFX-boost-sinkhole-shake");

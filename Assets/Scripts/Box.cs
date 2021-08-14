@@ -95,6 +95,8 @@ public class Box : MonoBehaviour
     }
     void OnMouseUp()
     {
+        if (grid.currState == GameState.over) return;//game is over
+
         if (grid.currState == GameState.move)
         {
             finalMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

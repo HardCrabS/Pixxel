@@ -119,7 +119,7 @@ public class BonusButton : MonoBehaviour
             if (concreteBonus != null)
             {
                 concreteBonus.ExecuteBonus();
-                if (!concreteBonus.IsFinished())//if boost hasn't canceled 
+                if (!BoostIsFinished())//if boost hasn't canceled 
                 {
                     boostImage.fillAmount = 0;
                     EndGameManager.Instance.onMatchedBlock += FillReloadImage;
@@ -134,6 +134,10 @@ public class BonusButton : MonoBehaviour
         {
             audioSource.PlayOneShot(inactiveBoost);
         }
+    }
+    public bool BoostIsFinished()
+    {
+        return concreteBonus.IsFinished();
     }
     void FillReloadImage()
     {

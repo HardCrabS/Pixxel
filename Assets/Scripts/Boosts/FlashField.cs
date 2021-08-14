@@ -10,6 +10,7 @@ public class FlashField : BoostBase
 
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
         if (lightning == null)
         {
             lightning = Resources.Load<GameObject>(RESOURCES_FOLDER + "Flash Field/Lightning");

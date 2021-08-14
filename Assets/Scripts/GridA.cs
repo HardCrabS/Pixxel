@@ -15,7 +15,8 @@ public enum BlockTags
 public enum GameState
 {
     move,
-    wait
+    wait,
+    over
 }
 public enum TileKind
 {
@@ -724,18 +725,19 @@ public class GridA : MonoBehaviour
             }
         }
     }
-    //check if block is null meaning it will be respawned and moved down
-    //also if any block is moving atm, meaning it might make a match later
-    //also if any block is matched atm
-    public bool MoovingOrMatchingOnBoard()
+
+    public bool AcitivityOnBoard()
     {
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < hight; y++)
             {
+                //if block is null meaning it will be respawned and moved down
                 if (allBoxes[x, y] == null) return true;
 
                 var boxComp = allBoxes[x, y].GetComponent<Box>();
+                //if any block is moving atm, meaning it might make a match later
+                //if any block is matched atm
                 if (boxComp.Mooving || boxComp.isMatched)
                 {
                     return true;
@@ -929,23 +931,6 @@ public class GridA : MonoBehaviour
         }
     }
 
-    /*public void TurnBlocksOff()
-    {
-        if (allBoxes == null) return;
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < hight; j++)
-            {
-                if (allBoxes[i, j] != null)
-                {
-                    var collider = allBoxes[i, j].GetComponent<Collider2D>();
-                    if (collider)
-                        Destroy(collider);
-                }
-            }
-        }
-    }*/
-
     #region add_game_params
     public void IncreaseBombSpawnChance(int value)
     {
@@ -957,10 +942,6 @@ public class GridA : MonoBehaviour
         Score.Instance.AddPoints(scorePointsToAddperBox * scoreStreak);
         LevelSlider.Instance.AddXPtoLevel(pointsXPforLevel);
         CoinsDisplay.Instance.RandomizeCoin();
-    }
-    public void SetXPpointsPerBoxByProcent(float procent)
-    {
-        pointsXPforLevel *= procent;
     }
     #endregion
     #region VFX

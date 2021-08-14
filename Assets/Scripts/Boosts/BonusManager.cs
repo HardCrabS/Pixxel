@@ -81,6 +81,16 @@ public class BonusManager : MonoBehaviour
                 button.SetInteractable(state);
         }
     }
+
+    public bool BoostIsActivated()//returns true if any boost is activated
+    {
+        foreach (BonusButton button in bonusButtons)
+        {
+            if (button != null && !button.BoostIsFinished())
+                return true;
+        }
+        return false;
+    }
     public void CheckIfEquipedInOtherSlot(int buttonIndex, string boostId)
     {
         for (int i = 0; i < GameData.gameData.saveData.equipedBoosts.Count; i++)  //check every equiped slot

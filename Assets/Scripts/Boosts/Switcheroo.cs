@@ -11,6 +11,8 @@ public class Switcheroo : BoostBase
 
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
+
         if (clip == null)
         {
             clip = Resources.Load<AnimationClip>(RESOURCES_FOLDER + "Switcheroo/Switch Anim");

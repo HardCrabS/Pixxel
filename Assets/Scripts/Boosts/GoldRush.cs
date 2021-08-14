@@ -30,6 +30,7 @@ public class GoldRush : BoostBase
 
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
         GetResources();
 
         LivesManager.Instance.BombCounterState = BombCounterState.waiting;//stop bombs counters

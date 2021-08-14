@@ -36,6 +36,7 @@ public class FireFist : BoostBase
 
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
         grid = GridA.Instance;
         if (cameraShake == null)
             cameraShake = Camera.main.GetComponent<CameraShake>();

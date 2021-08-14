@@ -19,6 +19,8 @@ public class Cavemoney : BoostBase
 
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
+
         if (caveman == null)
         {
             caveman = Resources.Load<GameObject>(RESOURCES_FOLDER + "Cavemoney/ugh-sprite_0");

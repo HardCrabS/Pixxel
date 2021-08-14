@@ -14,6 +14,7 @@ public class Earthquake : BoostBase
 
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
         if (rocks == null)
         {
             rocks = Resources.Load<GameObject>(RESOURCES_FOLDER + "Earthquake/QuakeDirt");
