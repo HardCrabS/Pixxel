@@ -44,7 +44,7 @@ public class FireFist : BoostBase
 
         if (punchPanel == null)
         {
-            punchPanel = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Punch Time Panel");
+            punchPanel = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "FIRE FIST");
             fistPrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Fist");
             punchParticle = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Punch Particle");
             selectHand = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Select_Hand");
