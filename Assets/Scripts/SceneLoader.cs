@@ -34,18 +34,18 @@ public class SceneLoader : MonoBehaviour
     }
     public void LoadSceneAsync(int index) //used in splash scene
     {
-        if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
+        /*if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
         {
             SceneManager.LoadSceneAsync("World");
         }
         else
-        {
+        {*/
             AsyncOperation operation = SceneManager.LoadSceneAsync(index);
             operation.completed += (asyncOperation) =>
             {
                 AudioController.Instance.SetCurrentClip(mainMenuSong);
             };
-        }
+        //}
     }
 
     IEnumerator LoadAsynchronously(string sceneName, AudioClip worldSong, float delay)

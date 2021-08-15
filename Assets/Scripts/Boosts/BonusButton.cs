@@ -137,7 +137,7 @@ public class BonusButton : MonoBehaviour
     }
     public bool BoostIsFinished()
     {
-        return concreteBonus.IsFinished();
+        return concreteBonus != null ? concreteBonus.IsFinished() : true;
     }
     void FillReloadImage()
     {
