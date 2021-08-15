@@ -46,6 +46,11 @@ public class ShareController : MonoBehaviour
                 {
                     WorldReward(worldId);
                 }
+
+                GameData.gameData.saveData.nextPossibleTwitterShare = DateTime.Now.ToString();
+                GameData.Save();
+
+                shareButton.GetComponent<Button>().interactable = false;
             }
             else
             {
