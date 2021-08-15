@@ -210,15 +210,15 @@ public class Tornado : BoostBase
         base.SetBoostLevel(lvl);
         if (lvl >= 4 && lvl <= 6)
         {
-            numOfSpecialBoxes = 3;
+            numOfSpecialBoxes = 2;
         }
         else if (lvl <= 9)
         {
-            numOfSpecialBoxes = 5;
+            numOfSpecialBoxes = 3;
         }
         else
         {
-            numOfSpecialBoxes = 5;
+            numOfSpecialBoxes = 3;
             warpedBoxesChance = 50;
         }
     }
