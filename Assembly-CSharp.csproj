@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\ScrollBackground.cs" />
      <Compile Include="Assets\Scripts\MatchFinder.cs" />
      <Compile Include="Assets\AllIn1SpriteShader\Demo\Scripts\DemoItem.cs" />
+     <Compile Include="Assets\Scripts\Boosts\Earthquake.cs" />
      <Compile Include="Assets\Scripts\Boosts\FlashField.cs" />
      <Compile Include="Assets\Tutorial\DialogueBubble.cs" />
      <Compile Include="Assets\Visualizer\MuseSyncScripts\EffectScripts\MSS_RotationChange.cs" />
@@ -127,6 +128,7 @@
      <Compile Include="Assets\BlockFragmentsTracker.cs" />
      <Compile Include="Assets\Destruction\Unity-delaunay\Delaunay\Halfedge.cs" />
      <Compile Include="Assets\AllIn1SpriteShader\Demo\Scripts\AllIn1ScrollProperty.cs" />
+     <Compile Include="Assets\worldinfoshifter.cs" />
      <Compile Include="Assets\Destruction\Unity-delaunay\Delaunay\DelaunayHelpers.cs" />
      <Compile Include="Assets\AllIn1SpriteShader\Demo\Scripts\DemoCamera.cs" />
      <Compile Include="Assets\Scripts\Managers\HintManager.cs" />
@@ -147,6 +149,7 @@
      <Compile Include="Assets\Scripts\Audio\AudioController.cs" />
      <Compile Include="Assets\Scripts\Audio\AudioSyncColor.cs" />
      <Compile Include="Assets\Destruction\Scripts\ExplodableFragments.cs" />
+     <Compile Include="Assets\WorldLoadInfo.cs" />
      <Compile Include="Assets\Tutorial\Glitcher.cs" />
      <Compile Include="Assets\Scripts\CollectionSectionButton.cs" />
      <Compile Include="Assets\Scripts\Boosts\GoldenRock.cs" />
@@ -162,6 +165,7 @@
      <Compile Include="Assets\Scripts\Managers\LeaderboardController.cs" />
      <Compile Include="Assets\Scripts\Camera &amp; UI\UISounds.cs" />
      <Compile Include="Assets\Scripts\Camera &amp; UI\LevelSlider.cs" />
+     <Compile Include="Assets\FingerPrompt.cs" />
      <Compile Include="Assets\_Scriptable Collection\Worlds Info\WorldInformation.cs" />
      <Compile Include="Assets\UI_System\Code\Scripts\UI_System.cs" />
      <Compile Include="Assets\Cards\BombRemover.cs" />
@@ -200,6 +204,7 @@
      <Compile Include="Assets\Destruction\Scripts\ExplodableAddon.cs" />
      <Compile Include="Assets\Cards\MagicianGame.cs" />
      <Compile Include="Assets\AllIn1SpriteShader\Demo\Scripts\DemoCircleExpositor.cs" />
+     <Compile Include="Assets\WorldLoader.cs" />
      <Compile Include="Assets\Destruction\Unity-delaunay\Delaunay\EdgeList.cs" />
      <Compile Include="Assets\Visualizer\VisualizerScript.cs" />
      <Compile Include="Assets\Scripts\InfiniteScroll.cs" />
@@ -217,11 +222,6 @@
      <Compile Include="Assets\Tutorial\Dialogue.cs" />
      <Compile Include="Assets\Scripts\Managers\ShareController.cs" />
      <Compile Include="Assets\Scripts\LevelData.cs" />
-     <Compile Include="Assets\Scripts\Boosts\Earthquake.cs" />
-     <Compile Include="Assets\worldinfoshifter.cs" />
-     <Compile Include="Assets\WorldLoadInfo.cs" />
-     <Compile Include="Assets\FingerPrompt.cs" />
-     <Compile Include="Assets\WorldLoader.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Resources\Materials\Gradient.shader" />
@@ -261,8 +261,14 @@
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.CacheServer">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Monetization">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ScriptableBuildPipeline.Editor">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.VSCode.Editor">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
@@ -273,11 +279,17 @@
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.ResourceManager">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ResourceManager.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Addressables.Editor">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Addressables.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Postprocessing.Editor">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
@@ -303,6 +315,12 @@
  <Reference Include="Unity.VisualStudio.Editor">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Addressables">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Addressables.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ScriptableBuildPipeline">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.TextMeshPro">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
@@ -314,24 +332,6 @@
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.CacheServer">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ScriptableBuildPipeline.Editor">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ResourceManager">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ResourceManager.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Addressables.Editor">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Addressables.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Addressables">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Addressables.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ScriptableBuildPipeline">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Program Files/Unity Editor/2020.1.0f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

@@ -9,7 +9,7 @@ public class WorldInfoDisplay : MonoBehaviour
     [SerializeField] UI_Screen infoPanel;
     [SerializeField] GameObject GOButton;
     [SerializeField] TextMeshProUGUI worldName;
-    [SerializeField] Text musicInfoText;
+    [SerializeField] TextMeshProUGUI musicInfoText;
     [SerializeField] Text worldStyleText;
     [SerializeField] Image worldBackgroundImage;
     [SerializeField] Image[] blockImages;
