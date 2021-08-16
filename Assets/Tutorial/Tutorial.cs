@@ -17,7 +17,6 @@ public class Tutorial : MonoBehaviour
     [SerializeField] AudioClip intenceMusic;
     [SerializeField] AudioClip shakeSFX;
     [SerializeField] AudioClip blocksHereSFX;
-    [SerializeField] AudioClip flashStrike;
     [SerializeField] AudioClip windSFX;
 
 
@@ -106,14 +105,12 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator PlayWorldTutorial()
     {
-
-
-
         yield return new WaitForSeconds(1f);
         uiSystem.SwitchScreens(screens[0]);
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(PlayDialogue(login));//ask user to log in
-        audioSource.PlayOneShot(windSFX); //play wind sfx
+        audioSource.clip = windSFX; //play wind sfx
+        audioSource.Play();
         uiSystem.SwitchScreens(screens[1]);//screen to enter username
         screens[1].GetComponent<UsernameCheck>().onUsernameConfirm
             .AddListener(() =>
@@ -167,13 +164,7 @@ public class Tutorial : MonoBehaviour
     }
 
     IEnumerator MoreBlocksFallIn()
-
-
-
     {
-        GridA Instance;
-       // GridA grid;
-
         yield return new WaitForSeconds(1f);
         audioSource.PlayOneShot(shakeSFX); //play shake sfx
         Camera.main.GetComponent<CameraShake>().ShakeCam(2, 1);
@@ -208,8 +199,6 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator MakeAllFiredUpStart()
     {
-        GridA Instance;
-
         yield return new WaitForSeconds(0.5f);
         for (int i = 0; i < 5; i++)
         {
@@ -219,17 +208,10 @@ public class Tutorial : MonoBehaviour
                 MakeBlockFiredUp(GridA.Instance.allBoxes[randX, randY].GetComponent<Box>(), new Vector2(randX, randY));
             yield return new WaitForSeconds(0.4f);
         }
-
-
-
     }
 
     void MakeBlockFiredUp(Box box, Vector2 pos)
     {
-        GridA Instance;
-
-
-        audioSource.PlayOneShot(flashStrike);
         Camera.main.GetComponent<CameraShake>().ShakeCam(0.1f, 0.5f);
         GridA.Instance.SetBlockFiredUp(box);
     }
