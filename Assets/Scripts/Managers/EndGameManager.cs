@@ -48,15 +48,20 @@ public class EndGameManager : MonoBehaviour
     {
         AudioController.Instance.StartFade(2, 0);//fade out music
         BonusManager.Instance.SetAllButtonsInterraction(false);
-        GridA.Instance.currState = GameState.over;
+        GridA.Instance.currState = GameState.wait;
         yield return new WaitForSeconds(1);//delay to let player realize the game is over
-        while (GridA.Instance.AcitivityOnBoard() || BonusManager.Instance.BoostIsActivated())
+
+        //wait until boost stop executing
+        yield return new WaitUntil(() => !BonusManager.Instance.BoostIsActivated());
+        //if boost was activated, disable all boosts again
+        BonusManager.Instance.SetAllButtonsInterraction(false);
+        GridA.Instance.currState = GameState.wait;//set grid state again
+
+        //wait while blocks move and match
+        while (GridA.Instance.AcitivityOnBoard())
         {
             yield return new WaitForSeconds(.5f);
         }
-        //if boost was activated, disable all boosts again
-        BonusManager.Instance.SetAllButtonsInterraction(false);
-        GridA.Instance.currState = GameState.over;//set grid state again
 
         string worldId = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City"
             : LevelSettingsKeeper.settingsKeeper.worldLoadInfo.id;

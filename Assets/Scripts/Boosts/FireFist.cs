@@ -42,6 +42,18 @@ public class FireFist : BoostBase
             cameraShake = Camera.main.GetComponent<CameraShake>();
         grid.currState = GameState.wait;
 
+        GetResources();
+
+        startTime = timeToBonusLast;
+
+        audioSource.PlayOneShot(sfxStart);
+        SpawnTimePanel();
+        StartCoroutine(TimePanel());
+        AssignBlockDelegates();
+    }
+
+    private void GetResources()
+    {
         if (punchPanel == null)
         {
             punchPanel = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "FIRE FIST");
@@ -54,18 +66,20 @@ public class FireFist : BoostBase
             fistFadingIn = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_ironf_2");
             fistHit = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_ironf_3");
         }
-
-        startTime = timeToBonusLast;
-
-        audioSource.PlayOneShot(sfxStart);
-        SpawnTimePanel();
-        StartCoroutine(TimePanel());
-        AssignBlockDelegates();
     }
 
     void SpawnFist(Box box)
     {
+        if (box == null)//block was destroyed
+        {
+            //find new block
+            box = GetRandomUnclickedBox();
+            clickedBlocks.Add(box);
+        }
+
         float width = grid.width;
+        int column = box.column;
+        Vector2 lastPosition = box.transform.position;
 
         Vector2 spawnPos = Vector2.zero;
 
@@ -74,15 +88,15 @@ public class FireFist : BoostBase
             int random = Random.Range(0, 100);
             if (random < 33)
             {
-                spawnPos = new Vector2(width + 2, box.column + 4);
+                spawnPos = new Vector2(width + 2, column + 4);
             }
             else if (random < 66)
             {
-                spawnPos = new Vector2(width + 2, box.column + 1);
+                spawnPos = new Vector2(width + 2, column + 1);
             }
             else if (random < 100)
             {
-                spawnPos = new Vector2(width + 2, box.column - 5);
+                spawnPos = new Vector2(width + 2, column - 5);
             }
         }
         else //block is closer to the left
@@ -90,35 +104,35 @@ public class FireFist : BoostBase
             int random = Random.Range(0, 100);
             if (random < 33)
             {
-                spawnPos = new Vector2(-2, box.column + 4);
+                spawnPos = new Vector2(-2, column + 4);
             }
             else if (random < 66)
             {
-                spawnPos = new Vector2(-2, box.column + 1);
+                spawnPos = new Vector2(-2, column + 1);
             }
             else if (random < 100)
             {
-                spawnPos = new Vector2(-2, box.column - 5);
+                spawnPos = new Vector2(-2, column - 5);
             }
         }
 
-        GameObject fist = Instantiate(fistPrefab, spawnPos, transform.rotation);
+        GameObject fist = Instantiate(fistPrefab, spawnPos, Quaternion.identity);
 
         Vector3 diff = box.transform.position - fist.transform.position;
         diff.Normalize();
         float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
         fist.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
 
-        StartCoroutine(MoveFistToTarget(fist, box.transform));
+        StartCoroutine(MoveFistToTarget(fist, lastPosition, box != null ? box.transform : null));
         audioSource.PlayOneShot(fistFadingIn, audioSource.volume - 0.4f);
     }
 
-    IEnumerator MoveFistToTarget(GameObject fist, Transform target)
+    IEnumerator MoveFistToTarget(GameObject fist, Vector2 lastPosition, Transform target)
     {
         float currFistSpeed = fistSpeed * 0.5f;
-        float totalDistance = Vector3.Distance(fist.transform.position, target.position);
+        float totalDistance = Vector3.Distance(fist.transform.position, lastPosition);
         float acceleratedFistDistance = totalDistance * 0.6f;
-        Vector2 lastTargetPosition = target.position;
+        Vector2 lastTargetPosition = lastPosition;
         while (true)
         {
             if (target != null)
@@ -226,14 +240,8 @@ public class FireFist : BoostBase
                 {
                     for (int i = totalClicksMade; i < maxClicks; i++) // fill unclicked blocks with random
                     {
-                        int randX, randY;
-                        do
-                        {
-                            randX = Random.Range(0, grid.width);
-                            randY = Random.Range(0, grid.hight);
-                        }
-                        while (clickedBlocks.Contains(grid.allBoxes[randX, randY].GetComponent<Box>()));
-                        clickedBlocks.Add(grid.allBoxes[randX, randY].GetComponent<Box>());
+                        Box box = GetRandomUnclickedBox();
+                        clickedBlocks.Add(box);
                     }
                 }
                 for (int i = 0; i < clickedBlocks.Count; i++) //spawn fist for every clicked block
@@ -247,10 +255,24 @@ public class FireFist : BoostBase
                 yield return new WaitForSeconds(2);
                 StartCoroutine(grid.MoveBoxesDown());
                 finished = true;
+                grid.currState = GameState.move;
                 yield break;
             }
             yield return null;
         }
+    }
+
+    Box GetRandomUnclickedBox()
+    {
+        GameObject block;
+        do
+        {
+            int randX = Random.Range(0, grid.width);
+            int randY = Random.Range(0, grid.hight);
+            block = grid.allBoxes[randX, randY];
+        }
+        while (block == null || clickedBlocks.Contains(block.GetComponent<Box>()));
+        return block.GetComponent<Box>();
     }
 
     void AssignBlockDelegates()

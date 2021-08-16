@@ -15,8 +15,7 @@ public enum BlockTags
 public enum GameState
 {
     move,
-    wait,
-    over
+    wait
 }
 public enum TileKind
 {
@@ -786,7 +785,7 @@ public class GridA : MonoBehaviour
                 EndGameManager.Instance.GameOver();
             yield break;
         }
-        currState = GameState.move;
+        //currState = GameState.move;
     }
 
     private void SwitchPieces(int row, int column, Vector2 direction)
@@ -850,6 +849,9 @@ public class GridA : MonoBehaviour
         {
             for (int y = 0; y < hight; y++)
             {
+                if (allBoxes[x, y] == null && !blankSpaces[x, y])//block destroyed and will be respawned
+                    return false;
+
                 if (allBoxes[x, y] != null)
                 {
                     if (allBoxes[x, y].GetComponent<GoldenRock>())//gold rock can be tapped and destroyed by player
