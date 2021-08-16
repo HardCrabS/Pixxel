@@ -81,6 +81,16 @@ public class BonusManager : MonoBehaviour
                 button.SetInteractable(state);
         }
     }
+
+    public bool BoostIsActivated()//returns true if any boost is activated
+    {
+        foreach (BonusButton button in bonusButtons)
+        {
+            if (button.gameObject.activeInHierarchy && !button.BoostIsFinished())
+                return true;
+        }
+        return false;
+    }
     public void CheckIfEquipedInOtherSlot(int buttonIndex, string boostId)
     {
         for (int i = 0; i < GameData.gameData.saveData.equipedBoosts.Count; i++)  //check every equiped slot
@@ -129,6 +139,15 @@ public class BonusManager : MonoBehaviour
         }
         return boostInfos;
     }
+    public BonusButton GetBonusButton(string boostId)
+    {
+        foreach (var boostButton in bonusButtons)
+        {
+            if (boostButton.boostInfo.id == boostId)
+                return boostButton;
+        }
+        return null;
+    }
     Boost GetBoostWithId(string id)
     {
         for (int j = 0; j < allBoostInfos.Length; j++)
@@ -152,12 +171,10 @@ public class BonusManager : MonoBehaviour
             return 3;
     }
 
-    public void UpdateBoostSprites(string boostId, int level)
+    public void UpdateBoostSprites(Boost boostInfo, int level)
     {
         int index = ChooseBoostSpriteIndex(level);
-        currButtonSelected.relatedFrame.sprite = boostFrames[index];
 
-        Boost boostInfo = GetBoostWithId(boostId);
         if (index < boostInfo.UpgradeSprites.Length)
         {
             currButtonSelected.GetComponent<Image>().sprite = boostInfo.UpgradeSprites[index];

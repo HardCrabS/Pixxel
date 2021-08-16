@@ -199,4 +199,12 @@ public class SequentialText : MonoBehaviour
     {
         return ColorString(character.ToString(), c);
     }
+    public static string SizeString(string str, int size)
+    {
+        string sizedString = "<size=" + size + ">";
+        sizedString += str;
+        sizedString += "</size>";
+
+        return sizedString;
+    }
 }

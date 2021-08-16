@@ -2,12 +2,21 @@
 using UnityEngine;
 using DG.Tweening;
 
+public enum BoxState
+{
+    Normal,
+    FiredUp,
+    Warped,
+    Golden
+}
+
 public class Box : MonoBehaviour
 {
     Vector3 firstMousePos;
     Vector3 finalMousePos;
     public Box mainMatch;
     public bool isMatched { get; private set; }
+    public bool isMatchable { get; private set; }
     public int row { get; private set; }
     public int column { get; private set; }
     public int targetX;
@@ -18,19 +27,21 @@ public class Box : MonoBehaviour
     int prevRow;
     float swipeResist = .5f;
 
-    public bool FiredUp { get; set; } = false;
-    public bool Warped { get; set; } = false;
+    public BoxState currState = BoxState.Normal;
+
     public bool Mooving { get; set; } = false;
 
     GridA grid;
     MatchFinder matchFinder;
     public GameObject neighborBox;
+    Coroutine movingCo;
 
     public delegate void OnClick(int x, int y);
     public event OnClick blockClicked;
 
     void Start()
     {
+        isMatchable = true;
         grid = GridA.Instance;
         matchFinder = MatchFinder.Instance;
         blockClicked += grid.CrosshairToBlock;
@@ -45,7 +56,13 @@ public class Box : MonoBehaviour
             this.column = column;
         }
         if (moveBoxInPosition)
-            StartCoroutine(MoveBoxInPosition());
+        {
+            if(movingCo != null)//box is already moving
+            {
+                StopCoroutine(movingCo);//stop current movemnt
+            }
+            movingCo = StartCoroutine(MoveBoxInPosition());
+        }
     }
     IEnumerator MoveBoxInPosition()
     {
@@ -61,6 +78,8 @@ public class Box : MonoBehaviour
     }
     public void SetMatched(bool matched)
     {
+        if (!isMatchable) return;
+
         isMatched = matched;
         if (isMatched)
         {
@@ -68,6 +87,10 @@ public class Box : MonoBehaviour
             if (spriteRenderer)
                 GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
         }
+    }
+    public void SetMatchable(bool matchable)
+    {
+        this.isMatchable = matchable;
     }
     void OnMouseDown()
     {
@@ -79,6 +102,8 @@ public class Box : MonoBehaviour
     }
     void OnMouseUp()
     {
+        if (grid.currState == GameState.over) return;//game is over
+
         if (grid.currState == GameState.move)
         {
             finalMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

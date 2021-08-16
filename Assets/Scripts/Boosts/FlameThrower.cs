@@ -21,6 +21,7 @@ public class FlameThrower : BoostBase
 
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
         grid = GridA.Instance;
         grid.currState = GameState.wait;
 
