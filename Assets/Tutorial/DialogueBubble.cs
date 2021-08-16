@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class DialogueBubble : MonoBehaviour
 {
-    [SerializeField] Dialogue[] dialogues;
+    [SerializeField] Dialogue dialogue;
 
     [SerializeField]
     private SequentialText text;
 
     public IEnumerator PlayDialogue()
     {
-        for (int i = 0; i < dialogues.Length; i++)
+        for (int i = 0; i < dialogue.Text.Length; i++)
         {
             text.Clear();
             yield return new WaitForSeconds(0.15f);
-            text.PlayMessage(dialogues[i].Text);
+            text.PlayMessage(dialogue.Text[i]);
             yield return new WaitWhile(() => text.PlayingMessage);
             yield return new WaitForSeconds(0.25f);
         }

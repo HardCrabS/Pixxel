@@ -34,7 +34,7 @@ public class SceneLoader : MonoBehaviour
     }
     public void LoadSceneAsync(int index) //used in splash scene
     {
-        if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
+        if (PlayerPrefs.GetInt("WORLD TUTORIAL", 0) == 0)
         {
             SceneManager.LoadSceneAsync("World");
         }

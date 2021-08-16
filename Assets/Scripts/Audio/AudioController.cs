@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
+[RequireComponent(typeof(AudioSource))]
 public class AudioController : MonoBehaviour
 {
     public static AudioController Instance { get; private set; }
@@ -15,13 +17,16 @@ public class AudioController : MonoBehaviour
     AudioSource audioSource;
     void Awake()
     {
-        if (Instance != null)
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(this.gameObject);
+            Instance = this;
+        }
+        else
         {
             Destroy(gameObject);
             return;
         }
-        Instance = this;
-        DontDestroyOnLoad(this);
 
         audioSource = GetComponent<AudioSource>();
         masterVolume = PlayerPrefsController.GetMasterVolume();
@@ -38,14 +43,17 @@ public class AudioController : MonoBehaviour
         audioSource.PlayOneShot(clip);
         audioSource.volume = masterVolume;
     }
-    public void SetCurrentClip(AudioClip clip, float delay = 0)
+    public void SetCurrentClip(AudioClip clip, float delay = 0, bool fadeIn = false)
     {
         if (clip == audioSource.clip && audioSource.isPlaying) { return; }
 
         audioSource.Stop();
         audioSource.clip = clip;
-        audioSource.volume = masterVolume;
         audioSource.PlayDelayed(delay);
+        if (fadeIn)
+            audioSource.DOFade(masterVolume, 0.5f);
+        else
+            audioSource.volume = masterVolume;
     }
 
     public void SetMusicVolume(float value)
