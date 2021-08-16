@@ -186,7 +186,13 @@ public class Tutorial : MonoBehaviour
         yield return StartCoroutine(PlayDialogue(moreBlocks));//more blocks speech
 
         yield return audioSource.DOFade(0, 0.5f).WaitForCompletion();//fade out intence music
-        AudioController.Instance.SetCurrentClip(currentWorldInfo.Song, fadeIn: true);//fade in world clip music
+
+        var worldLoader = gameObject.AddComponent<WorldLoader>();
+        //load world
+        worldLoader.LoadWorldInfoAsync(currentWorldInfo.worldLoadInfoRef, (WorldLoadInfo) =>
+        {
+            AudioController.Instance.SetCurrentClip(WorldLoadInfo.song, fadeIn: true);//fade in world clip music
+        });
 
         mainGameCanvas.SetActive(true); //start game
         GridA.Instance.currState = GameState.move; // enable blocks swapping
