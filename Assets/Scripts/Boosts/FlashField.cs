@@ -49,19 +49,19 @@ public class FlashField : BoostBase
         grid = GridA.Instance;
         if(lvl <= 3)
         {
-            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.05f);//5% of all blocks
+            blockToMakeFiredUp = 5;//5% of all blocks
         }
         else if(lvl <= 6)
         {
-            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.1f);//10% of all blocks
+            blockToMakeFiredUp = 7;//10% of all blocks
         }
         else if(lvl <= 9)
         {
-            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.15f);//15% of all blocks
+            blockToMakeFiredUp = 9;//15% of all blocks
         }
         else
         {
-            blockToMakeFiredUp = (int)(grid.width * grid.hight * 0.2f);//20% of all blocks
+            blockToMakeFiredUp = 10;//20% of all blocks
         }
     }
 }
