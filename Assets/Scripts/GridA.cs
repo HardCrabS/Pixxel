@@ -67,6 +67,7 @@ public class GridA : MonoBehaviour
     [SerializeField] float pointsXPforLevel = 1;
 
     [Header("Grid Settings")]
+    public bool playTutorial = false;
     [SerializeField] LevelTemplate tutorialTemplate;
     [SerializeField] TileType[] boardLayout;
     public GameObject[,] allBoxes;
@@ -151,10 +152,11 @@ public class GridA : MonoBehaviour
             AudioController.Instance.onSFXVolumeChange += ChangeSFXVolume;
         }
 
-        /*if (CheckForTutorial())
+        if (playTutorial)
         {
+            currState = GameState.wait;
             return;
-        }*/
+        }
         StartCoroutine(CreateGridDelayed(gridCreateDelay));
         //CreateGrid();
     }
@@ -162,16 +164,6 @@ public class GridA : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         CreateGrid();
-    }
-    bool CheckForTutorial()
-    {
-        if (PlayerPrefs.GetInt("TUTORIAL", 0) == 1) //if not first time playing
-        {
-            return false;
-        }
-
-        currState = GameState.wait;
-        return true;
     }
 
     public void SetDefaultTemplate()
@@ -196,7 +188,7 @@ public class GridA : MonoBehaviour
                 blankSpaces[x, y] = false;
             }
         }
-        StartCoroutine(CreateGridDelayed(3.5f));
+        StartCoroutine(CreateGridDelayed(0));
     }
 
     public void FillTutorialLayout()
@@ -219,22 +211,21 @@ public class GridA : MonoBehaviour
                 layoutIndex++;
             }
         }
+        GenerateBlankSpaces();
 
-        Vector2 tempPos = new Vector3(1, 7 + offset);
-        SpawnNormalBlock(1, 7, tempPos, 3); //yellow on the left
+        parentOfAllBoxes.position += Vector3.up * offset;
+
+        SpawnBomb(1, 7);//bomb on the left
+        //SpawnNormalBlock(1, 7, 3); //yellow on the left
         for (int x = 2; x < 5; x += 2)
         {
-            tempPos = new Vector3(x, 7 + offset); //red on 2 places
-            SpawnNormalBlock(x, 7, tempPos, 4);
+            SpawnNormalBlock(x, 7, 4);//red on 2 places
         }
-        tempPos = new Vector3(3, 6 + offset); //red on 1 place below
-        SpawnNormalBlock(3, 6, tempPos, 4);
-        tempPos = new Vector3(3, 7 + offset); //blue between red ones
-        SpawnNormalBlock(3, 7, tempPos, 0);
-        tempPos = new Vector3(5, 7 + offset); //blue on the right
-        SpawnNormalBlock(5, 7, tempPos, 0);
+        SpawnNormalBlock(3, 6, 4);//red on 1 place below
+        SpawnNormalBlock(3, 7, 0);//blue between red ones
+        SpawnNormalBlock(5, 7, 0);//blue on the right
 
-        GenerateBlankSpaces();
+        parentOfAllBoxes.DOMove(Vector3.zero, 0.5f);
     }
 
     public void CrosshairToBlock(int x, int y)
@@ -309,25 +300,37 @@ public class GridA : MonoBehaviour
             {
                 if (!blankSpaces[x, y] && !bombTiles[x, y])
                 {
-                    Vector2 tempPos = new Vector3(x, y + offset);
                     int randIndex = Random.Range(0, boxPrefabs.Length);
                     while (MatchesAt(x, y, boxPrefabs[randIndex]))
                     {
                         randIndex = Random.Range(0, boxPrefabs.Length);
                     }
-                    SpawnNormalBlock(x, y, tempPos, randIndex);
+                    SpawnNormalBlock(x, y, randIndex);
                 }
             }
         }
         parentOfAllBoxes.DOMove(Vector3.zero, 0.5f);
     }
 
-    private void SpawnNormalBlock(int x, int y, Vector2 tempPos, int index)
+    private void SpawnNormalBlock(int x, int y, int index)
     {
-        GameObject go = Instantiate(boxPrefabs[index], tempPos, transform.rotation, parentOfAllBoxes);
+        Vector2 pos = new Vector2(x, y);
+        GameObject go = Instantiate(boxPrefabs[index], parentOfAllBoxes);
+        go.transform.localPosition = pos;
         go.GetComponent<Box>().UpdatePos(x, y);
         allBoxes[x, y] = go;
         go.name = x + "," + y;
+    }
+
+    private void SpawnBomb(int x, int y)
+    {
+        Vector2 pos = new Vector2(x, y);
+        GameObject bomb = Instantiate(bombTilePrefab, parentOfAllBoxes);
+        bomb.transform.localPosition = pos;
+        bombTiles[x, y] = bomb.GetComponent<BombTile>();
+        bomb.GetComponent<Box>().UpdatePos(x, y);
+        allBoxes[x, y] = bomb;
+        bomb.name = "Bomb";
     }
 
     public void SetBlankSpace(int x, int y, bool blank)
@@ -874,10 +877,10 @@ public class GridA : MonoBehaviour
     bool handlingDeadlock = false;
     int HandleDeadlock()
     {
-        if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
+        if (playTutorial)
         {
             currState = GameState.move;
-            return 0; //if first time playing
+            return 0;
         }
         if (handlingDeadlock) return 0;
 
