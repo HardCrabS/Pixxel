@@ -10,6 +10,8 @@ public class Tutorial : MonoBehaviour
     [SerializeField] GameObject mainGameCanvas;
     [SerializeField] GameObject tutorialCanvasPrefab;
 
+    [SerializeField] UI_Screen gameUIScreen;
+    [SerializeField] GameObject startCounter;
     [SerializeField] Transform crosshair;
     [SerializeField] Glitcher glitcher;
     [SerializeField] GameObject backgroundPrefab;
@@ -18,7 +20,6 @@ public class Tutorial : MonoBehaviour
     [SerializeField] AudioClip shakeSFX;
     [SerializeField] AudioClip blocksHereSFX;
     [SerializeField] AudioClip windSFX;
-
 
     [Header("World select tutorial")]
     [SerializeField] UI_System worldSelectUISystem;
@@ -54,7 +55,10 @@ public class Tutorial : MonoBehaviour
         if (!worldTutorCompleted && SceneManager.GetActiveScene().name == "World")
         {
             WorldTutorial();
+            gameUIScreen.GetComponent<CanvasGroup>().alpha = 0;
+            gameUIScreen.onScreenStart = null;
             mainGameCanvas.SetActive(false);
+            startCounter.SetActive(false);
             GridA.Instance.playTutorial = true;
         }
         else if (!worldSelectTutorColmpleted && SceneManager.GetActiveScene().name == "World Select")
