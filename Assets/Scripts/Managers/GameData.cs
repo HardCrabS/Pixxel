@@ -160,8 +160,11 @@ public class GameData : MonoBehaviour
         saveData.bannerIds.Add(id);
         Save();
     }
-    public void ChangeBanner(string bannerPath)
+    public void ChangeBanner(string bannerPath, MatAnimatorValues animatorValues)
     {
+        string json = JsonUtility.ToJson(animatorValues);
+        bannerPath += "|" + json;
+
         saveData.playerInfo.bannerPath = bannerPath;
         Save();
 

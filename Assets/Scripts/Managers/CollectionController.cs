@@ -503,6 +503,17 @@ public class CollectionController : MonoBehaviour
             bannerPanel.gameObject.name = banners[i].id;
             Image image = bannerPanel.GetComponent<Image>();
             image.sprite = banners[i].Sprite;
+            if(banners[i].Material != null)
+            {
+                image.material = banners[i].Material;
+                if (!string.IsNullOrEmpty(banners[i].animatorValues.propertyName))//has property to animate
+                {
+                    var matAnimator = bannerPanel.gameObject.AddComponent<MatPropertyAnim>();
+                    matAnimator.SetValues(banners[i].animatorValues);
+                    matAnimator.Animate();
+                }
+            }
+
             Button button = bannerPanel.GetComponent<Button>();
             string bannerName = banners[i].id;
             string descr = "<color=#ff0048><size=320>" + bannerName + "</size></color>";
@@ -554,8 +565,12 @@ public class CollectionController : MonoBehaviour
     }
     void SetBannerEquipButton(int index)
     {
-        GameData.gameData.ChangeBanner(BANNERS_LOCATION + banners[index].Sprite.name);   //save banner path 
-        profileHandler.UpdateBanner(banners[index].Sprite);   //update banner in profile panel
+        string spritePath = BANNERS_LOCATION + banners[index].Sprite.name;
+        string materialPath = "";
+        if (banners[index].Material != null)
+            materialPath = BANNERS_LOCATION + banners[index].Material.name;
+        GameData.gameData.ChangeBanner(spritePath + "|" + materialPath, banners[index].animatorValues);//save banner path 
+        profileHandler.UpdateBanner(banners[index].Sprite, banners[index].Material, banners[index].animatorValues);//update banner in profile panel
     }
     #endregion
     void SetSelectionGlowPos(Transform selection, Vector3 pos)
