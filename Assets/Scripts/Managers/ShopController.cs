@@ -668,7 +668,18 @@ public class ShopController : MonoBehaviour
         {
             var bannerPanel = Instantiate(bannerPanelPrefab, bannersContainer).transform;
             bannerPanel.gameObject.name = banners[i].id;
-            bannerPanel.GetComponent<Image>().sprite = banners[i].Sprite;
+            var image = bannerPanel.GetComponent<Image>();
+            image.sprite = banners[i].Sprite;
+            if (banners[i].Material != null)
+            {
+                image.material = banners[i].Material;
+                if (!string.IsNullOrEmpty(banners[i].animatorValues.propertyName))//has property to animate
+                {
+                    var matAnimator = bannerPanel.gameObject.AddComponent<MatPropertyAnim>();
+                    matAnimator.SetValues(banners[i].animatorValues);
+                    matAnimator.Animate();
+                }
+            }
             Button button = bannerPanel.GetComponent<Button>();
             string bannerName = banners[i].id;
             string descr = "<color=#ff0048><size=450>" + bannerName + "</size></color>";
@@ -722,9 +733,13 @@ public class ShopController : MonoBehaviour
     }
     void SetBannerEquipButton(RewardTemplate rewardTemplate)
     {
-        Sprite sprite = rewardTemplate.GetRewardSprite();
-        GameData.gameData.ChangeBanner(BANNERS_LOCATION + sprite.name);   //save banner path 
-        profileHandler.UpdateBanner(sprite);   //update banner in profile panel
+        Banner banner = (Banner)rewardTemplate;
+        string spritePath = BANNERS_LOCATION + banner.Sprite.name;
+        string materialPath = "";
+        if (banner.Material != null)
+            materialPath = BANNERS_LOCATION + banner.Material.name;
+        GameData.gameData.ChangeBanner(spritePath + "|" + materialPath, banner.animatorValues);//save banner path 
+        profileHandler.UpdateBanner(banner.Sprite, banner.Material, banner.animatorValues);//update banner in profile panel
     }
     #endregion
     private void ResetClickEvent(Action clickFunction, Transform panelClone, Transform selectionGlow)

@@ -48,7 +48,9 @@ public class LevelSlider : MonoBehaviour
             string bannerPath = GameData.gameData.saveData.playerInfo.bannerPath;
             var bannerImage = GetComponent<Image>();
             if (bannerImage)
-                bannerImage.sprite = Resources.Load<Sprite>(bannerPath); //Load banner
+            {
+                ProfileHandler.SetBannerFromString(bannerImage, bannerPath);
+            }
         }
         initLevel = currentLevel;
         initXPValue = levelSlider.value;

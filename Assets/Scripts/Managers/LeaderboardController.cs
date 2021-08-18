@@ -128,9 +128,8 @@ public class LeaderboardController : MonoBehaviour
         string title = "\"" + allUsers[0].titleText + "\"";
         Sprite userSprite = Resources.Load<Sprite>(allUsers[0].spritePath);
         var profileImage = userSprite != null ? userSprite : Resources.Load<Sprite>("Sprites/UI images/Trinkets/DefaultAvatar");
-        var banner = Resources.Load<Sprite>(allUsers[0].bannerPath);
 
-        firstPlacePanel.SetScorePanel(name, profileImage, banner, title);
+        firstPlacePanel.SetScorePanel(name, profileImage, allUsers[0].bannerPath, title);
     }
     void SetScorePanel(int index, GameObject _scorePanel)
     {
@@ -146,13 +145,13 @@ public class LeaderboardController : MonoBehaviour
         User user = allUsers[index];
         HoldScorePanel holdScorePanel = _scorePanel.GetComponent<HoldScorePanel>();
 
-        var banner = Resources.Load<Sprite>(user.bannerPath);
         var name = "\t#<size=450><color=yellow>" + (index + 1) + "</color></size>  |  " + user.username
         + "  |  " + user.score + "\n\n";
         var title = "\"" + user.titleText + "\"";
         Sprite userSprite = Resources.Load<Sprite>(user.spritePath);
         var profileImage = userSprite != null ? userSprite : Resources.Load<Sprite>("Sprites/UI images/Trinkets/DefaultAvatar");
-        holdScorePanel.SetScorePanel(name, profileImage, banner, title);
+        
+        holdScorePanel.SetScorePanel(name, profileImage, user.bannerPath, title);
     }
 
     int OnHeightItem(int index)
