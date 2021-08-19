@@ -336,9 +336,10 @@ public class ShopController : MonoBehaviour
         if (worldsContainer.childCount > 3) return;
         var worldsUnlocked = GameData.gameData.saveData.worldIds;
 
-        //spawn 2 empty objects at the beggining to make scroll offset
-        Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
-        Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
+
         for (int i = 0; i < worlds.Length; i++)
         {
             string worldName = worlds[i].id;
@@ -361,9 +362,11 @@ public class ShopController : MonoBehaviour
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(worldSelectionGlow, worldPanel.position); });
         }
-        //spawn 2 empty objects at the end to make scroll offset
-        Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
-        Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
+
+        worldsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 1500;
     }
     void OnWorldClicked(string description, int index, bool isUnlocked, Transform worldPanel = null)
     {
@@ -413,6 +416,10 @@ public class ShopController : MonoBehaviour
         if (boostsContainer.childCount > 3) return;
         var boostsUnlocked = GameData.gameData.saveData.boostIds;
 
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), boostsContainer);
+
         for (int i = 0; i < boostInfos.Length; i++)
         {
             Boost boost = boostInfos[i];
@@ -445,6 +452,12 @@ public class ShopController : MonoBehaviour
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(boostSelectionGlow, boostPanel.position); });
         }
+
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), boostsContainer);
+
+        boostsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 1500;
     }
     void OnBoostClicked(string description, int index, bool isUnlocked, Transform boostPanel = null)
     {
@@ -522,6 +535,8 @@ public class ShopController : MonoBehaviour
         //spawn 3 empty objects at the end to make scroll offset (3 for 3 rows)
         for (int i = 0; i < 3; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), trinketsContainer);
+
+        trinketsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 1500;
     }
     void OnTrinketClicked(string description, int index, bool isUnlocked, Transform trinketObj = null)
     {
@@ -602,6 +617,11 @@ public class ShopController : MonoBehaviour
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(titleSelectionGlow, titlePanel.position); });
         }
+
+        //spawn 1 empty objects at the beggining to make scroll offset
+            Instantiate(new GameObject().AddComponent<RectTransform>(), titlesContainer);
+
+        titlesContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 1500;
     }
     void OnTitleClicked(string description, int index, bool isUnlocked, Transform titlePanel = null)
     {
@@ -695,6 +715,11 @@ public class ShopController : MonoBehaviour
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(bannerSelectionGlow, bannerPanel.position); });
         }
+
+        //spawn 1 empty objects at the beggining to make scroll offset
+            Instantiate(new GameObject().AddComponent<RectTransform>(), bannersContainer);
+
+        bannersContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 1500;
     }
     void OnBannerClicked(string description, int index, bool isUnlocked, Transform bannerPanel = null)
     {
