@@ -348,7 +348,7 @@ public class ShopController : MonoBehaviour
             worldPanel.GetComponent<Image>().sprite = worlds[i].GetRewardSprite();
             Button button = worldPanel.GetComponent<Button>();
             Color myColor = new Color(1, 0, 0.282f);
-            string descr = SequentialText.ColorString("<size=410>" + worldName + "</size>", myColor);
+            string descr = SequentialText.ColorString("<size=300>" + worldName + "</size>", myColor);
             int index = i;
 
             if (!worldsUnlocked.Contains(worlds[i].id))
@@ -433,7 +433,7 @@ public class ShopController : MonoBehaviour
 
             string title = boost.id;
             Button button = boostPanel.GetComponent<Button>();
-            string descr = "<color=#ff0048><size=450>" + title + "</size></color>";
+            string descr = "<color=#ff0048><size=300>" + title + "</size></color>";
             int index = i;
             if (!boostsUnlocked.Contains(boost.id))
             {
@@ -518,7 +518,7 @@ public class ShopController : MonoBehaviour
             Button button = trinket.GetComponent<Button>();
             string trinkName = trinkets[j].id;
             Color myColor = new Color(1, 0, 0.282f);
-            string descr = SequentialText.ColorString("<size=420>" + trinkName + "</size>", myColor);
+            string descr = SequentialText.ColorString("<size=300>" + trinkName + "</size>", myColor);
 
             int index = j;
             if (!trinketsUnlocked.Contains(trinkets[j].id))
@@ -603,7 +603,7 @@ public class ShopController : MonoBehaviour
             string title = titles[i].id.ToString();
             titlePanel.GetComponentInChildren<Text>().text = title;
             Button button = titlePanel.GetComponent<Button>();
-            string descr = "<color=#ff0048><size=450>" + title + "</size></color>";
+            string descr = "<color=#ff0048><size=300>" + title + "</size></color>";
             int index = i;
             if (!titlesUnlocked.Contains(title))
             {
@@ -702,7 +702,7 @@ public class ShopController : MonoBehaviour
             }
             Button button = bannerPanel.GetComponent<Button>();
             string bannerName = banners[i].id;
-            string descr = "<color=#ff0048><size=450>" + bannerName + "</size></color>";
+            string descr = "<color=#ff0048><size=300>" + bannerName + "</size></color>";
             int index = i;
             if (!bannersUnlocked.Contains(bannerName))
             {

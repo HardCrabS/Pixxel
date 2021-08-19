@@ -42,9 +42,9 @@ public class CollectionController : MonoBehaviour
     [SerializeField] GameObject trinketTemplate;
     [SerializeField] Sprite rankTrinketsSprite;
     [SerializeField] Sprite shopTrinketsSprite;
-    [SerializeField] LevelTemplate[] trinkets;
-    [SerializeField] LevelTemplate[] trinketsRank;
-    [SerializeField] LevelTemplate[] trinketsShop;
+    public LevelTemplate[] trinkets;
+    public LevelTemplate[] trinketsRank;
+    public LevelTemplate[] trinketsShop;
 
     [Header("Titles")]
     [SerializeField] Transform titlesContainer;

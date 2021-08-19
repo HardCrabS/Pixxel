@@ -17,6 +17,10 @@ public class SceneLoader : MonoBehaviour
     {
         GameData.gameData.UnlockAllWorlds();  // FOR TEST.
     }
+    public void CallUnlockAllTrinkets()
+    {
+        GameData.gameData.UnlockAllTrinkets();  // FOR TEST.
+    }
     public void LoadNextScene()
     {
         int currScene = SceneManager.GetActiveScene().buildIndex;

@@ -110,7 +110,7 @@ public class GameData : MonoBehaviour
             Save();
         }
     }
-    public void UnlockAllBoosts()   //TODO JUST FOR TEST. REMOVE LATER
+    public void UnlockAllBoosts()
     {
         var allBoosts = CollectionController.Instance.boostInfos;
         for (int i = 0; i < allBoosts.Length; i++)
@@ -131,6 +131,34 @@ public class GameData : MonoBehaviour
             saveData.worldIds.Add(allWorlds[i].id);
             if (!saveData.worldBestScores.ContainsKey(allWorlds[i].id))
                 saveData.worldBestScores.Add(allWorlds[i].id, 0);
+        }
+        Save();
+    }
+    public void UnlockAllTrinkets()
+    {
+        var trinkets1 = CollectionController.Instance.trinkets;
+        var trinkets2 = CollectionController.Instance.trinketsRank;
+        var trinkets3 = CollectionController.Instance.trinketsShop;
+        for (int i = 0; i < trinkets1.Length; i++)
+        {
+            if(!saveData.trinketIds.Contains(trinkets1[i].id))
+            {
+                saveData.trinketIds.Add(trinkets1[i].id);
+            }
+        }
+        for (int i = 0; i < trinkets2.Length; i++)
+        {
+            if (!saveData.trinketIds.Contains(trinkets2[i].id))
+            {
+                saveData.trinketIds.Add(trinkets2[i].id);
+            }
+        }
+        for (int i = 0; i < trinkets3.Length; i++)
+        {
+            if (!saveData.trinketIds.Contains(trinkets3[i].id))
+            {
+                saveData.trinketIds.Add(trinkets3[i].id);
+            }
         }
         Save();
     }
