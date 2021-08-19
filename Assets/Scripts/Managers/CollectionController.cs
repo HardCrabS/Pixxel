@@ -188,6 +188,10 @@ public class CollectionController : MonoBehaviour
         //ClearContainer(boostsContainer);
         var boostsUnlocked = GameData.gameData.saveData.boostIds;
 
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), boostsContainer);
+
         for (int i = 0; i < boostInfos.Length; i++)
         {
             Boost boost = boostInfos[i];
@@ -215,6 +219,12 @@ public class CollectionController : MonoBehaviour
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(boostSelectionGlow, boostPanel.position); });
         }
+
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), boostsContainer);
+
+        boostsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 1500;
     }
     void OnBoostClicked(string description, int index, bool isUnlocked)
     {
