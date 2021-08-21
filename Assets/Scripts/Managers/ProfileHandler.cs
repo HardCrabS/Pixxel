@@ -89,13 +89,14 @@ public class ProfileHandler : MonoBehaviour
         //1 - banner material
         //2 - animator values
         bannerImage.sprite = Resources.Load<Sprite>(bannerPath[0]);
+        var propertyAnimator = bannerImage.GetComponent<MatPropertyAnim>();
+        propertyAnimator.StopAllCoroutines();
         if (bannerPath.Length > 1 && !string.IsNullOrEmpty(bannerPath[1]))
         {
             Material materialToAssign = Resources.Load<Material>(bannerPath[1]);
             bannerImage.material = new Material(materialToAssign);
             MatAnimatorValues animatorValues = JsonUtility.FromJson<MatAnimatorValues>(bannerPath[2]);
 
-            var propertyAnimator = bannerImage.GetComponent<MatPropertyAnim>();
             //if (!propertyAnimator)
             //propertyAnimator = bannerImage.gameObject.AddComponent<MatPropertyAnim>();
 
@@ -110,8 +111,6 @@ public class ProfileHandler : MonoBehaviour
                 //Destroy(bannerImage.material);
                 bannerImage.material = null;
             }
-            var propertyAnimator = bannerImage.GetComponent<MatPropertyAnim>();
-            propertyAnimator.StopAllCoroutines();
             //Destroy(bannerImage.GetComponent<MatPropertyAnim>());
         }
     }

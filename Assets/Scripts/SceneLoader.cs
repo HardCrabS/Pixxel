@@ -82,9 +82,12 @@ public class SceneLoader : MonoBehaviour
     {
         if (GameData.gameData != null)
             GameData.Save();
-        SceneManager.LoadScene("Start");
-        AudioController.Instance.SetCurrentClip(mainMenuSong);
-        Time.timeScale = 1;
+        AsyncOperation operation = SceneManager.LoadSceneAsync("Start");
+        operation.completed += (asyncOperation) =>
+        {
+            AudioController.Instance.SetCurrentClip(mainMenuSong);
+            Time.timeScale = 1;
+        };
     }
 
     public void LoadWorldSelectScene()

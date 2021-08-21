@@ -69,8 +69,9 @@ public class Tutorial : MonoBehaviour
         }
         else
         {
+            if (glitcher)
+                glitcher.SetBombExplodeParameters();
             Destroy(gameObject);
-            return;
         }
     }
 
@@ -125,7 +126,7 @@ public class Tutorial : MonoBehaviour
 
         yield return new WaitUntil(() => uiSystem.CurrentScreen == screens[0]);//wait until PAM shows
 
- 
+
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(PlayDialogue(hello));//greet player speech
