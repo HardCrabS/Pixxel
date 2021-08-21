@@ -29,7 +29,6 @@ public class QuestProgress
 public class DailyQuestManager : MonoBehaviour
 {
     [SerializeField] GameObject exclamationBubble;
-    [SerializeField] GameObject questPanel;
     [SerializeField] Sprite clickable;
     [SerializeField] Sprite nonClickable;
 
@@ -177,7 +176,6 @@ public class DailyQuestManager : MonoBehaviour
 
     public void ShowQuestPanel()
     {
-        questPanel.SetActive(true);
         PickRandomQuests();
     }
 
