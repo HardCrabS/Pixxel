@@ -10,13 +10,14 @@ public class UsernameCheck : MonoBehaviour
     public TMP_InputField inputField;
 
     public UnityEvent onUsernameConfirm = new UnityEvent();
-    
+
     string[] badWords;
 
     private void Start()
     {
         inputField = GetComponentInChildren<TMP_InputField>();
         inputField.onEndEdit.AddListener(delegate { ConfirmUsername(inputField); });
+        inputField.onValueChanged.AddListener(delegate { RemoveSpecialCharacters(inputField); });
 
         char[] archDelim = new char[] { '\r', '\n' };
         badWords = badWordTxt.text.Split(archDelim, System.StringSplitOptions.RemoveEmptyEntries);
@@ -25,7 +26,7 @@ public class UsernameCheck : MonoBehaviour
     void ConfirmUsername(TMP_InputField input)
     {
         string username = input.text;
-        if(UsernameIsClear(username))
+        if (username.Length >= 3 && UsernameIsClear(username))
         {
             //save username
             GameData.gameData.saveData.playerInfo.username = username;
@@ -36,7 +37,14 @@ public class UsernameCheck : MonoBehaviour
         else
         {
             inputField.text = "";
-            inputField.placeholder.GetComponent<TextMeshProUGUI>().text = "Username is unacceptable!";
+            if (username.Length < 3)
+            {
+                inputField.placeholder.GetComponent<TextMeshProUGUI>().text = "Username is too short!";
+            }
+            else
+            {
+                inputField.placeholder.GetComponent<TextMeshProUGUI>().text = "Username is unacceptable!";
+            }
         }
     }
 
@@ -55,5 +63,20 @@ public class UsernameCheck : MonoBehaviour
             }
         }
         return true;
+    }
+    void RemoveSpecialCharacters(TMP_InputField input)
+    {
+        if (input.text.Length == 0) return;
+
+        char c = input.text[input.text.Length - 1];
+        if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_')
+        {
+
+        }
+        else
+        {
+            //remove unknown character
+            input.text = input.text.Remove(input.text.Length - 1, 1);
+        }
     }
 }

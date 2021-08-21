@@ -28,9 +28,9 @@ public class ButtonsUnlocker : MonoBehaviour
 
     void Init()
     {
-        int currLevel = LevelSlider.Instance.GetGameLevel();
+        int currLevel = GameData.gameData.saveData.currentLevel;
 
-        if(currLevel < rankToUnlockQuests)
+        if (currLevel < rankToUnlockQuests)
         {
             questsButton.SetActive(false);
         }

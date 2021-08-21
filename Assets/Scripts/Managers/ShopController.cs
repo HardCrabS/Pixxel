@@ -133,6 +133,7 @@ public class ShopController : MonoBehaviour
         trinketTogle.isOn = false;
         titleTogle.isOn = false;
         bannerTogle.isOn = false;
+        descriptionImage.gameObject.SetActive(false);
         welcomeScreen.SetActive(true);
         SetUIElementsActiveness(false, false, false);
         unlockNumber.text = "";

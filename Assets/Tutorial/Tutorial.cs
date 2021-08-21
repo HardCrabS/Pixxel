@@ -9,7 +9,7 @@ public class Tutorial : MonoBehaviour
     [Header("World tutorial")]
     [SerializeField] GameObject mainGameCanvas;
     [SerializeField] GameObject tutorialCanvasPrefab;
-
+    [SerializeField] GameObject visualizerCanvas;
     [SerializeField] UI_Screen gameUIScreen;
     [SerializeField] GameObject startCounter;
     [SerializeField] Transform crosshair;
@@ -59,6 +59,7 @@ public class Tutorial : MonoBehaviour
             gameUIScreen.onScreenStart = null;
             mainGameCanvas.SetActive(false);
             startCounter.SetActive(false);
+            visualizerCanvas.SetActive(false);
             GridA.Instance.playTutorial = true;
         }
         else if (!worldSelectTutorColmpleted && SceneManager.GetActiveScene().name == "World Select")
@@ -199,6 +200,7 @@ public class Tutorial : MonoBehaviour
             AudioController.Instance.SetCurrentClip(WorldLoadInfo.song, fadeIn: true);//fade in world clip music
         });
 
+        visualizerCanvas.SetActive(true);
         mainGameCanvas.SetActive(true); //start game
         GridA.Instance.currState = GameState.move; // enable blocks swapping
 
