@@ -59,7 +59,8 @@ public class WorldSprite : MonoBehaviour
         {
             yield return null;
         }
-        bubbleClone.GetComponentInChildren<SequentialText>().PlayMessage(unlockRequirement);
+        text.text = unlockRequirement;
+        //bubbleClone.GetComponentInChildren<SequentialText>().PlayMessage(unlockRequirement);
         Destroy(bubbleClone, 3);
     }
 }
