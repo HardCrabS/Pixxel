@@ -152,7 +152,7 @@ public class CollectionController : MonoBehaviour
             descriptionImage.gameObject.SetActive(true);
         if (!isUnlocked)
         {
-            string unlockRequirement = GetUnlockRequirement(LevelReward.World, worlds[index].id, UNLOCKED_IN_SHOP, UNLOCKED_BY_RANK);
+            string unlockRequirement = GetUnlockRequirement(LevelReward.World, worlds[index]);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
         else
@@ -231,7 +231,7 @@ public class CollectionController : MonoBehaviour
             descriptionImage.gameObject.SetActive(true);
         if (!isUnlocked)
         {
-            string unlockRequirement = GetUnlockRequirement(LevelReward.Boost, boostInfos[index].id, UNLOCKED_IN_SHOP, UNLOCKED_BY_RANK);
+            string unlockRequirement = GetUnlockRequirement(LevelReward.Boost, boostInfos[index]);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
         else
@@ -382,7 +382,7 @@ public class CollectionController : MonoBehaviour
         if (!isUnlocked)
         {
             equipButton.gameObject.SetActive(false);    //button to equip a avatar
-            string unlockRequirement = GetUnlockRequirement(LevelReward.Trinket, trinket.id, UNLOCKED_IN_SHOP, UNLOCKED_BY_RANK);
+            string unlockRequirement = GetUnlockRequirement(LevelReward.Trinket, trinket);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
         else
@@ -461,7 +461,7 @@ public class CollectionController : MonoBehaviour
         if (!isUnlocked)
         {
             equipButton.gameObject.SetActive(false);    //button to equip a title
-            string unlockRequirement = GetUnlockRequirement(LevelReward.Title, titles[index].id.ToString(), UNLOCKED_IN_SHOP, UNLOCKED_BY_RANK);
+            string unlockRequirement = GetUnlockRequirement(LevelReward.Title, titles[index]);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
         else
@@ -551,7 +551,7 @@ public class CollectionController : MonoBehaviour
         if (!isUnlocked)
         {
             equipButton.gameObject.SetActive(false);    //button to equip a banner
-            string unlockRequirement = GetUnlockRequirement(LevelReward.Banner, banners[index].id, UNLOCKED_IN_SHOP, UNLOCKED_BY_RANK);
+            string unlockRequirement = GetUnlockRequirement(LevelReward.Banner, banners[index]);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
         else
@@ -645,18 +645,24 @@ public class CollectionController : MonoBehaviour
         }
         return null;
     }
-    public static string GetUnlockRequirement(LevelReward levelReward, string id, string UNL_IN_SHOP_TEXT, string UNL_BY_RANK_TEXT)
+    public static string GetUnlockRequirement(LevelReward levelReward, RewardTemplate rewardTemplate)
     {
-        int rankToUnlock = RewardForLevel.Instance.GetRankFromRewards(levelReward, id);
+        if(!string.IsNullOrEmpty(rewardTemplate.unlockRequirement))//specific requirement
+        {
+            return rewardTemplate.unlockRequirement;
+        }
+
+        //find at what rank reward is unlocked
+        int rankToUnlock = RewardForLevel.Instance.GetRankFromRewards(levelReward, rewardTemplate.id);
 
         if (rankToUnlock < 0)   //negative if not found in rewards
         {
-            return UNL_IN_SHOP_TEXT;
+            return UNLOCKED_IN_SHOP;
         }
         else
         {
             //return "<color=black><size=250>" + UNLOCKED_BY_RANK + rankToUnlock + ".</size></color>";
-            return UNL_BY_RANK_TEXT + rankToUnlock;
+            return UNLOCKED_BY_RANK + rankToUnlock;
         }
     }
     public static RewardTemplate FindItemWithId(RewardTemplate[] items, string id)
