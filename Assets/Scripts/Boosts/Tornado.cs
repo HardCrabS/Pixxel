@@ -10,7 +10,6 @@ public class Tornado : BoostBase
     float boxMoveSpeed = 1;
     float boostTime = 3f;
     float timeBetweenBoxSwitch = 0.2f;
-            GridA.Instance.currState = GameState.wait; //disallow block movement
 
     int numOfSpecialBoxes = 0;
     int warpedBoxesChance = 0;
