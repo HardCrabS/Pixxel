@@ -17,6 +17,8 @@ public class MagicMonolith : BoostBase
 
         GetResources();
 
+        GridA.Instance.currState = GameState.wait; //disallow block movement
+
         StartCoroutine(MakeAllSpecial());
     }
 
@@ -53,6 +55,7 @@ public class MagicMonolith : BoostBase
 
         monolithgo.GetComponent<SpriteRenderer>().DOFade(0, 0.3f); //FADE OUT MONOLITH HERE
         Camera.main.GetComponent<CameraShake>().ShakeCam(1f, 0.3f); //shake screen effect
+        GridA.Instance.currState = GameState.move;
 
         finished = true;
     }

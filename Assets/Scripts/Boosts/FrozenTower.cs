@@ -32,6 +32,7 @@ public class FrozenTower : BoostBase
             iceBreak = Resources.Load<AudioClip>(RESOURCES_FOLDER + FOLDER_NAME + "sfx_boost_icebreak");
         }
         randColumns = new int[columnsToDestroy];
+        GridA.Instance.currState = GameState.wait; //disallow block movement
         StartCoroutine(FreezeAllColumns());
 
         StartCoroutine(DestroyAllBlockColumns());
@@ -101,6 +102,7 @@ public class FrozenTower : BoostBase
         audioSource.PlayOneShot(iceBreak);
         Camera.main.GetComponent<CameraShake>().ShakeCam(0.1f, 1f);
         StartCoroutine(grid.MoveBoxesDown());
+        GridA.Instance.currState = GameState.move;
         finished = true;
     }
 
