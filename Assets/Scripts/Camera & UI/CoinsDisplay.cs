@@ -31,7 +31,8 @@ public class CoinsDisplay : MonoBehaviour
     }
     void Start()
     {
-        coins = SaveSystem.LoadCoinsAmount();
+        //coins = SaveSystem.LoadCoinsAmount();
+        coins = GameData.gameData.saveData.coins;
         coinsAtStartOfLevel = coins;
         currChance = startCoinDropChance;
         //coinsText = GetComponent<Text>();
@@ -51,7 +52,8 @@ public class CoinsDisplay : MonoBehaviour
         if (coinsText == null) return;
         coinsText.text = coins.ToString();
 
-        SaveSystem.SaveCoinsAmount(coins);
+        GameData.gameData.saveData.coins = coins;
+        //SaveSystem.SaveCoinsAmount(coins);
     }
 
     public void RandomizeCoin()

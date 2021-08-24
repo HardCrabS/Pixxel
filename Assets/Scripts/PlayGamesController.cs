@@ -9,6 +9,9 @@ public class PlayGamesController : MonoBehaviour
     public static PlayGamesController Instance;
     public UnityEvent OnAuthenticated;
 
+    const string DEFAULT_NAME = "Soldier";
+    const string DEFAULT_TITLE = "The Beginner";
+
     void Start()
     {
         if (!GameData.gameData.isAuthentificated)
@@ -23,7 +26,7 @@ public class PlayGamesController : MonoBehaviour
                 {
                     if (GameData.gameData.saveData.playerInfo == null)
                     {
-                        GameData.gameData.saveData.playerInfo = new User("unknown", "Warior", "Noobe", "UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+                        GameData.gameData.saveData.playerInfo = new User("unknown", DEFAULT_NAME, DEFAULT_TITLE, "UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
                         GameData.Save();
                     }
                 }
@@ -55,6 +58,15 @@ public class PlayGamesController : MonoBehaviour
         await AuthenticateUser();
         OnAuthenticated.Invoke();
     }
+    
+    public static void WriteNewUser(string username)
+    {
+        string playerId = SystemInfo.deviceUniqueIdentifier;
+        DatabaseManager.WriteNewUser(playerId, username, DEFAULT_TITLE, "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+        GameData.gameData.saveData.playerInfo = new User(playerId, username, DEFAULT_TITLE, "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+        GameData.Save();
+        GameData.gameData.isAuthentificated = true;
+    }
 
     static async Task AuthenticateUser()
     {
@@ -64,9 +76,8 @@ public class PlayGamesController : MonoBehaviour
 
         if (userInDatabase == null)
         {
-            string playerName = "Soldier";
-            DatabaseManager.WriteNewUser(playerId, playerName, "Noobe", "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
-            GameData.gameData.saveData.playerInfo = new User(playerId, playerName, "Noobe", "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+            DatabaseManager.WriteNewUser(playerId, DEFAULT_NAME, DEFAULT_TITLE, "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
+            GameData.gameData.saveData.playerInfo = new User(playerId, DEFAULT_NAME, DEFAULT_TITLE, "Sprites/UI Images/Trinkets/DefaultAvatar", "Sprites/UI images/Banners/DefaultBanner");
             GameData.Save();
         }
         else
