@@ -81,15 +81,15 @@ public class GoldRush : BoostBase
         }
         else if (lvl <= 6)
         {
-            timeToBonusLast = 8;
+            timeToBonusLast = 6;
         }
         else if (lvl <= 9)
         {
-            timeToBonusLast = 10;
+            timeToBonusLast = 7;
         }
         else
         {
-            timeToBonusLast = 13;
+            timeToBonusLast = 8;
         }
     }
 }
