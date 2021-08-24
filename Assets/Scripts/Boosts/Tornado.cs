@@ -25,12 +25,13 @@ public class Tornado : BoostBase
     public override void ExecuteBonus()
     {
         base.ExecuteBonus();
-        GridA.Instance.currState = GameState.wait; //disallow block movement
 
         movingBoxes = new List<GameObject>();
         GetResources();
 
         audioSource.PlayOneShot(tornadoSFX);
+        GridA.Instance.currState = GameState.wait; //disallow block movement
+
         SpawnFogAndBlur();
         StartCoroutine(MoveTornadoAround());
         StartCoroutine(SwitchBoxesPeriodically());
