@@ -33,6 +33,9 @@ public class ShopController : MonoBehaviour
     [SerializeField] Sprite noSaleSprite;
     [Range(0, 100)] [SerializeField] int saleMin, saleMax;
 
+    [Header("IAP Coins")]
+    [SerializeField] GameObject coinsScreen;
+
     [Header("Worlds")]
     [SerializeField] Transform worldsContainer;
     [SerializeField] Transform worldSelectionGlow;
@@ -134,10 +137,19 @@ public class ShopController : MonoBehaviour
         titleTogle.isOn = false;
         bannerTogle.isOn = false;
         descriptionImage.gameObject.SetActive(false);
+        coinsScreen.SetActive(false);
         welcomeScreen.SetActive(true);
         SetUIElementsActiveness(false, false, false);
         unlockNumber.text = "";
+        itemDescription.text = "";
         sectionName.text = SequentialText.ColorString("WELCOME\n", welcomeSectionColor) + SECTION_NAME_DOTS;
+    }
+
+    public void CoinsIAP()
+    {
+        coinsScreen.SetActive(true);
+        welcomeScreen.SetActive(false);
+        sectionName.text = SequentialText.ColorString("COIN SHOP!\n", welcomeSectionColor) + SECTION_NAME_DOTS;
     }
 
     #region Welcome
