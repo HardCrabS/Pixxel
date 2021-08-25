@@ -81,7 +81,6 @@ public class BonusManager : MonoBehaviour
                 button.SetInteractable(state);
         }
     }
-
     public bool BoostIsActivated()//returns true if any boost is activated
     {
         foreach (BonusButton button in bonusButtons)
@@ -90,6 +89,16 @@ public class BonusManager : MonoBehaviour
                 return true;
         }
         return false;
+    }
+    public void StopAllBoosts()
+    {
+        foreach (BonusButton button in bonusButtons)
+        {
+            if (button.gameObject.activeInHierarchy && !button.BoostIsFinished())
+            {
+                button.GetComponent<BoostBase>().StopBonus();
+            }
+        }
     }
     public void CheckIfEquipedInOtherSlot(int buttonIndex, string boostId)
     {

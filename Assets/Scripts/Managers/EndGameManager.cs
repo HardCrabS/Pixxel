@@ -54,10 +54,10 @@ public class EndGameManager : MonoBehaviour
             GridA.Instance.currState = GameState.wait;
 
             //wait until boost stop executing
-            yield return new WaitUntil(() => !BonusManager.Instance.BoostIsActivated());
+            //yield return new WaitUntil(() => !BonusManager.Instance.BoostIsActivated());
             //if boost was activated, disable all boosts again
-            BonusManager.Instance.SetAllButtonsInterraction(false);
-            GridA.Instance.currState = GameState.wait;//set grid state again
+            //BonusManager.Instance.SetAllButtonsInterraction(false);
+            //GridA.Instance.currState = GameState.wait;//set grid state again
 
             //wait while blocks move and match
             while (GridA.Instance.AcitivityOnBoard())
@@ -97,17 +97,21 @@ public class EndGameManager : MonoBehaviour
         AudioController.Instance.StartFade(2, 0);//fade out music
         BonusManager.Instance.SetAllButtonsInterraction(false);
         GridA.Instance.currState = GameState.wait;
+        GridA.Instance.respawnBlocks = false;
         yield return new WaitForSeconds(1);//delay to let player realize the game is over
 
+        BonusManager.Instance.StopAllBoosts();
+
         //wait until boost stop executing
-        yield return new WaitUntil(() => !BonusManager.Instance.BoostIsActivated());
+        //yield return new WaitUntil(() => !BonusManager.Instance.BoostIsActivated());
         //if boost was activated, disable all boosts again
-        BonusManager.Instance.SetAllButtonsInterraction(false);
-        GridA.Instance.currState = GameState.wait;//set grid state again
+        //BonusManager.Instance.SetAllButtonsInterraction(false);
+        //GridA.Instance.currState = GameState.wait;//set grid state again
 
         //wait while blocks move and match
         while (GridA.Instance.AcitivityOnBoard())
         {
+            GridA.Instance.DestroyAllMatches();
             yield return new WaitForSeconds(.5f);
         }
 

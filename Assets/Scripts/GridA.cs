@@ -67,6 +67,7 @@ public class GridA : MonoBehaviour
 
     [Header("Grid Settings")]
     public bool playTutorial = false;
+    public bool respawnBlocks = true;
     [SerializeField] LevelTemplate tutorialTemplate;
     [SerializeField] TileType[] boardLayout;
     public GameObject[,] allBoxes;
@@ -484,7 +485,7 @@ public class GridA : MonoBehaviour
         //if (matchFinder.currentMatches.Count == 4 || matchFinder.currentMatches.Count == 7)
         if (currBox == null) return;
 
-        int matchedCount = currBox.isMatched ? CountMatchedWithBox(currBox) 
+        int matchedCount = currBox.isMatched ? CountMatchedWithBox(currBox)
             : CountMatchedWithBox(currBox.neighborBox.GetComponent<Box>());
 
         if (matchedCount == 4)
@@ -571,7 +572,7 @@ public class GridA : MonoBehaviour
     }
     public void SetBlockWarped(Box box)
     {
-		box.gameObject.tag = "Untagged";
+        box.gameObject.tag = "Untagged";
         box.SetMatched(false);
         box.currState = BoxState.Warped;
         WarpBoxVFX(box);
@@ -622,23 +623,23 @@ public class GridA : MonoBehaviour
                 block.currState = BoxState.Normal;
                 StartCoroutine(DestroyAllSameColor(block.tag));
             }
-            else if(block.currState == BoxState.Golden)
+            else if (block.currState == BoxState.Golden)
             {
                 block.currState = BoxState.Normal;
                 block.GetComponent<GoldenRock>().DetonateGoldenRock();
             }
 
-            if(useDestructionFX)
+            if (useDestructionFX)
                 DynamicBlockSpriteDestruction(row, column);
             else
                 Destroy(allBoxes[row, column]);
-			
+
             //BlockDestroyedSFX();  //sound is played once after all matched blocks are destroyed
 
             //sound is played once after all matched blocks are destroyed
             //only play when necessary
             if (playSound)
-                BlockDestroyedSFX();  
+                BlockDestroyedSFX();
 
             allBoxes[row, column] = null;
             bombTiles[row, column] = null;
@@ -693,7 +694,8 @@ public class GridA : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(0.4f);
-        StartCoroutine(FillBoard());
+        if (respawnBlocks)
+            StartCoroutine(FillBoard());
     }
 
     private void RespawnBoxes()
@@ -735,14 +737,17 @@ public class GridA : MonoBehaviour
             for (int y = 0; y < hight; y++)
             {
                 //if block is null meaning it will be respawned and moved down
-                if (allBoxes[x, y] == null) return true;
+                //if (allBoxes[x, y] == null) return true;
 
-                var boxComp = allBoxes[x, y].GetComponent<Box>();
-                //if any block is moving atm, meaning it might make a match later
-                //if any block is matched atm
-                if (boxComp.Mooving || boxComp.isMatched)
+                if (allBoxes[x, y] != null)
                 {
-                    return true;
+                    var boxComp = allBoxes[x, y].GetComponent<Box>();
+                    //if any block is moving atm, meaning it might make a match later
+                    //if any block is matched atm
+                    if (boxComp.Mooving || boxComp.isMatched)
+                    {
+                        return true;
+                    }
                 }
             }
         }
