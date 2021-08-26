@@ -186,12 +186,12 @@ public class ShopController : MonoBehaviour
 
         saleItemButton1.onClick.AddListener(delegate ()
         {
-            SetSaleSelection(saleItemButton1.transform.position);
+            SetSelectionGlowPos(saleSelectionGlow, saleItemButton1.transform.position);
             currChosenSaleItem = firstPickedSaleItem;
         });
         saleItemButton2.onClick.AddListener(delegate ()
         {
-            SetSaleSelection(saleItemButton2.transform.position);
+            SetSelectionGlowPos(saleSelectionGlow, saleItemButton2.transform.position);
             currChosenSaleItem = secondPickedSaleItem;
         });
 
@@ -265,46 +265,47 @@ public class ShopController : MonoBehaviour
     {
         if (currChosenSaleItem == null)
             return;
-        Transform container = null;
+        RectTransform container = null;
         switch (currChosenSaleItem.reward)
         {
             case LevelReward.World:
                 {
                     worldTogle.isOn = true;
-                    container = worldsContainer;
+                    container = (RectTransform)worldsContainer;
                     break;
                 }
             case LevelReward.Boost:
                 {
                     boostTogle.isOn = true;
-                    container = boostsContainer;
+                    container = (RectTransform)boostsContainer;
                     break;
                 }
             case LevelReward.Trinket:
                 {
                     trinketTogle.isOn = true;
-                    container = trinketsContainer;
+                    container = (RectTransform)trinketsContainer;
                     break;
                 }
             case LevelReward.Title:
                 {
                     titleTogle.isOn = true;
-                    container = titlesContainer;
+                    container = (RectTransform)titlesContainer;
                     break;
                 }
             case LevelReward.Banner:
                 {
                     bannerTogle.isOn = true;
-                    container = bannersContainer;
+                    container = (RectTransform)bannersContainer;
                     break;
                 }
         }
 
-        foreach (Transform child in container)
+        foreach (RectTransform child in container)
         {
             if (child.gameObject.name == currChosenSaleItem.id)
             {
                 StartCoroutine(PressButtonDelayed(child.GetComponent<Button>()));
+                SnapTo(child, container, container.GetComponentInParent<ScrollRect>());
                 break;
             }
         }
@@ -324,10 +325,6 @@ public class ShopController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
         button.onClick.Invoke();
-    }
-    void SetSaleSelection(Vector3 pos)
-    {
-        saleSelectionGlow.position = pos;
     }
     #endregion
     #region World
@@ -780,6 +777,24 @@ public class ShopController : MonoBehaviour
         profileHandler.UpdateBanner(banner.Sprite, banner.Material, banner.animatorValues);//update banner in profile panel
     }
     #endregion
+
+    public static void SnapTo(RectTransform target, RectTransform contentPanel, ScrollRect scrollRect)
+    {
+        Canvas.ForceUpdateCanvases();
+
+        if (scrollRect.horizontal)
+        {
+            contentPanel.anchoredPosition =
+                (Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
+                - Vector2.right * scrollRect.transform.InverseTransformPoint(target.position);
+        }
+        else
+        {
+            contentPanel.anchoredPosition =
+                (Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
+                - Vector2.up * scrollRect.transform.InverseTransformPoint(target.position);
+        }
+    }
     private void ResetClickEvent(Action clickFunction, Transform panelClone, Transform selectionGlow)
     {
         Button button = panelClone.GetComponent<Button>();
