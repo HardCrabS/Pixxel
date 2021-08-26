@@ -510,7 +510,7 @@ public class GridA : MonoBehaviour
                 }
             }
         }
-        else if (matchedCount == 5)
+        else if (matchedCount >= 5)
         {
             if (currBox != null)
             {
