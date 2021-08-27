@@ -31,8 +31,12 @@ public class BonusManager : MonoBehaviour
             {
                 string boostId = bonusButtons[i].boostInfo.id;
                 bool isUnlocked = GameData.gameData.saveData.boostIds.Contains(boostId);
+                int index = i;
+                bonusButtons[i].GetComponent<Button>().onClick.AddListener(
+                    () => SetSelectionGlowPos(bonusButtons[index].transform));
                 if (isUnlocked)
                 {
+                    bonusButtons[i].IsUnlocked = isUnlocked;
                     bonusButtons[i].transform.GetChild(0).gameObject.SetActive(false);  //lock image
                     int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(boostId));
                     //boostPanels[i].sprite = boostFrames[spriteIndex];
@@ -41,13 +45,12 @@ public class BonusManager : MonoBehaviour
                     {
                         bonusButtons[i].GetComponent<Image>().sprite = boostInfo.UpgradeSprites[spriteIndex];
                     }
-                    bonusButtons[i].gameObject.AddComponent<DragBoost>();
-                    int index = i;
-                    bonusButtons[i].GetComponent<Button>().onClick.AddListener(() => SetSelectionGlowPos(bonusButtons[index].transform));
+                    bonusButtons[i].gameObject.AddComponent<DragBoost>();                    
                 }
                 else
                 {
-                    bonusButtons[i].GetComponent<Button>().interactable = false;
+                    Color disabledColor = bonusButtons[i].GetComponent<Button>().colors.disabledColor;
+                    bonusButtons[i].GetComponent<Image>().color = disabledColor;
                     //boostPanels[i].sprite = lockedFrame;
                 }
             }
