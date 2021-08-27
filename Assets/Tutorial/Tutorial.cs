@@ -123,6 +123,7 @@ public class Tutorial : MonoBehaviour
             {
                 uiSystem.SwitchScreens(screens[0]);
                 username = screens[1].GetComponent<UsernameCheck>().inputField.text;
+                PlayGamesController.WriteNewUser(username);
             });//open PAM after username is confirmed
 
         yield return new WaitUntil(() => uiSystem.CurrentScreen == screens[0]);//wait until PAM shows
