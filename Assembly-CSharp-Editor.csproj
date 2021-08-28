@@ -74,8 +74,14 @@
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.CacheServer">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Monetization">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ScriptableBuildPipeline.Editor">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.VSCode.Editor">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
@@ -86,11 +92,17 @@
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.ResourceManager">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ResourceManager.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Addressables.Editor">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Addressables.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Postprocessing.Editor">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
@@ -116,6 +128,12 @@
  <Reference Include="Unity.VisualStudio.Editor">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Addressables">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Addressables.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ScriptableBuildPipeline">
+ <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.TextMeshPro">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
@@ -127,24 +145,6 @@
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.CacheServer">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ScriptableBuildPipeline.Editor">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ResourceManager">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ResourceManager.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Addressables.Editor">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Addressables.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Addressables">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.Addressables.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ScriptableBuildPipeline">
- <HintPath>C:/Users/skarm/Documents/GitHub/Pixxel/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Program Files/Unity Editor/2020.1.0f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -755,6 +755,14 @@
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{97F9769F-B8E5-6F0C-7A22-B5C4123B3599}</Project>
       <Name>Assembly-CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="NativeShare.Editor.csproj">
+      <Project>{A91BCA04-287C-9FE1-6111-4BFFDF5EB610}</Project>
+      <Name>NativeShare.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="NativeShare.Runtime.csproj">
+      <Project>{91A59C6F-967C-5C3D-FD12-41D5C599BF79}</Project>
+      <Name>NativeShare.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
