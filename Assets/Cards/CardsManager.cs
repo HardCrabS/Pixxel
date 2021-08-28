@@ -17,13 +17,6 @@ public class CardsManager : MonoBehaviour
     [SerializeField] CardSet[] cardSets;
     [SerializeField] Card[] allCards;
 
-    public static CardsManager Instance;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-
     private void Start()
     {
         DateTime lastClaim;

@@ -18,6 +18,11 @@ public abstract class BoostBase : MonoBehaviour
     {
         finished = false;
     }
+    public void StopBonus()
+    {
+        StopAllCoroutines();
+        finished = true;
+    }
     public bool IsFinished() => finished;  
     public void LevelUpBoost()
     {

@@ -29,6 +29,11 @@ public class LevelUp : MonoBehaviour
 
     public void UpgradeBoost()
     {
+        if (boostInfo == null)//locked boost has been clicked
+        {
+            audioSource.PlayOneShot(boostUpgradeError);
+            return;
+        }
         int level = GameData.gameData.GetBoostLevel(boostInfo.id);
         if (level < 10 && CoinsDisplay.Instance.GetCoins() >= boostInfo.GetUpgradeCost(level))
         {

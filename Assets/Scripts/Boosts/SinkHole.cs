@@ -8,6 +8,7 @@ public class SinkHole : BoostBase
     public override void ExecuteBonus()
     {
         base.ExecuteBonus();
+        GridA.Instance.currState = GameState.wait; //disallow block movement
 
         if (sinkShakeSFX == null)
         {
@@ -16,6 +17,7 @@ public class SinkHole : BoostBase
         }
         if (LevelSettingsKeeper.settingsKeeper)
         {
+
             StartCoroutine(SinkAllBlocks());
         }
     }
@@ -30,6 +32,7 @@ public class SinkHole : BoostBase
         SinkBlocks(tag);//sink all blocks
         yield return new WaitForSeconds(1.1f);//wait while blocks are sinking and being destroyed
         StartCoroutine(GridA.Instance.MoveBoxesDown());//move new blocks down
+        GridA.Instance.currState = GameState.move;
         finished = true;
     }
     void SinkBlocks(string tag)

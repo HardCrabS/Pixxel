@@ -41,14 +41,14 @@ public class Earthquake : BoostBase
     void EarthShakes()  //                                                SHAKE HEERREEE!!
     {
 
-        Vector2 rock1pos = new Vector2(10f, 8.27f);
-        Vector2 rock2pos = new Vector2(10f, 0f);
+        Vector2 rock1pos = new Vector2(9.8f, 8f);
+        Vector2 rock2pos = new Vector2(9.5f, 0.05f);
 
         GameObject rock1 = Instantiate(rocks, rock1pos, Quaternion.Euler(0, 0, 180)); //make rocks
         GameObject rock2 = Instantiate(rocks, rock2pos, transform.rotation); //make rocks
 
-        rock1.transform.DOMove(new Vector2(-3f, 8.27f), 2); //move earthquake to left
-        rock2.transform.DOMove(new Vector2(-3f, 0f), 2); //move earthquake to left
+        rock1.transform.DOMove(new Vector2(-3.5f, 8f), 2); //move earthquake to left
+        rock2.transform.DOMove(new Vector2(-3f, 0.05f), 2); //move earthquake to left
 
       //  yield return rock1.GetComponent<SpriteRenderer>().DOFade(0, 0.5f).WaitForCompletion();//fade out
         Destroy(rock1, 3);

@@ -8,7 +8,6 @@ public class LevelSlider : MonoBehaviour
     [SerializeField] Text rankText;
     [SerializeField] Text nameText;
     [SerializeField] Slider levelSlider;
-    [SerializeField] TextMeshProUGUI xpDebugText; //for debugging gained xp TODO remove
     [SerializeField] int incrementForLvlUp = 20;//added to max rank slider value
 
     int currentLevel = 1;
@@ -17,7 +16,6 @@ public class LevelSlider : MonoBehaviour
 
     int initLevel;
     float initXPValue;
-    float xpEarned = 0;
 
     public static LevelSlider Instance;
 
@@ -48,7 +46,9 @@ public class LevelSlider : MonoBehaviour
             string bannerPath = GameData.gameData.saveData.playerInfo.bannerPath;
             var bannerImage = GetComponent<Image>();
             if (bannerImage)
-                bannerImage.sprite = Resources.Load<Sprite>(bannerPath); //Load banner
+            {
+                ProfileHandler.SetBannerFromString(bannerImage, bannerPath);
+            }
         }
         initLevel = currentLevel;
         initXPValue = levelSlider.value;
@@ -63,11 +63,7 @@ public class LevelSlider : MonoBehaviour
     {
         if (levelSlider == null) return;
         levelSlider.value += amount * xpMultiplier;
-        if(xpDebugText != null)
-        {
-            xpEarned += amount * xpMultiplier;
-            xpDebugText.text = "xp: " + xpEarned + "\nxp ->lv: " + levelSlider.maxValue;
-        }
+
         if (levelSlider.value >= levelSlider.maxValue)
         {
             currentLevel++;
@@ -111,7 +107,6 @@ public class LevelSlider : MonoBehaviour
     {
         return (int)(levelSlider.maxValue - levelSlider.value);
     }
-    public float GetTotalEarnedXP() => xpEarned;
     public void SetXPMultiplier(float multiplier)
     {
         xpMultiplier = multiplier;

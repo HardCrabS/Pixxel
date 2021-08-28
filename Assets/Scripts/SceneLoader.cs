@@ -17,6 +17,10 @@ public class SceneLoader : MonoBehaviour
     {
         GameData.gameData.UnlockAllWorlds();  // FOR TEST.
     }
+    public void CallUnlockAllTrinkets()
+    {
+        GameData.gameData.UnlockAllTrinkets();  // FOR TEST.
+    }
     public void LoadNextScene()
     {
         int currScene = SceneManager.GetActiveScene().buildIndex;
@@ -34,18 +38,18 @@ public class SceneLoader : MonoBehaviour
     }
     public void LoadSceneAsync(int index) //used in splash scene
     {
-        /*if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
+        if (PlayerPrefs.GetInt("WORLD TUTORIAL", 0) == 0)
         {
             SceneManager.LoadSceneAsync("World");
         }
         else
-        {*/
+        {
             AsyncOperation operation = SceneManager.LoadSceneAsync(index);
             operation.completed += (asyncOperation) =>
             {
                 AudioController.Instance.SetCurrentClip(mainMenuSong);
             };
-        //}
+        }
     }
 
     IEnumerator LoadAsynchronously(string sceneName, AudioClip worldSong, float delay)
@@ -78,9 +82,12 @@ public class SceneLoader : MonoBehaviour
     {
         if (GameData.gameData != null)
             GameData.Save();
-        SceneManager.LoadScene("Start");
-        AudioController.Instance.SetCurrentClip(mainMenuSong);
-        Time.timeScale = 1;
+        AsyncOperation operation = SceneManager.LoadSceneAsync("Start");
+        operation.completed += (asyncOperation) =>
+        {
+            AudioController.Instance.SetCurrentClip(mainMenuSong);
+            Time.timeScale = 1;
+        };
     }
 
     public void LoadWorldSelectScene()

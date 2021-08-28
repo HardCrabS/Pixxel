@@ -25,10 +25,13 @@ public class Tornado : BoostBase
     public override void ExecuteBonus()
     {
         base.ExecuteBonus();
+
         movingBoxes = new List<GameObject>();
         GetResources();
 
         audioSource.PlayOneShot(tornadoSFX);
+        GridA.Instance.currState = GameState.wait; //disallow block movement
+
         SpawnFogAndBlur();
         StartCoroutine(MoveTornadoAround());
         StartCoroutine(SwitchBoxesPeriodically());
@@ -80,6 +83,8 @@ public class Tornado : BoostBase
             }
         }
         grid.DestroyAllMatches();
+        GridA.Instance.currState = GameState.move;
+
         finished = true;
 
         int rand = Random.Range(0, 2);
@@ -210,15 +215,15 @@ public class Tornado : BoostBase
         base.SetBoostLevel(lvl);
         if (lvl >= 4 && lvl <= 6)
         {
-            numOfSpecialBoxes = 3;
+            numOfSpecialBoxes = 2;
         }
         else if (lvl <= 9)
         {
-            numOfSpecialBoxes = 5;
+            numOfSpecialBoxes = 3;
         }
         else
         {
-            numOfSpecialBoxes = 5;
+            numOfSpecialBoxes = 3;
             warpedBoxesChance = 50;
         }
     }
