@@ -6009,6 +6009,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &249228036 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4051245682777726690, guid: 7a0445dfa99767045943032d85ed778a,
+    type: 3}
+  m_PrefabInstance: {fileID: 350776352}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc8038646ec433844a0e8444150353a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &252642341
 GameObject:
   m_ObjectHideFlags: 0
@@ -6557,7 +6569,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &276104719
 GameObject:
@@ -10792,7 +10804,7 @@ PrefabInstance:
     - target: {fileID: 578504913947411088, guid: f925016389327cb45bdc2d7699dc9260,
         type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 578504913947411088, guid: f925016389327cb45bdc2d7699dc9260,
         type: 3}
@@ -19529,6 +19541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shareButton: {fileID: 1651650136}
   shareText: {fileID: 606934556}
+  coinsRewardForAdVideo: 50
   coinsReward: 50
   rewardWorldInfo: {fileID: 11400000, guid: faf083d69d2b1414b9977339f115dfa5, type: 2}
   sharingSuccessClip: {fileID: 8300000, guid: 0d51a58c2bdd52049b2bb40a1e961d1e, type: 3}
@@ -35545,7 +35558,7 @@ MonoBehaviour:
   onScreenStart:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 824120557}
+      - m_Target: {fileID: 249228036}
         m_TargetAssemblyTypeName: RewardedAdsButton, Assembly-CSharp
         m_MethodName: LoadAd
         m_Mode: 1
