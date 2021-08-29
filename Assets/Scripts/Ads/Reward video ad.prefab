@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1963579138465508
+--- !u!1 &4051245682777726691
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4656475781091744}
-  - component: {fileID: 114491699514968516}
+  - component: {fileID: 4051245682777726689}
+  - component: {fileID: 4051245682777726690}
   m_Layer: 0
-  m_Name: SceneManager
+  m_Name: Reward video ad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4656475781091744
+--- !u!4 &4051245682777726689
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963579138465508}
+  m_GameObject: {fileID: 4051245682777726691}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,20 +31,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114491699514968516
+--- !u!114 &4051245682777726690
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963579138465508}
+  m_GameObject: {fileID: 4051245682777726691}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38bba524f2eea2747b77fb4e3db1e0a4, type: 3}
+  m_Script: {fileID: 11500000, guid: cc8038646ec433844a0e8444150353a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingCanvas: {fileID: 8906845776880165625, guid: fa81811e70cde99469e7482e0d42f8e1,
-    type: 3}
-  loadingPanel: {fileID: 0}
-  slider: {fileID: 0}
-  mainMenuSong: {fileID: 8300000, guid: f80aaa5700bbaf047892398f33340d26, type: 3}
+  _showAdButton: {fileID: 0}
+  _androidAdUnitId: Rewarded_Android
+  _iOsAdUnitId: Rewarded_iOS
