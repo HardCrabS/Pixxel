@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class GobletPage : MonoBehaviour
 {
-    [SerializeField] int rechargePercent = 25; // sets recharge to 25%
+    [SerializeField] float rechargePercent = 1.25f; // sets recharge to 25%
     // Use this for initialization
     void Start()
     {
-        Boost.
+        BonusManager.Instance.MultiplyAllBoostsRecharge(rechargePercent);
     }
 }

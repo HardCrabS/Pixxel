@@ -16,8 +16,8 @@ public class BonusButton : MonoBehaviour
     AudioSource audioSource;
     BoostBase concreteBonus;
     Image boostImage;
-    float boostReloadDeltaPerMove;
-    bool interactable = false;
+    float boostReloadDeltaPerMove = 1;
+    public bool interactable = false;
 
     const string LOCK_TAG = "Lock";
 
@@ -52,7 +52,7 @@ public class BonusButton : MonoBehaviour
                     concreteBonus = gameObject.AddComponent(boostType) as BoostBase;
                     concreteBonus.SetBoostLevel(boostLevel);
 
-                    boostReloadDeltaPerMove = 1 / boostInfo.GetMovesToReload(boostLevel);
+                    boostReloadDeltaPerMove *= 1 / boostInfo.GetMovesToReload(boostLevel);
                     StartCoroutine(UnlockAfterCountdown());
                 }
                 else
@@ -69,6 +69,10 @@ public class BonusButton : MonoBehaviour
                 GetComponent<Image>().enabled = false;
             }
         }
+    }
+    public void MultiplyRecharge(float percent)
+    {
+        boostReloadDeltaPerMove *= percent;
     }
     void ChangeButtonVolume(float volume)
     {

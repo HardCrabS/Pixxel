@@ -23,11 +23,6 @@ public class BombRemover : MonoBehaviour
                     if (bombs[x, y] != null)
                     {
                         GridA.Instance.DestroyBlockAtPosition(x, y);
-                        /*Vector2 pos = bombs[x, y].transform.position;
-                        bombs[x, y].DeleteBombByMatch();
-                        GridA.Instance.bombTiles[x, y] = null;
-                        GridA.Instance.allBoxes[x, y] = null;
-                        GridA.Instance.SpawnBlockParticles(pos);*/
                         return;
                     }
                 }

@@ -2,14 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Effect: Boosts recharge 25% faster.
+// Effect: refills random boost.
 
-public class GobletPage : MonoBehaviour
+public class Priestess : MonoBehaviour
 {
-    [SerializeField] int rechargePercent = 25; // sets recharge to 25%
+    [SerializeField] int refillChance = 25;
     // Use this for initialization
     void Start()
     {
-        Boost.
+        EndGameManager.Instance.onMatchedBlock += RefillBoost;
+    }
+
+    void RefillBoost()
+    {
+        if(Random.Range(0, 100) < refillChance)
+        {
+            BonusManager.Instance.ActivateRandomButton();
+        }
     }
 }
