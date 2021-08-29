@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ExtraGold : MonoBehaviour 
 {
-    [SerializeField] int extraGoldPercent = 5;
+    [SerializeField] int extraGoldAmount = 25;
 	// Use this for initialization
 	void Start () 
     {
-        CoinsDisplay.Instance.IncreaseCoinDropChance(extraGoldPercent);
+        CoinsDisplay.Instance.AddCoinsAmount(extraGoldAmount);
 	}
 }
