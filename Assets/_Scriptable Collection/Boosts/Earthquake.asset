@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8abc8e5141157d4ab28d2b53044d165, type: 3}
+  m_Name: Earthquake
+  m_EditorClassIdentifier: 
+  reward: 2
+  id: Earthquake
+  description: Detonates any Special Blocks and sets new blocks Fired-Up!
+  cost: 5000
+  unlockRequirement: Share Game on Social.
+  descrlevel1: Detonates all Special Blocks then turns 3 Blocks Fired-Up!
+  descrlevel4: Detonates all Special Blocks then turns 4 Blocks Fired-Up!
+  descrlevel7: Detonates all Special Blocks then turns 5 Blocks Fired-Up!
+  descrlevel10: Detonates all Special Blocks then turns 6 Blocks Fired-Up!
+  costAndReload:
+  - {x: 0, y: 30}
+  - {x: 100, y: 27}
+  - {x: 250, y: 25}
+  - {x: 500, y: 23}
+  - {x: 750, y: 22}
+  - {x: 1000, y: 21}
+  - {x: 1500, y: 19}
+  - {x: 1750, y: 18}
+  - {x: 2000, y: 17}
+  - {x: 2500, y: 15}
+  upgradeSprites:
+  - {fileID: 21300000, guid: d37a100e270213b4898e5f07282fccbe, type: 3}
+  - {fileID: 21300000, guid: a64b31546cff2d94780be03d26998601, type: 3}
+  - {fileID: 21300000, guid: 3be72e274ff2625429f7a44bb9ba7d7b, type: 3}
+  - {fileID: 21300000, guid: f680473e3ec7fc049981577107cb7302, type: 3}
+  boostTypeString: Earthquake

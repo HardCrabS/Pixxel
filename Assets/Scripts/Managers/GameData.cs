@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -12,6 +13,8 @@ public class SaveData
     public float maxXPforLevelUp;
 
     public List<string> equipedBoosts;
+
+    public int coins;
 
     //lists of unlocked rewards
     public List<string> worldIds;
@@ -110,7 +113,7 @@ public class GameData : MonoBehaviour
             Save();
         }
     }
-    public void UnlockAllBoosts()   //TODO JUST FOR TEST. REMOVE LATER
+    public void UnlockAllBoosts()
     {
         var allBoosts = CollectionController.Instance.boostInfos;
         for (int i = 0; i < allBoosts.Length; i++)
@@ -131,6 +134,34 @@ public class GameData : MonoBehaviour
             saveData.worldIds.Add(allWorlds[i].id);
             if (!saveData.worldBestScores.ContainsKey(allWorlds[i].id))
                 saveData.worldBestScores.Add(allWorlds[i].id, 0);
+        }
+        Save();
+    }
+    public void UnlockAllTrinkets()
+    {
+        var trinkets1 = CollectionController.Instance.trinkets;
+        var trinkets2 = CollectionController.Instance.trinketsRank;
+        var trinkets3 = CollectionController.Instance.trinketsShop;
+        for (int i = 0; i < trinkets1.Length; i++)
+        {
+            if(!saveData.trinketIds.Contains(trinkets1[i].id))
+            {
+                saveData.trinketIds.Add(trinkets1[i].id);
+            }
+        }
+        for (int i = 0; i < trinkets2.Length; i++)
+        {
+            if (!saveData.trinketIds.Contains(trinkets2[i].id))
+            {
+                saveData.trinketIds.Add(trinkets2[i].id);
+            }
+        }
+        for (int i = 0; i < trinkets3.Length; i++)
+        {
+            if (!saveData.trinketIds.Contains(trinkets3[i].id))
+            {
+                saveData.trinketIds.Add(trinkets3[i].id);
+            }
         }
         Save();
     }
@@ -160,8 +191,11 @@ public class GameData : MonoBehaviour
         saveData.bannerIds.Add(id);
         Save();
     }
-    public void ChangeBanner(string bannerPath)
+    public void ChangeBanner(string bannerPath, MatAnimatorValues animatorValues)
     {
+        string json = JsonUtility.ToJson(animatorValues);
+        bannerPath += "|" + json;
+
         saveData.playerInfo.bannerPath = bannerPath;
         Save();
 
@@ -189,26 +223,24 @@ public class GameData : MonoBehaviour
     public static void Save()
     {
         string path = Application.persistentDataPath + "/GameData.data";
-        BinaryFormatter binaryFormatter = new BinaryFormatter();
-        FileStream stream = File.Open(path, FileMode.Create);
 
         SaveData data;
         data = gameData.saveData;
 
-        binaryFormatter.Serialize(stream, data);
-        stream.Close();
+        string base64Str = ObjectToString(data);
+        base64Str = Encryptor.EncryptDecrypt(base64Str, 50);
+        File.WriteAllText(path, base64Str);
     }
 
     public void Load()
     {
         string path = Application.persistentDataPath + "/GameData.data";
+
         if (File.Exists(path))
         {
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            FileStream stream = File.Open(path, FileMode.Open);
-
-            saveData = binaryFormatter.Deserialize(stream) as SaveData;
-            stream.Close();
+            string encodedBase64 = File.ReadAllText(path);
+            encodedBase64 = Encryptor.EncryptDecrypt(encodedBase64, 50);
+            saveData = StringToObject(encodedBase64) as SaveData;
         }
     }
 
@@ -228,10 +260,30 @@ public class GameData : MonoBehaviour
         ProfileHandler.Instance.ResetBanner();
         ProfileHandler.Instance.ResetAvatar();
         PlayerPrefs.DeleteAll();
-        SaveSystem.SaveCoinsAmount(0);
+        //SaveSystem.SaveCoinsAmount(0);
         gameData = null;
 
         AudioController.Instance.SetCurrentClip(null);
         FindObjectOfType<SceneLoader>().LoadSceneAsync(1);
+    }
+
+    public static string ObjectToString(object obj)
+    {
+        using (MemoryStream ms = new MemoryStream())
+        {
+            new BinaryFormatter().Serialize(ms, obj);
+            return Convert.ToBase64String(ms.ToArray());
+        }
+    }
+
+    public object StringToObject(string base64String)
+    {
+        byte[] bytes = Convert.FromBase64String(base64String);
+        using (MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length))
+        {
+            ms.Write(bytes, 0, bytes.Length);
+            ms.Position = 0;
+            return new BinaryFormatter().Deserialize(ms);
+        }
     }
 }

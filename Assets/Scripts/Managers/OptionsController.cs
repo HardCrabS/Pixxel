@@ -24,7 +24,7 @@ public class OptionsController : MonoBehaviour
         volumeSlider.onValueChanged.AddListener(delegate { AudioController.Instance.SetMusicVolume(volumeSlider.value); });
     }
 
-    public void Pause()
+    public static void Pause()
     {
         if (AudioController.Instance)
             AudioController.Instance.Pause();
@@ -32,7 +32,7 @@ public class OptionsController : MonoBehaviour
         GridA.Instance.currState = GameState.wait;
         Time.timeScale = 0;
     }
-    public void Resume()
+    public static void Resume()
     {
         if (AudioController.Instance)
             AudioController.Instance.Resume();

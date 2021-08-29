@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class WorldInfoDisplay : MonoBehaviour 
@@ -8,7 +9,7 @@ public class WorldInfoDisplay : MonoBehaviour
     [SerializeField] UI_Screen infoPanel;
     [SerializeField] GameObject GOButton;
     [SerializeField] TextMeshProUGUI worldName;
-    [SerializeField] Text musicInfoText;
+    [SerializeField] TextMeshProUGUI musicInfoText;
     [SerializeField] Text worldStyleText;
     [SerializeField] Image worldBackgroundImage;
     [SerializeField] Image[] blockImages;
@@ -21,11 +22,27 @@ public class WorldInfoDisplay : MonoBehaviour
     [SerializeField] GameObject leaderboardInfo;
 
     public WorldInformation worldInformation;
+    WorldLoadInfo worldLoadInfo;
 
+    public delegate void OnWorldClicked(string worldId);
+    public event OnWorldClicked onWorldClicked;
+
+    public static WorldInfoDisplay Instance;
+
+    WorldLoader worldLoader;
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
     // Use this for initialization
     void Start () 
     {
-        //infoPanel.SetActive(false);
+        worldLoader = gameObject.AddComponent<WorldLoader>();
+
         leaderboardInfo.SetActive(true);
         trinketsInfo.SetActive(false);
     }
@@ -34,7 +51,7 @@ public class WorldInfoDisplay : MonoBehaviour
     {
         leaderboardInfo.SetActive(false);
         trinketsInfo.SetActive(true);
-        trinketManager.SetTrinkets(worldInformation);
+        trinketManager.SetTrinkets(worldLoadInfo);
     }
     public void ShowLeaderboardInfo()
     {
@@ -45,22 +62,32 @@ public class WorldInfoDisplay : MonoBehaviour
     {
         if (worldInfo != null)
         {
+            worldLoader.LoadWorldInfoAsync(worldInfo.worldLoadInfoRef, SetWorldLoadInfo);//load world info
+
             worldInformation = worldInfo;
+            SetBlockSprites();
             worldBackgroundImage.sprite = worldInfo.BackgroundSprite;
             worldName.text = worldInfo.id.ToUpper();
-            SetBlockSprites(worldInfo);
             worldStyleText.text = worldInfo.Style;
             musicInfoText.text = worldInfo.MusicCreator + " - " + worldInfo.MusicTitle;
-            LevelSettingsKeeper.settingsKeeper.worldInfo = worldInfo;
             trinketsInfo.SetActive(false);
             leaderboardInfo.SetActive(true);
             UI_System.Instance.SwitchScreens(infoPanel);
             SetLoadButton();
         }
     }
-    void SetBlockSprites(WorldInformation worldInfo)
+    void SetWorldLoadInfo(WorldLoadInfo worldLoadInfo)//called when worldInfo is loaded
     {
-        var allBlocks = worldInfo.Boxes;
+        this.worldLoadInfo = worldLoadInfo;//save loaded world
+
+        //set whoever needs it
+        LeaderboardController.Instance.SetLeaderboard();
+        LevelSettingsKeeper.settingsKeeper.worldInformation = worldInformation;
+        LevelSettingsKeeper.settingsKeeper.worldLoadInfo = worldLoadInfo;
+    }
+    void SetBlockSprites()
+    {
+        var allBlocks = worldInformation.Boxes;
         int i = 0;
         for (; i < allBlocks.Length; i++)
         {
@@ -81,7 +108,7 @@ public class WorldInfoDisplay : MonoBehaviour
     }
     void LoadWorld()
     {
-        FindObjectOfType<SceneLoader>().LoadConcreteWorld("World", worldInformation.Song, worldInformation.MusicStartDelay, useLoadingPanel:true);
+        FindObjectOfType<SceneLoader>().LoadConcreteWorld("World", worldLoadInfo.song, worldInformation.MusicStartDelay, useLoadingPanel:true);
         AudioController.Instance.Pause();
     }
 }

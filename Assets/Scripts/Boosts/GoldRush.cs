@@ -30,17 +30,9 @@ public class GoldRush : BoostBase
 
     public override void ExecuteBonus()
     {
-        if (grid == null)
-        {
-            grid = GridA.Instance;
-            goldenRockSprite = Resources.Load<Sprite>(RESOURCES_FOLDER + "Gold Rush/GoldenRock");
-            particleCoin = Resources.Load<GameObject>(RESOURCES_FOLDER + "Gold Rush/Coins Particle");
-            goldRushPanel = Resources.Load<GameObject>(RESOURCES_FOLDER + "Gold Rush/Gold Rush Panel");
+        base.ExecuteBonus();
+        GetResources();
 
-            goldStart = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_alert");
-            turnGold = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr1");
-            goldTapped = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr2");
-        }
         LivesManager.Instance.BombCounterState = BombCounterState.waiting;//stop bombs counters
         startTime = timeToBonusLast;
         grid.onGoldRushMatch += ChangeSpriteOnMatch;
@@ -57,6 +49,22 @@ public class GoldRush : BoostBase
         StartCoroutine(StartGoldRushTimer());
         audioSource.PlayOneShot(goldStart);
     }
+
+    private void GetResources()
+    {
+        if (grid == null)
+        {
+            grid = GridA.Instance;
+            goldenRockSprite = Resources.Load<Sprite>(RESOURCES_FOLDER + "Gold Rush/GoldenRock");
+            particleCoin = Resources.Load<GameObject>(RESOURCES_FOLDER + "Gold Rush/Coins Particle");
+            goldRushPanel = Resources.Load<GameObject>(RESOURCES_FOLDER + "Gold Rush/Gold Rush Panel");
+
+            goldStart = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_alert");
+            turnGold = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr1");
+            goldTapped = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr2");
+        }
+    }
+
     void ChangeSpriteOnMatch(int row, int column)
     {
         audioSource.PlayOneShot(turnGold);
@@ -73,15 +81,15 @@ public class GoldRush : BoostBase
         }
         else if (lvl <= 6)
         {
-            timeToBonusLast = 8;
+            timeToBonusLast = 6;
         }
         else if (lvl <= 9)
         {
-            timeToBonusLast = 10;
+            timeToBonusLast = 7;
         }
         else
         {
-            timeToBonusLast = 13;
+            timeToBonusLast = 8;
         }
     }
 }

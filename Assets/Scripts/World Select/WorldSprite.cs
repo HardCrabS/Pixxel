@@ -11,8 +11,6 @@ public class WorldSprite : MonoBehaviour
 
     WorldInfoDisplay infoDisplay;
     GameObject bubbleClone;
-    const string UNLOCKED_IN_SHOP = "Unlocked in shop! ";
-    const string UNLOCKED_BY_RANK = "Unlocked by Rank ";
 
     void Start()
     {
@@ -31,14 +29,14 @@ public class WorldSprite : MonoBehaviour
                 GetComponent<Button>().onClick.AddListener(delegate()
                 {
                     string unlockReq = 
-                    CollectionController.GetUnlockRequirement(LevelReward.World, worldInformation.id, UNLOCKED_IN_SHOP, UNLOCKED_BY_RANK);
+                    CollectionController.GetUnlockRequirement(LevelReward.World, worldInformation);
                     StartCoroutine(SpawnBubble(unlockReq));
                 });
             }
         }
         else
         {
-            infoDisplay = FindObjectOfType<WorldInfoDisplay>();
+            infoDisplay = WorldInfoDisplay.Instance;
             GetComponent<Button>().onClick.AddListener(OpenWorldInfoPanel);
         }
     }
@@ -47,7 +45,6 @@ public class WorldSprite : MonoBehaviour
         if (infoDisplay != null)
         {
             infoDisplay.SetInfoPanel(worldInformation);
-            LeaderboardController.Instance.SetLeaderboard();
         }
     }
 
@@ -60,7 +57,8 @@ public class WorldSprite : MonoBehaviour
         {
             yield return null;
         }
-        bubbleClone.GetComponentInChildren<SequentialText>().PlayMessage(unlockRequirement);
+        text.text = unlockRequirement;
+        //bubbleClone.GetComponentInChildren<SequentialText>().PlayMessage(unlockRequirement);
         Destroy(bubbleClone, 3);
     }
 }

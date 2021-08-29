@@ -4,7 +4,8 @@ public class LevelSettingsKeeper : MonoBehaviour
 {
     public static LevelSettingsKeeper settingsKeeper;
 
-    public WorldInformation worldInfo;
+    public WorldInformation worldInformation;
+    public WorldLoadInfo worldLoadInfo;
 
     void Awake()
     {

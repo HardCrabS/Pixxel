@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +9,8 @@ public class BlackHole : BoostBase
 
     GameObject barrierPrefab, blackHolePrefab;
     GameObject barrier, blackHole;  //clones
+    AudioClip holeSFX;
+
     GridA grid;
 
     const string FOLDER_NAME = "Black Hole/";
@@ -27,6 +29,8 @@ public class BlackHole : BoostBase
         {
             barrierPrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Barrier");
             blackHolePrefab = Resources.Load<GameObject>(RESOURCES_FOLDER + FOLDER_NAME + "Black Hole");
+            holeSFX = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Black Hole/sfx_boost_blackhole");
+
         }
     }
     IEnumerator BarrierFadeAlpha(float targetAlpha, float alphaSpeed = 1f)
@@ -43,6 +47,9 @@ public class BlackHole : BoostBase
     }
     void SpawnBlackHole()
     {
+        audioSource.PlayOneShot(holeSFX); //play audio sfx
+        GridA.Instance.currState = GameState.wait; // pause movement of blocks
+
         Transform centerBoxPanel = grid.boxesCenterPanel;
         barrier = Instantiate(barrierPrefab, centerBoxPanel.position, transform.rotation, centerBoxPanel);
         StartCoroutine(BarrierFadeAlpha(1));
@@ -75,6 +82,7 @@ public class BlackHole : BoostBase
         yield return StartCoroutine(BarrierFadeAlpha(0));
         Destroy(barrier);
         StartCoroutine(grid.MoveBoxesDown());
+        GridA.Instance.currState = GameState.move; //reallow game movement
         finished = true;
     }
 

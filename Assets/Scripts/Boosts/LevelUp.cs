@@ -12,6 +12,16 @@ public class LevelUp : MonoBehaviour
     public BoostBase bonus;
 
     AudioSource audioSource;
+
+    public static LevelUp Instance;
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -19,6 +29,11 @@ public class LevelUp : MonoBehaviour
 
     public void UpgradeBoost()
     {
+        if (boostInfo == null)//locked boost has been clicked
+        {
+            audioSource.PlayOneShot(boostUpgradeError);
+            return;
+        }
         int level = GameData.gameData.GetBoostLevel(boostInfo.id);
         if (level < 10 && CoinsDisplay.Instance.GetCoins() >= boostInfo.GetUpgradeCost(level))
         {
@@ -27,7 +42,7 @@ public class LevelUp : MonoBehaviour
             GameData.Save();
             level++;
             ClickOnBoost.Instance.ChangeBoostText(boostInfo);
-            bonusManager.UpdateBoostSprites(boostInfo.id, level);
+            bonusManager.UpdateBoostSprites(boostInfo, level);
             equipButton.UpdateEquipedBoosts(boostInfo);
 
             var part = Instantiate(upgradePart, bonus.transform);

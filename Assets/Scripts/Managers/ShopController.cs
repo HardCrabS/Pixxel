@@ -13,6 +13,7 @@ public class ShopController : MonoBehaviour
     [SerializeField] Text unlockNumber;
     [SerializeField] Text itemDescription;
     [SerializeField] Text costText;
+    [SerializeField] Image descriptionImage;
     [SerializeField] TextMeshProUGUI costNoSaleText;
     [SerializeField] Button buyButton;
     [SerializeField] Color equipColor;
@@ -31,6 +32,9 @@ public class ShopController : MonoBehaviour
     [SerializeField] Sprite titleIcon, bannerIcon;
     [SerializeField] Sprite noSaleSprite;
     [Range(0, 100)] [SerializeField] int saleMin, saleMax;
+
+    [Header("IAP Coins")]
+    [SerializeField] GameObject coinsScreen;
 
     [Header("Worlds")]
     [SerializeField] Transform worldsContainer;
@@ -132,15 +136,26 @@ public class ShopController : MonoBehaviour
         trinketTogle.isOn = false;
         titleTogle.isOn = false;
         bannerTogle.isOn = false;
+        descriptionImage.gameObject.SetActive(false);
+        coinsScreen.SetActive(false);
         welcomeScreen.SetActive(true);
         SetUIElementsActiveness(false, false, false);
         unlockNumber.text = "";
+        itemDescription.text = "";
         sectionName.text = SequentialText.ColorString("WELCOME\n", welcomeSectionColor) + SECTION_NAME_DOTS;
+    }
+
+    public void CoinsIAP()
+    {
+        coinsScreen.SetActive(true);
+        welcomeScreen.SetActive(false);
+        sectionName.text = SequentialText.ColorString("COIN SHOP!\n", welcomeSectionColor) + SECTION_NAME_DOTS;
     }
 
     #region Welcome
     void SetItemsForSale()
     {
+        descriptionImage.gameObject.SetActive(true);
         if (TimeHasPassed())    //new sale every 6 hours
         {
             firstPickedSaleItem = PickRandomItemForSale();
@@ -171,12 +186,12 @@ public class ShopController : MonoBehaviour
 
         saleItemButton1.onClick.AddListener(delegate ()
         {
-            SetSaleSelection(saleItemButton1.transform.position);
+            SetSelectionGlowPos(saleSelectionGlow, saleItemButton1.transform.position);
             currChosenSaleItem = firstPickedSaleItem;
         });
         saleItemButton2.onClick.AddListener(delegate ()
         {
-            SetSaleSelection(saleItemButton2.transform.position);
+            SetSelectionGlowPos(saleSelectionGlow, saleItemButton2.transform.position);
             currChosenSaleItem = secondPickedSaleItem;
         });
 
@@ -250,46 +265,47 @@ public class ShopController : MonoBehaviour
     {
         if (currChosenSaleItem == null)
             return;
-        Transform container = null;
+        RectTransform container = null;
         switch (currChosenSaleItem.reward)
         {
             case LevelReward.World:
                 {
                     worldTogle.isOn = true;
-                    container = worldsContainer;
+                    container = (RectTransform)worldsContainer;
                     break;
                 }
             case LevelReward.Boost:
                 {
                     boostTogle.isOn = true;
-                    container = boostsContainer;
+                    container = (RectTransform)boostsContainer;
                     break;
                 }
             case LevelReward.Trinket:
                 {
                     trinketTogle.isOn = true;
-                    container = trinketsContainer;
+                    container = (RectTransform)trinketsContainer;
                     break;
                 }
             case LevelReward.Title:
                 {
                     titleTogle.isOn = true;
-                    container = titlesContainer;
+                    container = (RectTransform)titlesContainer;
                     break;
                 }
             case LevelReward.Banner:
                 {
                     bannerTogle.isOn = true;
-                    container = bannersContainer;
+                    container = (RectTransform)bannersContainer;
                     break;
                 }
         }
 
-        foreach (Transform child in container)
+        foreach (RectTransform child in container)
         {
             if (child.gameObject.name == currChosenSaleItem.id)
             {
                 StartCoroutine(PressButtonDelayed(child.GetComponent<Button>()));
+                SnapTo(child, container, container.GetComponentInParent<ScrollRect>());
                 break;
             }
         }
@@ -310,15 +326,12 @@ public class ShopController : MonoBehaviour
         yield return new WaitForSeconds(0.01f);
         button.onClick.Invoke();
     }
-    void SetSaleSelection(Vector3 pos)
-    {
-        saleSelectionGlow.position = pos;
-    }
     #endregion
     #region World
     public void SetWorldShopTexts()   //called on section toggles event
     {
         if (currCollectionSection == CollectionSection.World) return;
+        descriptionImage.gameObject.SetActive(false);
         SetWorlds();
         currCollectionSection = CollectionSection.World;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.World)
@@ -333,9 +346,10 @@ public class ShopController : MonoBehaviour
         if (worldsContainer.childCount > 3) return;
         var worldsUnlocked = GameData.gameData.saveData.worldIds;
 
-        //spawn 2 empty objects at the beggining to make scroll offset
-        Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
-        Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
+
         for (int i = 0; i < worlds.Length; i++)
         {
             string worldName = worlds[i].id;
@@ -344,7 +358,7 @@ public class ShopController : MonoBehaviour
             worldPanel.GetComponent<Image>().sprite = worlds[i].GetRewardSprite();
             Button button = worldPanel.GetComponent<Button>();
             Color myColor = new Color(1, 0, 0.282f);
-            string descr = SequentialText.ColorString("<size=410>" + worldName + "</size>", myColor);
+            string descr = SequentialText.ColorString("<size=300>" + worldName + "</size>", myColor);
             int index = i;
 
             if (!worldsUnlocked.Contains(worlds[i].id))
@@ -358,12 +372,15 @@ public class ShopController : MonoBehaviour
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(worldSelectionGlow, worldPanel.position); });
         }
-        //spawn 2 empty objects at the end to make scroll offset
-        Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
-        Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
+
+        worldsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 1500;
     }
     void OnWorldClicked(string description, int index, bool isUnlocked, Transform worldPanel = null)
     {
+        descriptionImage.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(true); //buy and equip button
         string initDescr = description;
         if (!isUnlocked)
@@ -395,6 +412,7 @@ public class ShopController : MonoBehaviour
     public void SetBoostShopTexts()   //called on section toggles event
     {
         if (currCollectionSection == CollectionSection.Boost) return;
+        descriptionImage.gameObject.SetActive(false);
         SetBoosts();
         currCollectionSection = CollectionSection.Boost;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Boost)
@@ -407,6 +425,10 @@ public class ShopController : MonoBehaviour
     {
         if (boostsContainer.childCount > 3) return;
         var boostsUnlocked = GameData.gameData.saveData.boostIds;
+
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), boostsContainer);
 
         for (int i = 0; i < boostInfos.Length; i++)
         {
@@ -421,7 +443,7 @@ public class ShopController : MonoBehaviour
 
             string title = boost.id;
             Button button = boostPanel.GetComponent<Button>();
-            string descr = "<color=#ff0048><size=450>" + title + "</size></color>";
+            string descr = "<color=#ff0048><size=300>" + title + "</size></color>";
             int index = i;
             if (!boostsUnlocked.Contains(boost.id))
             {
@@ -440,9 +462,16 @@ public class ShopController : MonoBehaviour
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(boostSelectionGlow, boostPanel.position); });
         }
+
+        //spawn 2 empty objects at the beggining to make scroll offset (2 for 2 rows)
+        for (int i = 0; i < 2; i++)
+            Instantiate(new GameObject().AddComponent<RectTransform>(), boostsContainer);
+
+        boostsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 1500;
     }
     void OnBoostClicked(string description, int index, bool isUnlocked, Transform boostPanel = null)
     {
+        descriptionImage.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(true); //buy and equip button
         string initDescr = description;
         if (!isUnlocked)
@@ -474,6 +503,7 @@ public class ShopController : MonoBehaviour
     public void SetTrinketShopTexts()
     {
         if (currCollectionSection == CollectionSection.Trinket) return;
+        descriptionImage.gameObject.SetActive(false);
         SetTrinkets();
         currCollectionSection = CollectionSection.Trinket;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Trinket)
@@ -498,7 +528,7 @@ public class ShopController : MonoBehaviour
             Button button = trinket.GetComponent<Button>();
             string trinkName = trinkets[j].id;
             Color myColor = new Color(1, 0, 0.282f);
-            string descr = SequentialText.ColorString("<size=420>" + trinkName + "</size>", myColor);
+            string descr = SequentialText.ColorString("<size=300>" + trinkName + "</size>", myColor);
 
             int index = j;
             if (!trinketsUnlocked.Contains(trinkets[j].id))
@@ -515,9 +545,12 @@ public class ShopController : MonoBehaviour
         //spawn 3 empty objects at the end to make scroll offset (3 for 3 rows)
         for (int i = 0; i < 3; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), trinketsContainer);
+
+        trinketsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 1500;
     }
     void OnTrinketClicked(string description, int index, bool isUnlocked, Transform trinketObj = null)
     {
+        descriptionImage.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(true);
         string initDescr = description;
         if (!isUnlocked)
@@ -559,6 +592,7 @@ public class ShopController : MonoBehaviour
     public void SetTitleShopTexts()
     {
         if (currCollectionSection == CollectionSection.Title) return;
+        descriptionImage.gameObject.SetActive(false);
         SetTitles();
         currCollectionSection = CollectionSection.Title;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Title)
@@ -579,7 +613,7 @@ public class ShopController : MonoBehaviour
             string title = titles[i].id.ToString();
             titlePanel.GetComponentInChildren<Text>().text = title;
             Button button = titlePanel.GetComponent<Button>();
-            string descr = "<color=#ff0048><size=450>" + title + "</size></color>";
+            string descr = "<color=#ff0048><size=300>" + title + "</size></color>";
             int index = i;
             if (!titlesUnlocked.Contains(title))
             {
@@ -593,10 +627,16 @@ public class ShopController : MonoBehaviour
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(titleSelectionGlow, titlePanel.position); });
         }
+
+        //spawn 1 empty objects at the beggining to make scroll offset
+            Instantiate(new GameObject().AddComponent<RectTransform>(), titlesContainer);
+
+        titlesContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 1500;
     }
     void OnTitleClicked(string description, int index, bool isUnlocked, Transform titlePanel = null)
     {
         string title = titles[index].id;
+        descriptionImage.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(true); //buy and equip button
         string initDescr = description;
         if (!isUnlocked)
@@ -639,6 +679,7 @@ public class ShopController : MonoBehaviour
     public void SetBannerShopTexts()
     {
         if (currCollectionSection == CollectionSection.Banner) return;
+        descriptionImage.gameObject.SetActive(false);
         SetBanners();
         currCollectionSection = CollectionSection.Banner;
         unlockNumber.text = "<size=400>" + AmountOfBoughtItems(LevelReward.Banner)
@@ -657,10 +698,21 @@ public class ShopController : MonoBehaviour
         {
             var bannerPanel = Instantiate(bannerPanelPrefab, bannersContainer).transform;
             bannerPanel.gameObject.name = banners[i].id;
-            bannerPanel.GetComponent<Image>().sprite = banners[i].Sprite;
+            var image = bannerPanel.GetComponent<Image>();
+            image.sprite = banners[i].Sprite;
+            if (banners[i].Material != null)
+            {
+                image.material = banners[i].Material;
+                if (!string.IsNullOrEmpty(banners[i].animatorValues.propertyName))//has property to animate
+                {
+                    var matAnimator = bannerPanel.gameObject.AddComponent<MatPropertyAnim>();
+                    matAnimator.SetValues(banners[i].animatorValues);
+                    matAnimator.Animate();
+                }
+            }
             Button button = bannerPanel.GetComponent<Button>();
             string bannerName = banners[i].id;
-            string descr = "<color=#ff0048><size=450>" + bannerName + "</size></color>";
+            string descr = "<color=#ff0048><size=300>" + bannerName + "</size></color>";
             int index = i;
             if (!bannersUnlocked.Contains(bannerName))
             {
@@ -673,9 +725,15 @@ public class ShopController : MonoBehaviour
             }
             button.onClick.AddListener(delegate () { SetSelectionGlowPos(bannerSelectionGlow, bannerPanel.position); });
         }
+
+        //spawn 1 empty objects at the beggining to make scroll offset
+            Instantiate(new GameObject().AddComponent<RectTransform>(), bannersContainer);
+
+        bannersContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 1500;
     }
     void OnBannerClicked(string description, int index, bool isUnlocked, Transform bannerPanel = null)
     {
+        descriptionImage.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(true);
         string initDescr = description;
         if (!isUnlocked)
@@ -710,11 +768,33 @@ public class ShopController : MonoBehaviour
     }
     void SetBannerEquipButton(RewardTemplate rewardTemplate)
     {
-        Sprite sprite = rewardTemplate.GetRewardSprite();
-        GameData.gameData.ChangeBanner(BANNERS_LOCATION + sprite.name);   //save banner path 
-        profileHandler.UpdateBanner(sprite);   //update banner in profile panel
+        Banner banner = (Banner)rewardTemplate;
+        string spritePath = BANNERS_LOCATION + banner.Sprite.name;
+        string materialPath = "";
+        if (banner.Material != null)
+            materialPath = BANNERS_LOCATION + banner.Material.name;
+        GameData.gameData.ChangeBanner(spritePath + "|" + materialPath, banner.animatorValues);//save banner path 
+        profileHandler.UpdateBanner(banner.Sprite, banner.Material, banner.animatorValues);//update banner in profile panel
     }
     #endregion
+
+    public static void SnapTo(RectTransform target, RectTransform contentPanel, ScrollRect scrollRect)
+    {
+        Canvas.ForceUpdateCanvases();
+
+        if (scrollRect.horizontal)
+        {
+            contentPanel.anchoredPosition =
+                (Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
+                - Vector2.right * scrollRect.transform.InverseTransformPoint(target.position);
+        }
+        else
+        {
+            contentPanel.anchoredPosition =
+                (Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
+                - Vector2.up * scrollRect.transform.InverseTransformPoint(target.position);
+        }
+    }
     private void ResetClickEvent(Action clickFunction, Transform panelClone, Transform selectionGlow)
     {
         Button button = panelClone.GetComponent<Button>();

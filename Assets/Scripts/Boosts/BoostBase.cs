@@ -5,7 +5,7 @@ public abstract class BoostBase : MonoBehaviour
 {
     protected int boostLevel = 1;
     protected int spriteIndex = 0;
-    protected bool finished = false;
+    protected bool finished = true;
     protected AudioSource audioSource;
 
     protected const string RESOURCES_FOLDER = "Sprites/BoostSprites/";
@@ -17,6 +17,11 @@ public abstract class BoostBase : MonoBehaviour
     public virtual void ExecuteBonus()
     {
         finished = false;
+    }
+    public void StopBonus()
+    {
+        StopAllCoroutines();
+        finished = true;
     }
     public bool IsFinished() => finished;  
     public void LevelUpBoost()

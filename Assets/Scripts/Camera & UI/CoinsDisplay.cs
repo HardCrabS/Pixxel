@@ -14,12 +14,10 @@ public class CoinsDisplay : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Text coinsText;
-    [SerializeField] TextMeshProUGUI currCoinsEarnedText; //for ingame testing. TODO remove
 
     int coins;
     float currChance;
     int coinsAtStartOfLevel;
-    int coinsEarnedSinceStart = 0;
     float coinSoundAtATime = 0.1f;
     float lastTimeCoinSoundPlayed = 0;
 
@@ -33,7 +31,8 @@ public class CoinsDisplay : MonoBehaviour
     }
     void Start()
     {
-        coins = SaveSystem.LoadCoinsAmount();
+        //coins = SaveSystem.LoadCoinsAmount();
+        coins = GameData.gameData.saveData.coins;
         coinsAtStartOfLevel = coins;
         currChance = startCoinDropChance;
         //coinsText = GetComponent<Text>();
@@ -52,9 +51,9 @@ public class CoinsDisplay : MonoBehaviour
     {
         if (coinsText == null) return;
         coinsText.text = coins.ToString();
-        if (currCoinsEarnedText)
-            currCoinsEarnedText.text = "coins:\n" + coinsEarnedSinceStart;
-        SaveSystem.SaveCoinsAmount(coins);
+
+        GameData.gameData.saveData.coins = coins;
+        //SaveSystem.SaveCoinsAmount(coins);
     }
 
     public void RandomizeCoin()
@@ -80,13 +79,11 @@ public class CoinsDisplay : MonoBehaviour
     public void AddCoinsAmount(int value)
     {
         coins += value;
-        coinsEarnedSinceStart += value;
         UpdateText();
     }
     private void AddCoins()
     {
         coins += coinsPerBlock;
-        coinsEarnedSinceStart += coinsPerBlock;
     }
     public void DecreaseCoins(int amount)
     {

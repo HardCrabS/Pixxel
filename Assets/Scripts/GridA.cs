@@ -66,6 +66,8 @@ public class GridA : MonoBehaviour
     [SerializeField] float pointsXPforLevel = 1;
 
     [Header("Grid Settings")]
+    public bool playTutorial = false;
+    public bool respawnBlocks = true;
     [SerializeField] LevelTemplate tutorialTemplate;
     [SerializeField] TileType[] boardLayout;
     public GameObject[,] allBoxes;
@@ -114,9 +116,9 @@ public class GridA : MonoBehaviour
         Instance = this;
         if (LevelSettingsKeeper.settingsKeeper != null)
         {
-            bombSpawnChance = LevelSettingsKeeper.settingsKeeper.worldInfo.BombSpawnChance;
-            boxPrefabs = LevelSettingsKeeper.settingsKeeper.worldInfo.Boxes;
-            template = LevelSettingsKeeper.settingsKeeper.worldInfo.LeaderboardLevelTemplate;
+            bombSpawnChance = LevelSettingsKeeper.settingsKeeper.worldInformation.BombSpawnChance;
+            boxPrefabs = LevelSettingsKeeper.settingsKeeper.worldInformation.Boxes;
+            template = LevelSettingsKeeper.settingsKeeper.worldLoadInfo.template;
             if (template != null)
             {
                 width = template.width;
@@ -150,10 +152,11 @@ public class GridA : MonoBehaviour
             AudioController.Instance.onSFXVolumeChange += ChangeSFXVolume;
         }
 
-        /*if (CheckForTutorial())
+        if (playTutorial)
         {
+            currState = GameState.wait;
             return;
-        }*/
+        }
         StartCoroutine(CreateGridDelayed(gridCreateDelay));
         //CreateGrid();
     }
@@ -161,16 +164,6 @@ public class GridA : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         CreateGrid();
-    }
-    bool CheckForTutorial()
-    {
-        if (PlayerPrefs.GetInt("TUTORIAL", 0) == 1) //if not first time playing
-        {
-            return false;
-        }
-
-        currState = GameState.wait;
-        return true;
     }
 
     public void SetDefaultTemplate()
@@ -195,7 +188,7 @@ public class GridA : MonoBehaviour
                 blankSpaces[x, y] = false;
             }
         }
-        StartCoroutine(CreateGridDelayed(3.5f));
+        StartCoroutine(CreateGridDelayed(0));
     }
 
     public void FillTutorialLayout()
@@ -218,22 +211,21 @@ public class GridA : MonoBehaviour
                 layoutIndex++;
             }
         }
+        GenerateBlankSpaces();
 
-        Vector2 tempPos = new Vector3(1, 7 + offset);
-        SpawnNormalBlock(1, 7, tempPos, 3); //yellow on the left
+        parentOfAllBoxes.position += Vector3.up * offset;
+
+        SpawnBomb(1, 7);//bomb on the left
+        //SpawnNormalBlock(1, 7, 3); //yellow on the left
         for (int x = 2; x < 5; x += 2)
         {
-            tempPos = new Vector3(x, 7 + offset); //red on 2 places
-            SpawnNormalBlock(x, 7, tempPos, 4);
+            SpawnNormalBlock(x, 7, 4);//red on 2 places
         }
-        tempPos = new Vector3(3, 6 + offset); //red on 1 place below
-        SpawnNormalBlock(3, 6, tempPos, 4);
-        tempPos = new Vector3(3, 7 + offset); //blue between red ones
-        SpawnNormalBlock(3, 7, tempPos, 0);
-        tempPos = new Vector3(5, 7 + offset); //blue on the right
-        SpawnNormalBlock(5, 7, tempPos, 0);
+        SpawnNormalBlock(3, 6, 4);//red on 1 place below
+        SpawnNormalBlock(3, 7, 0);//blue between red ones
+        SpawnNormalBlock(5, 7, 0);//blue on the right
 
-        GenerateBlankSpaces();
+        parentOfAllBoxes.DOMove(Vector3.zero, 0.5f);
     }
 
     public void CrosshairToBlock(int x, int y)
@@ -308,25 +300,37 @@ public class GridA : MonoBehaviour
             {
                 if (!blankSpaces[x, y] && !bombTiles[x, y])
                 {
-                    Vector2 tempPos = new Vector3(x, y + offset);
                     int randIndex = Random.Range(0, boxPrefabs.Length);
                     while (MatchesAt(x, y, boxPrefabs[randIndex]))
                     {
                         randIndex = Random.Range(0, boxPrefabs.Length);
                     }
-                    SpawnNormalBlock(x, y, tempPos, randIndex);
+                    SpawnNormalBlock(x, y, randIndex);
                 }
             }
         }
         parentOfAllBoxes.DOMove(Vector3.zero, 0.5f);
     }
 
-    private void SpawnNormalBlock(int x, int y, Vector2 tempPos, int index)
+    private void SpawnNormalBlock(int x, int y, int index)
     {
-        GameObject go = Instantiate(boxPrefabs[index], tempPos, transform.rotation, parentOfAllBoxes);
+        Vector2 pos = new Vector2(x, y);
+        GameObject go = Instantiate(boxPrefabs[index], parentOfAllBoxes);
+        go.transform.localPosition = pos;
         go.GetComponent<Box>().UpdatePos(x, y);
         allBoxes[x, y] = go;
         go.name = x + "," + y;
+    }
+
+    private void SpawnBomb(int x, int y)
+    {
+        Vector2 pos = new Vector2(x, y);
+        GameObject bomb = Instantiate(bombTilePrefab, parentOfAllBoxes);
+        bomb.transform.localPosition = pos;
+        bombTiles[x, y] = bomb.GetComponent<BombTile>();
+        bomb.GetComponent<Box>().UpdatePos(x, y);
+        allBoxes[x, y] = bomb;
+        bomb.name = "Bomb";
     }
 
     public void SetBlankSpace(int x, int y, bool blank)
@@ -481,7 +485,7 @@ public class GridA : MonoBehaviour
         //if (matchFinder.currentMatches.Count == 4 || matchFinder.currentMatches.Count == 7)
         if (currBox == null) return;
 
-        int matchedCount = currBox.isMatched ? CountMatchedWithBox(currBox) 
+        int matchedCount = currBox.isMatched ? CountMatchedWithBox(currBox)
             : CountMatchedWithBox(currBox.neighborBox.GetComponent<Box>());
 
         if (matchedCount == 4)
@@ -506,7 +510,7 @@ public class GridA : MonoBehaviour
                 }
             }
         }
-        else if (matchedCount == 5)
+        else if (matchedCount >= 5)
         {
             if (currBox != null)
             {
@@ -549,23 +553,28 @@ public class GridA : MonoBehaviour
     }
     public void SetBlockGoldenRock(Box box)
     {
-        var goldenRock = Instantiate(goldenRockPrefab, box.transform.position, Quaternion.identity);
-        goldenRock.GetComponent<GoldenRock>().SetValues(box.row, box.column);
-
-        DestroyBlockNoFX(box.row, box.column);
-        SetBlankSpace(box.row, box.column, true);
+        box.SetMatched(false);
+        box.SetMatchable(false);
+        box.currState = BoxState.Golden;
+        var goldenRock = box.gameObject.AddComponent<GoldenRock>();
+        goldenRock.SetValues(goldenRockPrefab);
+        goldenRock.OnGoldenRockClicked.AddListener(() =>
+        {
+            DestroyBlockAtPosition(box.row, box.column, useDestructionFX: false);
+            StartCoroutine(GridA.Instance.MoveBoxesDown());
+        });
     }
     public void SetBlockFiredUp(Box box)
     {
         box.SetMatched(false);
-        box.FiredUp = true;
+        box.currState = BoxState.FiredUp;
         FiredUpVFX(box);
     }
     public void SetBlockWarped(Box box)
     {
-		box.gameObject.tag = "Untagged";
+        box.gameObject.tag = "Untagged";
         box.SetMatched(false);
-        box.Warped = true;
+        box.currState = BoxState.Warped;
         WarpBoxVFX(box);
     }
     public IEnumerator DestroyAllSameColor(string boxTag, float delay = 2)
@@ -599,41 +608,39 @@ public class GridA : MonoBehaviour
         StartCoroutine(MoveBoxesDown());
     }
 
-    public void DestroyBlockAtPosition(int row, int column, bool playSound = false)
+    public void DestroyBlockAtPosition(int row, int column, bool playSound = false, bool useDestructionFX = true)
     {
         if (allBoxes[row, column] != null)
         {
             Box block = allBoxes[row, column].GetComponent<Box>();
-            if (block.FiredUp)
+            if (block.currState == BoxState.FiredUp)
             {
-                block.FiredUp = false;
+                block.currState = BoxState.Normal;
                 FiredUpBlock(block);
             }
-            else if (block.Warped)
+            else if (block.currState == BoxState.Warped)
             {
-                block.Warped = false;
+                block.currState = BoxState.Normal;
                 StartCoroutine(DestroyAllSameColor(block.tag));
             }
+            else if (block.currState == BoxState.Golden)
+            {
+                block.currState = BoxState.Normal;
+                block.GetComponent<GoldenRock>().DetonateGoldenRock();
+            }
 
-            DynamicBlockSpriteDestruction(row, column);
+            if (useDestructionFX)
+                DynamicBlockSpriteDestruction(row, column);
+            else
+                Destroy(allBoxes[row, column]);
+
+            //BlockDestroyedSFX();  //sound is played once after all matched blocks are destroyed
 
             //sound is played once after all matched blocks are destroyed
             //only play when necessary
             if (playSound)
-                BlockDestroyedSFX();  
+                BlockDestroyedSFX();
 
-            allBoxes[row, column] = null;
-            bombTiles[row, column] = null;
-
-            AddXPandScorePoints();
-        }
-    }
-    //destroys block without blockFX
-    public void DestroyBlockNoFX(int row, int column)
-    {
-        if (allBoxes[row, column] != null)
-        {
-            Destroy(allBoxes[row, column]);
             allBoxes[row, column] = null;
             bombTiles[row, column] = null;
 
@@ -687,7 +694,8 @@ public class GridA : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(0.4f);
-        StartCoroutine(FillBoard());
+        if (respawnBlocks)
+            StartCoroutine(FillBoard());
     }
 
     private void RespawnBoxes()
@@ -721,21 +729,25 @@ public class GridA : MonoBehaviour
             }
         }
     }
-    //check if block is null meaning it will be respawned and moved down
-    //also if any block is moving atm, meaning it might make a match later
-    //also if any block is matched atm
-    public bool MoovingOrMatchingOnBoard()
+
+    public bool AcitivityOnBoard()
     {
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < hight; y++)
             {
-                if (allBoxes[x, y] == null) return true;
+                //if block is null meaning it will be respawned and moved down
+                //if (allBoxes[x, y] == null) return true;
 
-                var boxComp = allBoxes[x, y].GetComponent<Box>();
-                if (boxComp.Mooving || boxComp.isMatched)
+                if (allBoxes[x, y] != null)
                 {
-                    return true;
+                    var boxComp = allBoxes[x, y].GetComponent<Box>();
+                    //if any block is moving atm, meaning it might make a match later
+                    //if any block is matched atm
+                    if (boxComp.Mooving || boxComp.isMatched)
+                    {
+                        return true;
+                    }
                 }
             }
         }
@@ -778,7 +790,7 @@ public class GridA : MonoBehaviour
                 EndGameManager.Instance.GameOver();
             yield break;
         }
-        currState = GameState.move;
+        //currState = GameState.move;
     }
 
     private void SwitchPieces(int row, int column, Vector2 direction)
@@ -842,6 +854,9 @@ public class GridA : MonoBehaviour
         {
             for (int y = 0; y < hight; y++)
             {
+                if (allBoxes[x, y] == null && !blankSpaces[x, y])//block destroyed and will be respawned
+                    return false;
+
                 if (allBoxes[x, y] != null)
                 {
                     if (allBoxes[x, y].GetComponent<GoldenRock>())//gold rock can be tapped and destroyed by player
@@ -869,10 +884,10 @@ public class GridA : MonoBehaviour
     bool handlingDeadlock = false;
     int HandleDeadlock()
     {
-        if (PlayerPrefs.GetInt("TUTORIAL", 0) == 0)
+        if (playTutorial)
         {
             currState = GameState.move;
-            return 0; //if first time playing
+            return 0;
         }
         if (handlingDeadlock) return 0;
 
@@ -926,23 +941,6 @@ public class GridA : MonoBehaviour
         }
     }
 
-    /*public void TurnBlocksOff()
-    {
-        if (allBoxes == null) return;
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < hight; j++)
-            {
-                if (allBoxes[i, j] != null)
-                {
-                    var collider = allBoxes[i, j].GetComponent<Collider2D>();
-                    if (collider)
-                        Destroy(collider);
-                }
-            }
-        }
-    }*/
-
     #region add_game_params
     public void IncreaseBombSpawnChance(int value)
     {
@@ -954,10 +952,6 @@ public class GridA : MonoBehaviour
         Score.Instance.AddPoints(scorePointsToAddperBox * scoreStreak);
         LevelSlider.Instance.AddXPtoLevel(pointsXPforLevel);
         CoinsDisplay.Instance.RandomizeCoin();
-    }
-    public void SetXPpointsPerBoxByProcent(float procent)
-    {
-        pointsXPforLevel *= procent;
     }
     #endregion
     #region VFX

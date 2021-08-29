@@ -56,13 +56,13 @@ public class MatchFinder : MonoBehaviour
         if (leftOrDownBox && rightOrUpBox)
         {
             bool leftDownSameTag = leftOrDownBox.CompareTag(currentBox.tag);
-            bool leftDownWarped = leftOrDownBox.GetComponent<Box>().Warped;
+            bool leftDownWarped = leftOrDownBox.GetComponent<Box>().currState == BoxState.Warped;
 
             bool rightUpSameTag = rightOrUpBox.CompareTag(currentBox.tag);
-            bool rightUpWarped = rightOrUpBox.GetComponent<Box>().Warped;
+            bool rightUpWarped = rightOrUpBox.GetComponent<Box>().currState == BoxState.Warped;
 
             bool leftDownSameAsRightUp = leftOrDownBox.CompareTag(rightOrUpBox.tag);
-            bool currWarped = currentBox.GetComponent<Box>().Warped;
+            bool currWarped = currentBox.GetComponent<Box>().currState == BoxState.Warped;
 
             bool nearbySameTag = leftDownSameTag && rightUpSameTag;
             bool warpedBlockMatch = (leftDownSameTag || leftDownWarped) && (rightUpSameTag || rightUpWarped)
@@ -72,11 +72,11 @@ public class MatchFinder : MonoBehaviour
                 if (warpedBlockMatch)
                 {
                     //set warped block tag as nearby matched blocks
-                    if (leftOrDownBox.GetComponent<Box>().Warped)
+                    if (leftOrDownBox.GetComponent<Box>().currState == BoxState.Warped)
                         leftOrDownBox.tag = rightOrUpBox.tag;
-                    else if (currentBox.GetComponent<Box>().Warped)
+                    else if (currentBox.GetComponent<Box>().currState == BoxState.Warped)
                         currentBox.tag = rightOrUpBox.tag;
-                    else if (rightOrUpBox.GetComponent<Box>().Warped)
+                    else if (rightOrUpBox.GetComponent<Box>().currState == BoxState.Warped)
                         rightOrUpBox.tag = currentBox.tag;
                 }
                 Box curr = currentBox.GetComponent<Box>();

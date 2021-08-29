@@ -22,6 +22,9 @@ public class SequentialText : MonoBehaviour
     [SerializeField]
     private Color defaultColor = Color.black;
 
+    [SerializeField]
+    private Color specialColor = Color.red;
+
     [SerializeField] AudioClip typeSound;
 
     public float voicePitch = 1f;
@@ -141,7 +144,8 @@ public class SequentialText : MonoBehaviour
             }
 
             int insertIndex = RemoveFirstHiddenChar();
-            string newCharacterWithColorCode = ColorCharacter(message[index], currentColor);
+            Color color = SpecialSubstring(message, index) ? specialColor : defaultColor;
+            string newCharacterWithColorCode = ColorCharacter(message[index], color);
             SetText(GetText().Insert(insertIndex, newCharacterWithColorCode));
             index++;
 
@@ -168,6 +172,15 @@ public class SequentialText : MonoBehaviour
         PlayingMessage = false;
     }
 
+    bool SpecialSubstring(string str, int index)
+    {
+        int startIndex = str.IndexOf('[');
+        int endIndex = str.IndexOf(']');
+
+        if (startIndex < 0 || endIndex < 0) return false;
+        return index >= startIndex && index <= endIndex;
+    }
+
     private bool Skipping()
     {
         return Input.anyKey;
@@ -185,5 +198,13 @@ public class SequentialText : MonoBehaviour
     public static string ColorCharacter(char character, Color c)
     {
         return ColorString(character.ToString(), c);
+    }
+    public static string SizeString(string str, int size)
+    {
+        string sizedString = "<size=" + size + ">";
+        sizedString += str;
+        sizedString += "</size>";
+
+        return sizedString;
     }
 }

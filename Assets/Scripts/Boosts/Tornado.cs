@@ -25,10 +25,13 @@ public class Tornado : BoostBase
     public override void ExecuteBonus()
     {
         base.ExecuteBonus();
+
         movingBoxes = new List<GameObject>();
         GetResources();
 
         audioSource.PlayOneShot(tornadoSFX);
+        GridA.Instance.currState = GameState.wait; //disallow block movement
+
         SpawnFogAndBlur();
         StartCoroutine(MoveTornadoAround());
         StartCoroutine(SwitchBoxesPeriodically());
@@ -80,6 +83,8 @@ public class Tornado : BoostBase
             }
         }
         grid.DestroyAllMatches();
+        GridA.Instance.currState = GameState.move;
+
         finished = true;
 
         int rand = Random.Range(0, 2);
@@ -133,34 +138,17 @@ public class Tornado : BoostBase
 
     IEnumerator SwitchBoxPositions(int x1, int y1, int x2, int y2)
     {
-        //Debug.Break();
         GameObject box1, box2;
         box1 = grid.allBoxes[x1, y1];
         box2 = grid.allBoxes[x2, y2];
         Box boxComp1 = box1.GetComponent<Box>();
         Box boxComp2 = box2.GetComponent<Box>();
 
-        boxComp1.ChangeBoxPosition(x2, y2);
-        boxComp2.ChangeBoxPosition(x1, y1);
+        //switch positions
+        boxComp1.UpdatePos(x2, y2, moveBoxInPosition: true);
+        boxComp2.UpdatePos(x1, y1, moveBoxInPosition: true);
 
-        grid.allBoxes[x1, y1] = box2;   //switch boxes
-        grid.allBoxes[x2, y2] = box1;
-
-        var bombTile = grid.bombTiles[x1, y1];  //switch bombs
-        grid.bombTiles[x1, y1] = grid.bombTiles[x2, y2];
-        grid.bombTiles[x2, y2] = bombTile;
-
-        boxComp1.enabled = false;   //turn off box snapping to it's row and column
-        boxComp2.enabled = false;
-
-        box1.transform.DOLocalMove(box2.transform.position, boxMoveSpeed);
-        yield return box2.transform.DOLocalMove(box1.transform.position, boxMoveSpeed).WaitForCompletion();
-        //StartCoroutine(MoveTo(box1.transform, box2.transform.position, boxMoveSpeed));
-        //yield return StartCoroutine(MoveTo(box2.transform, box1.transform.position, boxMoveSpeed));
-        if (boxComp1)
-            boxComp1.enabled = true;
-        if (boxComp2)
-            boxComp2.enabled = true;
+        yield return new WaitForSeconds(0.5f);
 
         movingBoxes.Remove(box1);
         movingBoxes.Remove(box2);
@@ -227,15 +215,15 @@ public class Tornado : BoostBase
         base.SetBoostLevel(lvl);
         if (lvl >= 4 && lvl <= 6)
         {
-            numOfSpecialBoxes = 3;
+            numOfSpecialBoxes = 2;
         }
         else if (lvl <= 9)
         {
-            numOfSpecialBoxes = 5;
+            numOfSpecialBoxes = 3;
         }
         else
         {
-            numOfSpecialBoxes = 5;
+            numOfSpecialBoxes = 3;
             warpedBoxesChance = 50;
         }
     }

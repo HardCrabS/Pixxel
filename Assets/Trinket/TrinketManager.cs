@@ -9,23 +9,24 @@ public class TrinketManager : MonoBehaviour
     [SerializeField] TrinketInfo[] trinketInfos;
     [SerializeField] Text trinketsCollectedText;
 
-    public void SetTrinkets(WorldInformation worldInformation)
+    public void SetTrinkets(WorldLoadInfo worldLoadInformation)
     {
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
-        int trinketsCollected = trinketsUnlocked.Count;
-        LevelTemplate[] trinketTemplates = worldInformation.TrinketLevelTemplates;
+        LevelTemplate[] trinketTemplates = worldLoadInformation.trinketTemplates;
+        int unlockedInWorld = 0;
 
-        SetSprites(worldInformation.TrinketLevelTemplates);
+        SetSprites(worldLoadInformation.trinketTemplates);
 
         for (int i = 0; i < trinketTemplates.Length; i++)
         {
             if (trinketsUnlocked.Contains(trinketTemplates[i].id))
             {
                 trinketInfos[i].MakeUnlocked();
+                unlockedInWorld++;
             }
             trinketInfos[i].SetSelectionFrame(selectionFrame);
         }
-        trinketsCollectedText.text = "Collected: " + trinketsCollected + "/" + trinketTemplates.Length;
+        trinketsCollectedText.text = "Collected: " + unlockedInWorld + "/" + trinketTemplates.Length;
     }
 
     public void LockAllTrinkets()

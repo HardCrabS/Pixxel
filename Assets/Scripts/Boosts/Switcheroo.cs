@@ -11,6 +11,11 @@ public class Switcheroo : BoostBase
 
     public override void ExecuteBonus()
     {
+        base.ExecuteBonus();
+
+        GridA.Instance.currState = GameState.wait; //disallow block movement
+
+
         if (clip == null)
         {
             clip = Resources.Load<AnimationClip>(RESOURCES_FOLDER + "Switcheroo/Switch Anim");
@@ -63,6 +68,7 @@ public class Switcheroo : BoostBase
         yield return new WaitForSeconds(1f);
         MatchFinder.Instance.FindAllMatches();
         grid.DestroyAllMatches();
+        GridA.Instance.currState = GameState.move;
         finished = true;
     }
     void AddRandomTagsToList(int amount)
