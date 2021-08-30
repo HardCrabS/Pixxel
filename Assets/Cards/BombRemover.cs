@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BombRemover : MonoBehaviour
 {
-    float bombRemoveChance = 5;
+    float bombRemoveChance = 20;
     void Start()
     {
         EndGameManager.Instance.onMatchedBlock += RemoveBomb;

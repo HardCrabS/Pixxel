@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GobletPage : MonoBehaviour
 {
-    [SerializeField] float rechargePercent = 1.25f; // sets recharge to 25%
+    [SerializeField] float rechargePercent = 1.2f; // sets recharge to 20%
     // Use this for initialization
     void Start()
     {

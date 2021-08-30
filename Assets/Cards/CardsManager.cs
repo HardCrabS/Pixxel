@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardsManager : MonoBehaviour 
+public class CardsManager : MonoBehaviour
 {
     [SerializeField] GameObject exclamationBubble; //shows if card unclaimed
     [SerializeField] GameObject cardPanel;
@@ -18,6 +18,7 @@ public class CardsManager : MonoBehaviour
 
     const string FIRST_DRAW_CARD = "FirstDraw";
     const string FOOL_CARD = "Fool";
+    const string KING_CARD = "King";
 
     private void Start()
     {
@@ -112,10 +113,14 @@ public class CardsManager : MonoBehaviour
 
     public void DisplayCardInfo(Card card)
     {
-        if(card.Title.CompareTo(FOOL_CARD) == 0)//card is a fool
+        if (card.Title.CompareTo(FOOL_CARD) == 0)//card is a fool
         {
             //add animated coin
-            StartCoroutine(FoolTossCoin());
+            StartCoroutine(CardTossCoin(1));
+        }
+        else if (card.Title.CompareTo(KING_CARD) == 0)//card is king
+        {
+            StartCoroutine(CardTossCoin(50));
         }
 
         titleText.text = card.Title;
@@ -123,10 +128,10 @@ public class CardsManager : MonoBehaviour
         cardImage.sprite = card.Sprite;
     }
 
-    IEnumerator FoolTossCoin()
+    IEnumerator CardTossCoin(int amount)
     {
         yield return new WaitUntil(() => earnedCardPanel.activeInHierarchy);
-        CoinsDisplay.Instance.AddCoinsWithCoinAnim(1, cardImage.rectTransform);
+        CoinsDisplay.Instance.AddCoinsWithCoinAnim(amount, cardImage.rectTransform);
     }
 
     Card GetCardInArray(string cardType)
@@ -134,7 +139,7 @@ public class CardsManager : MonoBehaviour
         var allCards = cardSet.CardsInSet;
         for (int i = 0; i < allCards.Length; i++)
         {
-            if(allCards[i].CardType.CompareTo(cardType) == 0)
+            if (allCards[i].CardType.CompareTo(cardType) == 0)
             {
                 return allCards[i];
             }

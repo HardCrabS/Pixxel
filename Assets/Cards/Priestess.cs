@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Priestess : MonoBehaviour
 {
-    [SerializeField] int refillChance = 25;
+    [SerializeField] int refillChance = 20;
     // Use this for initialization
     void Start()
     {
