@@ -76,6 +76,37 @@ public class BonusManager : MonoBehaviour
     {
         selectionGlow.position = boostTransform.position;
     }
+    public void ActivateRandomButton()
+    {
+        //list of not active buttons
+        List<BonusButton> notActiveButtons = new List<BonusButton>();
+
+        foreach (BonusButton button in bonusButtons)
+        {
+            if (button != null)
+            {
+                if(!button.interactable)
+                {
+                    //add not active button
+                    notActiveButtons.Add(button);
+                }
+            }
+        }
+        if(notActiveButtons.Count > 0)
+        {
+            //activate random button
+            int randIndex = UnityEngine.Random.Range(0, notActiveButtons.Count);
+            notActiveButtons[randIndex].ActivateButton();
+        }
+    }
+    public void MultiplyAllBoostsRecharge(float percent)
+    {
+        foreach (BonusButton button in bonusButtons)
+        {
+            if (button != null)
+                button.MultiplyRecharge(percent);
+        }
+    }
     public void SetAllButtonsInterraction(bool state)
     {
         foreach (BonusButton button in bonusButtons)

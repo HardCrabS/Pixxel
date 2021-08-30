@@ -13,9 +13,11 @@ public class CardsManager : MonoBehaviour
     [SerializeField] Text descriptionText;
     [SerializeField] Image cardImage;
 
+    [SerializeField] CardSet cardSet;
     [SerializeField] Button[] cardButtons;
-    [SerializeField] CardSet[] cardSets;
-    [SerializeField] Card[] allCards;
+
+    const string FIRST_DRAW_CARD = "FirstDraw";
+    const string FOOL_CARD = "Fool";
 
     private void Start()
     {
@@ -41,25 +43,10 @@ public class CardsManager : MonoBehaviour
 
     void SetCardSets()
     {
-        Material blackWhiteMat = Resources.Load("Materials/B&W mat", typeof(Material)) as Material;
         for (int i = 0; i < cardButtons.Length; i++)
         {
-            string cardSetId = cardSets[i].id;
-            if (GameData.gameData.saveData.cardIds.Contains(cardSetId))
-            {
-                int index = i;
-                cardButtons[i].onClick.AddListener(delegate () { OnCardPressed(index); });
-            }
-            else
-            {
-                cardButtons[i].interactable = false;
-                cardButtons[i].GetComponent<Image>().material = blackWhiteMat;
-
-                int rankToUnlock = RewardForLevel.Instance.GetRankFromRewards(LevelReward.CardSet, cardSetId);
-                Text text = cardButtons[i].transform.GetChild(0).GetComponent<Text>();
-                text.text = "RANK\n" + rankToUnlock;
-                text.gameObject.SetActive(true);
-            }
+            int index = i;
+            cardButtons[i].onClick.AddListener(delegate () { OnCardPressed(index); });
         }
     }
 
@@ -83,8 +70,17 @@ public class CardsManager : MonoBehaviour
 
     public void DisplayCardsInSet(int cardSetIndex)
     {
-        Card[] cardsInSet = cardSets[cardSetIndex].CardsInSet;
+        Card[] cardsInSet = cardSet.CardsInSet;
         int randIndex = UnityEngine.Random.Range(0, cardsInSet.Length);
+        /*if(PlayerPrefs.GetInt(FIRST_DRAW_CARD, 1) == 1)//first time card is drawn
+        {
+            //ensure card is not FOOL(worst one)
+            while(cardsInSet[randIndex].Title.CompareTo(FOOL_CARD) == 0)
+            {
+                randIndex = UnityEngine.Random.Range(0, cardsInSet.Length);
+            }
+            PlayerPrefs.SetInt(FIRST_DRAW_CARD, 1);
+        }*/
         DisplayCardInfo(cardsInSet[randIndex]);
         GameData.gameData.UpdateCardClaim(System.DateTime.Now.AddHours(12), cardsInSet[randIndex].CardType);
         cardButtons[cardSetIndex].GetComponent<SpriteChanger>().SetSprite(cardsInSet[randIndex].Sprite);
@@ -116,13 +112,26 @@ public class CardsManager : MonoBehaviour
 
     public void DisplayCardInfo(Card card)
     {
+        if(card.Title.CompareTo(FOOL_CARD) == 0)//card is a fool
+        {
+            //add animated coin
+            StartCoroutine(FoolTossCoin());
+        }
+
         titleText.text = card.Title;
         descriptionText.text = card.Description;
         cardImage.sprite = card.Sprite;
     }
 
+    IEnumerator FoolTossCoin()
+    {
+        yield return new WaitUntil(() => earnedCardPanel.activeInHierarchy);
+        CoinsDisplay.Instance.AddCoinsWithCoinAnim(1, cardImage.rectTransform);
+    }
+
     Card GetCardInArray(string cardType)
     {
+        var allCards = cardSet.CardsInSet;
         for (int i = 0; i < allCards.Length; i++)
         {
             if(allCards[i].CardType.CompareTo(cardType) == 0)

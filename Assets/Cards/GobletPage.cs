@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Effect: Boosts recharge 15% faster.
+// Effect: Boosts recharge 25% faster.
 
 public class GobletPage : MonoBehaviour
 {
-    [SerializeField] int extraGoldPercent = 5;
+    [SerializeField] float rechargePercent = 1.25f; // sets recharge to 25%
     // Use this for initialization
     void Start()
     {
-        CoinsDisplay.Instance.IncreaseCoinDropChance(extraGoldPercent);
+        BonusManager.Instance.MultiplyAllBoostsRecharge(rechargePercent);
     }
 }
