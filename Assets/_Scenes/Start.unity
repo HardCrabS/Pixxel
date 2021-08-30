@@ -3182,25 +3182,13 @@ MonoBehaviour:
   titleText: {fileID: 1393399340}
   descriptionText: {fileID: 1230167661}
   cardImage: {fileID: 1921988463}
+  cardSet: {fileID: 11400000, guid: 2be14cfa97ede3f41ac25d70c75b6f93, type: 2}
   cardButtons:
   - {fileID: 376215816}
   - {fileID: 1420241007}
   - {fileID: 1820185879}
   - {fileID: 1028266085}
   - {fileID: 1968959516}
-  cardSets:
-  - {fileID: 11400000, guid: 2be14cfa97ede3f41ac25d70c75b6f93, type: 2}
-  - {fileID: 11400000, guid: 2be14cfa97ede3f41ac25d70c75b6f93, type: 2}
-  - {fileID: 11400000, guid: 2be14cfa97ede3f41ac25d70c75b6f93, type: 2}
-  - {fileID: 11400000, guid: fa38a17bb0e196943ad9a1e222e68419, type: 2}
-  - {fileID: 11400000, guid: fa38a17bb0e196943ad9a1e222e68419, type: 2}
-  allCards:
-  - {fileID: 11400000, guid: 2c95ff4c829255e479565ff6914b9844, type: 2}
-  - {fileID: 11400000, guid: b8f49c6198a4c764a87f5245f0216a53, type: 2}
-  - {fileID: 11400000, guid: 3b60724030cef2f41a80140e8554733d, type: 2}
-  - {fileID: 11400000, guid: 4e88173e0da68c94aab012cb56ea347a, type: 2}
-  - {fileID: 11400000, guid: d97de398073b6b84780963b2355679f9, type: 2}
-  - {fileID: 11400000, guid: 0a6b52df654d0704cbb23d6d05e37c49, type: 2}
 --- !u!4 &125386044
 Transform:
   m_ObjectHideFlags: 0
@@ -13095,6 +13083,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Back Button (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1165000829179694, guid: 47b09f292c244564183802e3f6de634e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114841880729464820, guid: 47b09f292c244564183802e3f6de634e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -13278,12 +13270,12 @@ PrefabInstance:
     - target: {fileID: 224391738891052076, guid: 47b09f292c244564183802e3f6de634e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 79.000046
+      value: 75.3
       objectReference: {fileID: 0}
     - target: {fileID: 224391738891052076, guid: 47b09f292c244564183802e3f6de634e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 16.99997
+      value: 26.5
       objectReference: {fileID: 0}
     - target: {fileID: 224391738891052076, guid: 47b09f292c244564183802e3f6de634e,
         type: 3}
@@ -23980,15 +23972,15 @@ RectTransform:
   m_GameObject: {fileID: 1225964580}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.119624995, y: 0.13, z: 0.99999994}
+  m_LocalScale: {x: 0.18285799, y: 0.18285799, z: 1.4065999}
   m_Children: []
   m_Father: {fileID: 1951145894}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1, y: -112}
-  m_SizeDelta: {x: 5854, y: 1139.6}
+  m_AnchoredPosition: {x: -1, y: -186}
+  m_SizeDelta: {x: 3802.4043, y: 607.92346}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1225964582
 MonoBehaviour:
@@ -24023,10 +24015,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Pick a card and reap the rewards!
-
-    New card sets are unlocked as you
-    rank up!'
+  m_Text: "Pick a card, \nReap the reward!"
 --- !u!222 &1225964583
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38791,6 +38780,7 @@ MonoBehaviour:
   disabledColor: {r: 0, g: 0, b: 0, a: 0}
   activateBoost: {fileID: 0}
   inactiveBoost: {fileID: 0}
+  interactable: 0
 --- !u!114 &1915562146
 MonoBehaviour:
   m_ObjectHideFlags: 0
