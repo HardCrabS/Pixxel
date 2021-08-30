@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
-    [SerializeField] GameObject loadingPanel;
-    [SerializeField] Slider slider;
+    [SerializeField] GameObject loadingCanvas;
     [SerializeField] AudioClip mainMenuSong;
+
+    Slider slider;
 
     public void CallUnlockAllBoosts()
     {
@@ -32,9 +33,9 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void LoadConcreteWorld(string world_name, AudioClip worldSong, float delay)
+    public void LoadConcreteWorld(string world_name, AudioClip worldSong, float delay, bool useLoadingPanel = false)
     {
-        StartCoroutine(LoadAsynchronously(world_name, worldSong, delay));
+        StartCoroutine(LoadAsynchronously(world_name, worldSong, delay, useLoadingPanel));
     }
     public void LoadSceneAsync(int index) //used in splash scene
     {
@@ -52,16 +53,16 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
-    IEnumerator LoadAsynchronously(string sceneName, AudioClip worldSong, float delay)
+    IEnumerator LoadAsynchronously(string sceneName, AudioClip worldSong, float delay, bool useLoadingPanel)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.completed += (asyncOperation) =>
         {
             AudioController.Instance.SetCurrentClip(worldSong, delay);
         };
-        if (loadingPanel != null)
+        if (useLoadingPanel)
         {
-            loadingPanel.SetActive(true);
+            SpawnLoadingCanvas();
 
             while (!operation.isDone)
             {
@@ -89,7 +90,6 @@ public class SceneLoader : MonoBehaviour
             Time.timeScale = 1;
         };
     }
-
     public void LoadWorldSelectScene()
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync("World Select");
@@ -98,8 +98,44 @@ public class SceneLoader : MonoBehaviour
             AudioController.Instance.SetCurrentClip(mainMenuSong);
         };
     }
+    IEnumerator LoadSceneWithAdCo(string sceneName)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        operation.allowSceneActivation = false;//stop scene loading at 90%
+        operation.completed += (asyncOperation) =>
+        {
+            AudioController.Instance.SetCurrentClip(mainMenuSong);
+        };
+        SpawnLoadingCanvas();
+
+        VideoAd videoAd = new VideoAd();//video ad object
+        videoAd.LoadAd();//load ad
+        yield return new WaitUntil(() => videoAd.AdLoadingCompleted());//wait until ad is loaded
+        videoAd.ShowAd();//show ad
+
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+            slider.value = progress;
+
+            if (videoAd.IsFinished())//ad finished playing
+            {
+                operation.allowSceneActivation = true;//continue loading next scene
+            }
+            yield return null;
+        }
+    }
+    public void LoadSceneWithAd(string sceneName)
+    {
+        StartCoroutine(LoadSceneWithAdCo(sceneName));
+    }
     public void PlaySpashSceneSound() //play sound in the splash scene
     {
         GetComponent<AudioSource>().Play();
+    }
+    void SpawnLoadingCanvas()
+    {
+        GameObject canvas = Instantiate(loadingCanvas);
+        slider = canvas.GetComponentInChildren<Slider>();
     }
 }
