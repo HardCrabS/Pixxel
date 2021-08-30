@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using DG.Tweening;
 
 public class CoinsDisplay : MonoBehaviour
 {
@@ -11,15 +11,14 @@ public class CoinsDisplay : MonoBehaviour
     [SerializeField] float chanceIncremPerRank = 0.2f;
 
     [SerializeField] AudioClip coinSFX;
+    [SerializeField] GameObject coinPrefab;
 
     [Header("References")]
     [SerializeField] Text coinsText;
-    [SerializeField] TextMeshProUGUI currCoinsEarnedText; //for ingame testing. TODO remove
 
     int coins;
     float currChance;
     int coinsAtStartOfLevel;
-    int coinsEarnedSinceStart = 0;
     float coinSoundAtATime = 0.1f;
     float lastTimeCoinSoundPlayed = 0;
 
@@ -33,10 +32,9 @@ public class CoinsDisplay : MonoBehaviour
     }
     void Start()
     {
-        coins = SaveSystem.LoadCoinsAmount();
+        coins = GameData.gameData.saveData.coins;
         coinsAtStartOfLevel = coins;
         currChance = startCoinDropChance;
-        //coinsText = GetComponent<Text>();
         coinsText.text = coins.ToString();
         audioSource = GetComponent<AudioSource>();
 
@@ -48,13 +46,17 @@ public class CoinsDisplay : MonoBehaviour
         UpdateText();
     }
 
-    void UpdateText()
+    void UpdateText(bool punch = false)
     {
         if (coinsText == null) return;
+
+        if (punch)
+        {
+            coinsText.transform.DOPunchScale(coinsText.transform.localScale / 3, 0.5f, 0, 0f);
+        }
         coinsText.text = coins.ToString();
-        if (currCoinsEarnedText)
-            currCoinsEarnedText.text = "coins:\n" + coinsEarnedSinceStart;
-        SaveSystem.SaveCoinsAmount(coins);
+
+        GameData.gameData.saveData.coins = coins;
     }
 
     public void RandomizeCoin()
@@ -72,21 +74,34 @@ public class CoinsDisplay : MonoBehaviour
             UpdateText();
         }
     }
+    public void AddCoinsWithCoinAnim(int amount, RectTransform parent)
+    {
+        StartCoroutine(MoveCoin(amount, parent));
+    }
+    IEnumerator MoveCoin(int amount, RectTransform parent)
+    {
+        var coin = Instantiate(coinPrefab, parent.position, Quaternion.identity, parent);
+        Vector2 coinsTextPos = coinsText.rectTransform.position;
 
+        coin.transform.DOMove(coinsTextPos, 1);
+        yield return coin.transform.DOScale(0, 1).WaitForCompletion();
+
+        Destroy(coin);
+        AddCoinsAmount(amount, punch: true);
+    }
     public void IncreaseCoinDropChance(int amount = 0)
     {
         currChance += amount == 0 ? chanceIncremPerRank : amount;
     }
-    public void AddCoinsAmount(int value)
+    public void AddCoinsAmount(int value, bool punch = false)
     {
         coins += value;
-        coinsEarnedSinceStart += value;
-        UpdateText();
+        UpdateText(punch);
     }
+
     private void AddCoins()
     {
         coins += coinsPerBlock;
-        coinsEarnedSinceStart += coinsPerBlock;
     }
     public void DecreaseCoins(int amount)
     {

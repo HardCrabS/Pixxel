@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlockRemover : MonoBehaviour
 {
-    float blockRemoveChance = 5;
+    float blockRemoveChance = 20;
     void Start()
     {
         EndGameManager.Instance.onMatchedBlock += RemoveBlock;

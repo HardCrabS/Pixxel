@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 2390877728082592015}
   - component: {fileID: 8248428392782884686}
   - component: {fileID: 7185775181892613685}
+  - component: {fileID: 788791853354072554}
   m_Layer: 5
   m_Name: Rank banner Panel
   m_TagString: Untagged
@@ -171,8 +172,8 @@ MonoBehaviour:
   startCoinDropChance: 20
   chanceIncremPerRank: 0.2
   coinSFX: {fileID: 8300000, guid: d238586635f29ba42a6702b3a93037b7, type: 3}
+  coinPrefab: {fileID: 1993604728935992, guid: 3cbd685fba7d4fd458db8f1dcf5b7791, type: 3}
   coinsText: {fileID: 2798999994489674747}
-  currCoinsEarnedText: {fileID: 0}
 --- !u!114 &8248428392782884686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +189,7 @@ MonoBehaviour:
   rankText: {fileID: 2799098502227470527}
   nameText: {fileID: 2798316957129302269}
   levelSlider: {fileID: 2800063673570297709}
-  xpDebugText: {fileID: 0}
+  incrementForLvlUp: 20
 --- !u!114 &7185775181892613685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +205,26 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 12.68, y: 10.8}
   m_UseGraphicAlpha: 1
+--- !u!114 &788791853354072554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2830513689065896419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf4ca9c0d1192f4e8ec282478f070fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  propertyName: 
+  startValue: 0
+  endValue: 0
+  loopBackAndForth: 0
+  maskedMat: 0
+  animateOnStart: 1
+  durationInSec: 1
+  timeToWait: 1
 --- !u!1 &2830692034969319731
 GameObject:
   m_ObjectHideFlags: 0

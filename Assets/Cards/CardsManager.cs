@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardsManager : MonoBehaviour 
+public class CardsManager : MonoBehaviour
 {
     [SerializeField] GameObject exclamationBubble; //shows if card unclaimed
     [SerializeField] GameObject cardPanel;
@@ -13,16 +13,12 @@ public class CardsManager : MonoBehaviour
     [SerializeField] Text descriptionText;
     [SerializeField] Image cardImage;
 
+    [SerializeField] CardSet cardSet;
     [SerializeField] Button[] cardButtons;
-    [SerializeField] CardSet[] cardSets;
-    [SerializeField] Card[] allCards;
 
-    public static CardsManager Instance;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
+    const string FIRST_DRAW_CARD = "FirstDraw";
+    const string FOOL_CARD = "Fool";
+    const string KING_CARD = "King";
 
     private void Start()
     {
@@ -48,25 +44,10 @@ public class CardsManager : MonoBehaviour
 
     void SetCardSets()
     {
-        Material blackWhiteMat = Resources.Load("Materials/B&W mat", typeof(Material)) as Material;
         for (int i = 0; i < cardButtons.Length; i++)
         {
-            string cardSetId = cardSets[i].id;
-            if (GameData.gameData.saveData.cardIds.Contains(cardSetId))
-            {
-                int index = i;
-                cardButtons[i].onClick.AddListener(delegate () { OnCardPressed(index); });
-            }
-            else
-            {
-                cardButtons[i].interactable = false;
-                cardButtons[i].GetComponent<Image>().material = blackWhiteMat;
-
-                int rankToUnlock = RewardForLevel.Instance.GetRankFromRewards(LevelReward.CardSet, cardSetId);
-                Text text = cardButtons[i].transform.GetChild(0).GetComponent<Text>();
-                text.text = "RANK\n" + rankToUnlock;
-                text.gameObject.SetActive(true);
-            }
+            int index = i;
+            cardButtons[i].onClick.AddListener(delegate () { OnCardPressed(index); });
         }
     }
 
@@ -90,8 +71,17 @@ public class CardsManager : MonoBehaviour
 
     public void DisplayCardsInSet(int cardSetIndex)
     {
-        Card[] cardsInSet = cardSets[cardSetIndex].CardsInSet;
+        Card[] cardsInSet = cardSet.CardsInSet;
         int randIndex = UnityEngine.Random.Range(0, cardsInSet.Length);
+        /*if(PlayerPrefs.GetInt(FIRST_DRAW_CARD, 1) == 1)//first time card is drawn
+        {
+            //ensure card is not FOOL(worst one)
+            while(cardsInSet[randIndex].Title.CompareTo(FOOL_CARD) == 0)
+            {
+                randIndex = UnityEngine.Random.Range(0, cardsInSet.Length);
+            }
+            PlayerPrefs.SetInt(FIRST_DRAW_CARD, 1);
+        }*/
         DisplayCardInfo(cardsInSet[randIndex]);
         GameData.gameData.UpdateCardClaim(System.DateTime.Now.AddHours(12), cardsInSet[randIndex].CardType);
         cardButtons[cardSetIndex].GetComponent<SpriteChanger>().SetSprite(cardsInSet[randIndex].Sprite);
@@ -123,16 +113,33 @@ public class CardsManager : MonoBehaviour
 
     public void DisplayCardInfo(Card card)
     {
+        if (card.Title.CompareTo(FOOL_CARD) == 0)//card is a fool
+        {
+            //add animated coin
+            StartCoroutine(CardTossCoin(1));
+        }
+        else if (card.Title.CompareTo(KING_CARD) == 0)//card is king
+        {
+            StartCoroutine(CardTossCoin(50));
+        }
+
         titleText.text = card.Title;
         descriptionText.text = card.Description;
         cardImage.sprite = card.Sprite;
     }
 
+    IEnumerator CardTossCoin(int amount)
+    {
+        yield return new WaitUntil(() => earnedCardPanel.activeInHierarchy);
+        CoinsDisplay.Instance.AddCoinsWithCoinAnim(amount, cardImage.rectTransform);
+    }
+
     Card GetCardInArray(string cardType)
     {
+        var allCards = cardSet.CardsInSet;
         for (int i = 0; i < allCards.Length; i++)
         {
-            if(allCards[i].CardType.CompareTo(cardType) == 0)
+            if (allCards[i].CardType.CompareTo(cardType) == 0)
             {
                 return allCards[i];
             }

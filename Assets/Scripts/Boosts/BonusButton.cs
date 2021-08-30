@@ -11,12 +11,13 @@ public class BonusButton : MonoBehaviour
     public Color disabledColor;
     public AudioClip activateBoost;
     public AudioClip inactiveBoost;
+    public bool IsUnlocked { get; set; }
 
     AudioSource audioSource;
     BoostBase concreteBonus;
     Image boostImage;
-    float boostReloadDeltaPerMove;
-    bool interactable = false;
+    float boostReloadDeltaPerMove = 1;
+    public bool interactable = false;
 
     const string LOCK_TAG = "Lock";
 
@@ -51,7 +52,7 @@ public class BonusButton : MonoBehaviour
                     concreteBonus = gameObject.AddComponent(boostType) as BoostBase;
                     concreteBonus.SetBoostLevel(boostLevel);
 
-                    boostReloadDeltaPerMove = 1 / boostInfo.GetMovesToReload(boostLevel);
+                    boostReloadDeltaPerMove *= 1 / boostInfo.GetMovesToReload(boostLevel);
                     StartCoroutine(UnlockAfterCountdown());
                 }
                 else
@@ -68,6 +69,10 @@ public class BonusButton : MonoBehaviour
                 GetComponent<Image>().enabled = false;
             }
         }
+    }
+    public void MultiplyRecharge(float percent)
+    {
+        boostReloadDeltaPerMove *= percent;
     }
     void ChangeButtonVolume(float volume)
     {
@@ -102,14 +107,26 @@ public class BonusButton : MonoBehaviour
             return;
         }
 
-        BoostBase myBonus = GetComponent<BoostBase>();
+        if (IsUnlocked)
+        {
+            BoostBase myBonus = GetComponent<BoostBase>();
 
-        ClickOnBoost.Instance.ChangeBoostText(boostInfo);
-        LevelUp levelUp = LevelUp.Instance;
-        levelUp.boostInfo = boostInfo;
-        levelUp.bonus = myBonus;
+            ClickOnBoost.Instance.ChangeBoostText(boostInfo);
+            LevelUp levelUp = LevelUp.Instance;
+            levelUp.boostInfo = boostInfo;
+            levelUp.bonus = myBonus;
 
-        BonusManager.Instance.currButtonSelected = this;
+            BonusManager.Instance.currButtonSelected = this;
+        }
+        else
+        {
+            ClickOnBoost.Instance.SetLockedBoostText(boostInfo);
+            LevelUp levelUp = LevelUp.Instance;
+            levelUp.boostInfo = null;
+            levelUp.bonus = null;
+
+            BonusManager.Instance.currButtonSelected = null;
+        }
     }
 
     public void ActivateBonus()
@@ -137,7 +154,7 @@ public class BonusButton : MonoBehaviour
     }
     public bool BoostIsFinished()
     {
-        return concreteBonus.IsFinished();
+        return concreteBonus != null ? concreteBonus.IsFinished() : true;
     }
     void FillReloadImage()
     {

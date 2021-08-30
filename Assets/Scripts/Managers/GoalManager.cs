@@ -89,7 +89,8 @@ public class GoalManager : MonoBehaviour
                     gamedata.saveData.trinketIds.Add(trinketId);
                     levelTemplates.RemoveAt(i);
                 }
-                break; //only 1 task with same goal at a time
+                //only score goal in trinkets, so multiple at a time
+                //break; //only 1 task with same goal at a time
             }
         }
 

@@ -31,8 +31,12 @@ public class BonusManager : MonoBehaviour
             {
                 string boostId = bonusButtons[i].boostInfo.id;
                 bool isUnlocked = GameData.gameData.saveData.boostIds.Contains(boostId);
+                int index = i;
+                bonusButtons[i].GetComponent<Button>().onClick.AddListener(
+                    () => SetSelectionGlowPos(bonusButtons[index].transform));
                 if (isUnlocked)
                 {
+                    bonusButtons[i].IsUnlocked = isUnlocked;
                     bonusButtons[i].transform.GetChild(0).gameObject.SetActive(false);  //lock image
                     int spriteIndex = ChooseBoostSpriteIndex(GameData.gameData.GetBoostLevel(boostId));
                     //boostPanels[i].sprite = boostFrames[spriteIndex];
@@ -41,13 +45,12 @@ public class BonusManager : MonoBehaviour
                     {
                         bonusButtons[i].GetComponent<Image>().sprite = boostInfo.UpgradeSprites[spriteIndex];
                     }
-                    bonusButtons[i].gameObject.AddComponent<DragBoost>();
-                    int index = i;
-                    bonusButtons[i].GetComponent<Button>().onClick.AddListener(() => SetSelectionGlowPos(bonusButtons[index].transform));
+                    bonusButtons[i].gameObject.AddComponent<DragBoost>();                    
                 }
                 else
                 {
-                    bonusButtons[i].GetComponent<Button>().interactable = false;
+                    Color disabledColor = bonusButtons[i].GetComponent<Button>().colors.disabledColor;
+                    bonusButtons[i].GetComponent<Image>().color = disabledColor;
                     //boostPanels[i].sprite = lockedFrame;
                 }
             }
@@ -73,6 +76,37 @@ public class BonusManager : MonoBehaviour
     {
         selectionGlow.position = boostTransform.position;
     }
+    public void ActivateRandomButton()
+    {
+        //list of not active buttons
+        List<BonusButton> notActiveButtons = new List<BonusButton>();
+
+        foreach (BonusButton button in bonusButtons)
+        {
+            if (button != null)
+            {
+                if(!button.interactable)
+                {
+                    //add not active button
+                    notActiveButtons.Add(button);
+                }
+            }
+        }
+        if(notActiveButtons.Count > 0)
+        {
+            //activate random button
+            int randIndex = UnityEngine.Random.Range(0, notActiveButtons.Count);
+            notActiveButtons[randIndex].ActivateButton();
+        }
+    }
+    public void MultiplyAllBoostsRecharge(float percent)
+    {
+        foreach (BonusButton button in bonusButtons)
+        {
+            if (button != null)
+                button.MultiplyRecharge(percent);
+        }
+    }
     public void SetAllButtonsInterraction(bool state)
     {
         foreach (BonusButton button in bonusButtons)
@@ -81,7 +115,6 @@ public class BonusManager : MonoBehaviour
                 button.SetInteractable(state);
         }
     }
-
     public bool BoostIsActivated()//returns true if any boost is activated
     {
         foreach (BonusButton button in bonusButtons)
@@ -90,6 +123,16 @@ public class BonusManager : MonoBehaviour
                 return true;
         }
         return false;
+    }
+    public void StopAllBoosts()
+    {
+        foreach (BonusButton button in bonusButtons)
+        {
+            if (button.gameObject.activeInHierarchy && !button.BoostIsFinished())
+            {
+                button.GetComponent<BoostBase>().StopBonus();
+            }
+        }
     }
     public void CheckIfEquipedInOtherSlot(int buttonIndex, string boostId)
     {

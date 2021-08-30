@@ -11,6 +11,11 @@ public class HoldScorePanel : MonoBehaviour
     [SerializeField] Text titleText;
     public GameObject title;
 
+    private void Start()
+    {
+        
+    }
+
     public void onPress()
     {
         title.SetActive(true);
@@ -20,14 +25,14 @@ public class HoldScorePanel : MonoBehaviour
     {
         title.SetActive(false);
     }
-    public void SetScorePanel(string _name, Sprite _profileImage = null, Sprite _bannerImage = null, string _title = null)
+    public void SetScorePanel(string _name, Sprite _profileImage = null, string bannerPath = null, string _title = null)
     {
         nameText.text = _name;
         if (_profileImage != null)
             profileImage.sprite = _profileImage;
-        if (_bannerImage != null)
-            bannerImage.sprite = _bannerImage;
-        if (string.IsNullOrEmpty(_title))
+        if (!string.IsNullOrEmpty(_title))
             titleText.text = _title;
+        if(!string.IsNullOrEmpty(bannerPath))
+            ProfileHandler.SetBannerFromString(bannerImage, bannerPath);
     }
 }

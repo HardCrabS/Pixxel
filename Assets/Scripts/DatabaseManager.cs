@@ -19,11 +19,6 @@ public class DatabaseManager : MonoBehaviour
     public static void ChangeAvatar(string spritePath)
     {
         string playerId = SystemInfo.deviceUniqueIdentifier;
-        /*if (string.IsNullOrEmpty(playerId))
-        {
-            Debug.LogError("Not authentificated to google, can't upload a score");
-            return;
-        }*/
 
         DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
 

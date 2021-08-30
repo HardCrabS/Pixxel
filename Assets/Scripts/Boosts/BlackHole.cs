@@ -48,6 +48,7 @@ public class BlackHole : BoostBase
     void SpawnBlackHole()
     {
         audioSource.PlayOneShot(holeSFX); //play audio sfx
+        GridA.Instance.currState = GameState.wait; // pause movement of blocks
 
         Transform centerBoxPanel = grid.boxesCenterPanel;
         barrier = Instantiate(barrierPrefab, centerBoxPanel.position, transform.rotation, centerBoxPanel);
@@ -81,6 +82,7 @@ public class BlackHole : BoostBase
         yield return StartCoroutine(BarrierFadeAlpha(0));
         Destroy(barrier);
         StartCoroutine(grid.MoveBoxesDown());
+        GridA.Instance.currState = GameState.move; //reallow game movement
         finished = true;
     }
 

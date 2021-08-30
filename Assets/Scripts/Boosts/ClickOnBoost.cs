@@ -16,7 +16,14 @@ public class ClickOnBoost : MonoBehaviour
     {
         Instance = this;
     }
-
+    public void SetLockedBoostText(Boost boost)
+    {
+        boostTitleText.text = boost.id.ToUpper();
+        descriptionText.text = "\n" + boost.unlockRequirement;
+        costText.text = "";
+        levelText.text = "";
+        currStatsText.text = "";
+    }
     public void ChangeBoostText(Boost boost)
     {
         int boostLevel = GameData.gameData.GetBoostLevel(boost.id);
@@ -50,6 +57,6 @@ public class ClickOnBoost : MonoBehaviour
             descriptionText.text = boost.descrlevel10;
         }
 
-        currStatsText.text = "Cooldown: " + SequentialText.ColorString(boost.GetMovesToReload(boostLevel) + "s", darkRed);
+        currStatsText.text = "Cooldown: " + SequentialText.ColorString(boost.GetMovesToReload(boostLevel) + " moves", darkRed);
     }
 }

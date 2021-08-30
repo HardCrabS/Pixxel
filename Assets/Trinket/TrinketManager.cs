@@ -12,8 +12,8 @@ public class TrinketManager : MonoBehaviour
     public void SetTrinkets(WorldLoadInfo worldLoadInformation)
     {
         var trinketsUnlocked = GameData.gameData.saveData.trinketIds;
-        int trinketsCollected = trinketsUnlocked.Count;
         LevelTemplate[] trinketTemplates = worldLoadInformation.trinketTemplates;
+        int unlockedInWorld = 0;
 
         SetSprites(worldLoadInformation.trinketTemplates);
 
@@ -22,10 +22,11 @@ public class TrinketManager : MonoBehaviour
             if (trinketsUnlocked.Contains(trinketTemplates[i].id))
             {
                 trinketInfos[i].MakeUnlocked();
+                unlockedInWorld++;
             }
             trinketInfos[i].SetSelectionFrame(selectionFrame);
         }
-        trinketsCollectedText.text = "Collected: " + trinketsCollected + "/" + trinketTemplates.Length;
+        trinketsCollectedText.text = "Collected: " + unlockedInWorld + "/" + trinketTemplates.Length;
     }
 
     public void LockAllTrinkets()
