@@ -53,12 +53,6 @@ public class EndGameManager : MonoBehaviour
             BonusManager.Instance.SetAllButtonsInterraction(false);//disable boosts
             GridA.Instance.currState = GameState.wait;
 
-            //wait until boost stop executing
-            //yield return new WaitUntil(() => !BonusManager.Instance.BoostIsActivated());
-            //if boost was activated, disable all boosts again
-            //BonusManager.Instance.SetAllButtonsInterraction(false);
-            //GridA.Instance.currState = GameState.wait;//set grid state again
-
             //wait while blocks move and match
             while (GridA.Instance.AcitivityOnBoard())
             {
@@ -101,12 +95,6 @@ public class EndGameManager : MonoBehaviour
         yield return new WaitForSeconds(1);//delay to let player realize the game is over
 
         BonusManager.Instance.StopAllBoosts();
-
-        //wait until boost stop executing
-        //yield return new WaitUntil(() => !BonusManager.Instance.BoostIsActivated());
-        //if boost was activated, disable all boosts again
-        //BonusManager.Instance.SetAllButtonsInterraction(false);
-        //GridA.Instance.currState = GameState.wait;//set grid state again
 
         //wait while blocks move and match
         while (GridA.Instance.AcitivityOnBoard())

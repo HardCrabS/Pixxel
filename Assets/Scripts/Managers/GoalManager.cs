@@ -11,6 +11,8 @@ public class LevelGoal
 
 public class GoalManager : MonoBehaviour
 {
+    [SerializeField] ShareButton shareButton;
+
     List<LevelTemplate> levelTemplates;
     List<QuestProgress> dailyQuests;
 
@@ -51,13 +53,15 @@ public class GoalManager : MonoBehaviour
     void SetupGoals()
     {
         levelTemplates = new List<LevelTemplate>();
+        LevelTemplate trinket;
+        string trinketId;
 
         WorldLoadInfo worldLoadInformation = LevelSettingsKeeper.settingsKeeper.worldLoadInfo;
         GameData gamedata = GameData.gameData;
-        for (int i = 0; i < worldLoadInformation.trinketTemplates.Length; i++)
+        for (int i = 0; i < worldLoadInformation.trinketTemplates.Length - 1; i++)//add only 9 trinkets, 10th is for sharing
         {
-            LevelTemplate trinket = worldLoadInformation.trinketTemplates[i];
-            string trinketId = trinket.id; //get trinket id
+            trinket = worldLoadInformation.trinketTemplates[i];
+            trinketId = trinket.id; //get trinket id
             if (gamedata.saveData.trinketsProgress.ContainsKey(trinketId)) //if id already saved
             {
                 if(gamedata.saveData.trinketsProgress[trinketId] < trinket.levelGoal.numberNeeded)
@@ -68,7 +72,33 @@ public class GoalManager : MonoBehaviour
             else
             {
                 gamedata.saveData.trinketsProgress.Add(trinketId, 0); //create new element
+                levelTemplates.Add(trinket); //getting if not completed 
             }
+        }
+
+        //set 10th trinket for sharing
+        trinket = worldLoadInformation.trinketTemplates[9];
+        trinketId = trinket.id; //get trinket id
+
+        if (gamedata.saveData.trinketsProgress.ContainsKey(trinketId)) //if id already saved
+        {
+            if (gamedata.saveData.trinketsProgress[trinketId] < trinket.levelGoal.numberNeeded)
+            {
+                shareButton.OnShareSuccess.AddListener(() => {
+                    gamedata.saveData.trinketsProgress[trinketId] = trinket.levelGoal.numberNeeded;
+                    gamedata.saveData.trinketIds.Add(trinketId);
+                    GameData.Save();
+                });
+            }
+        }
+        else
+        {
+            gamedata.saveData.trinketsProgress.Add(trinketId, 0); //create new element
+            shareButton.OnShareSuccess.AddListener(() => {
+                gamedata.saveData.trinketsProgress[trinketId] = trinket.levelGoal.numberNeeded;
+                gamedata.saveData.trinketIds.Add(trinketId);
+                GameData.Save();
+            });
         }
     }
 

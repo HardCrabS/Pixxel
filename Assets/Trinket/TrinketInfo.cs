@@ -31,7 +31,7 @@ public class TrinketInfo : MonoBehaviour
                 {
                     numCollected = levelTemplate.levelGoal.numberNeeded;
                     trinketProgress = numCollected + "/" + levelTemplate.levelGoal.numberNeeded;
-                    trinketProgress = SequentialText.ColorString(trinketProgress, Color.green);
+                    trinketProgress = SequentialText.ColorString(trinketProgress, new Color(0, 0.8f, 0));
                 }
                 else
                 {
