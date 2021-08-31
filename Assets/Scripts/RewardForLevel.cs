@@ -19,6 +19,7 @@ public class RewardForLevel : MonoBehaviour
 {
     [SerializeField] GameObject rewardEarned;
     [SerializeField] GameObject fireworksVFX;
+    [SerializeField] AudioClip fireworksSFX;
     [SerializeField] GameObject itemAddedPart;
     [SerializeField] GameObject rankUpFX;
 
@@ -74,6 +75,7 @@ public class RewardForLevel : MonoBehaviour
     {
         if (fireworksVFX != null)
         {
+            audioSource.PlayOneShot(fireworksSFX);
             Vector2 bottomLeft = Camera.main.ScreenToWorldPoint(Vector3.zero);
             Vector2 spawnPos = new Vector2(bottomLeft.x + Camera.main.orthographicSize / 2, bottomLeft.y);
             GameObject go = Instantiate(fireworksVFX, spawnPos, fireworksVFX.transform.rotation);
