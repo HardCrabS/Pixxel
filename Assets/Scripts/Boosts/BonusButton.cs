@@ -11,6 +11,9 @@ public class BonusButton : MonoBehaviour
     public Color disabledColor;
     public AudioClip activateBoost;
     public AudioClip inactiveBoost;
+    public AudioClip fullBoost; //fullboost sfx
+    public GameObject fullBoostGFX; //full boost gfx
+
     public bool IsUnlocked { get; set; }
 
     AudioSource audioSource;
@@ -161,6 +164,9 @@ public class BonusButton : MonoBehaviour
         boostImage.fillAmount += boostReloadDeltaPerMove;
         if (boostImage.fillAmount >= 1)
         {
+            audioSource.PlayOneShot(fullBoost); //play sfx here
+            GameObject fullboostFX = Instantiate(fullBoostGFX, transform.position + new Vector3(20f, 20f, 1f), transform.rotation, transform); //make fx
+            Destroy(fullboostFX, 2);
             ActivateButton();
         }
     }
@@ -177,8 +183,11 @@ public class BonusButton : MonoBehaviour
             DisableButton();
     }
 
-    public void ActivateButton()
+    public void ActivateButton()  //WHEN BOOST IS 100% FULL
     {
+       
+
+
         EndGameManager.Instance.onMatchedBlock -= FillReloadImage;
         boostImage.fillAmount = 1;
         boostImage.color = Color.white;
