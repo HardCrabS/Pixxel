@@ -26,7 +26,7 @@ public class ShopController : MonoBehaviour
     [SerializeField] Text timeUntilSaleText;
     [SerializeField] Color welcomeSectionColor;
     [SerializeField] GameObject welcomeScreen;
-    [SerializeField] Button saleItemButton1;
+    //[SerializeField] Button saleItemButton1;
     [SerializeField] Button saleItemButton2;
     [SerializeField] Transform saleSelectionGlow;
     [SerializeField] Sprite titleIcon, bannerIcon;
@@ -76,9 +76,8 @@ public class ShopController : MonoBehaviour
 
     CollectionSection currCollectionSection = CollectionSection.None;
 
-    RewardTemplate currChosenSaleItem;
-    RewardTemplate firstPickedSaleItem, secondPickedSaleItem;
-    int sale1, sale2;
+    RewardTemplate pickedSaleItem;
+    int saleValue;
     Dictionary<LevelReward, RewardTemplate[]> allBuyableItems;
 
     const string SECTION_NAME_DOTS = "<size=120><color=black>- - - - - - - - - - -</color></size>";
@@ -158,17 +157,17 @@ public class ShopController : MonoBehaviour
         descriptionImage.gameObject.SetActive(true);
         if (TimeHasPassed())    //new sale every 6 hours
         {
-            firstPickedSaleItem = PickRandomItemForSale();
-            secondPickedSaleItem = PickRandomItemForSale(firstPickedSaleItem);
-            sale1 = GetRandomSale();
-            sale2 = GetRandomSale();
+            //firstPickedSaleItem = PickRandomItemForSale();
+            pickedSaleItem = PickRandomItemForSale();
+            //sale1 = GetRandomSale();
+            saleValue = GetRandomSale();
 
-            if (firstPickedSaleItem != null)
+            /*if (firstPickedSaleItem != null)
                 GameData.gameData.saveData.saleItemsInfo[0]
-                    = (firstPickedSaleItem.reward, firstPickedSaleItem.id, sale1);
-            if (secondPickedSaleItem != null)
+                    = (firstPickedSaleItem.reward, firstPickedSaleItem.id, sale1);*/
+            if (pickedSaleItem != null)
                 GameData.gameData.saveData.saleItemsInfo[1]
-                    = (secondPickedSaleItem.reward, secondPickedSaleItem.id, sale2);
+                    = (pickedSaleItem.reward, pickedSaleItem.id, saleValue);
             GameData.Save();
         }
         else
@@ -176,27 +175,26 @@ public class ShopController : MonoBehaviour
             var saleInfo1 = GameData.gameData.saveData.saleItemsInfo[0];
             var saleInfo2 = GameData.gameData.saveData.saleItemsInfo[1];
 
-            firstPickedSaleItem = !string.IsNullOrEmpty(saleInfo1.Item2) ?
-                CollectionController.FindItemWithId(allBuyableItems[saleInfo1.Item1], saleInfo1.Item2) : null;
-            secondPickedSaleItem = !string.IsNullOrEmpty(saleInfo2.Item2) ?
+            /*firstPickedSaleItem = !string.IsNullOrEmpty(saleInfo1.Item2) ?
+                CollectionController.FindItemWithId(allBuyableItems[saleInfo1.Item1], saleInfo1.Item2) : null;*/
+            pickedSaleItem = !string.IsNullOrEmpty(saleInfo2.Item2) ?
                 CollectionController.FindItemWithId(allBuyableItems[saleInfo2.Item1], saleInfo2.Item2) : null;
-            sale1 = saleInfo1.Item3;
-            sale2 = saleInfo2.Item3;
+            //sale1 = saleInfo1.Item3;
+            saleValue = saleInfo2.Item3;
         }
 
-        saleItemButton1.onClick.AddListener(delegate ()
+        /*saleItemButton1.onClick.AddListener(delegate ()
         {
             SetSelectionGlowPos(saleSelectionGlow, saleItemButton1.transform.position);
             currChosenSaleItem = firstPickedSaleItem;
-        });
+        });*/
         saleItemButton2.onClick.AddListener(delegate ()
         {
-            SetSelectionGlowPos(saleSelectionGlow, saleItemButton2.transform.position);
-            currChosenSaleItem = secondPickedSaleItem;
+            GetOfferButton();
         });
 
-        SetSaleItemUI(ref saleItemButton1, firstPickedSaleItem, sale1);
-        SetSaleItemUI(ref saleItemButton2, secondPickedSaleItem, sale2);
+        //SetSaleItemUI(ref saleItemButton1, firstPickedSaleItem, sale1);
+        SetSaleItemUI(ref saleItemButton2, pickedSaleItem, saleValue);
 
         UpdateTimeUntilSaleText();
     }
@@ -263,10 +261,8 @@ public class ShopController : MonoBehaviour
     }
     public void GetOfferButton()
     {
-        if (currChosenSaleItem == null)
-            return;
         RectTransform container = null;
-        switch (currChosenSaleItem.reward)
+        switch (pickedSaleItem.reward)
         {
             case LevelReward.World:
                 {
@@ -302,7 +298,7 @@ public class ShopController : MonoBehaviour
 
         foreach (RectTransform child in container)
         {
-            if (child.gameObject.name == currChosenSaleItem.id)
+            if (child.gameObject.name == pickedSaleItem.id)
             {
                 StartCoroutine(PressButtonDelayed(child.GetComponent<Button>()));
                 SnapTo(child, container, container.GetComponentInParent<ScrollRect>());
@@ -317,7 +313,7 @@ public class ShopController : MonoBehaviour
         lastClaim = Convert.ToDateTime(lastClaimStr);
 
         TimeSpan nextClaim = lastClaim.AddHours(6).Subtract(DateTime.Now);
-        Color timeColor = new Color(1, 0, 0,015f);
+        Color timeColor = new Color(1, 0, 0, 015f);
         string time = SequentialText.ColorString(nextClaim.Hours + ":" + nextClaim.Minutes, timeColor);
         timeUntilSaleText.text = "New deals in " + time + " my friends!";
     }
@@ -629,7 +625,7 @@ public class ShopController : MonoBehaviour
         }
 
         //spawn 1 empty objects at the beggining to make scroll offset
-            Instantiate(new GameObject().AddComponent<RectTransform>(), titlesContainer);
+        Instantiate(new GameObject().AddComponent<RectTransform>(), titlesContainer);
 
         titlesContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 1500;
     }
@@ -727,7 +723,7 @@ public class ShopController : MonoBehaviour
         }
 
         //spawn 1 empty objects at the beggining to make scroll offset
-            Instantiate(new GameObject().AddComponent<RectTransform>(), bannersContainer);
+        Instantiate(new GameObject().AddComponent<RectTransform>(), bannersContainer);
 
         bannersContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 1500;
     }
@@ -809,20 +805,12 @@ public class ShopController : MonoBehaviour
     void SetCostText(RewardTemplate[] rewardTemplates, int index)
     {
         costText.transform.parent.gameObject.SetActive(true);
-        if (rewardTemplates[index] == firstPickedSaleItem || rewardTemplates[index] == secondPickedSaleItem)
+        if (rewardTemplates[index] == pickedSaleItem)
         {
             costNoSaleText.gameObject.SetActive(true);
             costNoSaleText.text = "x" + rewardTemplates[index].cost;
-            if (rewardTemplates[index] == firstPickedSaleItem)
-            {
-                int cost1 = (int)(firstPickedSaleItem.cost * (100 - sale1) / 100.0f);
-                costText.text = "x" + cost1;
-            }
-            else
-            {
-                int cost2 = (int)(secondPickedSaleItem.cost * (100 - sale2) / 100.0f);
-                costText.text = "x" + cost2;
-            }
+            int cost2 = (int)(pickedSaleItem.cost * (100 - saleValue) / 100.0f);
+            costText.text = "x" + cost2;
         }
         else
         {
@@ -859,13 +847,9 @@ public class ShopController : MonoBehaviour
         buyButton.onClick.RemoveAllListeners();
         string id = rewardItem.id;
         int cost = rewardItem.cost;
-        if (rewardItem == firstPickedSaleItem)
+        if (rewardItem == pickedSaleItem)
         {
-            cost = (int)(rewardItem.cost * (100 - sale1) / 100.0f);
-        }
-        else if (rewardItem == secondPickedSaleItem)
-        {
-            cost = (int)(rewardItem.cost * (100 - sale2) / 100.0f);
+            cost = (int)(rewardItem.cost * (100 - saleValue) / 100.0f);
         }
 
         if (CoinsDisplay.Instance.GetCoins() < cost) return false;
