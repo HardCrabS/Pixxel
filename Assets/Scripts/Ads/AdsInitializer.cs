@@ -9,7 +9,7 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
     [SerializeField] bool _enablePerPlacementMode = true;
     private string _gameId;
 
-    void Awake()
+    void Start()
     {
         InitializeAds();
     }

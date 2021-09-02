@@ -103,7 +103,10 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
 
     public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
     {
-        BannerAd.Instance.ShowBannerAd();
+        if (!GameData.gameData.saveData.adsRemoved)
+        {
+            BannerAd.Instance.ShowBannerAd();
+        }
         switch(showResult)
         {
             case ShowResult.Failed:

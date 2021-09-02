@@ -100,6 +100,11 @@ public class SceneLoader : MonoBehaviour
     }
     IEnumerator LoadSceneWithAdCo(string sceneName)
     {
+        if(GameData.gameData.saveData.adsRemoved)
+        {
+            StartCoroutine(LoadAsynchronously("World Select", mainMenuSong, 0, true));
+            yield break;
+        }
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = false;//stop scene loading at 90%
         operation.completed += (asyncOperation) =>

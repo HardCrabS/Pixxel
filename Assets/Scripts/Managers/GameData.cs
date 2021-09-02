@@ -46,6 +46,7 @@ public class SaveData
     public string nextPossibleQuestClaime;
     public QuestProgress[] dailyQuests;
 
+    public bool adsRemoved;
     public User playerInfo;
 }
 
@@ -220,6 +221,11 @@ public class GameData : MonoBehaviour
         gameData.saveData.cardType = cardType;
         Save();
     }
+    public void RemoveAds()
+    {
+        saveData.adsRemoved = true;
+        BannerAd.Instance.HideBannerAd();
+    }
     public static void Save()
     {
         string path = Application.persistentDataPath + "/GameData.data";
@@ -259,8 +265,9 @@ public class GameData : MonoBehaviour
         }
         ProfileHandler.Instance.ResetBanner();
         ProfileHandler.Instance.ResetAvatar();
-        PlayerPrefs.DeleteAll();
-        //SaveSystem.SaveCoinsAmount(0);
+
+        PlayerPrefs.SetInt("WORLD TUTORIAL", 0);
+        PlayerPrefs.SetInt("WORLD SELECT TUTORIAL", 0);
         gameData = null;
 
         AudioController.Instance.SetCurrentClip(null);

@@ -93,6 +93,11 @@ public class CoinsDisplay : MonoBehaviour
     {
         currChance += amount == 0 ? chanceIncremPerRank : amount;
     }
+    public void AddCoinsAmmountWithPunch(int value)
+    {
+        coins += value;
+        UpdateText(true);
+    }
     public void AddCoinsAmount(int value, bool punch = false)
     {
         coins += value;
