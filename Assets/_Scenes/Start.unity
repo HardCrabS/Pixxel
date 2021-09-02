@@ -13923,7 +13923,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1448422548}
+      - m_Target: {fileID: 2072661533}
         m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
         m_MethodName: AddRewardsForPurchace
         m_Mode: 1
@@ -32090,7 +32090,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1448422547}
-  - component: {fileID: 1448422548}
   m_Layer: 5
   m_Name: Coins IAP screen
   m_TagString: Untagged
@@ -32129,27 +32128,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1448422548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448422546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cf24465cd6caf748af6edba80fa1ded, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restoreButton: {fileID: 1647030577}
-  rewardsForPurchase:
-  - {fileID: 11400000, guid: 5cf475e7daa7a6c42883cef48918565c, type: 2}
-  - {fileID: 11400000, guid: 72b0258d6b909664996dfa8a7e85940d, type: 2}
-  - {fileID: 11400000, guid: 9e53a03bd60a12d47a0e12449e5dd430, type: 2}
-  oldManBubble: {fileID: 222084680}
-  thingsToSay:
-  - I LOVE MAYONNAISE
-  - SANTA ISN'T REAL!
 --- !u!1 &1455604923
 GameObject:
   m_ObjectHideFlags: 0
@@ -43410,6 +43388,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2071603990}
   m_CullTransparentMesh: 0
+--- !u!1 &2072661532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2072661534}
+  - component: {fileID: 2072661533}
+  m_Layer: 0
+  m_Name: IAP Shop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2072661533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2072661532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf24465cd6caf748af6edba80fa1ded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restoreButton: {fileID: 1647030577}
+  rewardsForPurchase:
+  - {fileID: 11400000, guid: 5cf475e7daa7a6c42883cef48918565c, type: 2}
+  - {fileID: 11400000, guid: 72b0258d6b909664996dfa8a7e85940d, type: 2}
+  - {fileID: 11400000, guid: 9e53a03bd60a12d47a0e12449e5dd430, type: 2}
+  oldManBubble: {fileID: 222084680}
+  thingsToSay:
+  - I LOVE MAYONNAISE
+  - SANTA ISN'T REAL!
+--- !u!4 &2072661534
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2072661532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2073010141
 GameObject:
   m_ObjectHideFlags: 0
