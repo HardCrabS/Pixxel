@@ -25,9 +25,16 @@ public class BannerAd : MonoBehaviour
     }
     void Start()
     {
-        // Set the banner position:
-        Advertisement.Banner.SetPosition(_bannerPosition);
-        LoadBanner();
+        if (!GameData.gameData.saveData.adsRemoved)
+        {
+            // Set the banner position:
+            Advertisement.Banner.SetPosition(_bannerPosition);
+            LoadBanner();
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
     // Implement a method to call when the Load Banner button is clicked:
