@@ -6,12 +6,10 @@ public class GoldRush : BoostBase
 {
     private int timeToBonusLast = 5;
     private float startTime;
-    private Sprite goldenRockSprite;
-    private GameObject particleCoin;
     private GameObject goldRushPanel;
     private Text timeText;
     GridA grid;
-    AudioClip goldStart, turnGold, goldTapped;
+    AudioClip goldStart, turnGold;
 
     IEnumerator StartGoldRushTimer()
     {
@@ -55,13 +53,10 @@ public class GoldRush : BoostBase
         if (grid == null)
         {
             grid = GridA.Instance;
-            goldenRockSprite = Resources.Load<Sprite>(RESOURCES_FOLDER + "Gold Rush/GoldenRock");
-            particleCoin = Resources.Load<GameObject>(RESOURCES_FOLDER + "Gold Rush/Coins Particle");
             goldRushPanel = Resources.Load<GameObject>(RESOURCES_FOLDER + "Gold Rush/Gold Rush Panel");
 
             goldStart = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_alert");
             turnGold = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr1");
-            goldTapped = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Gold Rush/sfx_boost_goldr2");
         }
     }
 

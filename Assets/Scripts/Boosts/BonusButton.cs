@@ -142,7 +142,6 @@ public class BonusButton : MonoBehaviour
                 if (!BoostIsFinished())//if boost hasn't canceled 
                 {
                     boostImage.fillAmount = 0;
-                    EndGameManager.Instance.onMatchedBlock += FillReloadImage;
 
                     audioSource.PlayOneShot(activateBoost);
                     BonusManager.Instance.SetAllButtonsInterraction(false);
@@ -173,6 +172,7 @@ public class BonusButton : MonoBehaviour
     IEnumerator WaitForBoostFinish()
     {
         yield return new WaitUntil(() => concreteBonus.IsFinished());
+        EndGameManager.Instance.onMatchedBlock += FillReloadImage;
         BonusManager.Instance.SetAllButtonsInterraction(true);
     }
     public void SetInteractable(bool state)
@@ -185,9 +185,6 @@ public class BonusButton : MonoBehaviour
 
     public void ActivateButton()  //WHEN BOOST IS 100% FULL
     {
-       
-
-
         EndGameManager.Instance.onMatchedBlock -= FillReloadImage;
         boostImage.fillAmount = 1;
         boostImage.color = Color.white;
