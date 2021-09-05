@@ -39,12 +39,16 @@ public class Box : MonoBehaviour
     public delegate void OnClick(int x, int y);
     public event OnClick blockClicked;
 
+    public delegate void OnRelease();
+    public event OnRelease blockReleased;
+
     void Start()
     {
         isMatchable = true;
         grid = GridA.Instance;
         matchFinder = MatchFinder.Instance;
         blockClicked += grid.CrosshairToBlock;
+        blockReleased += grid.CrosshairRelease;
     }
 
     public void UpdatePos(int row = -1, int column = -1, bool moveBoxInPosition = false)
@@ -107,6 +111,7 @@ public class Box : MonoBehaviour
             finalMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             CalculateAngle();
         }
+        blockReleased?.Invoke();
     }
 
     void CalculateAngle()

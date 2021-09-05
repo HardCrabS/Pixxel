@@ -228,10 +228,29 @@ public class GridA : MonoBehaviour
         parentOfAllBoxes.DOMove(Vector3.zero, 0.5f);
     }
 
+    #region crosshair
+    Coroutine crosshairFade;
     public void CrosshairToBlock(int x, int y)
     {
+        if (crosshairFade != null)
+            StopCoroutine(crosshairFade);
+        crosshair.GetComponent<SpriteRenderer>().color = Color.white;
         crosshair.position = new Vector2(x, y);
     }
+    public void CrosshairRelease()
+    {
+        if (currBox != null)
+        {
+            crosshair.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        }
+        crosshairFade = StartCoroutine(FadeCrosshairOut());
+    }
+    IEnumerator FadeCrosshairOut()
+    {
+        yield return new WaitForSeconds(2f);
+        crosshair.GetComponent<SpriteRenderer>().DOFade(0, 0.2f);
+    }
+    #endregion
 
     #region generate_tiles
     void GenerateBlankSpaces()
