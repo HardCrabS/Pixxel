@@ -19,6 +19,7 @@ public class ProfileHandler : MonoBehaviour
     [SerializeField] UI_Screen collectionScreen;
     [SerializeField] Toggle trinketsToggle;
     [SerializeField] Toggle bannersToggle;
+    [SerializeField] Toggle titlesToggle;
 
     string currTitle;
 
@@ -196,4 +197,11 @@ public class ProfileHandler : MonoBehaviour
         UI_System.Instance.SwitchScreens(collectionScreen);
         bannersToggle.isOn = true;
     }
+
+    public void ActivateTitlesCollection() //for changing title image
+    {
+        UI_System.Instance.SwitchScreens(collectionScreen);
+        titlesToggle.isOn = true;
+    }
+
 }
