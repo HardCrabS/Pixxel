@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class IAPShop : MonoBehaviour
 {
+    [SerializeField] GameObject exclusiveItems;
     [SerializeField] GameObject restoreButton;
 
     [SerializeField] RewardTemplate[] rewardsForPurchase;
@@ -18,6 +19,15 @@ public class IAPShop : MonoBehaviour
     {
         DisableRestoreButton();
         InitOldManBubble();
+        DisableExclusiveRewardsText();
+    }
+
+    void DisableExclusiveRewardsText()
+    {
+        if (GameData.gameData.saveData.adsRemoved)
+        {
+            exclusiveItems.SetActive(false);
+        }
     }
 
     void InitOldManBubble()
@@ -33,6 +43,7 @@ public class IAPShop : MonoBehaviour
     public void AddRewardsForPurchace()
     {
         GameData.gameData.RemoveAds();
+        DisableExclusiveRewardsText();
 
         for (int i = 0; i < rewardsForPurchase.Length; i++)
         {
