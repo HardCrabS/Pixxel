@@ -119,8 +119,6 @@ public class Tutorial : MonoBehaviour
         uiSystem.SwitchScreens(screens[0]);
         yield return new WaitForSeconds(1f);
 
-        
-
         yield return StartCoroutine(PlayDialogue(login));//ask user to log in
         audioSource.clip = windSFX; //play wind sfx
         audioSource.Play();
@@ -156,9 +154,9 @@ public class Tutorial : MonoBehaviour
 
         yield return new WaitForSeconds(2);
         Destroy(tutorialCanvas);
-        PlayerPrefs.SetInt(WORLD_TUTORIAL, 1);
 
         GridA.Instance.SetBombSpawnChance(0);
+        EndGameManager.Instance.onGameOver.AddListener(delegate { PlayerPrefs.SetInt(WORLD_TUTORIAL, 1); });
 
         yield return new WaitUntil(() => LevelSlider.Instance.GetGameLevel() == 1);
         GridA.Instance.IncreaseBombSpawnChance(50);
@@ -189,20 +187,16 @@ public class Tutorial : MonoBehaviour
 
         audioSource.PlayOneShot(blocksHereSFX); //play SFX when blocks appear
 
-
-
         GridA.Instance.SetDefaultTemplate();//spawn default board 8x8
         GridA.Instance.currState = GameState.wait; // disable block swapping
 
-
-
+        var worldLoader = gameObject.AddComponent<WorldLoader>();
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(PlayDialogue(moreBlocks));//more blocks speech
 
         yield return audioSource.DOFade(0, 0.5f).WaitForCompletion();//fade out intence music
 
-        var worldLoader = gameObject.AddComponent<WorldLoader>();
         //load world
         worldLoader.LoadWorldInfoAsync(currentWorldInfo.worldLoadInfoRef, (WorldLoadInfo) =>
         {
@@ -215,8 +209,6 @@ public class Tutorial : MonoBehaviour
 
         uiSystem.SwitchScreens(screens[2]);//PAM goes away
         StartCoroutine(MakeAllFiredUpStart());
-
-
     }
 
     IEnumerator MakeAllFiredUpStart()
