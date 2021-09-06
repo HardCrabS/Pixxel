@@ -8,7 +8,7 @@ public class EndGameManager : MonoBehaviour
     [SerializeField] Text bestScoreText;
     [SerializeField] GameObject counter321;
     [SerializeField] CanvasGroup visualizerCanvasGroup;
-    [SerializeField] UnityEvent onGameOver;
+    public UnityEvent onGameOver;
 
     public delegate void MyDelegate();
     public event MyDelegate onMatchedBlock;
