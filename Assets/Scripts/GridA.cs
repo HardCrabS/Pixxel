@@ -965,6 +965,11 @@ public class GridA : MonoBehaviour
     {
         bombSpawnChance += value;
     }
+
+    public void SetBombSpawnChance(int value)
+    {
+        bombSpawnChance = value;
+    }
     void AddXPandScorePoints()
     {
         if (Score.Instance == null || LevelSlider.Instance == null) return;

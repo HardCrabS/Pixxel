@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Tutorial : MonoBehaviour
+
 {
+
     [Header("World tutorial")]
     [SerializeField] GameObject mainGameCanvas;
     [SerializeField] GameObject tutorialCanvasPrefab;
     [SerializeField] GameObject visualizerCanvas;
     [SerializeField] UI_Screen gameUIScreen;
-    [SerializeField] GameObject startCounter;
+   // [SerializeField] GameObject startCounter;
     [SerializeField] Transform crosshair;
     [SerializeField] Glitcher glitcher;
     [SerializeField] GameObject backgroundPrefab;
@@ -20,6 +23,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] AudioClip shakeSFX;
     [SerializeField] AudioClip blocksHereSFX;
     [SerializeField] AudioClip windSFX;
+    [SerializeField] Button retireButton;
 
     [Header("World select tutorial")]
     [SerializeField] UI_System worldSelectUISystem;
@@ -58,7 +62,7 @@ public class Tutorial : MonoBehaviour
             gameUIScreen.GetComponent<CanvasGroup>().alpha = 0;
             gameUIScreen.onScreenStart = null;
             mainGameCanvas.SetActive(false);
-            startCounter.SetActive(false);
+           // startCounter.SetActive(false);
             visualizerCanvas.SetActive(false);
             GridA.Instance.playTutorial = true;
         }
@@ -114,6 +118,9 @@ public class Tutorial : MonoBehaviour
         yield return new WaitForSeconds(1f);
         uiSystem.SwitchScreens(screens[0]);
         yield return new WaitForSeconds(1f);
+
+        
+
         yield return StartCoroutine(PlayDialogue(login));//ask user to log in
         audioSource.clip = windSFX; //play wind sfx
         audioSource.Play();
@@ -126,9 +133,8 @@ public class Tutorial : MonoBehaviour
                 PlayGamesController.WriteNewUser(username);
             });//open PAM after username is confirmed
 
+        retireButton.gameObject.SetActive(false);
         yield return new WaitUntil(() => uiSystem.CurrentScreen == screens[0]);//wait until PAM shows
-
-
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(PlayDialogue(hello));//greet player speech
@@ -151,6 +157,8 @@ public class Tutorial : MonoBehaviour
         yield return new WaitForSeconds(2);
         Destroy(tutorialCanvas);
         PlayerPrefs.SetInt(WORLD_TUTORIAL, 1);
+
+        GridA.Instance.SetBombSpawnChance(0);
 
         yield return new WaitUntil(() => LevelSlider.Instance.GetGameLevel() == 1);
         GridA.Instance.IncreaseBombSpawnChance(50);
@@ -213,20 +221,19 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator MakeAllFiredUpStart()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0f);
         for (int i = 0; i < 5; i++)
         {
             int randX = Random.Range(0, GridA.Instance.width);
             int randY = Random.Range(0, GridA.Instance.hight);
             if (GridA.Instance.allBoxes[randX, randY] != null)
                 MakeBlockFiredUp(GridA.Instance.allBoxes[randX, randY].GetComponent<Box>(), new Vector2(randX, randY));
-            yield return new WaitForSeconds(0.4f);
+            //yield return new WaitForSeconds(0.4f);
         }
     }
 
     void MakeBlockFiredUp(Box box, Vector2 pos)
     {
-        Camera.main.GetComponent<CameraShake>().ShakeCam(0.1f, 0.5f);
         GridA.Instance.SetBlockFiredUp(box);
     }
 
