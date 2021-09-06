@@ -1594,21 +1594,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1240042415}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: set_text
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: EQUIPPED
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 718351419}
         m_TargetAssemblyTypeName: UISounds, Assembly-CSharp
-        m_MethodName: PlaySound
+        m_MethodName: PlayClip
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 8300000, guid: cf76422b7efc5df4d9a674989fd11935,
@@ -1669,8 +1657,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -197.3, y: 102.4}
-  m_SizeDelta: {x: 476.26, y: 505.89}
+  m_AnchoredPosition: {x: -169.2, y: 78.9}
+  m_SizeDelta: {x: 467.60382, y: 465.10425}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &62806884
 MonoBehaviour:
@@ -25079,8 +25067,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1006949124}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: ActivateTrinketsCollection
+        m_TargetAssemblyTypeName: ProfileHandler, Assembly-CSharp
+        m_MethodName: ActivateTitlesCollection
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -29048,18 +29036,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1632920362}
-        m_TargetAssemblyTypeName: ShopController, Assembly-CSharp
-        m_MethodName: OpenShop
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 718351419}
         m_TargetAssemblyTypeName: UISounds, Assembly-CSharp
         m_MethodName: PlayClip
@@ -32368,8 +32344,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -217.5, y: 25.199991}
-  m_SizeDelta: {x: 476.26, y: 505.89}
+  m_AnchoredPosition: {x: -169.2, y: 78.9}
+  m_SizeDelta: {x: 467.60382, y: 465.10425}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1459017103
 MonoBehaviour:
@@ -35184,6 +35160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81baddd293f757646bbe109f25224491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shopScreen: {fileID: 2082897485}
   sectionName: {fileID: 1821540403}
   unlockNumber: {fileID: 2053257503}
   itemDescription: {fileID: 1304001808}
@@ -35200,7 +35177,6 @@ MonoBehaviour:
   welcomeSectionColor: {r: 0.5529412, g: 0.3254902, b: 0.9254902, a: 1}
   welcomeScreen: {fileID: 1459391277}
   saleItemButton2: {fileID: 708974570}
-  saleSelectionGlow: {fileID: 1273626171}
   titleIcon: {fileID: 21300000, guid: 18fee79d2afda1146bdf003851395681, type: 3}
   bannerIcon: {fileID: 21300000, guid: 32abf24475143794cbe2ee229772ac07, type: 3}
   noSaleSprite: {fileID: 21300000, guid: 1271281999271634e9e6cd8285b5f4ad, type: 3}
@@ -35212,17 +35188,23 @@ MonoBehaviour:
   worldTemplate: {fileID: 6516184875816784907, guid: 3646ffd5b18e7e444ac97b7a783334db,
     type: 3}
   worlds:
-  - {fileID: 11400000, guid: 6ff68dabf37481940ba9371674d84475, type: 2}
-  - {fileID: 11400000, guid: 593cb11ce30e865469f8834697d2ebf9, type: 2}
-  - {fileID: 11400000, guid: cc494a3e599ebc54a8f0ff6d56d2d928, type: 2}
+  - {fileID: 11400000, guid: 1786631408ab87e4dafb74930004bd7d, type: 2}
   - {fileID: 11400000, guid: 2619724df0596c74ebc66a8646fd310c, type: 2}
+  - {fileID: 11400000, guid: 075d959f3d4bb7440b48a440dec26c33, type: 2}
+  - {fileID: 11400000, guid: 59fbf0a9166fd2447a7e45ee404680dd, type: 2}
   - {fileID: 11400000, guid: 95d6cf50ed44896448801f008361a99c, type: 2}
+  - {fileID: 11400000, guid: 204939470f825a3438883f20e16e53e6, type: 2}
+  - {fileID: 11400000, guid: 908cfa35ec864bd41bf3da2e0f47e46f, type: 2}
   - {fileID: 11400000, guid: 0eea9c2332568cb4282fb27ec4ea423b, type: 2}
+  - {fileID: 11400000, guid: 62cc16f60a28bac409929fcb09f13ba6, type: 2}
+  - {fileID: 11400000, guid: a0f32c5ae93084649bdb98c447509dab, type: 2}
   - {fileID: 11400000, guid: 36a0d6d28179a014580342dabe261985, type: 2}
   - {fileID: 11400000, guid: e9069b89a14041448a78439921ad53bc, type: 2}
+  - {fileID: 11400000, guid: 4c6a6603a2ad16648a9f5ba6358cce34, type: 2}
+  - {fileID: 11400000, guid: a66acffc8521a824ba00f6235e27e4de, type: 2}
   - {fileID: 11400000, guid: 4f63ebf3aa5ea8e4daa4252abc99d3aa, type: 2}
+  - {fileID: 11400000, guid: 78e508d241b043e42b3fbd443ccab14b, type: 2}
   - {fileID: 11400000, guid: ada86a66b4bda75489140b80b69a4e29, type: 2}
-  - {fileID: 11400000, guid: 72b0258d6b909664996dfa8a7e85940d, type: 2}
   boostsContainer: {fileID: 1423801137}
   boostSelectionGlow: {fileID: 1459017102}
   boostTemplate: {fileID: 1822149663380676, guid: aee71b83c6f037042a0b565d861f84f6,
@@ -35233,9 +35215,15 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8134cca63f1da2941bfc1028a4a2bf25, type: 3}
   - {fileID: 21300000, guid: fd5ca38f68582424d9767649e8501e08, type: 3}
   boostInfos:
-  - {fileID: 11400000, guid: 75bfbc4f88d25b44e805946e58b9e34a, type: 2}
+  - {fileID: 11400000, guid: 0d904fb5706be694b83d651d4a6cfbca, type: 2}
+  - {fileID: 11400000, guid: 91dd68caa4c64d248803fd2e203a3407, type: 2}
+  - {fileID: 11400000, guid: 68ee746a3d9c26943890c211e85b0270, type: 2}
+  - {fileID: 11400000, guid: dbcc2d2458273234d896e5b679fa2869, type: 2}
+  - {fileID: 11400000, guid: 26e0b360c84458a4b89c1a40788fb40e, type: 2}
   - {fileID: 11400000, guid: 1d90d7bc2ea7a9749b907821cfa05cd8, type: 2}
-  - {fileID: 11400000, guid: c4238456996c647448752224b0bf9a95, type: 2}
+  - {fileID: 11400000, guid: a93885d3ef4f3f14e9b129a4361225d3, type: 2}
+  - {fileID: 11400000, guid: 489b3c88f82f99948b681f2fe7f3e5d7, type: 2}
+  - {fileID: 11400000, guid: f13329e827c9a094591c562ada6d2c38, type: 2}
   trinketsContainer: {fileID: 1982885814}
   trinketSelectionGlow: {fileID: 1515560551}
   trinketTemplate: {fileID: 1005160419522664, guid: 71c5a85155b4ffa40ac245f3537c1c5f,
@@ -35296,9 +35284,6 @@ MonoBehaviour:
   titlePrefab: {fileID: 3237104689976327918, guid: 91e77ab9d1d0b4040a35a5817a73ef63,
     type: 3}
   titles:
-  - {fileID: 11400000, guid: f1274a38b6043cf46b02073c3ae19d77, type: 2}
-  - {fileID: 11400000, guid: 86d368e8c82033c42993854ea4270997, type: 2}
-  - {fileID: 11400000, guid: 46ff58233405f6940baf5d798a462523, type: 2}
   - {fileID: 11400000, guid: 584bc47e3b27fee4fb72727aeddc0186, type: 2}
   - {fileID: 11400000, guid: 1c8b00cee5b0f4d4b9e5503d5c376428, type: 2}
   - {fileID: 11400000, guid: 39a5b409057173942bae6016bb69981d, type: 2}
@@ -35309,14 +35294,88 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f15135fc748163c41ad7b211a519e156, type: 2}
   - {fileID: 11400000, guid: f91e21e4e0f073e4f99f607b08c64491, type: 2}
   - {fileID: 11400000, guid: b78200c3fed43e9448e74b6f28efa3db, type: 2}
+  - {fileID: 11400000, guid: 7e31cb787c96dcc41bce1efad53a5b09, type: 2}
+  - {fileID: 11400000, guid: 035394b1d36692840b6b3a6b139936ca, type: 2}
+  - {fileID: 11400000, guid: 7632b50ad28281b4f82c272163f15408, type: 2}
+  - {fileID: 11400000, guid: 7ee3962372d5f6742ba64d6d9d2629fc, type: 2}
+  - {fileID: 11400000, guid: cb1d78cec467a434085ca840b0c7f6c6, type: 2}
+  - {fileID: 11400000, guid: d69b85c07631e3640bca44df0500190b, type: 2}
+  - {fileID: 11400000, guid: 7936b85789fc2a046946dfb6e26148c5, type: 2}
+  - {fileID: 11400000, guid: 03e36a82661095a4cbb27afb6e34e9e3, type: 2}
+  - {fileID: 11400000, guid: 5fcbc26b378b6214a952ed8702b61baf, type: 2}
+  - {fileID: 11400000, guid: a03d78a77207879439225c681f19fd90, type: 2}
+  - {fileID: 11400000, guid: e1258bbf5f76a8949b88bb7137ca2daa, type: 2}
+  - {fileID: 11400000, guid: be2a2eca8cf1b794f96702b5c91cd79f, type: 2}
+  - {fileID: 11400000, guid: f79729d3669e8b449b0317f5290b518f, type: 2}
+  - {fileID: 11400000, guid: b57a43ebde168a548af273d2548f369c, type: 2}
+  - {fileID: 11400000, guid: 1332d5703fb2e654e959aa5f3cf1438b, type: 2}
+  - {fileID: 11400000, guid: a05ed316cf22e3d45b20bb1edfbe2791, type: 2}
+  - {fileID: 11400000, guid: e112d4e7ac3f6da43a239753747c8b31, type: 2}
+  - {fileID: 11400000, guid: bf3f3de17ac1edc40b87355e8a241e12, type: 2}
+  - {fileID: 11400000, guid: 0eaa5fb6cdd67eb4fbd344be1c409db9, type: 2}
+  - {fileID: 11400000, guid: d6f9355e00b0f4c4c9913b1f8918f45f, type: 2}
+  - {fileID: 11400000, guid: 4f5491aa9cdc97743b1e6978b59017ba, type: 2}
+  - {fileID: 11400000, guid: fff7f0cee5e30c74e8e6bc51d833bde4, type: 2}
+  - {fileID: 11400000, guid: 1a072d9a2cac53f49b0896edcd329b63, type: 2}
+  - {fileID: 11400000, guid: 50675908452da194c8237e56c7695c11, type: 2}
+  - {fileID: 11400000, guid: 4a1d17e0b8524b941866dbd6d838852f, type: 2}
+  - {fileID: 11400000, guid: cc69b0362a857024ab35a8b39510e847, type: 2}
+  - {fileID: 11400000, guid: 097b864a925120949a2742fd4df07303, type: 2}
+  - {fileID: 11400000, guid: bcbda5b143fc33542ada24155567e935, type: 2}
+  - {fileID: 11400000, guid: c7381e2c5893b574f9c449c35dc4aa41, type: 2}
+  - {fileID: 11400000, guid: cff9cd73b26eb8c45a65bc6d65026b26, type: 2}
+  - {fileID: 11400000, guid: b204820147d706643afc3f77ae0f2064, type: 2}
+  - {fileID: 11400000, guid: 1d4045fbd1e999f4eb9a6b860e0d1a2d, type: 2}
+  - {fileID: 11400000, guid: 9f92d0c87ce570d43b412a54d2407fc8, type: 2}
+  - {fileID: 11400000, guid: e793f6cbd99ad69418d3d8d395bed856, type: 2}
+  - {fileID: 11400000, guid: d38adcca8499a894ab2317b81e30bb91, type: 2}
+  - {fileID: 11400000, guid: 4c72c4f6553dd864ba4130d9db7c2a34, type: 2}
+  - {fileID: 11400000, guid: bf18e5c76141b254795c0b874360b8b7, type: 2}
+  - {fileID: 11400000, guid: edcd07ccd98ccd945adf1a03c706ec99, type: 2}
+  - {fileID: 11400000, guid: f105383e617c40f43b7ad089ac426625, type: 2}
+  - {fileID: 11400000, guid: a022bdbcd56cb7c4c9010d74332cd7d1, type: 2}
+  - {fileID: 11400000, guid: acbe70f903562244aa0c982b251a5716, type: 2}
+  - {fileID: 11400000, guid: 72b34839ee9521a4f940e39362e25f0a, type: 2}
+  - {fileID: 11400000, guid: 99f70e085a467b740b2c08b79680f7e6, type: 2}
+  - {fileID: 11400000, guid: e156197d6ea240e4fa87774d53cc0799, type: 2}
+  - {fileID: 11400000, guid: ec9a3fbcbe9b233438b11bd00a7c1d0a, type: 2}
+  - {fileID: 11400000, guid: 8da760b1dd1ee90469abc59118784f5f, type: 2}
+  - {fileID: 11400000, guid: 1faa938b88cc6564d8b56eef2d85b1c0, type: 2}
+  - {fileID: 11400000, guid: 2a00dde4e43e0014696128b02e07989f, type: 2}
+  - {fileID: 11400000, guid: c2bca098889bea44da8ad752c2ef6a5c, type: 2}
+  - {fileID: 11400000, guid: cef138e61f49f9342a0c7925579ea588, type: 2}
+  - {fileID: 11400000, guid: 31ab3d1746a993048aa5e4d4be3aa489, type: 2}
+  - {fileID: 11400000, guid: 9304d9ff16f3ee6469213576234c3374, type: 2}
+  - {fileID: 11400000, guid: 28a4899943c9f27479f742ea2c425c28, type: 2}
+  - {fileID: 11400000, guid: a99dd5595ae493040b61d05125cddee4, type: 2}
+  - {fileID: 11400000, guid: ffe6f485e52c6394e8cb6b831887bb5b, type: 2}
+  - {fileID: 11400000, guid: 118512c776199d9479b3b51455120ad9, type: 2}
+  - {fileID: 11400000, guid: 1c28669c50316f543b1f65e635f4392f, type: 2}
+  - {fileID: 11400000, guid: 203597a7547cd984bbd441e09fe9d0c5, type: 2}
+  - {fileID: 11400000, guid: 68a5f63aa8642e846bac302b8fd98060, type: 2}
+  - {fileID: 11400000, guid: f5c237cba8452a54e90bc12b04bcc6ed, type: 2}
+  - {fileID: 11400000, guid: f7db0a551fc67254692a708f8f77fd99, type: 2}
+  - {fileID: 11400000, guid: 408dfe82030ee924ab4ba4dca968e90b, type: 2}
+  - {fileID: 11400000, guid: af36f2163f7731843a2678bd7f00bc65, type: 2}
+  - {fileID: 11400000, guid: d5ba65f89754ca340ae9f3ca9cdf1397, type: 2}
+  - {fileID: 11400000, guid: 566b162196c2c974d84c2a2ee6dcd419, type: 2}
+  - {fileID: 11400000, guid: c6c8235af632c994da8c29c44288fc1c, type: 2}
+  - {fileID: 11400000, guid: 3bf0bf472d7e6b74c987669c0e08e862, type: 2}
+  - {fileID: 11400000, guid: b62fbf2b9e702f64baa01648ed63f865, type: 2}
+  - {fileID: 11400000, guid: 91af38c8290ed3f4f8030730305f1db9, type: 2}
+  - {fileID: 11400000, guid: 9e53a03bd60a12d47a0e12449e5dd430, type: 2}
   bannersContainer: {fileID: 1335439947}
   bannerPanelPrefab: {fileID: 1292229799536440, guid: a5015315630f39a49852200420c43494,
     type: 3}
   bannerSelectionGlow: {fileID: 1371927650}
   banners:
-  - {fileID: 11400000, guid: 20b62c82f31023643a93eae9c7c445d6, type: 2}
-  - {fileID: 11400000, guid: b1602863ca03122419a5c78160c38410, type: 2}
-  - {fileID: 11400000, guid: a1aa703028b24084986cb6879a69bcc9, type: 2}
+  - {fileID: 11400000, guid: 948a37248904e6848b1514bef82b250c, type: 2}
+  - {fileID: 11400000, guid: 82a5c91c4ccfe79429377dcb5ad10fc5, type: 2}
+  - {fileID: 11400000, guid: e90a18ccb44e3c245be89036a0b9a20f, type: 2}
+  - {fileID: 11400000, guid: 35eaa58302c403f42b60c479e3c9ab01, type: 2}
+  - {fileID: 11400000, guid: 118f6bb6f1b61ac46806c21891927e4c, type: 2}
+  - {fileID: 11400000, guid: fab333ccaf5e4b944a11cab9f5d3c947, type: 2}
+  - {fileID: 11400000, guid: c53ccaa41b575274380f0672bb7cfef9, type: 2}
   - {fileID: 11400000, guid: 8e2e5eccad0bc7c40b49d63a36df2066, type: 2}
   - {fileID: 11400000, guid: 43522ad85f7f47b4c8004488796b0694, type: 2}
   - {fileID: 11400000, guid: d33d669d268504d4b90c945a5c7d9816, type: 2}
@@ -35335,6 +35394,56 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 033076a96c6459a44afa61734ac102d5, type: 2}
   - {fileID: 11400000, guid: 8e44689dce313144c96346f813260565, type: 2}
   - {fileID: 11400000, guid: 1435c218cf1da294b81388a219ef0856, type: 2}
+  - {fileID: 11400000, guid: b12a1b072aaf65549bcab3813d5d37dd, type: 2}
+  - {fileID: 11400000, guid: f0a26e0b6e742e54dadf04f807191f34, type: 2}
+  - {fileID: 11400000, guid: 751a5491fab3c1248a153d6fa633dc75, type: 2}
+  - {fileID: 11400000, guid: 18e4b8132f8085949a5307605e42400b, type: 2}
+  - {fileID: 11400000, guid: d09eacc0340519141af6d4b06f6f05fc, type: 2}
+  - {fileID: 11400000, guid: 2530c9bbfb1778b459c2dbb6588f3f66, type: 2}
+  - {fileID: 11400000, guid: 7aea308f14e845c4d8d03135fd61f899, type: 2}
+  - {fileID: 11400000, guid: ce7099c8e5ccf974590b98a640f2467a, type: 2}
+  - {fileID: 11400000, guid: 5213c73c9b690ff4f8f9075332f1993c, type: 2}
+  - {fileID: 11400000, guid: b3abccbbe3f720a4e98d1090cbad6e98, type: 2}
+  - {fileID: 11400000, guid: 7f23cd4660f0fbc46bd69186fbe3b504, type: 2}
+  - {fileID: 11400000, guid: 3e67e5822cb972040b93cfb0380e43bc, type: 2}
+  - {fileID: 11400000, guid: 722fb776f83a81440a1b14cf833f6ca9, type: 2}
+  - {fileID: 11400000, guid: 8ec546ecd6f058e499b69a9906035b32, type: 2}
+  - {fileID: 11400000, guid: 09821958989904449ace6382e7c54aa5, type: 2}
+  - {fileID: 11400000, guid: 197563f3eff00be44a3f5a3c56bc908a, type: 2}
+  - {fileID: 11400000, guid: 6a99f128ccfc4744db6391c59187d72f, type: 2}
+  - {fileID: 11400000, guid: bbe6ccfa5186e004c823714faef722b1, type: 2}
+  - {fileID: 11400000, guid: bb1d45edcf931c1458f7f85a9f71c8ca, type: 2}
+  - {fileID: 11400000, guid: 8b1cc550a8c973242b45cb6f150d7861, type: 2}
+  - {fileID: 11400000, guid: 5932bf9464a9eb643801f9a7dff70470, type: 2}
+  - {fileID: 11400000, guid: 6bb93706a997dba44a9774106fc74631, type: 2}
+  - {fileID: 11400000, guid: 4bc89ec5db613334389be20658e026ab, type: 2}
+  - {fileID: 11400000, guid: 05b728e25e0f228418a889b8927f0d0e, type: 2}
+  - {fileID: 11400000, guid: 3f1608d4be2001747bc8d1ac4ea852b6, type: 2}
+  - {fileID: 11400000, guid: 5e13474f036ac504ebeaa9be7b0fa0cf, type: 2}
+  - {fileID: 11400000, guid: 0cb76652174d2404997c3fef4882f988, type: 2}
+  - {fileID: 11400000, guid: 9ebcf0a70636749418f854b6d5610e4c, type: 2}
+  - {fileID: 11400000, guid: 306d40f84bea72541a2a1ee6f680411d, type: 2}
+  - {fileID: 11400000, guid: ab38d9cede01c184caa2983201256480, type: 2}
+  - {fileID: 11400000, guid: a6889ca28363e064780d2bb996936b70, type: 2}
+  - {fileID: 11400000, guid: d9d2825233439794d950025004e66ece, type: 2}
+  - {fileID: 11400000, guid: 69cd4f13f0566b147a5f9725cee9636f, type: 2}
+  - {fileID: 11400000, guid: 45baf304aa9b2ce44af07d5b30404929, type: 2}
+  - {fileID: 11400000, guid: d5836a39145a27947a51bab95b23efc1, type: 2}
+  - {fileID: 11400000, guid: 56c3a253460ad2449a6cb60578745399, type: 2}
+  - {fileID: 11400000, guid: b84893846992503479a7d86d358e2e3c, type: 2}
+  - {fileID: 11400000, guid: 8705a07a7b10f4a4eb11daf3b39633e6, type: 2}
+  - {fileID: 11400000, guid: 432011f2158f12e4c8fed43d3785e829, type: 2}
+  - {fileID: 11400000, guid: c7c3239f6cfb31c4c905d1f935885be6, type: 2}
+  - {fileID: 11400000, guid: 5132a6af6fc808f4db0d31efb293249b, type: 2}
+  - {fileID: 11400000, guid: 833de76371e83c34d8cfa52cb1e8b8a7, type: 2}
+  - {fileID: 11400000, guid: 7385c79492b4c394c87f6a420188b201, type: 2}
+  - {fileID: 11400000, guid: b3e0c26ed07f3c64ea32b21dc5c8e17a, type: 2}
+  - {fileID: 11400000, guid: 05f9034a06b012b43b313d9ee2ed3aa4, type: 2}
+  - {fileID: 11400000, guid: f9c12d5cbf0c84e4cb39dac3b1ac49e4, type: 2}
+  - {fileID: 11400000, guid: c0bb054f2a246304bafca7b47e209ae5, type: 2}
+  - {fileID: 11400000, guid: 365eaf65672c60e45976a48b0a1b6e67, type: 2}
+  - {fileID: 11400000, guid: 8b0c733e8a162b547a6af9147e9497f3, type: 2}
+  - {fileID: 11400000, guid: 5cf475e7daa7a6c42883cef48918565c, type: 2}
   worldTogle: {fileID: 559503615}
   boostTogle: {fileID: 1362617225}
   trinketTogle: {fileID: 874925106}
@@ -43065,6 +43174,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1632920362}
+        m_TargetAssemblyTypeName: ShopController, Assembly-CSharp
+        m_MethodName: OpenShop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &2002339489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45667,11 +45788,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 779083702}
         m_TargetAssemblyTypeName: UI_System, Assembly-CSharp
-        m_MethodName: SwitchScreens
-        m_Mode: 2
+        m_MethodName: GoToPreviousScreen
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 1365948443}
-          m_ObjectArgumentAssemblyTypeName: UI_Screen, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

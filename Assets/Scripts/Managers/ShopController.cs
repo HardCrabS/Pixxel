@@ -9,6 +9,7 @@ public class ShopController : MonoBehaviour
 {
     public static ShopController Instance;
 
+    [SerializeField] UI_Screen shopScreen;
     [SerializeField] Text sectionName;
     [SerializeField] Text unlockNumber;
     [SerializeField] Text itemDescription;
@@ -28,7 +29,7 @@ public class ShopController : MonoBehaviour
     [SerializeField] GameObject welcomeScreen;
     //[SerializeField] Button saleItemButton1;
     [SerializeField] Button saleItemButton2;
-    [SerializeField] Transform saleSelectionGlow;
+    //[SerializeField] Transform saleSelectionGlow;
     [SerializeField] Sprite titleIcon, bannerIcon;
     [SerializeField] Sprite noSaleSprite;
     [Range(0, 100)] [SerializeField] int saleMin, saleMax;
@@ -85,6 +86,14 @@ public class ShopController : MonoBehaviour
 
     const string BANNERS_LOCATION = "Sprites/UI images/Banners/";
     const string TRINKETS_LOCATION = "Sprites/UI images/Trinkets/";
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     void Start()
     {
@@ -149,6 +158,56 @@ public class ShopController : MonoBehaviour
         coinsScreen.SetActive(true);
         welcomeScreen.SetActive(false);
         sectionName.text = SequentialText.ColorString("COIN SHOP!\n", welcomeSectionColor) + SECTION_NAME_DOTS;
+    }
+
+    public void OpenShopItem(RewardTemplate item)
+    {
+        UI_System.Instance.SwitchScreens(shopScreen);
+
+        RectTransform container = null;
+        switch (item.reward)
+        {
+            case LevelReward.World:
+                {
+                    worldTogle.isOn = true;
+                    container = (RectTransform)worldsContainer;
+                    break;
+                }
+            case LevelReward.Boost:
+                {
+                    boostTogle.isOn = true;
+                    container = (RectTransform)boostsContainer;
+                    break;
+                }
+            case LevelReward.Trinket:
+                {
+                    trinketTogle.isOn = true;
+                    container = (RectTransform)trinketsContainer;
+                    break;
+                }
+            case LevelReward.Title:
+                {
+                    titleTogle.isOn = true;
+                    container = (RectTransform)titlesContainer;
+                    break;
+                }
+            case LevelReward.Banner:
+                {
+                    bannerTogle.isOn = true;
+                    container = (RectTransform)bannersContainer;
+                    break;
+                }
+        }
+
+        foreach (RectTransform child in container)
+        {
+            if (child.gameObject.name == item.id)
+            {
+                StartCoroutine(PressButtonDelayed(child.GetComponent<Button>()));
+                SnapTo(child, container, container.GetComponentInParent<ScrollRect>());
+                break;
+            }
+        }
     }
 
     #region Welcome
@@ -780,15 +839,17 @@ public class ShopController : MonoBehaviour
 
         if (scrollRect.horizontal)
         {
-            contentPanel.anchoredPosition =
-                (Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
-                - Vector2.right * scrollRect.transform.InverseTransformPoint(target.position);
+            contentPanel.anchoredPosition = new Vector2(
+                ((Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
+                - (Vector2)scrollRect.transform.InverseTransformPoint(target.position)).x,
+                contentPanel.anchoredPosition.y);
         }
         else
         {
-            contentPanel.anchoredPosition =
-                (Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
-                - Vector2.up * scrollRect.transform.InverseTransformPoint(target.position);
+            contentPanel.anchoredPosition = new Vector2(
+                contentPanel.anchoredPosition.x,
+                ((Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
+                - (Vector2)scrollRect.transform.InverseTransformPoint(target.position)).y);
         }
     }
     private void ResetClickEvent(Action clickFunction, Transform panelClone, Transform selectionGlow)

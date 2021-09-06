@@ -21,6 +21,7 @@ public class UI_System : MonoBehaviour
 
     private Component[] screens = new Component[0];
 
+    private UI_Screen prevPreviousScreen;//to avoid looping between previous screens
     private UI_Screen previousScreen;
     public UI_Screen PreviousScreen { get { return previousScreen; } }
 
@@ -127,8 +128,13 @@ public class UI_System : MonoBehaviour
             {
                 StartCoroutine(SwitchScreensDelayed(previousScreen, 0.5f));
             }
+            else if(prevPreviousScreen == currentScreen)
+            {
+                StartCoroutine(SwitchScreensDelayed(m_StartScreen, 0.5f));
+            }
             else
             {
+                prevPreviousScreen = previousScreen;
                 SwitchScreens(previousScreen);
             }
         }

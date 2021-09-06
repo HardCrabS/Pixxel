@@ -203,5 +203,4 @@ public class ProfileHandler : MonoBehaviour
         UI_System.Instance.SwitchScreens(collectionScreen);
         titlesToggle.isOn = true;
     }
-
 }

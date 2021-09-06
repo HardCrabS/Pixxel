@@ -149,9 +149,10 @@ public class CollectionController : MonoBehaviour
     }
     void OnWorldClicked(string description, int index, bool isUnlocked)
     {
-            descriptionImage.gameObject.SetActive(true);
+        descriptionImage.gameObject.SetActive(true);
         if (!isUnlocked)
         {
+            OpenItemInShopButton(worlds[index]);
             string unlockRequirement = GetUnlockRequirement(LevelReward.World, worlds[index]);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
@@ -231,6 +232,7 @@ public class CollectionController : MonoBehaviour
             descriptionImage.gameObject.SetActive(true);
         if (!isUnlocked)
         {
+            OpenItemInShopButton(boostInfos[index]);
             string unlockRequirement = GetUnlockRequirement(LevelReward.Boost, boostInfos[index]);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
@@ -382,6 +384,7 @@ public class CollectionController : MonoBehaviour
         if (!isUnlocked)
         {
             equipButton.gameObject.SetActive(false);    //button to equip a avatar
+            OpenItemInShopButton(trinket);
             string unlockRequirement = GetUnlockRequirement(LevelReward.Trinket, trinket);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
@@ -461,6 +464,7 @@ public class CollectionController : MonoBehaviour
         if (!isUnlocked)
         {
             equipButton.gameObject.SetActive(false);    //button to equip a title
+            OpenItemInShopButton(titles[index]);
             string unlockRequirement = GetUnlockRequirement(LevelReward.Title, titles[index]);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
@@ -551,6 +555,7 @@ public class CollectionController : MonoBehaviour
         if (!isUnlocked)
         {
             equipButton.gameObject.SetActive(false);    //button to equip a banner
+            OpenItemInShopButton(banners[index]);
             string unlockRequirement = GetUnlockRequirement(LevelReward.Banner, banners[index]);
             description += "\n" + LOCKED + "\n" + unlockRequirement;
         }
@@ -587,6 +592,23 @@ public class CollectionController : MonoBehaviour
     {
         selection.position = pos;
     }
+
+    void OpenItemInShopButton(RewardTemplate item)
+    {
+        if (item.unlockedInShop)
+        {
+            equipButton.gameObject.SetActive(true);
+            Text buttoText = equipButton.GetComponentInChildren<Text>();
+            buttoText.text = "GET IT!";
+            Button button = equipButton.GetComponent<Button>();
+            button.onClick.AddListener(() => ShopController.Instance.OpenShopItem(item));
+        }
+        else
+        {
+            equipButton.gameObject.SetActive(false);
+        }
+    }
+
     public void UpdateCollectionElement(RewardTemplate reward)
     {
         Transform container = null;

@@ -225,6 +225,7 @@ public class GameData : MonoBehaviour
     {
         saveData.adsRemoved = true;
         BannerAd.Instance.HideBannerAd();
+        Save();
     }
     public static void Save()
     {

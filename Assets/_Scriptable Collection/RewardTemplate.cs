@@ -4,6 +4,7 @@
 public abstract class RewardTemplate : ScriptableObject 
 {
     public LevelReward reward;
+    public bool unlockedInShop = false;
     public string id;
     [TextArea(2, 3)] public string description;
     public int cost = 750;
