@@ -3293,7 +3293,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 3
-  m_Text: 12,500
+  m_Text: 15,000
 --- !u!222 &136344321
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9594,7 +9594,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 3
-  m_Text: 2,500
+  m_Text: 1,000
 --- !u!222 &457152368
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12124,6 +12124,7 @@ GameObject:
   - component: {fileID: 587775916}
   - component: {fileID: 587775915}
   - component: {fileID: 587775917}
+  - component: {fileID: 587775918}
   m_Layer: 5
   m_Name: 25$
   m_TagString: Untagged
@@ -12234,6 +12235,54 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &587775918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587775913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productId: com.culagames.pixxel.6500coins
+  buttonType: 0
+  consumePurchase: 1
+  onPurchaseComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2072661533}
+        m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
+        m_MethodName: AddRewardsForPurchace
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1235205026}
+        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
+        m_MethodName: AddCoinsAmmountWithPunch
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6500
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPurchaseFailed:
+    m_PersistentCalls:
+      m_Calls: []
+  titleText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  priceText: {fileID: 827989841}
 --- !u!114 &595882522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13895,24 +13944,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.CuLaGames.PiXXel.250coins
+  productId: com.culagames.pixxel.150coins
   buttonType: 0
   consumePurchase: 1
   onPurchaseComplete:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1235205026}
-        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
-        m_MethodName: AddCoinsAmmountWithPunch
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 250
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2072661533}
         m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
         m_MethodName: AddRewardsForPurchace
@@ -13925,12 +13962,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1235205026}
+        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
+        m_MethodName: AddCoinsAmmountWithPunch
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 150
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onPurchaseFailed:
     m_PersistentCalls:
       m_Calls: []
   titleText: {fileID: 0}
   descriptionText: {fileID: 0}
-  priceText: {fileID: 0}
+  priceText: {fileID: 121042359}
 --- !u!1 &685949310
 GameObject:
   m_ObjectHideFlags: 0
@@ -15215,6 +15264,7 @@ GameObject:
   - component: {fileID: 725291107}
   - component: {fileID: 725291106}
   - component: {fileID: 725291108}
+  - component: {fileID: 725291109}
   m_Layer: 5
   m_Name: 50$
   m_TagString: Untagged
@@ -15363,6 +15413,54 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &725291109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725291102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productId: com.culagames.pixxel.15000coins
+  buttonType: 0
+  consumePurchase: 1
+  onPurchaseComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2072661533}
+        m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
+        m_MethodName: AddRewardsForPurchace
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1235205026}
+        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
+        m_MethodName: AddCoinsAmmountWithPunch
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 15000
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPurchaseFailed:
+    m_PersistentCalls:
+      m_Calls: []
+  titleText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  priceText: {fileID: 102571171}
 --- !u!1 &735267692
 GameObject:
   m_ObjectHideFlags: 0
@@ -30810,8 +30908,9 @@ GameObject:
   - component: {fileID: 1389318074}
   - component: {fileID: 1389318073}
   - component: {fileID: 1389318075}
+  - component: {fileID: 1389318076}
   m_Layer: 5
-  m_Name: 15$
+  m_Name: 10$
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30920,6 +31019,54 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1389318076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389318071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productId: com.culagames.pixxel.2000coins
+  buttonType: 0
+  consumePurchase: 1
+  onPurchaseComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2072661533}
+        m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
+        m_MethodName: AddRewardsForPurchace
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1235205026}
+        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
+        m_MethodName: AddCoinsAmmountWithPunch
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2000
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPurchaseFailed:
+    m_PersistentCalls:
+      m_Calls: []
+  titleText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  priceText: {fileID: 1978332239}
 --- !u!21 &1391682706
 Material:
   serializedVersion: 6
@@ -36454,7 +36601,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 3
-  m_Text: 800
+  m_Text: 600
 --- !u!222 &1664707465
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -39913,7 +40060,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1907122142
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40197,8 +40344,9 @@ GameObject:
   - component: {fileID: 1912478183}
   - component: {fileID: 1912478182}
   - component: {fileID: 1912478184}
+  - component: {fileID: 1912478185}
   m_Layer: 5
-  m_Name: 5$
+  m_Name: 3$
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40307,6 +40455,54 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1912478185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912478180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productId: com.culagames.pixxel.600coins
+  buttonType: 0
+  consumePurchase: 1
+  onPurchaseComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2072661533}
+        m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
+        m_MethodName: AddRewardsForPurchace
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1235205026}
+        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
+        m_MethodName: AddCoinsAmmountWithPunch
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 600
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPurchaseFailed:
+    m_PersistentCalls:
+      m_Calls: []
+  titleText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  priceText: {fileID: 1162736797}
 --- !u!1 &1915453192
 GameObject:
   m_ObjectHideFlags: 0
@@ -40836,7 +41032,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 3
-  m_Text: 5,000
+  m_Text: 6,500
 --- !u!222 &1935807538
 CanvasRenderer:
   m_ObjectHideFlags: 0
