@@ -155,11 +155,11 @@ public class Tutorial : MonoBehaviour
         yield return new WaitForSeconds(2);
         Destroy(tutorialCanvas);
 
-        GridA.Instance.SetBombSpawnChance(0);
+        GridA.Instance.SetBombSpawnChance(-50);
         EndGameManager.Instance.onGameOver.AddListener(delegate { PlayerPrefs.SetInt(WORLD_TUTORIAL, 1); });
 
         yield return new WaitUntil(() => LevelSlider.Instance.GetGameLevel() == 1);
-        GridA.Instance.IncreaseBombSpawnChance(50);
+        GridA.Instance.SetBombSpawnChance(20);
     }
 
     IEnumerator BlocksMatchTutorial()
