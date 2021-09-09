@@ -100,9 +100,9 @@ public class SceneLoader : MonoBehaviour
     }
     IEnumerator LoadSceneWithAdCo(string sceneName)
     {
-        if(GameData.gameData.saveData.adsRemoved)
+        if (GameData.gameData.saveData.adsRemoved || GridA.Instance.playTutorial)
         {
-            StartCoroutine(LoadAsynchronously("World Select", mainMenuSong, 0, true));
+            StartCoroutine(LoadAsynchronously(sceneName, mainMenuSong, 0, true));
             yield break;
         }
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
