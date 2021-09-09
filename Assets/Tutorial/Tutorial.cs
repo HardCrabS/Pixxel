@@ -64,7 +64,7 @@ public class Tutorial : MonoBehaviour
             visualizerCanvas.SetActive(false);
             GridA.Instance.playTutorial = true;
         }
-        else if (!worldSelectTutorColmpleted && SceneManager.GetActiveScene().name == "World Select")
+        else if (!worldSelectTutorColmpleted && SceneManager.GetActiveScene().name == "Start")
         {
             if (GameData.gameData)
                 username = GameData.gameData.saveData.playerInfo.username;

@@ -44,6 +44,7 @@ public class IAPShop : MonoBehaviour
     {
         GameData.gameData.RemoveAds();
         DisableExclusiveRewardsText();
+        InitOldManBubble();
 
         for (int i = 0; i < rewardsForPurchase.Length; i++)
         {
