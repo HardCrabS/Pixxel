@@ -3,6 +3,7 @@ using UnityEngine;
 using Firebase.Database;
 using Firebase.Extensions;
 using System.Threading.Tasks;
+using System;
 
 public class DatabaseManager : MonoBehaviour
 {
@@ -125,6 +126,8 @@ public class DatabaseManager : MonoBehaviour
                     usersInLeaderboard[i] = FindUserWithId(allUsers, child.Child("uid").Value as string);
                     int score = System.Convert.ToInt32(child.Child("score").Value);
 
+                    if (usersInLeaderboard[i] == null) 
+                        throw new DatabaseException("Error processing players in Database");
                     usersInLeaderboard[i].score = score;
                     i++;
                 }
@@ -188,6 +191,19 @@ public class DatabaseManager : MonoBehaviour
             }
         });
         return user;
+    }
+}
+
+class DatabaseException : Exception
+{
+    string message;
+    public DatabaseException(string mess)
+    {
+        message = mess;
+    }
+    public string GetMessage()
+    {
+        return message;
     }
 }
 

@@ -6,15 +6,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Tutorial : MonoBehaviour
-
 {
-
     [Header("World tutorial")]
     [SerializeField] GameObject mainGameCanvas;
     [SerializeField] GameObject tutorialCanvasPrefab;
     [SerializeField] GameObject visualizerCanvas;
     [SerializeField] UI_Screen gameUIScreen;
-   // [SerializeField] GameObject startCounter;
+    // [SerializeField] GameObject startCounter;
     [SerializeField] Transform crosshair;
     [SerializeField] Glitcher glitcher;
     [SerializeField] GameObject backgroundPrefab;
@@ -62,7 +60,7 @@ public class Tutorial : MonoBehaviour
             gameUIScreen.GetComponent<CanvasGroup>().alpha = 0;
             gameUIScreen.onScreenStart = null;
             mainGameCanvas.SetActive(false);
-           // startCounter.SetActive(false);
+            // startCounter.SetActive(false);
             visualizerCanvas.SetActive(false);
             GridA.Instance.playTutorial = true;
         }
@@ -205,6 +203,7 @@ public class Tutorial : MonoBehaviour
 
         visualizerCanvas.SetActive(true);
         mainGameCanvas.SetActive(true); //start game
+        LivesManager.Instance.SetHeartsAmount(1);//set 1 live
         GridA.Instance.currState = GameState.move; // enable blocks swapping
 
         uiSystem.SwitchScreens(screens[2]);//PAM goes away

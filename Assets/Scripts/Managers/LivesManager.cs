@@ -22,7 +22,7 @@ public class LivesManager : MonoBehaviour
     public delegate void ZeroHearts();
     public event ZeroHearts savePlayer;
 
-    int totalLives;
+    int totalLives = 3;
     AudioSource audioSource;
 
     public static LivesManager Instance;
@@ -34,7 +34,7 @@ public class LivesManager : MonoBehaviour
     void Start()
     {
         BombCounterState = BombCounterState.ticking;
-        totalLives = hearts.Length;
+        //totalLives = hearts.Length;
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -82,6 +82,14 @@ public class LivesManager : MonoBehaviour
         if(totalLives == 1)
         {
             StartCoroutine(PlayLowHealthSFX());
+        }
+    }
+    public void SetHeartsAmount(int amount)
+    {
+        totalLives = amount;
+        for (int i = amount; i < hearts.Length; i++)
+        {
+            hearts[i].color = lostHeartColor;
         }
     }
     void ShakeCamera(float duration, float strength, int vibrato)

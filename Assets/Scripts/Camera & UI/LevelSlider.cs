@@ -74,7 +74,14 @@ public class LevelSlider : MonoBehaviour
             GameData.gameData.saveData.levelXP = 0;
 
             levelSlider.value = 0;
-            levelSlider.maxValue += incrementForLvlUp;
+            if (currentLevel < 30)
+            {
+                levelSlider.maxValue += incrementForLvlUp;
+            }
+            else
+            {
+                levelSlider.maxValue += 50;
+            }
             currentSaveBorder = 20;
             GameData.gameData.saveData.maxXPforLevelUp = levelSlider.maxValue;
             GameData.Save();

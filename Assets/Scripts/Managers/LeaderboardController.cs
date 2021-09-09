@@ -58,7 +58,18 @@ public class LeaderboardController : MonoBehaviour
         string worldName = LevelSettingsKeeper.settingsKeeper == null ? "Twilight City"
             : LevelSettingsKeeper.settingsKeeper.worldLoadInfo.id;
         var allUsersTask = DatabaseManager.GetAllUsersInfo(worldName);
-        allUsers = await allUsersTask;
+
+        try
+        { 
+            allUsers = await allUsersTask;
+        }
+        catch(DatabaseException exc)
+        {
+            firstPlacePanel.SetScorePanel(exc.GetMessage());
+            //disable loading circle on panel
+            loadingPanel.transform.GetChild(0).gameObject.SetActive(false);
+            return;
+        }
 
         if (allUsers == null || allUsers.Length == 0)
         {
