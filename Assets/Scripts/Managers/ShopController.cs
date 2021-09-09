@@ -116,6 +116,17 @@ public class ShopController : MonoBehaviour
         SetBuyCoinsButton();
         audioSource = GetComponent<AudioSource>();
     }
+    public void BackButton()
+    {
+        if(!welcomeScreen.activeInHierarchy)
+        {
+            OpenShop();
+        }
+        else
+        {
+            UI_System.Instance.GoToPreviousScreen();
+        }
+    }
     bool TimeHasPassed()
     {
         string lastClaimStr = GameData.gameData.saveData.lastTimeSaleClaimed;
