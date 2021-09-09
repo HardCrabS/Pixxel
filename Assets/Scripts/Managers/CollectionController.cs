@@ -42,6 +42,7 @@ public class CollectionController : MonoBehaviour
     [SerializeField] GameObject trinketTemplate;
     [SerializeField] Sprite rankTrinketsSprite;
     [SerializeField] Sprite shopTrinketsSprite;
+    [SerializeField] AudioClip trinketWorldButtonClip;
     public LevelTemplate[] trinkets;
     public LevelTemplate[] trinketsRank;
     public LevelTemplate[] trinketsShop;
@@ -316,6 +317,7 @@ public class CollectionController : MonoBehaviour
             string worldName = worlds[i].id;
             button.onClick.AddListener(() =>
             {
+                GetComponent<AudioSource>().PlayOneShot(trinketWorldButtonClip);
                 ToggleContainers(showButtons: false);
                 SpawnSetOfTrinkets(trinketsToSpawn, worldName);
             });
