@@ -7,6 +7,7 @@ public class IAPShop : MonoBehaviour
 {
     [SerializeField] GameObject exclusiveItems;
     [SerializeField] GameObject restoreButton;
+    [SerializeField] AudioClip coinsPurchasedClip;
     
     [SerializeField] RewardTemplate[] rewardsForPurchase;
 
@@ -42,6 +43,14 @@ public class IAPShop : MonoBehaviour
 
     public void AddRewardsForPurchace()
     {
+        GetComponent<AudioSource>().PlayOneShot(coinsPurchasedClip);
+
+        //ads removed, all rewards already received
+        if(GameData.gameData.saveData.adsRemoved)
+        {
+            return;
+        }
+
         GameData.gameData.RemoveAds();
         DisableExclusiveRewardsText();
         InitOldManBubble();
