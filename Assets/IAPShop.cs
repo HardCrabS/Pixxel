@@ -7,7 +7,7 @@ public class IAPShop : MonoBehaviour
 {
     [SerializeField] GameObject exclusiveItems;
     [SerializeField] GameObject restoreButton;
-
+    
     [SerializeField] RewardTemplate[] rewardsForPurchase;
 
     [Header("Old man")]

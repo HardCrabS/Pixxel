@@ -10,6 +10,7 @@ public class ShopController : MonoBehaviour
     public static ShopController Instance;
 
     [SerializeField] UI_Screen shopScreen;
+    [SerializeField] GameObject buyCoinsPopup;
     [SerializeField] Text sectionName;
     [SerializeField] Text unlockNumber;
     [SerializeField] Text itemDescription;
@@ -75,6 +76,12 @@ public class ShopController : MonoBehaviour
     [SerializeField] Toggle titleTogle;
     [SerializeField] Toggle bannerTogle;
 
+    [Header("Audio")]
+    [SerializeField] AudioClip buySuccess;
+    [SerializeField] AudioClip buyFailed;
+
+    AudioSource audioSource;
+
     CollectionSection currCollectionSection = CollectionSection.None;
 
     RewardTemplate pickedSaleItem;
@@ -106,6 +113,8 @@ public class ShopController : MonoBehaviour
         //SetTitles();
         //SetBanners();
         OpenShop();
+        SetBuyCoinsButton();
+        audioSource = GetComponent<AudioSource>();
     }
     bool TimeHasPassed()
     {
@@ -903,6 +912,25 @@ public class ShopController : MonoBehaviour
             });
         }
     }
+    void SetBuyCoinsButton()
+    {
+        buyCoinsPopup.GetComponentsInChildren<Button>()[1].onClick.AddListener(() =>
+        {
+            buyCoinsPopup.GetComponent<Animator>().SetTrigger("Hide");
+
+            worldTogle.isOn = false;
+            boostTogle.isOn = false;
+            trinketTogle.isOn = false;
+            titleTogle.isOn = false;
+            bannerTogle.isOn = false;
+            descriptionImage.gameObject.SetActive(false);
+            SetUIElementsActiveness(false, false, false);
+            unlockNumber.text = "";
+            itemDescription.text = "";
+
+            CoinsIAP();
+        });
+    }
     bool TryBuyItem(RewardTemplate rewardItem, Transform itemTransform)
     {
         buyButton.onClick.RemoveAllListeners();
@@ -913,7 +941,12 @@ public class ShopController : MonoBehaviour
             cost = (int)(rewardItem.cost * (100 - saleValue) / 100.0f);
         }
 
-        if (CoinsDisplay.Instance.GetCoins() < cost) return false;
+        if (CoinsDisplay.Instance.GetCoins() < cost)
+        {
+            buyCoinsPopup.GetComponent<Animator>().SetTrigger("Show");
+            audioSource.PlayOneShot(buyFailed);
+            return false;
+        }
 
         switch (rewardItem.reward)
         {
@@ -957,6 +990,7 @@ public class ShopController : MonoBehaviour
                     break;
                 }
         }
+        audioSource.PlayOneShot(buySuccess);
         CoinsDisplay.Instance.DecreaseCoins(cost);
         CollectionController.Instance.UpdateCollectionElement(rewardItem);
         costText.transform.parent.gameObject.SetActive(false);
