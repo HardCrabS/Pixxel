@@ -88,6 +88,7 @@ public class CoinsDisplay : MonoBehaviour
 
         Destroy(coin);
         AddCoinsAmount(amount, punch: true);
+        GameData.Save();
     }
     public void IncreaseCoinDropChance(int amount = 0)
     {

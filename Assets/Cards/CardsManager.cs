@@ -73,7 +73,8 @@ public class CardsManager : MonoBehaviour
     {
         Card[] cardsInSet = cardSet.CardsInSet;
         int randIndex = UnityEngine.Random.Range(0, cardsInSet.Length);
-        /*if(PlayerPrefs.GetInt(FIRST_DRAW_CARD, 1) == 1)//first time card is drawn
+
+        if(PlayerPrefs.GetInt(FIRST_DRAW_CARD, 1) == 1)//first time card is drawn
         {
             //ensure card is not FOOL(worst one)
             while(cardsInSet[randIndex].Title.CompareTo(FOOL_CARD) == 0)
@@ -81,7 +82,16 @@ public class CardsManager : MonoBehaviour
                 randIndex = UnityEngine.Random.Range(0, cardsInSet.Length);
             }
             PlayerPrefs.SetInt(FIRST_DRAW_CARD, 1);
-        }*/
+        }
+        if (cardsInSet[randIndex].Title.CompareTo(FOOL_CARD) == 0)//card is a fool
+        {
+            //add animated coin
+            StartCoroutine(CardTossCoin(1));
+        }
+        else if (cardsInSet[randIndex].Title.CompareTo(KING_CARD) == 0)//card is king
+        {
+            StartCoroutine(CardTossCoin(50));
+        }
         DisplayCardInfo(cardsInSet[randIndex]);
         GameData.gameData.UpdateCardClaim(System.DateTime.Now.AddHours(12), cardsInSet[randIndex].CardType);
         cardButtons[cardSetIndex].GetComponent<SpriteChanger>().SetSprite(cardsInSet[randIndex].Sprite);
@@ -113,16 +123,6 @@ public class CardsManager : MonoBehaviour
 
     public void DisplayCardInfo(Card card)
     {
-        if (card.Title.CompareTo(FOOL_CARD) == 0)//card is a fool
-        {
-            //add animated coin
-            StartCoroutine(CardTossCoin(1));
-        }
-        else if (card.Title.CompareTo(KING_CARD) == 0)//card is king
-        {
-            StartCoroutine(CardTossCoin(50));
-        }
-
         titleText.text = card.Title;
         descriptionText.text = card.Description;
         cardImage.sprite = card.Sprite;
