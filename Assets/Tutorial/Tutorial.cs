@@ -212,14 +212,14 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator MakeAllFiredUpStart()
     {
-        yield return new WaitForSeconds(0f);
+        //yield return new WaitForSeconds(0f);
         for (int i = 0; i < 5; i++)
         {
             int randX = Random.Range(0, GridA.Instance.width);
             int randY = Random.Range(0, GridA.Instance.hight);
             if (GridA.Instance.allBoxes[randX, randY] != null)
                 MakeBlockFiredUp(GridA.Instance.allBoxes[randX, randY].GetComponent<Box>(), new Vector2(randX, randY));
-            //yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
