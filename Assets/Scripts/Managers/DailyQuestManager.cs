@@ -183,6 +183,7 @@ public class DailyQuestManager : MonoBehaviour
     {
         if (IsTimeToClaim())
         {
+
             for (int i = 0; i < questsTexts.Length; i++)
             {
                 QuestProgress quest = GetQuest();
@@ -199,6 +200,10 @@ public class DailyQuestManager : MonoBehaviour
                 GameData.gameData.saveData.dailyQuests[i] = quest;
             }
             GameData.gameData.UpdateLastQuestClaim(System.DateTime.Now.AddHours(12));
+
+            MobileNotificationManager notification = new MobileNotificationManager();
+            notification.SendNotification("Quests AWAIT my hero!",
+                "Hey - you still have some Quests to complete before the day is done in Pixxel!", 12);
         }
         else
         {

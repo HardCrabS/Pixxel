@@ -53,6 +53,12 @@ public class CardsManager : MonoBehaviour
 
     void OnCardPressed(int index)
     {
+        //disallow pressing other cards
+        foreach (var card in cardButtons)
+        {
+            card.interactable = false;
+        }
+
         Animator animator = cardButtons[index].GetComponent<Animator>();
         animator.enabled = true;
 
@@ -95,6 +101,10 @@ public class CardsManager : MonoBehaviour
         DisplayCardInfo(cardsInSet[randIndex]);
         GameData.gameData.UpdateCardClaim(System.DateTime.Now.AddHours(12), cardsInSet[randIndex].CardType);
         cardButtons[cardSetIndex].GetComponent<SpriteChanger>().SetSprite(cardsInSet[randIndex].Sprite);
+
+        MobileNotificationManager notification = new MobileNotificationManager();
+        notification.SendNotification("Your Reward is READY!",
+            "Don't forget to claim your Daily Reward in Pixxel!", 12);
     }
 
     public void ActivateCardPanel()
