@@ -103,7 +103,7 @@ public class CardsManager : MonoBehaviour
         cardButtons[cardSetIndex].GetComponent<SpriteChanger>().SetSprite(cardsInSet[randIndex].Sprite);
 
         MobileNotificationManager notification = new MobileNotificationManager();
-        notification.SendNotification("Your Reward is READY!",
+        notification.SendNotification("CLAIM your Daily Reward!",
             "Don't forget to claim your Daily Reward in Pixxel!", 12);
     }
 
