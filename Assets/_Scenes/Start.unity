@@ -3775,6 +3775,7 @@ GameObject:
   - component: {fileID: 147299217}
   - component: {fileID: 147299219}
   - component: {fileID: 147299218}
+  - component: {fileID: 147299220}
   m_Layer: 5
   m_Name: Daily Reward Text
   m_TagString: Untagged
@@ -3834,7 +3835,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: -0.06
-  m_Text: DAILY REWARD
+  m_Text: ^daily_reward
 --- !u!222 &147299219
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3843,6 +3844,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 147299216}
   m_CullTransparentMesh: 0
+--- !u!114 &147299220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147299216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &147769125
 GameObject:
   m_ObjectHideFlags: 0
@@ -7345,6 +7360,7 @@ GameObject:
   - component: {fileID: 323138657}
   - component: {fileID: 323138656}
   - component: {fileID: 323138655}
+  - component: {fileID: 323138658}
   m_Layer: 5
   m_Name: Shop Text
   m_TagString: Untagged
@@ -7419,7 +7435,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SHOP
+  m_Text: ^shop
 --- !u!222 &323138657
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7428,6 +7444,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323138653}
   m_CullTransparentMesh: 0
+--- !u!114 &323138658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323138653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &323363052
 GameObject:
   m_ObjectHideFlags: 0
@@ -9264,7 +9294,7 @@ RectTransform:
   m_LocalScale: {x: 3.9573634, y: 3.9573634, z: 3.9573634}
   m_Children: []
   m_Father: {fileID: 4825958685962416742}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9734,6 +9764,7 @@ GameObject:
   - component: {fileID: 457327098}
   - component: {fileID: 457327100}
   - component: {fileID: 457327099}
+  - component: {fileID: 457327101}
   m_Layer: 5
   m_Name: Title Text
   m_TagString: Untagged
@@ -9793,7 +9824,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DAILY QUESTS
+  m_Text: ^daily_quests
 --- !u!222 &457327100
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9802,6 +9833,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 457327097}
   m_CullTransparentMesh: 0
+--- !u!114 &457327101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457327097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &458477335
 GameObject:
   m_ObjectHideFlags: 0
@@ -12444,42 +12489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.culagames.pixxel.6500coins
-  buttonType: 0
-  consumePurchase: 1
-  onPurchaseComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2072661533}
-        m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
-        m_MethodName: AddRewardsForPurchace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1235205026}
-        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
-        m_MethodName: AddCoinsAmmountWithPunch
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 6500
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onPurchaseFailed:
-    m_PersistentCalls:
-      m_Calls: []
-  titleText: {fileID: 0}
-  descriptionText: {fileID: 0}
-  priceText: {fileID: 827989841}
 --- !u!114 &595882522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13015,7 +13024,7 @@ RectTransform:
   m_LocalScale: {x: 3.9573634, y: 3.9573634, z: 3.9573634}
   m_Children: []
   m_Father: {fileID: 4825958685962416742}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -13553,6 +13562,7 @@ GameObject:
   - component: {fileID: 664241389}
   - component: {fileID: 664241391}
   - component: {fileID: 664241390}
+  - component: {fileID: 664241392}
   m_Layer: 5
   m_Name: Daily Reward Text
   m_TagString: Untagged
@@ -13612,7 +13622,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: -0.06
-  m_Text: DAILY REWARD
+  m_Text: ^daily_reward
 --- !u!222 &664241391
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13621,6 +13631,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 664241388}
   m_CullTransparentMesh: 0
+--- !u!114 &664241392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664241388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &664365164
 GameObject:
   m_ObjectHideFlags: 0
@@ -14296,42 +14320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.culagames.pixxel.150coins
-  buttonType: 0
-  consumePurchase: 1
-  onPurchaseComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2072661533}
-        m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
-        m_MethodName: AddRewardsForPurchace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1235205026}
-        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
-        m_MethodName: AddCoinsAmmountWithPunch
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 150
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onPurchaseFailed:
-    m_PersistentCalls:
-      m_Calls: []
-  titleText: {fileID: 0}
-  descriptionText: {fileID: 0}
-  priceText: {fileID: 121042359}
 --- !u!1 &685949310
 GameObject:
   m_ObjectHideFlags: 0
@@ -15777,42 +15765,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.culagames.pixxel.15000coins
-  buttonType: 0
-  consumePurchase: 1
-  onPurchaseComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2072661533}
-        m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
-        m_MethodName: AddRewardsForPurchace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1235205026}
-        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
-        m_MethodName: AddCoinsAmmountWithPunch
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 15000
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onPurchaseFailed:
-    m_PersistentCalls:
-      m_Calls: []
-  titleText: {fileID: 0}
-  descriptionText: {fileID: 0}
-  priceText: {fileID: 102571171}
 --- !u!1 &735267692
 GameObject:
   m_ObjectHideFlags: 0
@@ -20950,6 +20902,63 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1001 &955038725
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 155256, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_Name
+      value: I18N
+      objectReference: {fileID: 0}
+    - target: {fileID: 421672, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 421672, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 421672, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 421672, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 421672, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 421672, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 421672, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 421672, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_RootOrder
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 421672, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 421672, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 421672, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2893440cf658e9a4194efdefc6ca80f3, type: 3}
 --- !u!1 &958105216
 GameObject:
   m_ObjectHideFlags: 0
@@ -21109,6 +21118,7 @@ GameObject:
   - component: {fileID: 964264915}
   - component: {fileID: 964264914}
   - component: {fileID: 964264913}
+  - component: {fileID: 964264917}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -21198,7 +21208,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ERASE DATA
+  m_Text: ^erase_data
 --- !u!222 &964264916
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21207,6 +21217,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 964264911}
   m_CullTransparentMesh: 0
+--- !u!114 &964264917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964264911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &964370234
 GameObject:
   m_ObjectHideFlags: 0
@@ -31854,42 +31878,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.culagames.pixxel.2000coins
-  buttonType: 0
-  consumePurchase: 1
-  onPurchaseComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2072661533}
-        m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
-        m_MethodName: AddRewardsForPurchace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1235205026}
-        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
-        m_MethodName: AddCoinsAmmountWithPunch
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2000
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onPurchaseFailed:
-    m_PersistentCalls:
-      m_Calls: []
-  titleText: {fileID: 0}
-  descriptionText: {fileID: 0}
-  priceText: {fileID: 1978332239}
 --- !u!21 &1391682706
 Material:
   serializedVersion: 6
@@ -33759,6 +33747,7 @@ GameObject:
   - component: {fileID: 1477600925}
   - component: {fileID: 1477600924}
   - component: {fileID: 1477600923}
+  - component: {fileID: 1477600926}
   m_Layer: 5
   m_Name: Shop Text
   m_TagString: Untagged
@@ -33822,18 +33811,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c97d73056a0cf7744b66da33c8afd8a0, type: 3}
-    m_FontSize: 300
+    m_FontSize: 222
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 300
+    m_MaxSize: 232
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SHOP
+  m_Text: ^shop
 --- !u!222 &1477600925
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33842,6 +33831,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1477600921}
   m_CullTransparentMesh: 0
+--- !u!114 &1477600926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477600921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &1482973808
 GameObject:
   m_ObjectHideFlags: 0
@@ -34204,6 +34207,7 @@ GameObject:
   - component: {fileID: 1503825618}
   - component: {fileID: 1503825620}
   - component: {fileID: 1503825619}
+  - component: {fileID: 1503825621}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -34263,7 +34267,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DAILY QUESTS
+  m_Text: ^daily_quests
 --- !u!222 &1503825620
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34272,6 +34276,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1503825617}
   m_CullTransparentMesh: 0
+--- !u!114 &1503825621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503825617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &1506178166
 GameObject:
   m_ObjectHideFlags: 0
@@ -37169,30 +37187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.CuLaGames.PiXXel.250coins
-  buttonType: 1
-  consumePurchase: 1
-  onPurchaseComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1235205026}
-        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
-        m_MethodName: AddCoinsAmmountWithPunch
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 250
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onPurchaseFailed:
-    m_PersistentCalls:
-      m_Calls: []
-  titleText: {fileID: 0}
-  descriptionText: {fileID: 0}
-  priceText: {fileID: 0}
 --- !u!114 &1647030581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38014,6 +38008,7 @@ GameObject:
   - component: {fileID: 1687836723}
   - component: {fileID: 1687836725}
   - component: {fileID: 1687836724}
+  - component: {fileID: 1687836726}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -38073,7 +38068,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: GO AD-FREE TODAY!
+  m_Text: ^go_ad_free_today
 --- !u!222 &1687836725
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38082,6 +38077,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687836722}
   m_CullTransparentMesh: 0
+--- !u!114 &1687836726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687836722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &1693694554
 GameObject:
   m_ObjectHideFlags: 0
@@ -38866,6 +38875,7 @@ GameObject:
   - component: {fileID: 1775461925}
   - component: {fileID: 1775461924}
   - component: {fileID: 1775461923}
+  - component: {fileID: 1775461926}
   m_Layer: 5
   m_Name: Collection Text
   m_TagString: Untagged
@@ -38940,7 +38950,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: COLLECTION
+  m_Text: ^collection
 --- !u!222 &1775461925
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38949,6 +38959,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775461921}
   m_CullTransparentMesh: 0
+--- !u!114 &1775461926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775461921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!114 &1777191316 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
@@ -40983,6 +41007,7 @@ GameObject:
   - component: {fileID: 1896829253}
   - component: {fileID: 1896829252}
   - component: {fileID: 1896829254}
+  - component: {fileID: 1896829255}
   m_Layer: 5
   m_Name: Play Text
   m_TagString: Untagged
@@ -41042,7 +41067,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PLAY!
+  m_Text: ^play
 --- !u!222 &1896829253
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -41066,6 +41091,20 @@ MonoBehaviour:
   m_EffectColor: {r: 1, g: 0.96657693, b: 0, a: 1}
   m_EffectDistance: {x: 0, y: -30}
   m_UseGraphicAlpha: 1
+--- !u!114 &1896829255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896829250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &1902315817
 GameObject:
   m_ObjectHideFlags: 0
@@ -41604,42 +41643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.culagames.pixxel.600coins
-  buttonType: 0
-  consumePurchase: 1
-  onPurchaseComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2072661533}
-        m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
-        m_MethodName: AddRewardsForPurchace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1235205026}
-        m_TargetAssemblyTypeName: CoinsDisplay, Assembly-CSharp
-        m_MethodName: AddCoinsAmmountWithPunch
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 600
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onPurchaseFailed:
-    m_PersistentCalls:
-      m_Calls: []
-  titleText: {fileID: 0}
-  descriptionText: {fileID: 0}
-  priceText: {fileID: 1162736797}
 --- !u!1 &1915453192
 GameObject:
   m_ObjectHideFlags: 0
@@ -42402,6 +42405,7 @@ GameObject:
   - component: {fileID: 1941177603}
   - component: {fileID: 1941177605}
   - component: {fileID: 1941177604}
+  - component: {fileID: 1941177606}
   m_Layer: 5
   m_Name: Daily Reward Text
   m_TagString: Untagged
@@ -42461,7 +42465,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DAILY REWARD
+  m_Text: ^daily_reward
 --- !u!222 &1941177605
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -42470,6 +42474,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941177602}
   m_CullTransparentMesh: 0
+--- !u!114 &1941177606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941177602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!224 &1950262859 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3537776208805668221, guid: 5f4ada65ebc86bc40b0ed27a4c83004c,
@@ -43628,6 +43646,7 @@ GameObject:
   - component: {fileID: 1967845421}
   - component: {fileID: 1967845420}
   - component: {fileID: 1967845419}
+  - component: {fileID: 1967845422}
   m_Layer: 5
   m_Name: Collection Text
   m_TagString: Untagged
@@ -43702,7 +43721,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: COLLECTION
+  m_Text: ^collection
 --- !u!222 &1967845421
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -43711,6 +43730,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967845417}
   m_CullTransparentMesh: 0
+--- !u!114 &1967845422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967845417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &1968959514
 GameObject:
   m_ObjectHideFlags: 0
@@ -47313,6 +47346,102 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &2122886877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2122886878}
+  - component: {fileID: 2122886880}
+  - component: {fileID: 2122886879}
+  - component: {fileID: 2122886881}
+  m_Layer: 5
+  m_Name: Main Text (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2122886878
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122886877}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.22468795, y: 0.22468795, z: 0.22468795}
+  m_Children: []
+  m_Father: {fileID: 4825958685962416742}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.1000061, y: 116.3}
+  m_SizeDelta: {x: 5276.7065, y: 624.3635}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2122886879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122886877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: c97d73056a0cf7744b66da33c8afd8a0, type: 3}
+    m_FontSize: 300
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 300
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: '^make_purchase
+
+'
+--- !u!222 &2122886880
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122886877}
+  m_CullTransparentMesh: 0
+--- !u!114 &2122886881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122886877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!82 &2126630585 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 536401263265002494, guid: 47b09f292c244564183802e3f6de634e,
@@ -49341,7 +49470,7 @@ RectTransform:
   m_LocalScale: {x: -3.2168064, y: 3.8250268, z: 3.8250268}
   m_Children: []
   m_Father: {fileID: 4825958685962416742}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -49446,6 +49575,7 @@ GameObject:
   - component: {fileID: 4825958685837275306}
   - component: {fileID: 4825958685837275304}
   - component: {fileID: 4825958685837275307}
+  - component: {fileID: 4825958685837275302}
   m_Layer: 5
   m_Name: Ad-free Text
   m_TagString: Untagged
@@ -49453,6 +49583,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &4825958685837275302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825958685837275301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!222 &4825958685837275304
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -49513,7 +49657,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: GO AD-FREE!
+  m_Text: ^go_ad_free_today
 --- !u!1 &4825958685962416737
 GameObject:
   m_ObjectHideFlags: 0
@@ -49589,6 +49733,7 @@ RectTransform:
   - {fileID: 4825958687371909314}
   - {fileID: 4825958686385930187}
   - {fileID: 4825958686237345457}
+  - {fileID: 2122886878}
   - {fileID: 4825958687506394234}
   - {fileID: 4747933942069988695}
   - {fileID: 427432388}
@@ -49706,15 +49851,15 @@ RectTransform:
   m_GameObject: {fileID: 4825958686237345458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.22468795, y: 0.22468795, z: 0.22468795}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.22468795}
   m_Children: []
   m_Father: {fileID: 4825958685962416742}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.1000061, y: -38}
-  m_SizeDelta: {x: 5276.7065, y: 2692.4648}
+  m_AnchoredPosition: {x: -15.7, y: 210.20001}
+  m_SizeDelta: {x: 2855.7617, y: 405.96143}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4825958686237345458
 GameObject:
@@ -49727,8 +49872,9 @@ GameObject:
   - component: {fileID: 4825958686237345457}
   - component: {fileID: 4825958686237345456}
   - component: {fileID: 4825958686237345459}
+  - component: {fileID: 4825958686237345460}
   m_Layer: 5
-  m_Name: Main Text
+  m_Name: Thankyou Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49767,8 +49913,23 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "<size=480>THANK YOU!\r</size>\n<color=black>Make ANY PURCHASE OF COINS
-    to receive:</color>\n"
+  m_Text: '^thank_you
+
+'
+--- !u!114 &4825958686237345460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825958686237345458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!114 &4825958686385930184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50082,7 +50243,7 @@ RectTransform:
   m_Children:
   - {fileID: 4825958685706224222}
   m_Father: {fileID: 4825958685962416742}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -51377,6 +51538,7 @@ GameObject:
   - component: {fileID: 6453899678928166425}
   - component: {fileID: 6456154746144322709}
   - component: {fileID: 6564400422325757011}
+  - component: {fileID: 6524176404539492786}
   m_Layer: 5
   m_Name: Music Text
   m_TagString: Untagged
@@ -51384,6 +51546,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6524176404539492786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6524176404539492785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &6524307797307042621
 GameObject:
   m_ObjectHideFlags: 0
@@ -51513,6 +51689,7 @@ GameObject:
   - component: {fileID: 6454389181904181637}
   - component: {fileID: 6456127157150124161}
   - component: {fileID: 6564310498813046209}
+  - component: {fileID: 6524498200157605602}
   m_Layer: 5
   m_Name: Settings Text
   m_TagString: Untagged
@@ -51520,6 +51697,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6524498200157605602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6524498200157605601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c2db38af2b7154b83fe2f0066bd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontOverwrite: 0
+  _params: []
 --- !u!1 &6525020202704583829
 GameObject:
   m_ObjectHideFlags: 0
@@ -51802,7 +51993,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SETTINGS
+  m_Text: ^settings
 --- !u!114 &6564315033209130205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51866,7 +52057,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: MUSIC
+  m_Text: ^music
 --- !u!114 &6564441686904752967
 MonoBehaviour:
   m_ObjectHideFlags: 0
