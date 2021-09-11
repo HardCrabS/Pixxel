@@ -203,7 +203,7 @@ public class DailyQuestManager : MonoBehaviour
 
             MobileNotificationManager notification = new MobileNotificationManager();
             notification.SendNotification("Quests AWAIT my hero!",
-                "Rewards await! Complete Daily Quests before the day is done in Pixxel!", 12);
+                "Rewards for Heroes! Complete Daily Quests before the day is done in PiXXel!", 12);
         }
         else
         {
