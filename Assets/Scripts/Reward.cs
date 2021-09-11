@@ -7,6 +7,8 @@ public class Reward
     {
         for (int i = 0; i < rewards.Length; i++)
         {
+            if (rewards[i] == null) continue;
+
             switch (rewards[i].reward)
             {
                 case LevelReward.World:

@@ -88,9 +88,7 @@ public class RewardForLevel : MonoBehaviour
         var chest = Instantiate(chestPrefab, reward.position, Quaternion.identity, scrollContainer);
         chest.transform.SetAsFirstSibling();
         chest.transform.localScale = Vector3.one * 0.6f;
-        //chest.transform.SetParent(reward.parent, true);
-        //chest.transform.position = Vector2.right * reward.position.x;
-        //chest.transform.localScale = Vector3.one;
+
         chest.GetComponent<Button>().onClick.AddListener(()
             =>
         { StartCoroutine(ScaleRewardFromChest(chest.transform, reward, rewardInfo)); });
@@ -123,7 +121,6 @@ public class RewardForLevel : MonoBehaviour
     {
         List<RectTransform> spawnedRewards = new List<RectTransform>();
 
-        Instantiate(new GameObject().AddComponent<RectTransform>(), scrollContainer);
         for (int i = 0; i < rewards.Length; i++)
         {
             GameObject go;
@@ -140,9 +137,7 @@ public class RewardForLevel : MonoBehaviour
                 go = SpawnRewardImage(rewards[i].GetRewardSprite(), rewards[i]);
             }
             spawnedRewards.Add((RectTransform)go.transform);
-            //scrollContainer.AddObject(go);
         }
-        Instantiate(new GameObject().AddComponent<RectTransform>(), scrollContainer);
 
         if (scrollContainer.childCount <= 4)
             scrollContainer.GetComponent<HorizontalLayoutGroup>().spacing = 120;
@@ -150,7 +145,7 @@ public class RewardForLevel : MonoBehaviour
             scrollContainer.GetComponent<HorizontalLayoutGroup>().spacing = 50;
 
         StartCoroutine(SpawnChests(spawnedRewards, rewards));
-        //scrollContainer.MoveToFirstObject();
+
         rewardDescrText.text = "<color=yellow>New " + rewards[0].reward
                 + "</color>\n" + rewards[0].id + "\n\n";
     }
@@ -213,6 +208,10 @@ public class RewardForLevel : MonoBehaviour
 
     public void SetRewardScreenUI() //called at the end of the game and paused "retire" button 
     {
+        //empty objects to create offset
+        Instantiate(new GameObject("left offset").AddComponent<RectTransform>(), scrollContainer).transform.SetAsFirstSibling();
+        Instantiate(new GameObject("right offset").AddComponent<RectTransform>(), scrollContainer).transform.SetAsLastSibling();
+
         StartCoroutine(ShowCoinsAfterXPBar());
     }
     public int GetRankFromRewards(LevelReward levelReward, string id)
