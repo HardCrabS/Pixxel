@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Notifications.Android;
-using Unity.Notifications.iOS;
 using UnityEngine;
+#if UNITY_IOS
+using Unity.Notifications.iOS;
+#endif
 
 public class MobileNotificationManager
 {
@@ -53,6 +55,7 @@ public class MobileNotificationManager
 
     void IOSNotification(string title, string text, int hours)
     {
+#if UNITY_IOS
         var timeTrigger = new iOSNotificationTimeIntervalTrigger()
         {
             TimeInterval = new TimeSpan(hours, 0, 0),
@@ -78,5 +81,6 @@ public class MobileNotificationManager
 
         iOSNotificationCenter.RemoveScheduledNotification("_notification_01");
         iOSNotificationCenter.RemoveDeliveredNotification("_notification_01");
+#endif
     }
 }

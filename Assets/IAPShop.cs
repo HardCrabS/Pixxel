@@ -11,6 +11,10 @@ public class IAPShop : MonoBehaviour
     
     [SerializeField] RewardTemplate[] rewardsForPurchase;
 
+    [Header("Button sets")]
+    [SerializeField] GameObject consumableButtons;
+    [SerializeField] GameObject nonConsumableButtons;
+
     [Header("Old man")]
     [SerializeField] Button oldManBubble;
     [SerializeField] string[] thingsToSay;
@@ -18,9 +22,24 @@ public class IAPShop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ActivateButtonSet();
         DisableRestoreButton();
         InitOldManBubble();
         DisableExclusiveRewardsText();
+    }
+
+    void ActivateButtonSet()
+    {
+        if (GameData.gameData.saveData.adsRemoved)
+        {
+            consumableButtons.SetActive(true);
+            nonConsumableButtons.SetActive(false);
+        }
+        else
+        {
+            consumableButtons.SetActive(false);
+            nonConsumableButtons.SetActive(true);
+        }
     }
 
     void DisableExclusiveRewardsText()
