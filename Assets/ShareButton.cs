@@ -59,9 +59,17 @@ public class ShareButton : MonoBehaviour
 
     public void ShareWithTexture()
     {
-        new NativeShare().AddFile(texture).SetSubject(title).SetText(description).SetUrl(websiteLink)
-        .SetCallback(ShareCallbask)
-        .Share();
+        if (texture != null)
+        {
+            new NativeShare().AddFile(texture).SetSubject(title).SetText(description).SetUrl(websiteLink)
+            .SetCallback(ShareCallbask)
+            .Share();
+        }
+        else
+        {
+            new NativeShare().SetSubject(title).SetText(description).SetUrl(websiteLink)
+            .SetCallback(ShareCallbask).Share();
+        }
     }
 
     void ShareCallbask(NativeShare.ShareResult result, string shareTarget)

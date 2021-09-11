@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections.Generic;
 
 public enum LevelReward
 {
@@ -17,7 +18,6 @@ public enum LevelReward
 
 public class RewardForLevel : MonoBehaviour
 {
-    [SerializeField] GameObject rewardEarned;
     [SerializeField] GameObject fireworksVFX;
     [SerializeField] AudioClip fireworksSFX;
     [SerializeField] GameObject itemAddedPart;
@@ -32,6 +32,7 @@ public class RewardForLevel : MonoBehaviour
     [SerializeField] Transform scrollContainer;
 
     [Header("Reward Sprites")]
+    [SerializeField] GameObject chestPrefab;
     [SerializeField] Text rewardDescrText;
     [SerializeField] Transform rewardsContainer;
     [SerializeField] Sprite title, banner;
@@ -57,12 +58,10 @@ public class RewardForLevel : MonoBehaviour
     public void CheckForReward(int levelAchieved)
     {
         if (levelAchieved > rewards.Length) { return; }
-        rewardEarned.GetComponent<Text>().text = "New Level!";
         rewards[levelAchieved - 1].ApplyReward(); //-1 because array elements start with 0 index
 
         SetRewardPanel(rewards[levelAchieved - 1].rewards);
 
-        rewardEarned.GetComponent<Animation>().Play();
         LaunchFireworks();
     }
 
@@ -83,8 +82,48 @@ public class RewardForLevel : MonoBehaviour
         }
     }
 
+    void SpawnRewardChest(RectTransform reward, RewardTemplate rewardInfo)
+    {
+        reward.localScale = Vector3.zero;
+        var chest = Instantiate(chestPrefab, reward.position, Quaternion.identity, scrollContainer);
+        chest.transform.SetAsFirstSibling();
+        chest.transform.localScale = Vector3.one * 0.6f;
+        //chest.transform.SetParent(reward.parent, true);
+        //chest.transform.position = Vector2.right * reward.position.x;
+        //chest.transform.localScale = Vector3.one;
+        chest.GetComponent<Button>().onClick.AddListener(()
+            =>
+        { StartCoroutine(ScaleRewardFromChest(chest.transform, reward, rewardInfo)); });
+    }
+    IEnumerator ScaleRewardFromChest(Transform chest, Transform reward, RewardTemplate rewardInfo)
+    {
+        SetRewardDescriptionText(rewardInfo);
+        yield return new WaitForSeconds(0.5f);
+        reward.DOScale(1, 0.5f);
+        yield return new WaitForSeconds(1f);
+        var image = chest.GetComponent<Image>();
+        image.DOFade(0, 1);
+        image.raycastTarget = false;
+    }
+    IEnumerator SpawnChests(List<RectTransform> spawnedRewards, RewardTemplate[] rewards)
+    {
+        //wait until layout group is active so it can position elements
+        yield return new WaitUntil(() => scrollContainer.gameObject.activeInHierarchy);
+        //wait for end of frame so all elements are positioned
+        yield return new WaitForEndOfFrame();
+
+        int i = 0;
+        foreach (RectTransform item in spawnedRewards)
+        {
+            SpawnRewardChest(item, rewards[i]);
+            i++;
+        }
+    }
     void SetRewardPanel(RewardTemplate[] rewards)
     {
+        List<RectTransform> spawnedRewards = new List<RectTransform>();
+
+        Instantiate(new GameObject().AddComponent<RectTransform>(), scrollContainer);
         for (int i = 0; i < rewards.Length; i++)
         {
             GameObject go;
@@ -100,12 +139,17 @@ public class RewardForLevel : MonoBehaviour
             {
                 go = SpawnRewardImage(rewards[i].GetRewardSprite(), rewards[i]);
             }
+            spawnedRewards.Add((RectTransform)go.transform);
             //scrollContainer.AddObject(go);
         }
-        if (scrollContainer.childCount <= 3)
+        Instantiate(new GameObject().AddComponent<RectTransform>(), scrollContainer);
+
+        if (scrollContainer.childCount <= 4)
             scrollContainer.GetComponent<HorizontalLayoutGroup>().spacing = 120;
         else
             scrollContainer.GetComponent<HorizontalLayoutGroup>().spacing = 50;
+
+        StartCoroutine(SpawnChests(spawnedRewards, rewards));
         //scrollContainer.MoveToFirstObject();
         rewardDescrText.text = "<color=yellow>New " + rewards[0].reward
                 + "</color>\n" + rewards[0].id + "\n\n";
@@ -234,19 +278,10 @@ public class RewardForLevel : MonoBehaviour
         xpSlider.DOValue(finalXP, durationToFill);
     }
 
-   /*void ShowRankUp()
-    {
-        Vector2 spawnPos = new Vector2(19, 318);
-        GameObject go = Instantiate(rankUpFX, spawnPos, transform.rotation); //show RANK UP FX
-
-    }*/
-
-
-
-        IEnumerator AnimateXpText(float start, float end, float time)
+    IEnumerator AnimateXpText(float start, float end, float time)
     {
         float deltaTime = time / (end - start);
-        for (float xp = start; xp < end; xp++)
+        for (int xp = (int)start; xp < end; xp++)
         {
             XPText.text = "+" + xp + "xp";
             yield return new WaitForSeconds(deltaTime);
