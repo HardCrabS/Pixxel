@@ -32,9 +32,8 @@ public class DailyQuestManager : MonoBehaviour
     [SerializeField] Sprite clickable;
     [SerializeField] Sprite nonClickable;
 
-    [SerializeField] TextMeshProUGUI[] questsTexts;
+    [SerializeField] QuestTemplate[] questBlankTemplates;
     [SerializeField] GameObject[] claimButtons;
-    [SerializeField] GameObject[] claimedImages;
 
     [Header("Audio clips")]
     [SerializeField] AudioClip claimErrorClip;
@@ -183,13 +182,12 @@ public class DailyQuestManager : MonoBehaviour
     {
         if (IsTimeToClaim())
         {
-
-            for (int i = 0; i < questsTexts.Length; i++)
+            for (int i = 0; i < questBlankTemplates.Length; i++)
             {
                 QuestProgress quest = GetQuest();
                 quest.savedArrayIndex = i;
 
-                FillQuestText(questsTexts[i], quest);
+                FillQuestText(questBlankTemplates[i], quest);
 
                 claimButtons[i].GetComponent<Image>().sprite = nonClickable;
                 claimButtons[i].GetComponentInChildren<Text>().text = "Not Complete";
@@ -208,17 +206,16 @@ public class DailyQuestManager : MonoBehaviour
         else
         {
             quests = GameData.gameData.saveData.dailyQuests;
-            for (int i = 0; i < questsTexts.Length; i++)
+            for (int i = 0; i < questBlankTemplates.Length; i++)
             {
                 if (quests[i].rewardClaimed)
                 {
-                    questsTexts[i].text = "";
+                    questBlankTemplates[i].HideQuestInfo();
                     claimButtons[i].SetActive(false);
-                    claimedImages[i].SetActive(true);
                 }
                 else
                 {
-                    FillQuestText(questsTexts[i], quests[i]);
+                    FillQuestText(questBlankTemplates[i], quests[i]);
                     if (quests[i].numberCollected >= quests[i].numberNeeded)
                     {
                         claimButtons[i].GetComponent<Image>().sprite = clickable;
@@ -240,17 +237,31 @@ public class DailyQuestManager : MonoBehaviour
         }
     }
 
-    void FillQuestText(TextMeshProUGUI text, QuestProgress questProgress)
+    void FillQuestText(QuestTemplate questTemplate, QuestProgress questProgress)
     {
         string worldId = questProgress.worldId;
         var worldInfo = CollectionController.FindItemWithId(CollectionController.Instance.worlds, worldId) as WorldInformation;
-        text.text = questProgress.questDescription + "\n";
+        /*text.text = questProgress.questDescription + "\n";
         text.text += SequentialText.ColorString("WORLD: ", Color.red) + worldId + "\n";
         int numCollected = Mathf.Clamp(questProgress.numberCollected, 0, questProgress.numberNeeded);
         text.text += SequentialText.ColorString("PROGRESS: ", Color.red) + numCollected + "/"
             + questProgress.numberNeeded + " <size=230>" + questProgress.tag + " " + worldInfo.BlocksName + "</size>\n";
         string rewardTypeStr = questProgress.rewardType == reward.coins ? "G" : "XP";
         text.text += SequentialText.ColorString("REWARD: ", Color.red) + questProgress.rewardAmount + rewardTypeStr;
+        */
+        Sprite blockSprite = null;
+        foreach (var block in worldInfo.Boxes)//find block sprite with tag
+        {
+            if(block.CompareTag(questProgress.tag))
+            {
+                blockSprite = block.GetComponent<SpriteRenderer>().sprite;
+                break;
+            }
+        }
+
+        questTemplate.SetQuestInfo(questProgress.questDescription, questProgress.rewardAmount,
+            questProgress.numberNeeded, questProgress.numberCollected, worldInfo.BackgroundSprite,
+            blockSprite, questProgress.rewardType);
     }
 
     public void ClaimReward(int i)
@@ -277,9 +288,8 @@ public class DailyQuestManager : MonoBehaviour
         }
         GameData.gameData.saveData.dailyQuests[i].rewardClaimed = true;
         GameData.Save();
-        questsTexts[i].text = "";
+        questBlankTemplates[i].HideQuestInfo();
         claimButtons[i].SetActive(false);
-        claimedImages[i].SetActive(true);
         GetComponent<AudioSource>().PlayOneShot(claimSuccessClip);
     }
     bool IsTimeToClaim()
