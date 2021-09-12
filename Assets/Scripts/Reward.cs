@@ -18,7 +18,9 @@ public class Reward
                     }
                 case LevelReward.BoostSlot:
                     {
-                        GameData.gameData.UnlockSlotForBoost(int.Parse(rewards[i].id));
+                        //boost slots number starts from 1
+                        int boostSlotIndex = int.Parse(rewards[i].id) - 1;
+                        GameData.gameData.UnlockSlotForBoost(boostSlotIndex);
                         break;
                     }
                 case LevelReward.Boost:

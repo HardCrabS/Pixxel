@@ -14,7 +14,7 @@ public class BonusButton : MonoBehaviour
     public AudioClip fullBoost; //fullboost sfx
     public GameObject fullBoostGFX; //full boost gfx
 
-    public bool IsUnlocked { get; set; }
+    public bool IsUnlocked { get; set; }//attached boost unlock status
 
     AudioSource audioSource;
     BoostBase concreteBonus;
@@ -197,6 +197,9 @@ public class BonusButton : MonoBehaviour
     }
     public void EquipBonus()
     {
+        bool slotIsUnlocked = GameData.gameData.saveData.slotsForBoostsUnlocked[buttonIndex];
+        if (!slotIsUnlocked) return;
+
         LevelUp levelUp = LevelUp.Instance;
         boostInfo = levelUp.boostInfo;
         BoostBase bonusToEquip = levelUp.bonus;

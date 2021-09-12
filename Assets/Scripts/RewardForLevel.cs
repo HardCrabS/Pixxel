@@ -40,6 +40,7 @@ public class RewardForLevel : MonoBehaviour
     [Header("Sounds")]
     [SerializeField] AudioClip xpBarSFX;
     [SerializeField] AudioClip coinsAppearSFX;
+    [SerializeField] AudioClip chestTapSFX;
 
     AudioSource audioSource;
 
@@ -95,8 +96,9 @@ public class RewardForLevel : MonoBehaviour
     }
     IEnumerator ScaleRewardFromChest(Transform chest, Transform reward, RewardTemplate rewardInfo)
     {
+        audioSource.PlayOneShot(chestTapSFX);
         SetRewardDescriptionText(rewardInfo);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         reward.DOScale(1, 0.5f);
         yield return new WaitForSeconds(1f);
         var image = chest.GetComponent<Image>();
