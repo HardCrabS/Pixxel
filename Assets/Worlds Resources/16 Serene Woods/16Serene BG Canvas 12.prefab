@@ -218,6 +218,8 @@ MonoBehaviour:
   startValue: 0
   endValue: 360
   loopBackAndForth: 1
+  maskedMat: 0
+  animateOnStart: 1
   durationInSec: 120
   timeToWait: 0
 --- !u!1 &3678067105232229102
@@ -580,7 +582,6 @@ GameObject:
   - component: {fileID: 5370488964345952965}
   - component: {fileID: 4919062477939879769}
   - component: {fileID: 2091377722077280578}
-  - component: {fileID: 4872480177113504810}
   - component: {fileID: 7018881883239944891}
   m_Layer: 5
   m_Name: planet
@@ -646,20 +647,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4872480177113504810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5537366497095122135}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 547f6801d217c3b46a2dfd6b09f37eaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scrollSpeed: 0.01
-  acceleration: 0
 --- !u!114 &7018881883239944891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -672,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439e8aec24a09bc42a440f98aba7055b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: 1242, y: 493.5}
+  destination: {x: -1000, y: 493.5}
   duration: 50
   timeBeforeStart: 1
   timeBeforeRestart: 1
@@ -1157,6 +1144,8 @@ MonoBehaviour:
   startValue: 0
   endValue: 0.2
   loopBackAndForth: 1
+  maskedMat: 0
+  animateOnStart: 1
   durationInSec: 60
   timeToWait: 1
 --- !u!1 &7146115372879038442

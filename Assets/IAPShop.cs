@@ -80,17 +80,17 @@ public class IAPShop : MonoBehaviour
             {
                 case LevelReward.Banner:
                     {
-                        GameData.gameData.saveData.bannerIds.Add(rewardsForPurchase[i].id);
+                        GameData.gameData.UnlockBanner(rewardsForPurchase[i].id);
                         break;
                     }
                 case LevelReward.Title:
                     {
-                        GameData.gameData.saveData.titleIds.Add(rewardsForPurchase[i].id);
+                        GameData.gameData.UnlockTitle(rewardsForPurchase[i].id);
                         break;
                     }
                 case LevelReward.World:
                     {
-                        GameData.gameData.saveData.worldIds.Add(rewardsForPurchase[i].id);
+                        GameData.gameData.UnlockWorld(rewardsForPurchase[i].id);
                         break;
                     }
             }
