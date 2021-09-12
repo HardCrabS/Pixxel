@@ -120,10 +120,28 @@ public class UI_System : MonoBehaviour
         }
     }
 
+    //timer to prevent back button spam
+    float backButtonTimer = 0;
+    IEnumerator ButtonTimer()
+    {
+        backButtonTimer = 1;
+        while (backButtonTimer > 0)
+        {
+            backButtonTimer -= Time.deltaTime;
+            yield return null;
+        }
+    }
+
     public void GoToPreviousScreen()
     {
+        if(backButtonTimer > 0)
+        {
+            return;
+        }
+
         if (previousScreen)
         {
+            StartCoroutine(ButtonTimer());
             if (m_StartScreen && previousScreen == m_StartScreen)
             {
                 StartCoroutine(SwitchScreensDelayed(previousScreen, 0.5f));

@@ -73,6 +73,7 @@ public class IAPShop : MonoBehaviour
         GameData.gameData.RemoveAds();
         DisableExclusiveRewardsText();
         InitOldManBubble();
+        ActivateButtonSet();//activate consumable buttons after purchase
 
         for (int i = 0; i < rewardsForPurchase.Length; i++)
         {
