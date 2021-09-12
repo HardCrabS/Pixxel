@@ -107,11 +107,7 @@ public class ShopController : MonoBehaviour
         FillBuyableItemsDict();
         costText.transform.parent.gameObject.SetActive(false);
         SetItemsForSale();
-        //SetWorlds();
-        //SetBoosts();
-        //SetTrinkets();
-        //SetTitles();
-        //SetBanners();
+
         OpenShop();
         SetBuyCoinsButton();
         audioSource = GetComponent<AudioSource>();
@@ -451,7 +447,8 @@ public class ShopController : MonoBehaviour
         for (int i = 0; i < 2; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
 
-        worldsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 1500;
+        SnapTo((RectTransform)worldsContainer.GetChild(0), 
+            (RectTransform)worldsContainer, worldsContainer.GetComponentInParent<ScrollRect>());
     }
     void OnWorldClicked(string description, int index, bool isUnlocked, Transform worldPanel = null)
     {
@@ -542,7 +539,8 @@ public class ShopController : MonoBehaviour
         for (int i = 0; i < 2; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), boostsContainer);
 
-        boostsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 1500;
+        SnapTo((RectTransform)boostsContainer.GetChild(0),
+            (RectTransform)boostsContainer, boostsContainer.GetComponentInParent<ScrollRect>());
     }
     void OnBoostClicked(string description, int index, bool isUnlocked, Transform boostPanel = null)
     {
@@ -621,7 +619,8 @@ public class ShopController : MonoBehaviour
         for (int i = 0; i < 3; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), trinketsContainer);
 
-        trinketsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 1500;
+        SnapTo((RectTransform)trinketsContainer.GetChild(0),
+            (RectTransform)trinketsContainer, trinketsContainer.GetComponentInParent<ScrollRect>());
     }
     void OnTrinketClicked(string description, int index, bool isUnlocked, Transform trinketObj = null)
     {
@@ -706,7 +705,8 @@ public class ShopController : MonoBehaviour
         //spawn 1 empty objects at the beggining to make scroll offset
         Instantiate(new GameObject().AddComponent<RectTransform>(), titlesContainer);
 
-        titlesContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 1500;
+        SnapTo((RectTransform)titlesContainer.GetChild(0),
+            (RectTransform)titlesContainer, titlesContainer.GetComponentInParent<ScrollRect>());
     }
     void OnTitleClicked(string description, int index, bool isUnlocked, Transform titlePanel = null)
     {
@@ -804,7 +804,8 @@ public class ShopController : MonoBehaviour
         //spawn 1 empty objects at the beggining to make scroll offset
         Instantiate(new GameObject().AddComponent<RectTransform>(), bannersContainer);
 
-        bannersContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 1500;
+        SnapTo((RectTransform)bannersContainer.GetChild(0),
+            (RectTransform)bannersContainer, bannersContainer.GetComponentInParent<ScrollRect>());
     }
     void OnBannerClicked(string description, int index, bool isUnlocked, Transform bannerPanel = null)
     {

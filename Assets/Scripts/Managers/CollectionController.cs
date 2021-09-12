@@ -81,11 +81,7 @@ public class CollectionController : MonoBehaviour
 
     void Start()
     {
-        SetWorldCollectionTexts();
-        //SetTitles();
-        //SetBanners();
-        //SetTrinkets();
-        //SetBoosts();
+        //SetWorldCollectionTexts();
     }
     void ClearContainer(Transform container, Transform exception = null)
     {
@@ -145,8 +141,9 @@ public class CollectionController : MonoBehaviour
         //spawn 2 empty objects at the end to make scroll offset
         for (int i = 0; i < 2; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), worldsContainer);
-        //move container right to show first worlds
-        worldsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 3000;
+
+        ShopController.SnapTo((RectTransform)worldsContainer.GetChild(0),
+            (RectTransform)worldsContainer, worldsContainer.GetComponentInParent<ScrollRect>());
     }
     void OnWorldClicked(string description, int index, bool isUnlocked)
     {
@@ -226,7 +223,8 @@ public class CollectionController : MonoBehaviour
         for (int i = 0; i < 2; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), boostsContainer);
 
-        boostsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 1500;
+        ShopController.SnapTo((RectTransform)boostsContainer.GetChild(0),
+            (RectTransform)boostsContainer, boostsContainer.GetComponentInParent<ScrollRect>());
     }
     void OnBoostClicked(string description, int index, bool isUnlocked)
     {
@@ -299,7 +297,8 @@ public class CollectionController : MonoBehaviour
         for (int i = 0; i < 2; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), trinketButtonContainer);
 
-        trinketButtonContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * 2500;
+        ShopController.SnapTo((RectTransform)trinketButtonContainer.GetChild(0),
+            (RectTransform)trinketButtonContainer, trinketButtonContainer.GetComponentInParent<ScrollRect>());
     }
 
     void SpawnWorldButtons()
@@ -363,7 +362,8 @@ public class CollectionController : MonoBehaviour
         for (int i = 0; i < 2; i++)
             Instantiate(new GameObject().AddComponent<RectTransform>(), trinketsContainer);
 
-        trinketsContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.right * trinkets.Length * 30;
+        ShopController.SnapTo((RectTransform)trinketsContainer.GetChild(0),
+            (RectTransform)trinketsContainer, trinketsContainer.GetComponentInParent<ScrollRect>());
 
         unlockNumber.text = "<size=400>" + numberOfUnlocked + "</size>/" + trinkets.Length;
         sectionName.text = "<color=#ff0048>TRINKETS</color>\n" + SECTION_NAME_DOTS
@@ -456,8 +456,9 @@ public class CollectionController : MonoBehaviour
         }
         //spawn empty object at the end to make scroll offset
         Instantiate(new GameObject().AddComponent<RectTransform>(), titlesContainer);
-        //move container down to show first titles
-        titlesContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 8000;
+
+        ShopController.SnapTo((RectTransform)titlesContainer.GetChild(0),
+            (RectTransform)titlesContainer, titlesContainer.GetComponentInParent<ScrollRect>());
     }
     void OnTitleClicked(string description, int index, bool isUnlocked)
     {
@@ -548,8 +549,9 @@ public class CollectionController : MonoBehaviour
         }
         //spawn empty object at the end to make scroll offset
         Instantiate(new GameObject().AddComponent<RectTransform>(), bannersContainer);
-        //move container down to show first banners
-        bannersContainer.GetComponent<RectTransform>().anchoredPosition += Vector2.down * 8000;
+
+        ShopController.SnapTo((RectTransform)bannersContainer.GetChild(0),
+            (RectTransform)bannersContainer, bannersContainer.GetComponentInParent<ScrollRect>());
     }
     void OnBannerClicked(string description, int index, bool isUnlocked)
     {
