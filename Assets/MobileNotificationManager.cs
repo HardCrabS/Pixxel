@@ -39,7 +39,7 @@ public class MobileNotificationManager
         var notification = new AndroidNotification();
         notification.Title = title;
         notification.Text = text;
-        notification.FireTime = System.DateTime.Now.AddSeconds(hours);
+        notification.FireTime = System.DateTime.Now.AddHours(hours);
         notification.LargeIcon = "main_icon_large";
 
         //send notification
