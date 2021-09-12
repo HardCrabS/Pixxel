@@ -272,7 +272,7 @@ public class GameData : MonoBehaviour
         gameData = null;
 
         AudioController.Instance.SetCurrentClip(null);
-        FindObjectOfType<SceneLoader>().LoadSceneAsync(1);
+        FindObjectOfType<SceneLoader>().LoadSceneAsync("World", true);
     }
 
     public static string ObjectToString(object obj)

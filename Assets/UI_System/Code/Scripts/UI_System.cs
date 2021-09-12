@@ -43,8 +43,8 @@ public class UI_System : MonoBehaviour
         if (onSystemStart != null)
             onSystemStart.Invoke();
 
-        //screens = GetComponentsInChildren<UI_Screen>(true);
-        //InitializeScreens();
+        screens = GetComponentsInChildren<UI_Screen>(true);
+        InitializeScreens();
 
         if (m_StartScreen)
         {

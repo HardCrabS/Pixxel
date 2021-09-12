@@ -98,6 +98,27 @@ public class SceneLoader : MonoBehaviour
             AudioController.Instance.SetCurrentClip(mainMenuSong);
         };
     }
+    public void LoadSceneAsync(string sceneName, bool useLoadingPanel = false)
+    {
+        StartCoroutine(LoadScene(sceneName, useLoadingPanel));
+    }
+    IEnumerator LoadScene(string sceneName, bool useLoadingPanel = false)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
+        if (useLoadingPanel)
+        {
+            SpawnLoadingCanvas();
+
+            while (!operation.isDone)
+            {
+                float progress = Mathf.Clamp01(operation.progress / 0.9f);
+                slider.value = progress;
+
+                yield return null;
+            }
+        }
+    }
     IEnumerator LoadSceneWithAdCo(string sceneName)
     {
         if (GameData.gameData.saveData.adsRemoved || GridA.Instance.playTutorial)

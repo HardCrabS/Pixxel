@@ -117,9 +117,10 @@ public class ProfileHandler : MonoBehaviour
     }
     public void ResetBanner()
     {
-        string bannerPath = CollectionController.Instance.BANNERS_LOCATION + "DefaultBanner" + "|";
-        GameData.gameData.ChangeBanner(bannerPath, null);
+        string bannerPath = CollectionController.Instance.BANNERS_LOCATION + "DefaultBanner";
         bannerImage.sprite = Resources.Load<Sprite>(bannerPath);
+        bannerPath += "|";
+        GameData.gameData.ChangeBanner(bannerPath, null);
     }
     public void UpdateAvatar(Sprite avatar)
     {
