@@ -85,8 +85,8 @@ public class RewardForLevel : MonoBehaviour
 
     void SpawnRewardChest(RectTransform reward, RewardTemplate rewardInfo)
     {
-        reward.localScale = Vector3.zero;
-        var chest = Instantiate(chestPrefab, reward.position, Quaternion.identity, scrollContainer);
+        reward.GetChild(0).localScale = Vector3.zero;
+        var chest = Instantiate(chestPrefab, reward.position, Quaternion.identity, reward);
         chest.transform.SetAsFirstSibling();
         chest.transform.localScale = Vector3.one * 0.6f;
 
@@ -99,7 +99,7 @@ public class RewardForLevel : MonoBehaviour
         audioSource.PlayOneShot(chestTapSFX);
         SetRewardDescriptionText(rewardInfo);
         yield return new WaitForSeconds(0.3f);
-        reward.DOScale(1, 0.5f);
+        reward.GetChild(1).DOScale(1, 0.5f);//get reward image and scale it up
         yield return new WaitForSeconds(1f);
         var image = chest.GetComponent<Image>();
         image.DOFade(0, 1);
@@ -124,7 +124,7 @@ public class RewardForLevel : MonoBehaviour
         //wait until layout group is active so it can position elements
         yield return new WaitUntil(() => scrollContainer.gameObject.activeInHierarchy);
         //wait for end of frame so all elements are positioned
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(1);
 
         SpawnRewardChest(spawnedReward, reward);
     }
@@ -177,9 +177,13 @@ public class RewardForLevel : MonoBehaviour
     }
     GameObject SpawnRewardImage(Sprite rewSprite, RewardTemplate reward)
     {
-        var rew = new GameObject();
-        rew.name = rewSprite.name;
-        rew.transform.SetParent(rewardsContainer);
+        var rewParent = new GameObject().AddComponent<RectTransform>();
+        rewParent.name = rewSprite.name;
+        rewParent.transform.SetParent(rewardsContainer);
+        rewParent.localScale = Vector3.one;
+
+        var rewRect = Instantiate(new GameObject("Body").AddComponent<RectTransform>(), rewParent.transform);
+        var rew = rewRect.gameObject;
 
         var image = rew.AddComponent<Image>();
         image.sprite = rewSprite;
@@ -200,12 +204,12 @@ public class RewardForLevel : MonoBehaviour
         if (textHeight > 150 || textWidth > 150)
         {
             float b = textHeight > textWidth ? 100 / textHeight : 100 / textWidth;
-            image.rectTransform.sizeDelta = new Vector2(textWidth, textHeight) * b;
+            //image.rectTransform.sizeDelta = new Vector2(textWidth, textHeight) * b;
         }
 
         SetButton(reward, rew);
 
-        return rew;
+        return rewParent.gameObject;
     }
 
     void SetButton(RewardTemplate reward, GameObject spawnedRew)

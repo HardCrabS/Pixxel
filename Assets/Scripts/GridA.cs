@@ -980,7 +980,7 @@ public class GridA : MonoBehaviour
     float CalculateComboMultiplier()
     {
         int combo = ComboManager.Instance.GetCombo();
-        float multiplier = combo / 10.0f + 1;
+        float multiplier = combo / 20.0f + 1;
 
         return multiplier;
     }
