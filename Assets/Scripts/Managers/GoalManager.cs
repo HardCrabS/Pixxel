@@ -117,6 +117,7 @@ public class GoalManager : MonoBehaviour
                 {
                     gamedata.saveData.trinketsProgress[trinketId] = levelTemplates[i].levelGoal.numberNeeded;
                     gamedata.saveData.trinketIds.Add(trinketId);
+                    RewardForLevel.Instance.SpawnReward(levelTemplates[i]);
                     levelTemplates.RemoveAt(i);
                 }
                 //only score goal in trinkets, so multiple at a time

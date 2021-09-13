@@ -119,6 +119,21 @@ public class RewardForLevel : MonoBehaviour
             i++;
         }
     }
+    IEnumerator SpawnChest(RectTransform spawnedReward, RewardTemplate reward)
+    {
+        //wait until layout group is active so it can position elements
+        yield return new WaitUntil(() => scrollContainer.gameObject.activeInHierarchy);
+        //wait for end of frame so all elements are positioned
+        yield return new WaitForEndOfFrame();
+
+        SpawnRewardChest(spawnedReward, reward);
+    }
+    //for score world trinkets
+    public void SpawnReward(RewardTemplate reward)
+    {
+        GameObject go = SpawnRewardImage(reward.GetRewardSprite(), reward);
+        StartCoroutine(SpawnChest((RectTransform)go.transform, reward));
+    }
     void SetRewardPanel(RewardTemplate[] rewards)
     {
         List<RectTransform> spawnedRewards = new List<RectTransform>();
@@ -147,17 +162,17 @@ public class RewardForLevel : MonoBehaviour
             scrollContainer.GetComponent<HorizontalLayoutGroup>().spacing = 50;
 
         StartCoroutine(SpawnChests(spawnedRewards, rewards));
-
-        rewardDescrText.text = "<color=yellow>New " + rewards[0].reward
-                + "</color>\n" + rewards[0].id + "\n\n";
     }
     public void SpawnParticles()   //show particles on rewards screen
     {
         foreach (Transform child in scrollContainer)
         {
-            var part = Instantiate(itemAddedPart, child);
-            part.transform.localScale *= 2;
-            Destroy(part, 1);
+            if (child.GetComponent<Image>())//object is not empty
+            {
+                var part = Instantiate(itemAddedPart, child);
+                part.transform.localScale *= 2;
+                Destroy(part, 1);
+            }
         }
     }
     GameObject SpawnRewardImage(Sprite rewSprite, RewardTemplate reward)
@@ -275,7 +290,8 @@ public class RewardForLevel : MonoBehaviour
         startXPToFillFrom = earnedXpUntillCurrLevel;
         earnedXpUntillCurrLevel += finalXP;
 
-        StartCoroutine(AnimateXpText(startXPToFillFrom, earnedXpUntillCurrLevel, durationToFill));
+        if(levelDif == 0)
+            StartCoroutine(AnimateXpText(startXPToFillFrom, earnedXpUntillCurrLevel, durationToFill));
         xpSlider.DOValue(finalXP, durationToFill);
     }
 
