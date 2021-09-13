@@ -3661,6 +3661,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 130590353}
+  - component: {fileID: 130590354}
   m_Layer: 5
   m_Name: Non consumable buttons
   m_TagString: Untagged
@@ -3692,6 +3693,18 @@ RectTransform:
   m_AnchoredPosition: {x: 136, y: -457}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &130590354
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130590352}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &136344316
 GameObject:
   m_ObjectHideFlags: 0
@@ -19642,6 +19655,7 @@ MonoBehaviour:
   m_Fader: {fileID: 0}
   m_FadeInDuration: 1
   m_FadeOutDuration: 1
+  previousScreen: {fileID: 0}
 --- !u!1 &780138315
 GameObject:
   m_ObjectHideFlags: 0
@@ -49625,6 +49639,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1990298213}
+  - component: {fileID: 1990298214}
   m_Layer: 5
   m_Name: Consumable buttons
   m_TagString: Untagged
@@ -49656,6 +49671,18 @@ RectTransform:
   m_AnchoredPosition: {x: 136, y: -457}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1990298214
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990298212}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1992615700
 GameObject:
   m_ObjectHideFlags: 0
@@ -50717,8 +50744,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bd643b1871b86d845bd4777f8bbd973b, type: 2}
   - {fileID: 11400000, guid: 72b0258d6b909664996dfa8a7e85940d, type: 2}
   - {fileID: 11400000, guid: a426e62af0021304ba4bcaac6fa8420d, type: 2}
-  consumableButtons: {fileID: 1990298212}
-  nonConsumableButtons: {fileID: 130590352}
+  consumableButtons: {fileID: 1990298214}
+  nonConsumableButtons: {fileID: 130590354}
   oldManBubble: {fileID: 222084680}
   thingsToSay:
   - I LOVE MAYONNAISE

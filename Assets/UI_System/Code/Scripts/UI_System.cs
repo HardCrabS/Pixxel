@@ -22,7 +22,7 @@ public class UI_System : MonoBehaviour
     private Component[] screens = new Component[0];
 
     private UI_Screen prevPreviousScreen;//to avoid looping between previous screens
-    private UI_Screen previousScreen;
+    public UI_Screen previousScreen;
     public UI_Screen PreviousScreen { get { return previousScreen; } }
 
     private UI_Screen currentScreen;

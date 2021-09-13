@@ -242,6 +242,7 @@ public class Tutorial : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         worldSelectUISystem.SwitchScreens(selectMainScreen);//main screen with worlds
+        worldSelectUISystem.previousScreen = null;
         PlayerPrefs.SetInt(WORLD_SELECT_TUTORIAL, 1);
         yield return new WaitForSeconds(1f);
         Destroy(tutorialCanvas);

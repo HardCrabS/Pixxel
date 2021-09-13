@@ -12,8 +12,8 @@ public class IAPShop : MonoBehaviour
     [SerializeField] RewardTemplate[] rewardsForPurchase;
 
     [Header("Button sets")]
-    [SerializeField] GameObject consumableButtons;
-    [SerializeField] GameObject nonConsumableButtons;
+    [SerializeField] CanvasGroup consumableButtons;
+    [SerializeField] CanvasGroup nonConsumableButtons;
 
     [Header("Old man")]
     [SerializeField] Button oldManBubble;
@@ -30,15 +30,31 @@ public class IAPShop : MonoBehaviour
 
     void ActivateButtonSet()
     {
-        if (GameData.gameData.saveData.adsRemoved)
+        if (GameData.gameData.saveData.adsRemoved)//ads removed (no-ads purchase already made)
         {
-            consumableButtons.SetActive(true);
-            nonConsumableButtons.SetActive(false);
+            //show consumable
+            consumableButtons.alpha = 1;
+            consumableButtons.interactable = true;
+            consumableButtons.blocksRaycasts = true;
+
+            //hide non-consumable
+            nonConsumableButtons.alpha = 1;
+            nonConsumableButtons.interactable = false;
+            nonConsumableButtons.blocksRaycasts = false;
         }
         else
         {
-            consumableButtons.SetActive(false);
-            nonConsumableButtons.SetActive(true);
+            //ads aren't removed
+
+            //hide consumable
+            consumableButtons.alpha = 0;
+            consumableButtons.interactable = false;
+            consumableButtons.blocksRaycasts = false;
+
+            //show non-consumable
+            nonConsumableButtons.alpha = 1;
+            nonConsumableButtons.interactable = true;
+            nonConsumableButtons.blocksRaycasts = true;
         }
     }
 
