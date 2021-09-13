@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class ComboManager : MonoBehaviour
 {
     [SerializeField] float timeToResetCombo = 3f;
     [SerializeField] GameObject comboGraphics;
+    [SerializeField] Image glowImage;
+    [SerializeField] Color[] glowColors;
     [SerializeField] TextMeshProUGUI comboPreviousText;
     [SerializeField] TextMeshProUGUI comboCurrentText;
 
@@ -16,6 +20,7 @@ public class ComboManager : MonoBehaviour
     int currCombo = 1;
     float timer;
     bool matchWasAdded = false;
+    float glowIntensityDelta;
 
     public static ComboManager Instance;
 
@@ -32,6 +37,9 @@ public class ComboManager : MonoBehaviour
     {
         matchFinder = MatchFinder.Instance;
         timer = timeToResetCombo;
+        glowImage.gameObject.SetActive(true);
+        glowImage.color = new Color(1, 1, 1, 0);
+        glowIntensityDelta = 1f / 50;
     }
 
     void Update()
@@ -39,9 +47,16 @@ public class ComboManager : MonoBehaviour
         timer -= Time.deltaTime;
         if (timer <= 0)  //reset combo
         {
-            currCombo = 1;
-            comboMatches.Clear();
+            ResetCombo();
         }
+    }
+    void ResetCombo()
+    {
+        currCombo = 1;
+        Color col = glowColors[Random.Range(0, glowColors.Length)];
+        col.a = 0;
+        glowImage.DOColor(col, 0.5f);
+        comboMatches.Clear();
     }
     public int GetCombo()
     {
@@ -65,9 +80,17 @@ public class ComboManager : MonoBehaviour
         if (matchWasAdded)
         {
             currCombo++;
+            AddGlowImageIntensity();
             if (currCombo % 5 == 0) //display only 5s combos
                 StartCoroutine(SetComboText(currCombo));
         }
+    }
+
+    void AddGlowImageIntensity()
+    {
+        Color color = glowImage.color;
+        color.a += glowIntensityDelta;
+        glowImage.color = color;
     }
 
     IEnumerator SetComboText(int currCombo)
