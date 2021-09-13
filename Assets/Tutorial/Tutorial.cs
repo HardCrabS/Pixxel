@@ -176,6 +176,14 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator MoreBlocksFallIn()
     {
+        var worldLoader = gameObject.AddComponent<WorldLoader>();
+        WorldLoadInfo worldLoadInfo = null;
+        //load world
+        worldLoader.LoadWorldInfoAsync(currentWorldInfo.worldLoadInfoRef, (WorldLoadInfo) =>
+        {
+            worldLoadInfo = WorldLoadInfo;
+        });
+
         yield return new WaitForSeconds(1f);
         audioSource.PlayOneShot(shakeSFX); //play shake sfx
         Camera.main.GetComponent<CameraShake>().ShakeCam(2, 1);
@@ -188,18 +196,13 @@ public class Tutorial : MonoBehaviour
         GridA.Instance.SetDefaultTemplate();//spawn default board 8x8
         GridA.Instance.currState = GameState.wait; // disable block swapping
 
-        var worldLoader = gameObject.AddComponent<WorldLoader>();
-
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(PlayDialogue(moreBlocks));//more blocks speech
 
         yield return audioSource.DOFade(0, 0.5f).WaitForCompletion();//fade out intence music
 
-        //load world
-        worldLoader.LoadWorldInfoAsync(currentWorldInfo.worldLoadInfoRef, (WorldLoadInfo) =>
-        {
-            AudioController.Instance.SetCurrentClip(WorldLoadInfo.song, fadeIn: true);//fade in world clip music
-        });
+        yield return new WaitUntil(() => worldLoadInfo != null);
+        AudioController.Instance.SetCurrentClip(worldLoadInfo.song, fadeIn: true);//fade in world clip music
 
         visualizerCanvas.SetActive(true);
         mainGameCanvas.SetActive(true); //start game

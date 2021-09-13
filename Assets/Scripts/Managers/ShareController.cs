@@ -28,6 +28,7 @@ public class ShareController : MonoBehaviour
         }
         else
         {
+            shareText.text = "<size=300><color=red>FREE GOLD!</color></size>\n<size=200>Share to receive:</size>\n\n<color=orange><size=250>25 GOLD!</size></color>";
             worldId = null;
         }
         shareButton.OnShareSuccess.AddListener(RewardForSharing);
@@ -36,7 +37,7 @@ public class ShareController : MonoBehaviour
 
     public void RewardForAdVideo()
     {
-        CoinsDisplay.Instance.AddCoinsAmount(coinsRewardForAdVideo);
+        CoinsDisplay.Instance.AddCoinsAmount(coinsRewardForAdVideo, punch:true);
     }
 
     void RewardForSharing()
@@ -68,7 +69,7 @@ public class ShareController : MonoBehaviour
     
     void CoinsReward(int amount)
     {
-        CoinsDisplay.Instance.AddCoinsAmount(amount);
+        CoinsDisplay.Instance.AddCoinsAmount(amount, punch:true);
         shareText.text = SHARE_SUCCESS + "\n<color=red>" + amount + " coins recived!</color>";
         GetComponent<AudioSource>().PlayOneShot(sharingSuccessClip);
     }
