@@ -20,6 +20,7 @@ public class WarpCrystal : BoostBase
             crystalAnimation = Resources.Load<GameObject>(RESOURCES_FOLDER + "Warp Crystal/Crystal Animation");
             crystalSFX = Resources.Load<AudioClip>(RESOURCES_FOLDER + "Warp Crystal/sfx-boost-warpCrystal");
         }
+        GridA.Instance.currState = GameState.wait; //disallow block movement
         StartCoroutine(MakeAllWarped());
     }
 
@@ -44,6 +45,7 @@ public class WarpCrystal : BoostBase
         }
         MatchFinder.Instance.FindAllMatches();
         grid.DestroyAllMatches();
+        GridA.Instance.currState = GameState.move;
         finished = true;
     }
 

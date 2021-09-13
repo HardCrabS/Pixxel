@@ -24,7 +24,7 @@ public class ShareController : MonoBehaviour
 
         if (!GameData.gameData.saveData.worldIds.Contains(worldId))
         {
-            shareText.text = "<size=250><color=red>New World!</color></size>\nShare to unlock the exclusive Beansprout Archipelago World!";
+            shareText.text = "<size=250><color=red>New World!</color></size>\nShare to unlock the exclusive Beansprout Archipelago World & Earthquake Boost!";
         }
         else
         {
