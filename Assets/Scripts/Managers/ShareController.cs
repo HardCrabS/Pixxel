@@ -11,6 +11,7 @@ public class ShareController : MonoBehaviour
 	[SerializeField] int coinsRewardForAdVideo = 50;
     [SerializeField] int coinsReward = 50;
     [SerializeField] WorldInformation rewardWorldInfo;
+    [SerializeField] Boost boostInfo;
 
     [SerializeField] AudioClip sharingSuccessClip;
 
@@ -24,7 +25,7 @@ public class ShareController : MonoBehaviour
 
         if (!GameData.gameData.saveData.worldIds.Contains(worldId))
         {
-            shareText.text = "<size=250><color=red>New World!</color></size>\nShare to unlock the exclusive Beansprout Archipelago World & Earthquake Boost!";
+            shareText.text = "<size=250><color=red>New World & Boost!</color></size>\nShare to unlock the exclusive <color=orange>Beansprout Archipelago</color> World & <color=orange>Earthquake</color> Boost!";
         }
         else
         {
@@ -77,7 +78,8 @@ public class ShareController : MonoBehaviour
     void WorldReward(string worldId)
     {
         GameData.gameData.UnlockWorld(worldId);   //unlock world reward
-        shareText.text = SHARE_SUCCESS + "\n<color=red>The World is unlocked!</color>";
+        GameData.gameData.UnlockBoost(boostInfo.id); //unlock boost
+        shareText.text = SHARE_SUCCESS + "\n<color=red>The World & Boost are unlocked!</color>";
         GetComponent<AudioSource>().PlayOneShot(sharingSuccessClip);
     }
 
