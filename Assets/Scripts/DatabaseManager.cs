@@ -26,9 +26,10 @@ public class DatabaseManager : MonoBehaviour
         mDatabaseRef.Child("users").Child(playerId).Child("spritePath").SetValueAsync(spritePath);
     }
 
-    public static void ChangeName(string name)
+    public static void ChangeName(string name, string playerId = "")
     {
-        string playerId = SystemInfo.deviceUniqueIdentifier;
+        if(string.IsNullOrEmpty(playerId))
+            playerId = SystemInfo.deviceUniqueIdentifier;
         DatabaseReference mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
 
         mDatabaseRef.Child("users").Child(playerId).Child("username").SetValueAsync(name);
@@ -191,6 +192,40 @@ public class DatabaseManager : MonoBehaviour
             }
         });
         return user;
+    }
+    public static async Task<User[]> FindUsersWithName(string name)
+    {
+        User[] allUsers = null;
+
+        await FirebaseDatabase.DefaultInstance.GetReference("users").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                // Handle the error...
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+
+                int i = 0;
+                allUsers = new User[snapshot.ChildrenCount];
+                foreach (DataSnapshot child in snapshot.Children)
+                {
+                    allUsers[i] = JsonUtility.FromJson<User>(child.GetRawJsonValue());
+                    i++;
+                }
+            }
+        });
+
+        List<User> usersWithName = new List<User>();
+
+        foreach (var user in allUsers)
+        {
+            if (user.username == name)
+                usersWithName.Add(user);
+        }
+
+        return usersWithName.ToArray();
     }
 }
 

@@ -56,8 +56,8 @@ public class UsernameCheck : MonoBehaviour
             if (lowerUsername.Contains(word))
             {
                 //bad word is short and can be just a part of normal long word
-                if (word.Length == 3 && lowerUsername != word)
-                    return true;
+                //if (word.Length == 3 && lowerUsername != word)
+                  //  return true;
                 //bad word
                 return false;
             }
