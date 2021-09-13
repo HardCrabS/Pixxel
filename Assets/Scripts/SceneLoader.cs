@@ -153,7 +153,17 @@ public class SceneLoader : MonoBehaviour
     }
     public void LoadSceneWithAd(string sceneName)
     {
-        StartCoroutine(LoadSceneWithAdCo(sceneName));
+        StartCoroutine(PlayGamesController.checkInternetConnection(async (isConnected) =>
+        {
+            if (isConnected)
+            {
+                StartCoroutine(LoadSceneWithAdCo(sceneName));
+            }
+            else
+            {
+                StartCoroutine(LoadAsynchronously(sceneName, mainMenuSong, 0, true));
+            }
+        }));
     }
     public void PlaySpashSceneSound() //play sound in the splash scene
     {
