@@ -43,6 +43,10 @@ public class ComboManager : MonoBehaviour
             comboMatches.Clear();
         }
     }
+    public int GetCombo()
+    {
+        return currCombo;
+    }
     public void CheckCombo()
     {
         matchWasAdded = false;
@@ -73,10 +77,5 @@ public class ComboManager : MonoBehaviour
         comboGraphics.SetActive(true);
         comboGraphics.GetComponent<Animator>().Play("Base Layer.Combo Counter", 0, 0);
         yield return null;
-        //float animTime = comboGraphics.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Length;
-        //yield return new WaitForSeconds(animTime);
-        //numberOfCombos--;
-        //if (numberOfCombos == 0)    //no animation is playing
-        //    comboGraphics.SetActive(false);
     }
 }

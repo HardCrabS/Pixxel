@@ -83,7 +83,6 @@ public class GridA : MonoBehaviour
 
     private const float aspectRatioMultiplier = 9.0f / 16 * 7.5f;
 
-    private int scoreStreak = 1;
     public bool[,] blankSpaces;
     private BackgroundTile[,] breakableTiles;
     public BackgroundTile[,] lockedTiles;
@@ -973,9 +972,17 @@ public class GridA : MonoBehaviour
     void AddXPandScorePoints()
     {
         if (Score.Instance == null || LevelSlider.Instance == null) return;
-        Score.Instance.AddPoints(scorePointsToAddperBox * scoreStreak);
+        int scorePoints = Mathf.RoundToInt(scorePointsToAddperBox * CalculateComboMultiplier());
+        Score.Instance.AddPoints(scorePoints);
         LevelSlider.Instance.AddXPtoLevel(pointsXPforLevel);
         CoinsDisplay.Instance.RandomizeCoin();
+    }
+    float CalculateComboMultiplier()
+    {
+        int combo = ComboManager.Instance.GetCombo();
+        float multiplier = combo / 10.0f + 1;
+
+        return multiplier;
     }
     #endregion
     #region VFX
