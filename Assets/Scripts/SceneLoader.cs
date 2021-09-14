@@ -134,7 +134,7 @@ public class SceneLoader : MonoBehaviour
         };
         SpawnLoadingCanvas();
 
-        VideoAd videoAd = new VideoAd();//video ad object
+        InterstitialAd videoAd = new InterstitialAd();//video ad object
         videoAd.LoadAd();//load ad
         yield return new WaitUntil(() => videoAd.AdLoadingCompleted());//wait until ad is loaded
         videoAd.ShowAd();//show ad
