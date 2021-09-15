@@ -857,6 +857,7 @@ public class ShopController : MonoBehaviour
     public static void SnapTo(RectTransform target, RectTransform contentPanel, ScrollRect scrollRect)
     {
         Canvas.ForceUpdateCanvases();
+        if (scrollRect == null) return;
 
         if (scrollRect.horizontal)
         {
