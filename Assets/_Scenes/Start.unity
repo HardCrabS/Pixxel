@@ -3631,6 +3631,7 @@ MonoBehaviour:
   titleText: {fileID: 1393399340}
   descriptionText: {fileID: 1230167661}
   cardImage: {fileID: 1921988463}
+  cardRewardSFX: {fileID: 8300000, guid: 764d50cce1cae824db823d4a69b02c62, type: 3}
   cardSet: {fileID: 11400000, guid: 2be14cfa97ede3f41ac25d70c75b6f93, type: 2}
   cardButtons:
   - {fileID: 376215816}
@@ -43733,7 +43734,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 2114160639}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2114160640}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebf7d552f92223847904ac895b98a274, type: 3}
@@ -52236,8 +52237,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1026909574686198, guid: 9d95968a1ae79c649913cfbaaab55c1b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_Name
+      value: Daily Quest Manager
       objectReference: {fileID: 0}
     - target: {fileID: 4265392761646358, guid: 9d95968a1ae79c649913cfbaaab55c1b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -52271,273 +52272,23 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: allWorlds.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: allQuests.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: checkMarks.Array.size
+    - target: {fileID: 4265392761646358, guid: 9d95968a1ae79c649913cfbaaab55c1b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: QuestsText.Array.size
-      value: 3
+    - target: {fileID: 4265392761646358, guid: 9d95968a1ae79c649913cfbaaab55c1b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: claimButtons.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: progressTexts.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: claimedImages.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: questsTexts.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: questBlankTemplates.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: questPanel
-      value: 
-      objectReference: {fileID: 738386830}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: requirementsTexts.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: requirementsTexts.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: requirementsTexts.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: rewardTexts.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: rewardTexts.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: rewardTexts.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: progressTexts.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: progressTexts.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: progressTexts.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: allWorlds.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: eb2dc7359760e484bb7f884c09d49a9e,
-        type: 2}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: allWorlds.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 4e255c03dda19ec4a8e51725e5cf222b,
-        type: 2}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: checkMarks.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: checkMarks.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: checkMarks.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: allQuests.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 4e34384614810fb43a3e0adac0b805b5,
-        type: 2}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: QuestsText.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: QuestsText.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: QuestsText.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: allQuests.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 481004f17609f284f9c9dcef350251a9,
-        type: 2}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: allQuests.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 7a2de95972d29f94484f6bf941ba8897,
-        type: 2}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: claimButtons.Array.data[0]
-      value: 
-      objectReference: {fileID: 53689225}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: claimButtons.Array.data[1]
-      value: 
-      objectReference: {fileID: 1669189534}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: claimButtons.Array.data[2]
-      value: 
-      objectReference: {fileID: 2081026963}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: clickable
-      value: 
-      objectReference: {fileID: 21300000, guid: 2eeb1bc66834c3c42ba569302843f484,
-        type: 3}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: nonClickable
-      value: 
-      objectReference: {fileID: 21300000, guid: 4dd64d11224a8294992cb4895b4eee65,
-        type: 3}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: claimedImages.Array.data[0]
-      value: 
-      objectReference: {fileID: 1330005045}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: claimedImages.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: claimedImages.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: coinsDisplay
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: names
-      value: 
-      objectReference: {fileID: 4900000, guid: 48ac6c30e1ecf1d4aa6c68dfc3775d09, type: 3}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: occupations
-      value: 
-      objectReference: {fileID: 4900000, guid: ced2d957ea418574c8dbb7a48eb24ef0, type: 3}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: things
-      value: 
-      objectReference: {fileID: 4900000, guid: 0cc2d07c2ff9f8a4f9c6640cf9e4b68a, type: 3}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: questTemplates
-      value: 
-      objectReference: {fileID: 4900000, guid: 13bc5ab052498784e9d0af88a62a5130, type: 3}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: rewardAmountMax
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: rewardAmountMin
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: questsTexts.Array.data[0]
-      value: 
-      objectReference: {fileID: 291477039}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: questsTexts.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: questsTexts.Array.data[2]
-      value: 
+    - target: {fileID: 4265392761646358, guid: 9d95968a1ae79c649913cfbaaab55c1b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
         type: 3}
       propertyPath: exclamationBubble
       value: 
       objectReference: {fileID: 395530433}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: claimErrorClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 9b025e657442a5b4c8f7c7bb207c6f07, type: 3}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: claimSuccessClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 90a35c8f39fda1649add84dfd55bd0e8, type: 3}
-    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-        type: 3}
-      propertyPath: questsButton
-      value: 
-      objectReference: {fileID: 68096775}
     - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
         type: 3}
       propertyPath: questBlankTemplates.Array.data[0]
@@ -52553,110 +52304,23 @@ PrefabInstance:
       propertyPath: questBlankTemplates.Array.data[2]
       value: 
       objectReference: {fileID: 1485562381}
+    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
+        type: 3}
+      propertyPath: claimButtons.Array.data[0]
+      value: 
+      objectReference: {fileID: 53689225}
+    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
+        type: 3}
+      propertyPath: claimButtons.Array.data[1]
+      value: 
+      objectReference: {fileID: 1669189534}
+    - target: {fileID: 114700173470669036, guid: 9d95968a1ae79c649913cfbaaab55c1b,
+        type: 3}
+      propertyPath: claimButtons.Array.data[2]
+      value: 
+      objectReference: {fileID: 2081026963}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d95968a1ae79c649913cfbaaab55c1b, type: 3}
---- !u!1 &2114160640 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1026909574686198, guid: 9d95968a1ae79c649913cfbaaab55c1b,
-    type: 3}
-  m_PrefabInstance: {fileID: 2114160639}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &2114160641
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2114160640}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &2122886877
 GameObject:
   m_ObjectHideFlags: 0
