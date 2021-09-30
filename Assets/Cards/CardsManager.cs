@@ -12,6 +12,7 @@ public class CardsManager : MonoBehaviour
     [SerializeField] Text titleText;
     [SerializeField] Text descriptionText;
     [SerializeField] Image cardImage;
+    [SerializeField] AudioClip cardRewardSFX;
 
     [SerializeField] CardSet cardSet;
     [SerializeField] Button[] cardButtons;
@@ -65,13 +66,15 @@ public class CardsManager : MonoBehaviour
         float clipLength = animator.GetCurrentAnimatorStateInfo(0).length;
         DisplayCardsInSet(index);
         StartCoroutine(CardPanelDelayed(clipLength));
+
         exclamationBubble.SetActive(false);
     }
-
+        
     IEnumerator CardPanelDelayed(float time)    //card reveal
     {
         yield return new WaitForSeconds(time + 0.5f);
-        //gameObject.AddComponent<AudioSource>().PlayOneShot(cardRevealClip);
+       // GetComponent<AudioSource>().PlayOneShot(cardRewardSFX);
+        gameObject.AddComponent<AudioSource>().PlayOneShot(cardRewardSFX);
         earnedCardPanel.SetActive(true);
     }
 

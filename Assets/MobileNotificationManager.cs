@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_ANDROID
 using Unity.Notifications.Android;
+#endif
 using UnityEngine;
 #if UNITY_IOS
 using Unity.Notifications.iOS;
@@ -23,6 +25,7 @@ public class MobileNotificationManager
 
     private static void AndroidNotification(string title, string text, int hours)
     {
+#if UNITY_ANDROID
         AndroidNotificationCenter.CancelAllDisplayedNotifications();
 
         var channel = new AndroidNotificationChannel()
@@ -51,6 +54,7 @@ public class MobileNotificationManager
             AndroidNotificationCenter.CancelNotification(id);
             AndroidNotificationCenter.SendNotification(notification, "channel_id");
         }
+#endif
     }
 
     void IOSNotification(string title, string text, int hours)

@@ -1,25 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1026909574686198}
-  m_IsPrefabAsset: 1
 --- !u!1 &1026909574686198
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4265392761646358}
   - component: {fileID: 114700173470669036}
+  - component: {fileID: 2114160641}
   m_Layer: 0
   m_Name: Daily Quest Manager
   m_TagString: Untagged
@@ -29,9 +20,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4265392761646358
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1026909574686198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -42,36 +34,128 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114700173470669036
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1026909574686198}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebf7d552f92223847904ac895b98a274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questPanel: {fileID: 0}
-  requirementsTexts:
+  exclamationBubble: {fileID: 0}
+  clickable: {fileID: 21300000, guid: 2eeb1bc66834c3c42ba569302843f484, type: 3}
+  nonClickable: {fileID: 21300000, guid: 4dd64d11224a8294992cb4895b4eee65, type: 3}
+  questBlankTemplates:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  rewardTexts:
+  claimButtons:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  worldNames:
-  - Twilight city
-  - Cookies
-  - Aliens
-  - Skyscraper
-  - Mountain
-  - Space
-  - Forest
-  - Underwater
-  - Steel sky
-  - Sunrise
-  minReward: 1
-  maxReward: 100
-  minNumberNeeded: 1
-  maxNumberNeeded: 100
+  claimErrorClip: {fileID: 8300000, guid: 9b025e657442a5b4c8f7c7bb207c6f07, type: 3}
+  claimSuccessClip: {fileID: 8300000, guid: 1b0f7664ed08073429b3555cfa3a3ace, type: 3}
+  questTemplates: {fileID: 4900000, guid: 13bc5ab052498784e9d0af88a62a5130, type: 3}
+  names: {fileID: 4900000, guid: 48ac6c30e1ecf1d4aa6c68dfc3775d09, type: 3}
+  occupations: {fileID: 4900000, guid: ced2d957ea418574c8dbb7a48eb24ef0, type: 3}
+  things: {fileID: 4900000, guid: 0cc2d07c2ff9f8a4f9c6640cf9e4b68a, type: 3}
+  rewardAmountMax: 70
+  rewardAmountMin: 15
+--- !u!82 &2114160641
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026909574686198}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
