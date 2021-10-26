@@ -107,7 +107,9 @@ public class CardsManager : MonoBehaviour
 
         MobileNotificationManager notification = new MobileNotificationManager();
         notification.SendNotification("CLAIM your Daily Reward!",
-            "Don't forget to claim your Daily Reward in PiXXel!", 12);
+            "Don't forget to claim your Daily Reward in PiXXel!", 12);     
+        notification.SendNotification("CLAIM your Daily Reward!",
+            "Don't forget to claim your Daily Reward in PiXXel!", 24);
     }
 
     public void ActivateCardPanel()

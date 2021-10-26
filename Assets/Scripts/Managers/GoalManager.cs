@@ -66,6 +66,7 @@ public class GoalManager : MonoBehaviour
             {
                 if(gamedata.saveData.trinketsProgress[trinketId] < trinket.levelGoal.numberNeeded)
                 {
+                    gamedata.saveData.trinketsProgress[trinketId] = 0;//reset score
                     levelTemplates.Add(trinket); //getting if not completed 
                 }
             }
