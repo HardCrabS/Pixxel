@@ -243,9 +243,12 @@ public class Tutorial : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         uiSystem.SwitchScreens(screens[2]);//PAM goes away
         yield return new WaitForSeconds(1f);
-
+        worldSelectUISystem.SwitchScreens(selectMainScreen);//main screen with worlds
+        worldSelectUISystem.previousScreen = null;
         PlayerPrefs.SetInt(WORLD_SELECT_TUTORIAL, 1);
-        FindObjectOfType<SceneLoader>().LoadSceneAsync("Start");
+        yield return new WaitForSeconds(1f);
+        Destroy(tutorialCanvas);
+
     }
     IEnumerator PlayDialogue(Dialogue dialogue)
     {
