@@ -248,6 +248,8 @@ public class Tutorial : MonoBehaviour
         PlayerPrefs.SetInt(WORLD_SELECT_TUTORIAL, 1);
         yield return new WaitForSeconds(1f);
         Destroy(tutorialCanvas);
+        GridA.Instance.currState = GameState.move;
+
 
     }
     IEnumerator PlayDialogue(Dialogue dialogue)
